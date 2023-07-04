@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-prettier"
+  ],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "selector-class-pattern": null,
+    "block-opening-brace-space-before": "always",
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never",
+    "indentation": 2
+  },
+  "ignoreFiles": ".node_modules/*"
+}
