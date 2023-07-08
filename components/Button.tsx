@@ -1,18 +1,11 @@
 import React from "react";
 import clsx from "clsx";
+import { Size, Theme } from "@/types/style";
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  theme?:
-    | "neutral"
-    | "primary"
-    | "secondary"
-    | "accent"
-    | "info"
-    | "success"
-    | "warning"
-    | "error";
-  size?: "lg" | "md" | "sm" | "xs";
+  theme?: Theme;
+  size?: Size;
   ghost?: boolean;
   outline?: boolean;
   link?: boolean;
@@ -38,33 +31,38 @@ export function Button({
   square = false,
   active = false,
   disabled = false,
+  className,
 }: ButtonProps) {
   return (
     <button
-      className={clsx("btn", {
-        "btn-neutral": theme === "neutral",
-        "btn-primary": theme === "primary",
-        "btn-secondary": theme === "secondary",
-        "btn-accent": theme === "accent",
-        "btn-info": theme === "info",
-        "btn-success": theme === "success",
-        "btn-warning": theme === "warning",
-        "btn-error": theme === "error",
-        "btn-lg": size === "lg",
-        "btn-md": size === "md",
-        "btn-sm": size === "sm",
-        "btn-xs": size === "xs",
-        "btn-block": block,
-        "btn-ghost": ghost,
-        "btn-link": link,
-        "btn-outline": outline,
-        "btn-wide": wide,
-        "btn-square": square,
-        "btn-circle": circle,
-        "btn-active": active,
-        "btn-disabled": disabled,
-        glass: glass,
-      })}
+      className={clsx(
+        "btn",
+        {
+          "btn-neutral": theme === "neutral",
+          "btn-primary": theme === "primary",
+          "btn-secondary": theme === "secondary",
+          "btn-accent": theme === "accent",
+          "btn-info": theme === "info",
+          "btn-success": theme === "success",
+          "btn-warning": theme === "warning",
+          "btn-error": theme === "error",
+          "btn-lg": size === "lg",
+          "btn-md": size === "md",
+          "btn-sm": size === "sm",
+          "btn-xs": size === "xs",
+          "btn-block": block,
+          "btn-ghost": ghost,
+          "btn-link": link,
+          "btn-outline": outline,
+          "btn-wide": wide,
+          "btn-square": square,
+          "btn-circle": circle,
+          "btn-active": active,
+          "btn-disabled": disabled,
+          glass: glass,
+        },
+        className
+      )}
     >
       Button
     </button>
