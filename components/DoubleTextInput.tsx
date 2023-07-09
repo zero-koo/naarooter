@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import style from "./DoubleTextInput.module.css";
+import { twMerge } from "tailwind-merge";
 
 type DoubleTextInputProps = {
   main: React.ReactNode;
@@ -20,10 +21,17 @@ function DoubleTextInput({ main, sub }: DoubleTextInputProps) {
 type MainInputProps = React.HTMLAttributes<HTMLInputElement>;
 
 function MainInput(
-  { ...restProps }: MainInputProps,
+  { className, ...restProps }: MainInputProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  return <input type="text" ref={ref} className={style.main} {...restProps} />;
+  return (
+    <input
+      type="text"
+      ref={ref}
+      className={twMerge(style.main, className)}
+      {...restProps}
+    />
+  );
 }
 
 MainInput.displayName = "MainInput";
@@ -33,14 +41,14 @@ interface SubInputProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 
 function SubInput(
-  { expanded, ...restProps }: SubInputProps,
+  { expanded, className, ...restProps }: SubInputProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
   return (
     <input
       type="text"
       ref={ref}
-      className={clsx(style.sub, { [style.expanded]: expanded })}
+      className={clsx(style.sub, { [style.expanded]: expanded }, className)}
       disabled={!expanded}
       {...restProps}
     />

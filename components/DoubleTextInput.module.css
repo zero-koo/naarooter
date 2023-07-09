@@ -17,27 +17,27 @@
       @apply border-primary-focus
     }
   }
+}
 
-  .main {
-    @apply px-3 h-12 input-md;
+.main {
+  @apply px-3 h-12 input-md;
 
-    &::placeholder {
-      @apply opacity-80
+  &::placeholder {
+    @apply opacity-80
     }
+}
+
+.sub {
+  @apply h-0 px-3 input-sm text-xs opacity-80;
+
+  margin-top: -1px;
+  transition: height 0.15s ease-out;
+
+  &.expanded {
+    @apply h-10;
   }
 
-  .sub {
-    @apply h-0 px-3 input-sm text-xs opacity-80;
-
-    margin-top: -1px;
-    transition: height 0.15s ease-out;
-
-    &.expanded {
-      @apply h-10;
+  &::placeholder {
+    @apply opacity-60
     }
-
-    &::placeholder {
-      @apply opacity-60
-    }
-  }
 }
