@@ -1,5 +1,6 @@
 import { Size, Theme } from "@/types/style";
 import clsx from "clsx";
+import { ForwardedRef, forwardRef } from "react";
 
 interface TextInputProps extends React.HTMLAttributes<HTMLInputElement> {
   theme?: Theme;
@@ -8,17 +9,21 @@ interface TextInputProps extends React.HTMLAttributes<HTMLInputElement> {
   noBorder?: boolean;
 }
 
-export default function TextInput({
-  theme = "neutral",
-  size = "md",
-  ghost = false,
-  noBorder = false,
-  className,
-  ...restProps
-}: TextInputProps) {
+function TextInput(
+  {
+    theme = "neutral",
+    size = "md",
+    ghost = false,
+    noBorder = false,
+    className,
+    ...restProps
+  }: TextInputProps,
+  ref: ForwardedRef<HTMLInputElement>
+) {
   return (
     <input
       type="text"
+      ref={ref}
       className={clsx(
         "input",
         {
@@ -44,3 +49,5 @@ export default function TextInput({
     />
   );
 }
+
+export default forwardRef(TextInput);

@@ -1,5 +1,6 @@
 import { Size, Theme } from "@/types/style";
 import clsx from "clsx";
+import { ForwardedRef, forwardRef } from "react";
 
 interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   theme?: Theme;
@@ -8,16 +9,20 @@ interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   noBorder?: boolean;
 }
 
-export default function TextArea({
-  theme = "neutral",
-  size = "md",
-  ghost = false,
-  noBorder = false,
-  className,
-  ...restProps
-}: TextAreaProps) {
+function TextArea(
+  {
+    theme = "neutral",
+    size = "md",
+    ghost = false,
+    noBorder = false,
+    className,
+    ...restProps
+  }: TextAreaProps,
+  ref: ForwardedRef<HTMLTextAreaElement>
+) {
   return (
     <textarea
+      ref={ref}
       className={clsx(
         "textarea",
         {
@@ -43,3 +48,5 @@ export default function TextArea({
     />
   );
 }
+
+export default forwardRef(TextArea);

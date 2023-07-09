@@ -32,6 +32,8 @@ export function Button({
   active = false,
   disabled = false,
   className,
+  children,
+  ...rest
 }: ButtonProps) {
   return (
     <button
@@ -63,8 +65,9 @@ export function Button({
         },
         className
       )}
+      {...rest}
     >
-      Button
+      {children}
     </button>
   );
 }
