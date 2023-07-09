@@ -1,0 +1,43 @@
+.wrapper {
+  @apply flex flex-col rounded-lg overflow-hidden;
+
+  border: 1px solid hsl(var(--n));
+
+  hr.border {
+    @apply border-neutral
+  }
+
+  &:focus-within {
+    @apply border-primary-focus;
+
+    outline: 2px solid hsl(var(--pf));
+    outline-offset: 2px;
+
+    hr.border {
+      @apply border-primary-focus
+    }
+  }
+
+  .main {
+    @apply px-3 h-12 input-md;
+
+    &::placeholder {
+      @apply opacity-80
+    }
+  }
+
+  .sub {
+    @apply h-0 px-3 input-sm text-xs opacity-80;
+
+    margin-top: -1px;
+    transition: height 0.15s ease-out;
+
+    &.expanded {
+      @apply h-10;
+    }
+
+    &::placeholder {
+      @apply opacity-60
+    }
+  }
+}
