@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input {
+    background: none;
+    outline: none;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder {
+    opacity: 0.8;
+  }
+}
+
 html,
 body {
   width: 100%;
