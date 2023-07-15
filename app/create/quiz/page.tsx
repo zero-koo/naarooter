@@ -9,23 +9,11 @@ import { MinusCircle, PlusIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Toggle } from "@/components/Toggle";
 import RadioInput from "@/components/RadioInput";
+import { Quiz as QuizInput } from "@/types/quiz";
 
 export default function CreateQuizPage() {
   return <QuizForm />;
 }
-
-type QuizInput = {
-  title: string;
-  description: string;
-  choices: ChoiceInput[];
-  explanation: string;
-  answer: string;
-};
-
-type ChoiceInput = {
-  main: string;
-  sub: string;
-};
 
 const MIN_CHOICE_COUNT = 2;
 const MAX_CHOICE_COUNT = 5;
