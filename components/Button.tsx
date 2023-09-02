@@ -1,7 +1,7 @@
-import React from "react";
-import type { Component } from "react";
-import clsx from "clsx";
-import { Size, Theme } from "@/types/style";
+import React from 'react';
+import type { Component } from 'react';
+import clsx from 'clsx';
+import { Size, Theme } from '@/types/style';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -22,8 +22,8 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({
-  theme = "neutral",
-  size = "sm",
+  theme = 'neutral',
+  size = 'sm',
   LeftIcon,
   RightIcon,
   ghost = false,
@@ -44,37 +44,37 @@ export function Button({
     <button
       type="button"
       className={clsx(
-        "btn flex",
+        'btn flex',
         {
-          "btn-neutral": theme === "neutral",
-          "btn-primary": theme === "primary",
-          "btn-secondary": theme === "secondary",
-          "btn-accent": theme === "accent",
-          "btn-info": theme === "info",
-          "btn-success": theme === "success",
-          "btn-warning": theme === "warning",
-          "btn-error": theme === "error",
-          "btn-lg gap-3": size === "lg",
-          "btn-md gap-2": size === "md",
-          "btn-sm gap-1.5": size === "sm",
-          "btn-xs gap-1": size === "xs",
-          "btn-block": block,
-          "btn-ghost": ghost,
-          "btn-link": link,
-          "btn-outline": outline,
-          "btn-wide": wide,
-          "btn-square": square,
-          "btn-circle": circle,
-          "btn-active": active,
-          "btn-disabled": disabled,
-          "pl-4": !!LeftIcon && size === "lg",
-          "pl-3": !!LeftIcon && size === "md",
-          "pl-2": !!LeftIcon && size === "sm",
-          "pl-1": !!LeftIcon && size === "xs",
-          "pr-4": !!RightIcon && size === "lg",
-          "pr-3": !!RightIcon && size === "md",
-          "pr-2": !!RightIcon && size === "sm",
-          "pr-1": !!RightIcon && size === "xs",
+          'btn-neutral': theme === 'neutral',
+          'btn-primary': theme === 'primary',
+          'btn-secondary': theme === 'secondary',
+          'btn-accent': theme === 'accent',
+          'btn-info': theme === 'info',
+          'btn-success': theme === 'success',
+          'btn-warning': theme === 'warning',
+          'btn-error': theme === 'error',
+          'btn-lg gap-3': size === 'lg',
+          'btn-md gap-2': size === 'md',
+          'btn-sm gap-1.5': size === 'sm',
+          'btn-xs gap-1': size === 'xs',
+          'btn-block': block,
+          'btn-ghost': ghost,
+          'btn-link': link,
+          'btn-outline': outline,
+          'btn-wide': wide,
+          'btn-square': square,
+          'btn-circle': circle,
+          'btn-active': active,
+          'btn-disabled': disabled,
+          'pl-4': !!LeftIcon && size === 'lg',
+          'pl-3': !!LeftIcon && size === 'md',
+          'pl-2': !!LeftIcon && size === 'sm',
+          'pl-1': !!LeftIcon && size === 'xs',
+          'pr-4': !!RightIcon && size === 'lg',
+          'pr-3': !!RightIcon && size === 'md',
+          'pr-2': !!RightIcon && size === 'sm',
+          'pr-1': !!RightIcon && size === 'xs',
           glass: glass,
         },
         className

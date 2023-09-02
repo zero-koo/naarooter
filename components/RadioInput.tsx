@@ -1,6 +1,6 @@
-import React, { ForwardedRef, forwardRef } from "react";
-import clsx from "clsx";
-import { Size, Theme } from "@/types/style";
+import React, { ForwardedRef, forwardRef } from 'react';
+import clsx from 'clsx';
+import { Size, Theme } from '@/types/style';
 
 interface RadioProps extends React.HTMLAttributes<HTMLInputElement> {
   theme?: Theme;
@@ -13,8 +13,8 @@ interface RadioProps extends React.HTMLAttributes<HTMLInputElement> {
 
 function RadioInput(
   {
-    theme = "neutral",
-    size = "sm",
+    theme = 'neutral',
+    size = 'sm',
     className,
     name,
     value,
@@ -27,19 +27,19 @@ function RadioInput(
       type="radio"
       ref={ref}
       className={clsx(
-        "radio",
+        'radio',
         {
-          "radio-primary": theme === "primary",
-          "radio-secondary": theme === "secondary",
-          "radio-accent": theme === "accent",
-          "radio-info": theme === "info",
-          "radio-success": theme === "success",
-          "radio-warning": theme === "warning",
-          "radio-error": theme === "error",
-          "radio-lg": size === "lg",
-          "radio-md": size === "md",
-          "radio-sm": size === "sm",
-          "radio-xs": size === "xs",
+          'radio-primary': theme === 'primary',
+          'radio-secondary': theme === 'secondary',
+          'radio-accent': theme === 'accent',
+          'radio-info': theme === 'info',
+          'radio-success': theme === 'success',
+          'radio-warning': theme === 'warning',
+          'radio-error': theme === 'error',
+          'radio-lg': size === 'lg',
+          'radio-md': size === 'md',
+          'radio-sm': size === 'sm',
+          'radio-xs': size === 'xs',
         },
         className
       )}

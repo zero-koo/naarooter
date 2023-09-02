@@ -1,6 +1,6 @@
-import React from "react";
-import clsx from "clsx";
-import { Size, Theme } from "@/types/style";
+import React from 'react';
+import clsx from 'clsx';
+import { Size, Theme } from '@/types/style';
 
 interface ToggleProps extends React.HTMLAttributes<HTMLInputElement> {
   theme?: Theme;
@@ -10,8 +10,8 @@ interface ToggleProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 
 export function Toggle({
-  theme = "neutral",
-  size = "sm",
+  theme = 'neutral',
+  size = 'sm',
   className,
   ...rest
 }: ToggleProps) {
@@ -19,19 +19,19 @@ export function Toggle({
     <input
       type="checkbox"
       className={clsx(
-        "toggle",
+        'toggle',
         {
-          "toggle-primary": theme === "primary",
-          "toggle-secondary": theme === "secondary",
-          "toggle-accent": theme === "accent",
-          "toggle-info": theme === "info",
-          "toggle-success": theme === "success",
-          "toggle-warning": theme === "warning",
-          "toggle-error": theme === "error",
-          "toggle-lg": size === "lg",
-          "toggle-md": size === "md",
-          "toggle-sm": size === "sm",
-          "toggle-xs": size === "xs",
+          'toggle-primary': theme === 'primary',
+          'toggle-secondary': theme === 'secondary',
+          'toggle-accent': theme === 'accent',
+          'toggle-info': theme === 'info',
+          'toggle-success': theme === 'success',
+          'toggle-warning': theme === 'warning',
+          'toggle-error': theme === 'error',
+          'toggle-lg': size === 'lg',
+          'toggle-md': size === 'md',
+          'toggle-sm': size === 'sm',
+          'toggle-xs': size === 'xs',
         },
         className
       )}

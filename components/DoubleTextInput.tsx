@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import { ForwardedRef, forwardRef } from "react";
-import style from "./DoubleTextInput.module.css";
-import { twMerge } from "tailwind-merge";
+import clsx from 'clsx';
+import { ForwardedRef, forwardRef } from 'react';
+import style from './DoubleTextInput.module.css';
+import { twMerge } from 'tailwind-merge';
 
 type DoubleTextInputProps = {
   main: React.ReactNode;
@@ -34,7 +34,7 @@ function MainInput(
   );
 }
 
-MainInput.displayName = "MainInput";
+MainInput.displayName = 'MainInput';
 
 interface SubInputProps extends React.HTMLAttributes<HTMLInputElement> {
   expanded: boolean;
@@ -54,7 +54,7 @@ function SubInput(
     />
   );
 }
-SubInput.displayName = "SubInput";
+SubInput.displayName = 'SubInput';
 
 DoubleTextInput.Main = forwardRef(MainInput);
 DoubleTextInput.Sub = forwardRef(SubInput);

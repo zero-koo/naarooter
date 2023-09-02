@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import DoubleTextInput from "@/components/DoubleTextInput";
-import TextArea from "@/components/TextArea";
-import TextInput from "@/components/TextInput";
-import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { MinusCircle, PlusIcon, XIcon } from "lucide-react";
-import { Button } from "@/components/Button";
-import { Toggle } from "@/components/Toggle";
-import RadioInput from "@/components/RadioInput";
-import { Quiz as QuizInput } from "@/types/quiz";
+import DoubleTextInput from '@/components/DoubleTextInput';
+import TextArea from '@/components/TextArea';
+import TextInput from '@/components/TextInput';
+import { useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { MinusCircle, PlusIcon, XIcon } from 'lucide-react';
+import { Button } from '@/components/Button';
+import { Toggle } from '@/components/Toggle';
+import RadioInput from '@/components/RadioInput';
+import { Quiz as QuizInput } from '@/types/quiz';
 
 export default function CreateQuizPage() {
   return <QuizForm />;
@@ -21,25 +21,25 @@ const MAX_CHOICE_COUNT = 5;
 function QuizForm() {
   const { control, register, handleSubmit } = useForm<QuizInput>({
     defaultValues: {
-      title: "",
-      description: "",
+      title: '',
+      description: '',
       choices: [
         {
-          main: "",
-          sub: "",
+          main: '',
+          sub: '',
         },
         {
-          main: "",
-          sub: "",
+          main: '',
+          sub: '',
         },
       ],
-      explanation: "",
-      answer: "1",
+      explanation: '',
+      answer: '1',
     },
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "choices",
+    name: 'choices',
     rules: {
       minLength: 2,
       maxLength: 5,
@@ -51,8 +51,8 @@ function QuizForm() {
   const handleAddChoice = () => {
     if (fields.length >= MAX_CHOICE_COUNT) return;
     append({
-      main: "",
-      sub: "",
+      main: '',
+      sub: '',
     });
   };
 
@@ -64,7 +64,7 @@ function QuizForm() {
           ? data.choices
           : data.choices.map((choice) => ({
               ...choice,
-              sub: "",
+              sub: '',
             })),
       });
     } catch (e) {
@@ -90,7 +90,7 @@ function QuizForm() {
         <TextInput
           className="shrink-0 font-semibold"
           placeholder="제목을 입력하세요"
-          {...register("title", {
+          {...register('title', {
             validate: (value) => value.trim().length > 1,
           })}
         />
@@ -98,7 +98,7 @@ function QuizForm() {
           size="xs"
           className="shrink-0 p-3"
           placeholder="내용을 적어주세요"
-          {...register("description")}
+          {...register('description')}
         />
 
         <div className="mt-2 flex items-center pl-3 pr-1">
@@ -129,14 +129,14 @@ function QuizForm() {
               sub={
                 <DoubleTextInput.Sub
                   expanded={expanded}
-                  placeholder={"항목에 대한 설명을 적어주세요"}
+                  placeholder={'항목에 대한 설명을 적어주세요'}
                   {...register(`choices.${index}.sub`)}
                 />
               }
             />
             <RadioInput
               value={index + 1}
-              {...register("answer")}
+              {...register('answer')}
               className="!absolute left-3 top-3.5"
             />
             <button
@@ -158,7 +158,7 @@ function QuizForm() {
           항목 추가
         </Button>
         <TextArea
-          {...register("explanation")}
+          {...register('explanation')}
           size="xs"
           className="mt-2 min-h-[200px] p-3"
           placeholder="정답에 대한 설명을 적어주세요"

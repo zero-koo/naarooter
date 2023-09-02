@@ -1,6 +1,6 @@
-import { Size, Theme } from "@/types/style";
-import clsx from "clsx";
-import { ForwardedRef, forwardRef } from "react";
+import { Size, Theme } from '@/types/style';
+import clsx from 'clsx';
+import { ForwardedRef, forwardRef } from 'react';
 
 interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   theme?: Theme;
@@ -11,8 +11,8 @@ interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
 
 function TextArea(
   {
-    theme = "neutral",
-    size = "md",
+    theme = 'neutral',
+    size = 'md',
     ghost = false,
     noBorder = false,
     className,
@@ -24,23 +24,23 @@ function TextArea(
     <textarea
       ref={ref}
       className={clsx(
-        "textarea",
+        'textarea',
         {
-          "border-neutral focus:border-primary focus:outline-primary":
-            theme === "neutral",
-          "textarea-primary": theme === "primary",
-          "textarea-secondary": theme === "secondary",
-          "textarea-accent": theme === "accent",
-          "textarea-info": theme === "info",
-          "textarea-success": theme === "success",
-          "textarea-warning": theme === "warning",
-          "textarea-error": theme === "error",
-          "textarea-ghost": ghost,
-          "textarea-bordered": !noBorder,
-          "textarea-lg": size === "lg",
-          "textarea-md": size === "md",
-          "textarea-sm": size === "sm",
-          "textarea-xs": size === "xs",
+          'border-neutral focus:border-primary focus:outline-primary':
+            theme === 'neutral',
+          'textarea-primary': theme === 'primary',
+          'textarea-secondary': theme === 'secondary',
+          'textarea-accent': theme === 'accent',
+          'textarea-info': theme === 'info',
+          'textarea-success': theme === 'success',
+          'textarea-warning': theme === 'warning',
+          'textarea-error': theme === 'error',
+          'textarea-ghost': ghost,
+          'textarea-bordered': !noBorder,
+          'textarea-lg': size === 'lg',
+          'textarea-md': size === 'md',
+          'textarea-sm': size === 'sm',
+          'textarea-xs': size === 'xs',
         },
         className
       )}
