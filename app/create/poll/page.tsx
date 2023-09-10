@@ -9,7 +9,7 @@ import { MinusCircle, PlusIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Toggle } from '@/components/Toggle';
 import { Poll as PollInput } from '@/types/poll';
-import { useToast } from '@/app/hooks/useToast';
+import { useToast } from '@/hooks/useToast';
 
 export default function CreatePollPage() {
   return <PollForm />;
