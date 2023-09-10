@@ -1,5 +1,4 @@
 import React from 'react';
-import type { Component } from 'react';
 import clsx from 'clsx';
 import { Size, Theme } from '@/types/style';
 
