@@ -6,11 +6,12 @@ import { twMerge } from 'tailwind-merge';
 type DoubleTextInputProps = {
   main: React.ReactNode;
   sub: React.ReactNode;
+  error?: boolean;
 };
 
-function DoubleTextInput({ main, sub }: DoubleTextInputProps) {
+function DoubleTextInput({ main, sub, error }: DoubleTextInputProps) {
   return (
-    <div className={style.wrapper}>
+    <div className={twMerge(style.wrapper, error && style.error)}>
       {main}
       <hr className={style.border} />
       {sub}

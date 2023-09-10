@@ -17,6 +17,18 @@
       @apply border-primary-focus
     }
   }
+
+  &.error {
+    @apply border-error;
+
+    hr.border {
+      @apply border-error
+    }
+
+    &:focus-within {
+      outline: 2px solid hsl(var(--er));
+    }
+  }
 }
 
 .main {
