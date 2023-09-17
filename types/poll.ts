@@ -4,9 +4,12 @@ export type PollInput = {
   choices: PollChoiceInput[];
 };
 
-export type Poll = PollInput & {
+export type Poll = {
   id: string;
-  submittedAnswer: string | null;
+  title: string;
+  description?: string;
+  submittedAnswerIndex: number | null;
+  choices: PollChoice[];
 };
 
 export type PollChoiceInput = {
