@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 
 import styles from './layout.module.scss';
 import { ToastContainer } from '@/hooks/useToast';
+import QueryProvider from '@/components/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className={styles.container}>{children}</div>
+        <QueryProvider>
+          <div className={styles.container}>{children}</div>
+        </QueryProvider>
         <ToastContainer />
       </body>
     </html>
