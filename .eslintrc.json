@@ -5,10 +5,11 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "plugins": [
-    "@typescript-eslint", 
+    "@typescript-eslint",
     "prettier"
   ],
   "parserOptions": {
