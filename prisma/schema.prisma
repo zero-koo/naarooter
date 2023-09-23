@@ -10,21 +10,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TempUser {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts TempPost[]
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  polls     Poll[]
+  votes     Vote[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
+model Poll {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  choices     Json[]
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    Int
+  votes       Vote[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Vote {
+  id        Int      @id @default(autoincrement())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  poll      Poll     @relation(fields: [pollId], references: [id])
+  pollId    String
+  choiceId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model TempUser {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String?
+  posts     TempPost[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+}
+
 model TempPost {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   title     String
   content   String?
-  published Boolean @default(false)
-  author    TempUser    @relation(fields: [authorId], references: [id])
+  published Boolean  @default(false)
+  author    TempUser @relation(fields: [authorId], references: [id])
   authorId  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
