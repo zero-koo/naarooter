@@ -1,10 +1,12 @@
 import './globals.css';
 
 import { Inter } from 'next/font/google';
+// import QueryProvider from '@/components/QueryProvider';
+import { ClientProvider } from '@/client/trpcClient';
+
+import { ToastContainer } from '@/hooks/useToast';
 
 import styles from './layout.module.scss';
-import { ToastContainer } from '@/hooks/useToast';
-import QueryProvider from '@/components/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryProvider>
+        <ClientProvider>
           <div className={styles.container}>{children}</div>
-        </QueryProvider>
+        </ClientProvider>
         <ToastContainer />
       </body>
     </html>
