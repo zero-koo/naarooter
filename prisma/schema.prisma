@@ -11,34 +11,49 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  polls     Poll[]
-  votes     Vote[]
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  polls Poll[]
+  votes Vote[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Poll {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   title       String
   description String?
-  choices     Json[]
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    Int
-  votes       Vote[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  choices     PollChoice[]
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model PollChoice {
+  id   String @id @default(uuid())
+  main String
+  sub  String
+
+  pollId String
+  poll   Poll   @relation(fields: [pollId], references: [id])
+
+  votes Vote[]
 }
 
 model Vote {
-  id        Int      @id @default(autoincrement())
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  poll      Poll     @relation(fields: [pollId], references: [id])
-  pollId    String
-  choiceId  String
+  id Int @id @default(autoincrement())
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  pollChoiceId String
+  PollChoice   PollChoice? @relation(fields: [pollChoiceId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

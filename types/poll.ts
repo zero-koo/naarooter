@@ -1,6 +1,6 @@
 export type PollInput = {
   title: string;
-  description?: string;
+  description: string;
   choices: PollChoiceInput[];
 };
 
@@ -14,7 +14,7 @@ export type Poll = {
 
 export type PollChoiceInput = {
   main: string;
-  sub?: string;
+  sub: string;
 };
 
 export type PollChoice = PollChoiceInput & {

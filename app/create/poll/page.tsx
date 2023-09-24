@@ -1,15 +1,17 @@
 'use client';
 
+import { useState } from 'react';
+import { trpc } from '@/client/trpcClient';
+import { MinusCircle, PlusIcon, XIcon } from 'lucide-react';
+import { SubmitErrorHandler, useFieldArray, useForm } from 'react-hook-form';
+
+import { PollInput } from '@/types/poll';
+import { useToast } from '@/hooks/useToast';
+import { Button } from '@/components/Button';
 import DoubleTextInput from '@/components/DoubleTextInput';
 import TextArea from '@/components/TextArea';
 import TextInput from '@/components/TextInput';
-import { useState } from 'react';
-import { SubmitErrorHandler, useFieldArray, useForm } from 'react-hook-form';
-import { MinusCircle, PlusIcon, XIcon } from 'lucide-react';
-import { Button } from '@/components/Button';
 import { Toggle } from '@/components/Toggle';
-import { Poll as PollInput } from '@/types/poll';
-import { useToast } from '@/hooks/useToast';
 
 export default function CreatePollPage() {
   return <PollForm />;
@@ -67,22 +69,15 @@ function PollForm() {
     });
   };
 
-  const onSubmit = (data: PollInput) => {
-    console.log({
-      ...data,
-      choices: expanded
-        ? data.choices
-        : data.choices.map((choice) => ({
-            ...choice,
-            sub: '',
-          })),
-    });
-
-    toast.update({
-      message: '투표가 생성되었습니다.',
-      theme: 'success',
-    });
-  };
+  const { mutate: createPoll } = trpc.poll.add.useMutation({
+    onSuccess() {
+      toast.update({
+        message: '투표가 생성되었습니다.',
+        theme: 'success',
+      });
+    },
+  });
+  const onSubmit = (data: PollInput) => createPoll(data);
 
   const onInvalid: SubmitErrorHandler<PollInput> = (e) => {
     const message =

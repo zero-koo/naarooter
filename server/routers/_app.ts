@@ -2,10 +2,12 @@
  * This file contains the root router of your tRPC-backend
  */
 import { privateProcedure, publicProcedure, router } from '../trpc';
+import { pollRouter } from './poll';
 import { postRouter } from './tempPost';
 
 export const appRouter = router({
   post: postRouter,
+  poll: pollRouter,
   // whoami: publicProcedure.query(({ ctx }) => ctx.user),
   secret: privateProcedure.query(() => 'cow level'),
 });
