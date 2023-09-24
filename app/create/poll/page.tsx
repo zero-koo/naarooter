@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { trpc } from '@/client/trpcClient';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { MinusCircle, PlusIcon, XIcon } from 'lucide-react';
 import { SubmitErrorHandler, useFieldArray, useForm } from 'react-hook-form';
+import z from 'zod';
 
 import { PollInput } from '@/types/poll';
 import { useToast } from '@/hooks/useToast';
@@ -25,6 +27,20 @@ const MAX_POLL_DESCRIPTION_LENGTH = 200;
 const MAX_CHOICE_TITLE_LENGTH = 100;
 const MAX_CHOICE_DESCRIPTION_LENGTH = 200;
 
+const pollFormSchema = z.object({
+  title: z
+    .string()
+    .min(1, { message: '제목을 입력하세요.' })
+    .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
+  description: z.string(),
+  choices: z.array(
+    z.object({
+      main: z.string().min(1, { message: '보기를 입력하세요.' }),
+      sub: z.string(),
+    })
+  ),
+});
+
 function PollForm() {
   const { toast } = useToast();
 
@@ -34,6 +50,7 @@ function PollForm() {
     register,
     handleSubmit,
   } = useForm<PollInput>({
+    resolver: zodResolver(pollFormSchema),
     defaultValues: {
       title: '',
       description: '',
@@ -108,14 +125,7 @@ function PollForm() {
           placeholder="제목을 입력하세요"
           error={!!errors.title?.message}
           maxLength={MAX_POLL_TITLE_LENGTH}
-          {...register('title', {
-            validate: (value) => {
-              if (value.trim().length === 0) return '제목을 입력하세요.';
-              if (value.trim().length < 3)
-                return '제목은 최소 3자 이상이어야 합니다.';
-              return true;
-            },
-          })}
+          {...register('title')}
         />
         <TextArea
           size="xs"
@@ -145,10 +155,7 @@ function PollForm() {
                   className="!pr-11"
                   placeholder={`보기 ${index + 1}`}
                   maxLength={MAX_CHOICE_TITLE_LENGTH}
-                  {...register(`choices.${index}.main`, {
-                    validate: (value) =>
-                      String(value).trim().length > 0 || '보기를 입력하세요.',
-                  })}
+                  {...register(`choices.${index}.main`)}
                 />
               }
               sub={
