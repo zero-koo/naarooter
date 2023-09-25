@@ -7,7 +7,7 @@ export type PollInput = {
 export type Poll = {
   id: string;
   title: string;
-  description?: string;
+  description: string;
   submittedAnswerIndex: number | null;
   choices: PollChoice[];
 };
@@ -18,5 +18,6 @@ export type PollChoiceInput = {
 };
 
 export type PollChoice = PollChoiceInput & {
+  index: number;
   voteCount: number;
 };

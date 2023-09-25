@@ -94,7 +94,14 @@ function PollForm() {
       });
     },
   });
-  const onSubmit = (data: PollInput) => createPoll(data);
+  const onSubmit = (data: PollInput) =>
+    createPoll({
+      ...data,
+      choices: data.choices.map((choice, index) => ({
+        ...choice,
+        index,
+      })),
+    });
 
   const onInvalid: SubmitErrorHandler<PollInput> = (e) => {
     const message =
