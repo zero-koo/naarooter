@@ -8,7 +8,6 @@ export type Poll = {
   id: string;
   title: string;
   description: string;
-  submittedAnswerIndex: number | null;
   choices: PollChoice[];
 };
 
@@ -18,6 +17,8 @@ export type PollChoiceInput = {
 };
 
 export type PollChoice = PollChoiceInput & {
+  id: string;
   index: number;
   voteCount: number;
+  voted: boolean;
 };

@@ -14,18 +14,18 @@ const PollList = () => {
         <PollSubmitForm
           {...poll}
           key={poll.id}
-          submittedAnswerIndex={(() => {
-            const selectedIndex = poll.choices.findIndex(
-              (choice) => !!choice.votes.length
-            );
-            return selectedIndex ?? null;
-          })()}
           choices={poll.choices.map((choice) => ({
+            id: choice.id,
             main: choice.main,
             sub: choice.sub,
             voteCount: choice._count.votes,
             index: choice.index,
+            voted: !!choice.votes.length,
           }))}
+          voteId={
+            poll.choices.find((choice) => !!choice.votes.length)?.votes[0]
+              ?.id || null
+          }
         />
       ))}
     </div>
