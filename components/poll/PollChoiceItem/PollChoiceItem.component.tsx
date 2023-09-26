@@ -21,7 +21,7 @@ export default function PollChoiceItem({
   return (
     <button
       className={twMerge(
-        'group flex flex-1 rounded-lg border border-neutral-content px-3 py-2 text-start relative overflow-hidden hover:bg-neutral/40 transition-all',
+        'group flex flex-1 rounded-lg border border-neutral-content px-2.5 py-1.5 text-start relative overflow-hidden hover:bg-neutral/40 transition-all',
         isSelected &&
           'border-primary outline outline-2 outline-primary outline-offset-1'
       )}
@@ -38,7 +38,7 @@ export default function PollChoiceItem({
       )}
       <div className="relative flex flex-1 items-center gap-2">
         <div>
-          <div className={'font-semibold'}>{mainText}</div>
+          <div className={'text-sm font-semibold'}>{mainText}</div>
           {subText?.trim() && (
             <div className={'mb-0.5 mt-1 text-xs opacity-80'}>{subText}</div>
           )}
@@ -50,7 +50,7 @@ export default function PollChoiceItem({
               <span className="text-xs">%</span>
             </div>
           ) : (
-            <CheckCircle2 />
+            <CheckCircle2 size={22} />
           )}
         </div>
       </div>

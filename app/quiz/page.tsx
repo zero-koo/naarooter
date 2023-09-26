@@ -1,10 +1,11 @@
 'use client';
 
-import { Button } from '@/components/Button';
-import QuizChoiceItem from '@/components/QuizChoiceItem';
-import { Quiz } from '@/types/quiz';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
+import { Quiz } from '@/types/quiz';
+import { Button } from '@/components/Button';
+import QuizChoiceItem from '@/components/QuizChoiceItem';
 
 const quizes: Quiz[] = [
   {
@@ -83,7 +84,7 @@ const quizes: Quiz[] = [
 
 export default function QuizPage() {
   return (
-    <div className="flex flex-col gap-2 bg-base-100">
+    <div className="flex flex-col gap-2 bg-base-300">
       {quizes.map((quiz) => (
         <QuizItemTemplate key={quiz.id} {...quiz} />
       ))}

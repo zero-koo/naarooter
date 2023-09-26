@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { trpc } from '@/client/trpcClient';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MinusCircle, PlusIcon, XIcon } from 'lucide-react';
+import { ArrowLeft, MinusCircle, PlusIcon, XIcon } from 'lucide-react';
 import { SubmitErrorHandler, useFieldArray, useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -42,6 +44,7 @@ const pollFormSchema = z.object({
 });
 
 function PollForm() {
+  const router = useRouter();
   const { toast } = useToast();
 
   const {
@@ -87,11 +90,13 @@ function PollForm() {
   };
 
   const { mutate: createPoll } = trpc.poll.add.useMutation({
-    onSuccess() {
+    onSuccess(data) {
       toast.update({
         message: '투표가 생성되었습니다.',
         theme: 'success',
       });
+
+      router.push(`/poll/${data.id}`);
     },
   });
   const onSubmit = (data: PollInput) =>
@@ -113,9 +118,11 @@ function PollForm() {
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex flex-col bg-base-200">
       <header className="relative flex items-center justify-between p-3">
-        <XIcon size="20" />
+        <Link href="/">
+          <ArrowLeft size="20" />
+        </Link>
         <h1 className="absolute left-1/2 top-1/2 m-auto -translate-x-1/2 -translate-y-1/2 font-bold">
           설문 만들기
         </h1>
@@ -124,7 +131,7 @@ function PollForm() {
         </Button>
       </header>
       <form
-        className="flex flex-1 flex-col gap-2 overflow-auto px-3 pt-1"
+        className="flex flex-1 flex-col gap-2 overflow-auto p-3 pt-1"
         autoComplete="off"
       >
         <TextInput
