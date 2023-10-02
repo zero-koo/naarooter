@@ -58,23 +58,3 @@ model Vote {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
-
-model TempUser {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  name      String?
-  posts     TempPost[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-}
-
-model TempPost {
-  id        String   @id @default(uuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  author    TempUser @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
