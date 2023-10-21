@@ -1,10 +1,10 @@
 import z from 'zod';
 
 import { prisma } from '../prisma';
-import { publicProcedure, router } from '../trpc';
+import { privateProcedure, router } from '../trpc';
 
 export const voteRouter = router({
-  add: publicProcedure
+  add: privateProcedure
     .input(
       z.object({
         userId: z.number(),
@@ -19,7 +19,7 @@ export const voteRouter = router({
         },
       });
     }),
-  update: publicProcedure
+  update: privateProcedure
     .input(
       z.object({
         id: z.number(),
@@ -38,7 +38,7 @@ export const voteRouter = router({
         },
       });
     }),
-  delete: publicProcedure
+  delete: privateProcedure
     .input(
       z.object({
         id: z.number(),

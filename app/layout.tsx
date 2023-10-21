@@ -3,6 +3,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 // import QueryProvider from '@/components/QueryProvider';
 import { ClientProvider } from '@/client/trpcClient';
+import { ClerkProvider } from '@clerk/nextjs';
 
 import { ToastContainer } from '@/hooks/useToast';
 
@@ -21,13 +22,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ClientProvider>
-          <div className={styles.container}>{children}</div>
-        </ClientProvider>
-        <ToastContainer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <ClientProvider>
+            <div className={styles.container}>{children}</div>
+          </ClientProvider>
+          <ToastContainer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

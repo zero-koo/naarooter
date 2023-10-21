@@ -13,7 +13,9 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
 
-const t = initTRPC.create({
+import { createContext } from './context';
+
+const t = initTRPC.context<typeof createContext>().create({
   /**
    * @see https://trpc.io/docs/v10/data-transformers
    */
@@ -61,16 +63,18 @@ export const mergeRouters = t.mergeRouters;
  * Create an private procedure
  * @see https://trpc.io/docs/v10/procedures
  **/
-export const privateProcedure = t.procedure.use((opts) => {
-  // if (!opts.ctx.user) {
-  //   throw new TRPCError({
-  //     code: 'UNAUTHORIZED',
-  //     message: 'You have to be logged in to do this',
-  //   });
-  // }
-  return opts.next({
+
+// check if the user is signed in, otherwise through a UNAUTHORIZED CODE
+const isAuthed = t.middleware(({ next, ctx }) => {
+  if (!ctx.auth.userId) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  return next({
     ctx: {
-      // user: opts.ctx.user,
+      auth: ctx.auth,
     },
   });
 });
+
+export const privateProcedure = t.procedure.use(isAuthed);
