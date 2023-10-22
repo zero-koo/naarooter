@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { trpc } from '@/client/trpcClient';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
+
+import { usePollQuery } from '@/hooks/queries/usePollQuery';
 
 import PollSubmitForm from './PollSubmitForm';
 
@@ -11,9 +12,7 @@ interface PollPageProps {
 }
 
 export default function PollPage({ id }: PollPageProps) {
-  const { data: poll, refetch } = trpc.poll.byId.useQuery({
-    id,
-  });
+  const { data: poll, refetch } = usePollQuery(id);
 
   return (
     <div className="h-full">
@@ -26,22 +25,7 @@ export default function PollPage({ id }: PollPageProps) {
         </button>
       </div>
       {poll ? (
-        <PollSubmitForm
-          {...poll}
-          key={poll.id}
-          choices={poll.choices.map((choice) => ({
-            id: choice.id,
-            main: choice.main,
-            sub: choice.sub,
-            voteCount: choice._count.votes,
-            index: choice.index,
-            voted: !!choice.votes.length,
-          }))}
-          voteId={
-            poll.choices.find((choice) => !!choice.votes.length)?.votes[0]
-              ?.id || null
-          }
-        />
+        <PollSubmitForm key={poll.id} id={poll.id} />
       ) : (
         <div>loading</div>
       )}

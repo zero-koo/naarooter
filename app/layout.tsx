@@ -1,7 +1,6 @@
 import './globals.css';
 
 import { Inter } from 'next/font/google';
-// import QueryProvider from '@/components/QueryProvider';
 import { ClientProvider } from '@/client/trpcClient';
 import { ClerkProvider } from '@clerk/nextjs';
 import { twMerge } from 'tailwind-merge';

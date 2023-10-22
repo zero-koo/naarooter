@@ -1,6 +1,6 @@
-import { Poll } from '@/types/poll';
+import { TPoll } from '@/types/poll';
 
-export const pollFixture: Poll = {
+export const pollFixture: TPoll = {
   id: '123',
   title: '혈액형 vs MBTI',
   description: '과연 혈액형은 성격과 상관관계가 있을까?',

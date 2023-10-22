@@ -83,7 +83,21 @@ export const pollRouter = router({
       }
 
       return {
-        items: items,
+        items: items.map((item) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          choices: item.choices.map((choice) => ({
+            id: choice.id,
+            main: choice.main,
+            sub: choice.sub,
+            index: choice.index,
+            voteCount: choice._count.votes,
+            voted: !!choice.votes.length,
+          })),
+          voteId: item.choices.find((choice) => !!choice.votes.length)?.votes[0]
+            ?.id,
+        })),
         nextCursor,
       };
     }),
@@ -105,7 +119,21 @@ export const pollRouter = router({
           message: `No poll with id '${id}'`,
         });
       }
-      return poll;
+      return {
+        id: poll.id,
+        title: poll.title,
+        description: poll.description,
+        choices: poll.choices.map((choice) => ({
+          id: choice.id,
+          main: choice.main,
+          sub: choice.sub,
+          index: choice.index,
+          voteCount: choice._count.votes,
+          voted: !!choice.votes.length,
+        })),
+        voteId: poll.choices.find((choice) => !!choice.votes.length)?.votes[0]
+          ?.id,
+      };
     }),
   add: privateProcedure
     .input(

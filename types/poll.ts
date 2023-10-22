@@ -4,11 +4,12 @@ export type PollInput = {
   choices: PollChoiceInput[];
 };
 
-export type Poll = {
+export type TPoll = {
   id: string;
   title: string;
   description: string;
   choices: PollChoice[];
+  voteId?: number;
 };
 
 export type PollChoiceInput = {

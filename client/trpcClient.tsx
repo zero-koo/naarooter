@@ -1,10 +1,21 @@
 'use client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { httpBatchLink, loggerLink } from '@trpc/client';
-import { createTRPCReact } from '@trpc/react-query';
+
 import { useState } from 'react';
-import superjson from 'superjson';
 import type { AppRouter } from '@/server/routers/_app';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { httpBatchLink, loggerLink } from '@trpc/client';
+import {
+  createTRPCReact,
+  type inferReactQueryProcedureOptions,
+} from '@trpc/react-query';
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+import superjson from 'superjson';
+
+// infer the types for your router
+export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
+export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export const trpc = createTRPCReact<AppRouter>({
   unstable_overrides: {
@@ -50,6 +61,7 @@ export function ClientProvider(props: { children: React.ReactNode }) {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {props.children}
+        <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </trpc.Provider>
   );

@@ -2,40 +2,75 @@ import Link from 'next/link';
 import { trpc } from '@/client/trpcClient';
 import { numberFormat } from '@/utils/format';
 
-import type { Poll } from '@/types/poll';
-import { useVote } from '@/hooks/useVote';
+import {
+  usePollQuery,
+  useUpdatePollQueryData,
+} from '@/hooks/queries/usePollQuery';
 
 import PollChoiceItem from './PollChoiceItem';
 
-type PollSubmitFormProps = Poll & {
-  voteId: number | null;
+type PollSubmitFormProps = {
+  id: string;
   showLink?: boolean;
 };
 
-function PollSubmitForm({
-  id,
-  title,
-  description,
-  choices,
-  voteId,
-  showLink = false,
-}: PollSubmitFormProps) {
-  const { voteItems, isVoted, totalVoteCount, handleVote } = useVote(
-    choices
-      .map((choice) => ({
-        id: choice.id,
-        mainText: choice.main,
-        subText: choice.sub ?? '',
-        count: choice.voteCount,
-        voted: choice.voted,
-        index: choice.index,
-      }))
-      .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
+function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
+  const { data } = usePollQuery(id);
+  const { title, description, choices, voteId } = data;
+  const totalVoteCount = choices.reduce(
+    (count, item) => count + item.voteCount,
+    0
   );
 
-  const { mutate: createVote } = trpc.vote.add.useMutation();
-  const { mutate: updateVote } = trpc.vote.update.useMutation();
-  const { mutate: deleteVote } = trpc.vote.delete.useMutation();
+  const updatePoll = useUpdatePollQueryData(id);
+
+  const { mutate: createVote } = trpc.vote.add.useMutation({
+    onSuccess({ id: voteId, pollChoiceId }) {
+      updatePoll({
+        ...data,
+        voteId,
+        choices: choices.map((choice) => ({
+          ...choice,
+          voted: pollChoiceId === choice.id,
+          voteCount:
+            pollChoiceId === choice.id
+              ? choice.voteCount + 1
+              : choice.voteCount,
+        })),
+      });
+    },
+  });
+  const { mutate: updateVote } = trpc.vote.update.useMutation({
+    onSuccess({ id: voteId, pollChoiceId }) {
+      updatePoll({
+        ...data,
+        voteId,
+        choices: choices.map((choice) => ({
+          ...choice,
+          voted: pollChoiceId === choice.id,
+          voteCount:
+            pollChoiceId === choice.id
+              ? choice.voteCount + 1
+              : choice.voted
+              ? choice.voteCount - 1
+              : choice.voteCount,
+        })),
+      });
+    },
+  });
+  const { mutate: deleteVote } = trpc.vote.delete.useMutation({
+    onSuccess() {
+      updatePoll({
+        ...data,
+        voteId: undefined,
+        choices: choices.map((choice) => ({
+          ...choice,
+          voted: false,
+          voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
+        })),
+      });
+    },
+  });
 
   return (
     <div className={'bg-base-200 p-3'}>
@@ -44,36 +79,37 @@ function PollSubmitForm({
         <div className={'p-1 text-xs opacity-90'}>{description}</div>
       )}
       <div className="mt-2 flex flex-col gap-2">
-        {voteItems.map(({ id, mainText, subText, count, voted }, index) => (
-          <PollChoiceItem
-            id={index}
-            key={index}
-            mainText={mainText}
-            subText={subText}
-            isSelected={voted}
-            showResult={isVoted}
-            voteCountRate={(count / totalVoteCount) * 100}
-            onClick={() => {
-              handleVote(index);
-
-              if (voteId === null) {
-                createVote({
-                  userId: 1,
-                  choiceId: id,
-                });
-                return;
-              }
-
-              voted
-                ? deleteVote({ id: voteId })
-                : updateVote({
-                    id: voteId,
+        {choices
+          .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
+          .map(({ id, main, sub, voteCount, voted }, index) => (
+            <PollChoiceItem
+              id={index}
+              key={index}
+              mainText={main}
+              subText={sub}
+              isSelected={voted}
+              showResult={!!voteId}
+              voteCountRate={(voteCount / totalVoteCount) * 100}
+              onClick={() => {
+                if (voteId === undefined) {
+                  createVote({
                     userId: 1,
                     choiceId: id,
                   });
-            }}
-          />
-        ))}
+
+                  return;
+                }
+
+                voted
+                  ? deleteVote({ id: voteId })
+                  : updateVote({
+                      id: voteId,
+                      userId: 1,
+                      choiceId: id,
+                    });
+              }}
+            />
+          ))}
       </div>
       <div className="mt-3 flex px-1 text-xs opacity-75">
         <div>{numberFormat(totalVoteCount)}명 투표</div>
