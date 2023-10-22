@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 // import QueryProvider from '@/components/QueryProvider';
 import { ClientProvider } from '@/client/trpcClient';
 import { ClerkProvider } from '@clerk/nextjs';
+import { twMerge } from 'tailwind-merge';
 
 import { ToastContainer } from '@/hooks/useToast';
 
@@ -24,7 +25,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={twMerge(inter.className, 'flex flex-col')}>
           <ClientProvider>
             <div className={styles.container}>{children}</div>
           </ClientProvider>
