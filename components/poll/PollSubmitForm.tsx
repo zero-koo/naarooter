@@ -6,6 +6,7 @@ import {
   usePollQuery,
   useUpdatePollQueryData,
 } from '@/hooks/queries/usePollQuery';
+import { useToast } from '@/hooks/useToast';
 
 import PollChoiceItem from './PollChoiceItem';
 
@@ -24,6 +25,8 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
 
   const updatePoll = useUpdatePollQueryData(id);
 
+  const { toast } = useToast();
+
   const { mutate: createVote } = trpc.vote.add.useMutation({
     onSuccess({ id: voteId, pollChoiceId }) {
       updatePoll({
@@ -37,6 +40,12 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
               ? choice.voteCount + 1
               : choice.voteCount,
         })),
+      });
+    },
+    onError() {
+      toast.update({
+        theme: 'error',
+        message: '투표 내용이 저장되지 않았습니다.',
       });
     },
   });
@@ -57,6 +66,12 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
         })),
       });
     },
+    onError() {
+      toast.update({
+        theme: 'error',
+        message: '투표 내용이 저장되지 않았습니다.',
+      });
+    },
   });
   const { mutate: deleteVote } = trpc.vote.delete.useMutation({
     onSuccess() {
@@ -68,6 +83,12 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
           voted: false,
           voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
         })),
+      });
+    },
+    onError() {
+      toast.update({
+        theme: 'error',
+        message: '투표 내용이 저장되지 않았습니다.',
       });
     },
   });
