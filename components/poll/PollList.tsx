@@ -18,7 +18,7 @@ const PollList = () => {
       ))}
       <Link
         className="fixed bottom-5 right-5 rounded-full bg-primary p-2"
-        href="/create/poll"
+        href="/poll/create"
       >
         <PlusIcon />
       </Link>
