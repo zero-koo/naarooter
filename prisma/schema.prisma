@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String  @id @default(uuid())
   email String  @unique
   name  String?
   polls Poll[]
@@ -28,8 +28,8 @@ model Poll {
   description String
   choices     PollChoice[]
 
-  authorId Int
-  author   User @relation(fields: [authorId], references: [id])
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -50,8 +50,8 @@ model PollChoice {
 model Vote {
   id Int @id @default(autoincrement())
 
-  authorId Int
-  author   User @relation(fields: [authorId], references: [id])
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
 
   pollChoiceId String
   PollChoice   PollChoice @relation(fields: [pollChoiceId], references: [id])

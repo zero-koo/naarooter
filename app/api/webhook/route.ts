@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import { prisma } from '@/server/prisma';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { Webhook } from 'svix';
 
@@ -48,12 +49,40 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the ID and type
-  const { id } = evt.data;
-  const eventType = evt.type;
+  try {
+    switch (evt.type) {
+      case 'user.created': {
+        const email = evt.data.email_addresses[0];
+        if (!email) {
+          return new Response(`Failed to ${evt.type}`, { status: 400 });
+        }
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log('Webhook body:', body);
+        await prisma.user.create({
+          data: {
+            id: evt.data.id,
+            email: email.email_address,
+            createdAt: new Date(evt.data.created_at),
+          },
+        });
 
-  return new Response('', { status: 201 });
+        return new Response(
+          `User of ID: ${evt.data.id} has successfully created`,
+          { status: 201 }
+        );
+      }
+      case 'user.deleted': {
+        await prisma.user.delete({
+          where: {
+            id: evt.data.id,
+          },
+        });
+        return new Response(
+          `User of ID: ${evt.data.id} has successfully deleted`,
+          { status: 201 }
+        );
+      }
+    }
+  } catch {
+    return new Response(`Failed to ${evt.type}`, { status: 400 });
+  }
 }

@@ -14,30 +14,26 @@ import { privateProcedure, publicProcedure, router } from '../trpc';
  * It's important to always explicitly say which fields you want to return in order to not leak extra information
  * @see https://github.com/prisma/prisma/issues/9353
  */
-const defaultPollSelect = (userId: number) =>
-  Prisma.validator<Prisma.PollSelect>()({
-    id: true,
-    title: true,
-    description: true,
-    authorId: true,
-    choices: {
-      select: {
-        id: true,
-        _count: true,
-        main: true,
-        sub: true,
-        index: true,
-        votes: {
-          where: {
-            authorId: userId,
-          },
-          select: {
-            id: true,
-          },
+const defaultPollSelect = Prisma.validator<Prisma.PollSelect>()({
+  id: true,
+  title: true,
+  description: true,
+  authorId: true,
+  choices: {
+    select: {
+      id: true,
+      _count: true,
+      main: true,
+      sub: true,
+      index: true,
+      votes: {
+        select: {
+          id: true,
         },
       },
     },
-  });
+  },
+});
 
 export const pollRouter = router({
   list: publicProcedure
@@ -58,7 +54,7 @@ export const pollRouter = router({
       const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.poll.findMany({
-        select: defaultPollSelect(1),
+        select: defaultPollSelect,
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {},
@@ -111,7 +107,7 @@ export const pollRouter = router({
       const { id } = input;
       const poll = await prisma.poll.findUnique({
         where: { id },
-        select: defaultPollSelect(1),
+        select: defaultPollSelect,
       });
       if (!poll) {
         throw new TRPCError({
@@ -150,16 +146,16 @@ export const pollRouter = router({
         ),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const poll = await prisma.poll.create({
         data: {
           ...input,
           choices: {
             create: input.choices,
           },
-          authorId: 1,
+          authorId: ctx.auth?.userId,
         },
-        select: defaultPollSelect(1),
+        select: defaultPollSelect,
       });
       return poll;
     }),
