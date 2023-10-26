@@ -7,14 +7,13 @@ export const voteRouter = router({
   add: privateProcedure
     .input(
       z.object({
-        userId: z.number(),
         choiceId: z.string(),
       })
     )
-    .mutation(async ({ input: { userId, choiceId } }) => {
+    .mutation(async ({ input: { choiceId }, ctx }) => {
       return await prisma.vote.create({
         data: {
-          authorId: userId,
+          authorId: ctx.auth.userId,
           pollChoiceId: choiceId,
         },
       });
@@ -27,13 +26,13 @@ export const voteRouter = router({
         choiceId: z.string(),
       })
     )
-    .mutation(async ({ input: { id, userId, choiceId } }) => {
+    .mutation(async ({ input: { id, choiceId }, ctx }) => {
       return await prisma.vote.update({
         data: {
           pollChoiceId: choiceId,
         },
         where: {
-          authorId: userId,
+          authorId: ctx.auth.userId,
           id,
         },
       });
