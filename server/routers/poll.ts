@@ -29,6 +29,7 @@ const defaultPollSelect = Prisma.validator<Prisma.PollSelect>()({
       votes: {
         select: {
           id: true,
+          authorId: true,
         },
       },
     },
@@ -44,7 +45,7 @@ export const pollRouter = router({
         initialCursor: z.string().nullish(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       /**
        * For pagination docs you can have a look here
        * @see https://trpc.io/docs/useInfiniteQuery
@@ -89,7 +90,9 @@ export const pollRouter = router({
             sub: choice.sub,
             index: choice.index,
             voteCount: choice._count.votes,
-            voted: !!choice.votes.length,
+            voted: choice.votes.some(
+              (vote) => vote.authorId === ctx.auth.userId
+            ),
           })),
           voteId: item.choices.find((choice) => !!choice.votes.length)?.votes[0]
             ?.id,
@@ -103,7 +106,7 @@ export const pollRouter = router({
         id: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const { id } = input;
       const poll = await prisma.poll.findUnique({
         where: { id },
@@ -125,7 +128,7 @@ export const pollRouter = router({
           sub: choice.sub,
           index: choice.index,
           voteCount: choice._count.votes,
-          voted: !!choice.votes.length,
+          voted: choice.votes.some((vote) => vote.authorId === ctx.auth.userId),
         })),
         voteId: poll.choices.find((choice) => !!choice.votes.length)?.votes[0]
           ?.id,
