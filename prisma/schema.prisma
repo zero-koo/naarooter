@@ -63,6 +63,8 @@ model Poll {
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
 
+  votes      Vote[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
@@ -84,6 +86,9 @@ model Vote {
 
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
+
+  pollId String
+  poll   Poll   @relation(fields: [pollId], references: [id])
 
   pollChoiceId String
   PollChoice   PollChoice @relation(fields: [pollChoiceId], references: [id])
