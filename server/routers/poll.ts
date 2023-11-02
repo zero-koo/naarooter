@@ -14,27 +14,34 @@ import { privateProcedure, publicProcedure, router } from '../trpc';
  * It's important to always explicitly say which fields you want to return in order to not leak extra information
  * @see https://github.com/prisma/prisma/issues/9353
  */
-const defaultPollSelect = Prisma.validator<Prisma.PollSelect>()({
-  id: true,
-  title: true,
-  description: true,
-  authorId: true,
-  choices: {
-    select: {
-      id: true,
-      _count: true,
-      main: true,
-      sub: true,
-      index: true,
-      votes: {
-        select: {
-          id: true,
-          authorId: true,
+const defaultPollSelect = (userId: string | undefined) =>
+  Prisma.validator<Prisma.PollSelect>()({
+    id: true,
+    title: true,
+    description: true,
+    authorId: true,
+    choices: {
+      select: {
+        id: true,
+        _count: {
+          select: {
+            votes: true,
+          },
         },
+        main: true,
+        sub: true,
+        index: true,
       },
     },
-  },
-});
+    votes: {
+      select: {
+        pollChoiceId: true,
+      },
+      where: {
+        authorId: userId,
+      },
+    },
+  });
 
 export const pollRouter = router({
   list: publicProcedure
@@ -55,7 +62,7 @@ export const pollRouter = router({
       const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.poll.findMany({
-        select: defaultPollSelect,
+        select: defaultPollSelect(ctx.auth.userId ?? undefined),
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {},
@@ -90,12 +97,9 @@ export const pollRouter = router({
             sub: choice.sub,
             index: choice.index,
             voteCount: choice._count.votes,
-            voted: choice.votes.some(
-              (vote) => vote.authorId === ctx.auth.userId
-            ),
+            selected: item.votes[0]?.pollChoiceId === choice.id,
           })),
-          voteId: item.choices.find((choice) => !!choice.votes.length)?.votes[0]
-            ?.id,
+          voted: item.votes.length > 0,
         })),
         nextCursor,
       };
@@ -110,7 +114,7 @@ export const pollRouter = router({
       const { id } = input;
       const poll = await prisma.poll.findUnique({
         where: { id },
-        select: defaultPollSelect,
+        select: defaultPollSelect(ctx.auth.userId ?? undefined),
       });
       if (!poll) {
         throw new TRPCError({
@@ -128,10 +132,9 @@ export const pollRouter = router({
           sub: choice.sub,
           index: choice.index,
           voteCount: choice._count.votes,
-          voted: choice.votes.some((vote) => vote.authorId === ctx.auth.userId),
+          selected: poll.votes[0]?.pollChoiceId === choice.id,
         })),
-        voteId: poll.choices.find((choice) => !!choice.votes.length)?.votes[0]
-          ?.id,
+        voted: poll.votes.length > 0,
       };
     }),
   add: privateProcedure
@@ -158,7 +161,7 @@ export const pollRouter = router({
           },
           authorId: ctx.auth?.userId,
         },
-        select: defaultPollSelect,
+        select: defaultPollSelect(ctx.auth.userId ?? undefined),
       });
       return poll;
     }),

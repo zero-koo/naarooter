@@ -4,16 +4,64 @@ import { prisma } from '../prisma';
 import { privateProcedure, router } from '../trpc';
 
 export const voteRouter = router({
-  add: privateProcedure
+  vote: privateProcedure
     .input(
       z.object({
+        pollId: z.string(),
         choiceId: z.string(),
       })
     )
-    .mutation(async ({ input: { choiceId }, ctx }) => {
+    .mutation(async ({ input: { pollId, choiceId }, ctx }) => {
+      const vote = await prisma.vote.findFirst({
+        where: {
+          authorId: ctx.auth.userId,
+          pollId,
+        },
+      });
+
+      // Create
+      if (!vote) {
+        return await prisma.vote.create({
+          data: {
+            authorId: ctx.auth.userId,
+            pollId,
+            pollChoiceId: choiceId,
+          },
+        });
+      }
+
+      // Delete
+      if (vote.pollChoiceId === choiceId) {
+        return await prisma.vote.delete({
+          where: {
+            id: vote.id,
+          },
+        });
+      }
+
+      // Update
+      await prisma.vote.update({
+        data: {
+          pollChoiceId: choiceId,
+        },
+        where: {
+          authorId: ctx.auth.userId,
+          id: vote.id,
+        },
+      });
+    }),
+  add: privateProcedure
+    .input(
+      z.object({
+        pollId: z.string(),
+        choiceId: z.string(),
+      })
+    )
+    .mutation(async ({ input: { pollId, choiceId }, ctx }) => {
       return await prisma.vote.create({
         data: {
           authorId: ctx.auth.userId,
+          pollId,
           pollChoiceId: choiceId,
         },
       });
@@ -22,7 +70,6 @@ export const voteRouter = router({
     .input(
       z.object({
         id: z.number(),
-        userId: z.number(),
         choiceId: z.string(),
       })
     )

@@ -17,7 +17,7 @@ type PollSubmitFormProps = {
 
 function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
   const { data } = usePollQuery(id);
-  const { title, description, choices, voteId } = data;
+  const { title, description, choices, voted } = data;
   const totalVoteCount = choices.reduce(
     (count, item) => count + item.voteCount,
     0
@@ -27,61 +27,35 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
 
   const { toast } = useToast();
 
-  const { mutate: createVote } = trpc.vote.add.useMutation({
-    onSuccess({ id: voteId, pollChoiceId }) {
-      updatePoll({
-        ...data,
-        voteId,
-        choices: choices.map((choice) => ({
-          ...choice,
-          voted: pollChoiceId === choice.id,
-          voteCount:
-            pollChoiceId === choice.id
-              ? choice.voteCount + 1
-              : choice.voteCount,
-        })),
-      });
-    },
-    onError() {
-      toast.update({
-        theme: 'error',
-        message: '투표 내용이 저장되지 않았습니다.',
-      });
-    },
-  });
-  const { mutate: updateVote } = trpc.vote.update.useMutation({
-    onSuccess({ id: voteId, pollChoiceId }) {
-      updatePoll({
-        ...data,
-        voteId,
-        choices: choices.map((choice) => ({
-          ...choice,
-          voted: pollChoiceId === choice.id,
-          voteCount:
-            pollChoiceId === choice.id
-              ? choice.voteCount + 1
-              : choice.voted
+  const { mutate: createVote } = trpc.vote.vote.useMutation({
+    onSuccess(voteData) {
+      // Delete
+      if (!voteData) {
+        updatePoll({
+          ...data,
+          choices: choices.map((choice) => ({
+            ...choice,
+            selected: false,
+            voteCount: choice.selected
               ? choice.voteCount - 1
               : choice.voteCount,
-        })),
-      });
-    },
-    onError() {
-      toast.update({
-        theme: 'error',
-        message: '투표 내용이 저장되지 않았습니다.',
-      });
-    },
-  });
-  const { mutate: deleteVote } = trpc.vote.delete.useMutation({
-    onSuccess() {
+          })),
+        });
+        return;
+      }
+
+      const { pollChoiceId } = voteData;
       updatePoll({
         ...data,
-        voteId: undefined,
         choices: choices.map((choice) => ({
           ...choice,
-          voted: false,
-          voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
+          selected: pollChoiceId === choice.id,
+          voteCount:
+            pollChoiceId === choice.id
+              ? choice.voteCount + 1
+              : choice.selected
+              ? choice.voteCount - 1
+              : choice.voteCount,
         })),
       });
     },
@@ -102,32 +76,17 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
       <div className="mt-2 flex flex-col gap-2">
         {choices
           .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
-          .map(({ id, main, sub, voteCount, voted }, index) => (
+          .map(({ id: choiceId, main, sub, voteCount, selected }, index) => (
             <PollChoiceItem
               id={index}
               key={index}
               mainText={main}
               subText={sub}
-              isSelected={voted}
-              showResult={!!voteId}
+              isSelected={selected}
+              showResult={voted}
               voteCountRate={(voteCount / totalVoteCount) * 100}
               onClick={() => {
-                if (voteId === undefined) {
-                  createVote({
-                    userId: 1,
-                    choiceId: id,
-                  });
-
-                  return;
-                }
-
-                voted
-                  ? deleteVote({ id: voteId })
-                  : updateVote({
-                      id: voteId,
-                      userId: 1,
-                      choiceId: id,
-                    });
+                createVote({ pollId: id, choiceId });
               }}
             />
           ))}
