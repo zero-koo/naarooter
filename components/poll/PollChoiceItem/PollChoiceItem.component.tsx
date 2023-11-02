@@ -43,7 +43,7 @@ export default function PollChoiceItem({
             <div className={'mb-0.5 mt-1 text-xs opacity-80'}>{subText}</div>
           )}
         </div>
-        <div className="ml-auto flex w-11 shrink-0 justify-end">
+        <div className="ml-auto flex min-h-[24px] w-11 shrink-0 justify-end">
           {showResult ? (
             <div className="font-bold">
               <span className="vert">{voteCountRate.toFixed(0)}</span>
