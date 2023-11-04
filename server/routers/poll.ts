@@ -8,12 +8,14 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { privateProcedure, publicProcedure, router } from '../trpc';
+import { PollTable } from '../models/PollTable';
 
 /**
  * Default selector for Post.
  * It's important to always explicitly say which fields you want to return in order to not leak extra information
  * @see https://github.com/prisma/prisma/issues/9353
  */
+
 const defaultPollSelect = (userId: string | undefined) =>
   Prisma.validator<Prisma.PollSelect>()({
     id: true,
@@ -164,5 +166,60 @@ export const pollRouter = router({
         select: defaultPollSelect(ctx.auth.userId ?? undefined),
       });
       return poll;
+    }),
+  detail: privateProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+      })
+    )
+    .query(async ({ input }) => {
+      const poll = await prisma.poll.findUnique({
+        where: {
+          id: input.id,
+        },
+        select: {
+          choices: {
+            select: {
+              id: true,
+              index: true,
+            },
+          },
+          votes: {
+            select: {
+              pollChoiceId: true,
+              author: {
+                select: {
+                  mbti: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!poll) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No poll with id '${input.id}'`,
+        });
+      }
+
+      const pollTable = new PollTable(
+        poll.votes.map((vote) => ({
+          choiceId: vote.pollChoiceId,
+          mbti: vote.author.mbti,
+        })),
+        poll.choices
+          .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
+          .map((choice) => choice.id)
+      );
+
+      return {
+        choices: poll.choices
+          .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
+          .map((choice) => choice.id),
+        counts: pollTable.countByChoiceToMBTI,
+      };
     }),
 });

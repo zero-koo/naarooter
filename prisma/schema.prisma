@@ -15,43 +15,32 @@ model User {
   id       String     @id @default(uuid())
   email    String     @unique
   name     String?
+  mbti      MBTI
+
   polls    Poll[]
   votes    Vote[]
-  UserMbti UserMbti[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
-model UserMbti {
-  id        Int      @id @default(autoincrement())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  ei        EI
-  sn        SN
-  ft        FT
-  jp        JP
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-enum EI {
-  E
-  I
-}
-
-enum SN {
-  S
-  N
-}
-
-enum FT {
-  F
-  T
-}
-
-enum JP {
-  J
-  P
+enum MBTI {
+  ISTJ
+  ISFJ
+  INFJ
+  INTJ
+  ISTP
+  ISFP
+  INFP
+  INTP
+  ESTP
+  ESFP
+  ENFP
+  ENTP
+  ESTJ
+  ESFJ
+  ENFJ
+  ENTJ
 }
 
 model Poll {

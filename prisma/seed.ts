@@ -7,14 +7,7 @@ async function main() {
     create: {
       id: 'user_2XWzthp7ZkYUJsVJGVfqsDfBrHR',
       email: 'berksmile@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'N',
-          ft: 'T',
-          jp: 'P',
-        },
-      },
+      mbti: 'INTP',
       polls: {
         create: [
           {
@@ -143,14 +136,7 @@ async function main() {
     create: {
       id: 'user_2XZhhCAYmqcTyFcUbaaAqFL0MIa',
       email: 'inzerokoo@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'S',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ISFJ',
       votes: {
         create: [
           {
@@ -178,14 +164,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+1@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'N',
-          ft: 'T',
-          jp: 'P',
-        },
-      },
+      mbti: 'ENTP',
       votes: {
         create: [
           {
@@ -213,14 +192,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+2@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'S',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ISFJ',
       votes: {
         create: [
           {
@@ -248,14 +220,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+3@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'N',
-          ft: 'T',
-          jp: 'P',
-        },
-      },
+      mbti: 'ENTP',
       votes: {
         create: [
           {
@@ -283,14 +248,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+4@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'S',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ISFJ',
       votes: {
         create: [
           {
@@ -306,14 +264,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+5@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'N',
-          ft: 'F',
-          jp: 'P',
-        },
-      },
+      mbti: 'ENFP',
       votes: {
         create: [
           {
@@ -329,14 +280,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+6@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'N',
-          ft: 'F',
-          jp: 'P',
-        },
-      },
+      mbti: 'INFP',
       votes: {
         create: [
           {
@@ -352,14 +296,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+7@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'S',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ESFJ',
       votes: {
         create: [
           {
@@ -375,14 +312,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+7@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'S',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ESFJ',
       votes: {
         create: [
           {
@@ -398,14 +328,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+8@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'S',
-          ft: 'F',
-          jp: 'P',
-        },
-      },
+      mbti: 'ISFP',
       votes: {
         create: [
           {
@@ -421,14 +344,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+9@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'N',
-          ft: 'T',
-          jp: 'J',
-        },
-      },
+      mbti: 'INTJ',
       votes: {
         create: [
           {
@@ -444,14 +360,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+10@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'N',
-          ft: 'T',
-          jp: 'J',
-        },
-      },
+      mbti: 'ENTJ',
       votes: {
         create: [
           {
@@ -467,14 +376,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+11@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'N',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'INFJ',
       votes: {
         create: [
           {
@@ -490,14 +392,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+12@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'N',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'INFJ',
       votes: {
         create: [
           {
@@ -513,14 +408,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+13@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'I',
-          sn: 'N',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'INFJ',
       votes: {
         create: [
           {
@@ -536,14 +424,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+14@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'N',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ENFJ',
       votes: {
         create: [
           {
@@ -559,14 +440,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+15@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'N',
-          ft: 'F',
-          jp: 'J',
-        },
-      },
+      mbti: 'ENTJ',
       votes: {
         create: [
           {
@@ -582,14 +456,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+16@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'S',
-          ft: 'T',
-          jp: 'P',
-        },
-      },
+      mbti: 'ISTP',
       votes: {
         create: [
           {
@@ -605,14 +472,7 @@ async function main() {
     update: {},
     create: {
       email: 'inzerokoo+17@gmail.com',
-      UserMbti: {
-        create: {
-          ei: 'E',
-          sn: 'S',
-          ft: 'T',
-          jp: 'J',
-        },
-      },
+      mbti: 'ESTJ',
       votes: {
         create: [
           {

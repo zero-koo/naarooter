@@ -6,6 +6,8 @@ import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { usePollQuery } from '@/hooks/queries/usePollQuery';
 
 import PollSubmitForm from './PollSubmitForm';
+import React from 'react';
+import PollDetailSection from './PollDetailSection';
 
 interface PollPageProps {
   id: string;
@@ -25,7 +27,10 @@ export default function PollPage({ id }: PollPageProps) {
         </button>
       </div>
       {poll ? (
-        <PollSubmitForm key={poll.id} id={poll.id} />
+        <React.Fragment key={poll.id}>
+          <PollSubmitForm id={poll.id} />
+          <PollDetailSection id={poll.id} />
+        </React.Fragment>
       ) : (
         <div>loading</div>
       )}
