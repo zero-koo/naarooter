@@ -12,16 +12,17 @@ datasource db {
 }
 
 model User {
-  id       String     @id @default(uuid())
-  email    String     @unique
-  name     String?
-  mbti      MBTI
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String?
+  mbti  MBTI
 
-  polls    Poll[]
-  votes    Vote[]
+  polls Poll[]
+  votes Vote[]
+  comments   Comment[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
 }
 
 enum MBTI {
@@ -52,10 +53,13 @@ model Poll {
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
 
-  votes      Vote[]
+  votes Vote[]
+
+  comment   Comment[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model PollChoice {
@@ -81,6 +85,26 @@ model Vote {
 
   pollChoiceId String
   PollChoice   PollChoice @relation(fields: [pollChoiceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+
+  text String
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  pollId String
+  poll   Poll   @relation(fields: [pollId], references: [id])
+
+  childComments  Comment[] @relation("ChildComments")
+
+  parentCommentId Int?
+  parentComment  Comment?  @relation("ChildComments", fields: [parentCommentId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

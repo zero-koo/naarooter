@@ -128,6 +128,22 @@ async function main() {
           },
         ],
       },
+      comments: {
+        create: [
+          {
+            pollId: 'c84d8367-460a-4772-b2dd-42170110d774',
+            text: 'A은 소심하다.',
+          },
+          {
+            pollId: 'c84d8367-460a-4772-b2dd-42170110d774',
+            text: 'B형은 다혈질',
+          },
+          {
+            pollId: 'c84d8367-460a-4772-b2dd-42170110d774',
+            text: 'AB형은 싸이코임',
+          },
+        ],
+      },
     },
   });
   await prisma.user.upsert({

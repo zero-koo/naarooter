@@ -223,4 +223,56 @@ export const pollRouter = router({
         maxCount: pollTable.maxCountByChoiceToMBTI,
       };
     }),
+  comment: privateProcedure
+    .input(
+      z.object({
+        pollId: z.string().uuid(),
+        limit: z.number().min(1).max(100).default(20),
+        cursor: z.number().nullish(),
+        initialCursor: z.number().nullish(),
+      })
+    )
+    .query(async ({ input }) => {
+      const cursor = input.cursor ?? input.initialCursor;
+
+      const comments = await prisma.comment.findMany({
+        select: {
+          id: true,
+          author: {
+            select: {
+              id: true,
+              mbti: true,
+              name: true,
+            },
+          },
+          text: true,
+          updatedAt: true,
+        },
+        take: input.limit + 1,
+        where: {
+          pollId: input.pollId,
+        },
+        cursor: cursor
+          ? {
+              id: cursor,
+            }
+          : undefined,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      let nextCursor: number | undefined = undefined;
+
+      if (comments.length > input.limit) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const lastItem = comments.pop()!;
+        nextCursor = lastItem.id;
+      }
+
+      return {
+        comments,
+        nextCursor,
+      };
+    }),
 });
