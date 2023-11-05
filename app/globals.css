@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; 
+
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+  }
+
   input {
     background: none;
     outline: none;
