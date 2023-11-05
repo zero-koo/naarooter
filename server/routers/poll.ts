@@ -220,6 +220,7 @@ export const pollRouter = router({
           .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
           .map((choice) => choice.id),
         counts: pollTable.countByChoiceToMBTI,
+        maxCount: pollTable.maxCountByChoiceToMBTI,
       };
     }),
 });

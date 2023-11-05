@@ -4,8 +4,7 @@
 
 @layer base {
   * {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; 
+    -ms-overflow-style: none; /* IE and Edge */ 
 
     &::-webkit-scrollbar {
       display: none; /* Chrome, Safari, Opera */
@@ -36,6 +35,13 @@
   button:disabled {
     cursor: not-allowed;
     opacity: 0.4;
+  }
+}
+
+@layer utilities {
+  .text-vertical {
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
   }
 }
 

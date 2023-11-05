@@ -1,3 +1,5 @@
+import * as d3 from 'd3';
+
 const mbtis = [
   'ISTJ',
   'ISFJ',
@@ -27,20 +29,20 @@ type PollTableRow = {
 export class PollTable {
   constructor(private rows: PollTableRow[], private choices: string[]) {}
 
-  get countByChoiceToMBTI(): Record<string, Record<MBTI, number>> {
-    return this.rows.reduce(
-      (matrix, { choiceId, mbti }) => {
-        matrix[choiceId][mbti] += 1;
-        return matrix;
-      },
-      this.choices.reduce((matrix, choice) => {
-        matrix[choice] = mbtis.reduce((map, mbti) => {
-          map[mbti] = 0;
-          return map;
-        }, {} as Record<MBTI, number>);
+  get countByChoiceToMBTI() {
+    return d3.rollup(
+      this.rows,
+      (v) => v.length,
+      (r) => r.choiceId,
+      (r) => r.mbti
+    );
+  }
 
-        return matrix;
-      }, {} as Record<string, Record<MBTI, number>>)
+  get maxCountByChoiceToMBTI(): number {
+    return (
+      d3.max(this.countByChoiceToMBTI.values(), (row) =>
+        d3.max(row.values())
+      ) ?? 0
     );
   }
 }
