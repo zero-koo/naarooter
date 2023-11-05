@@ -1,6 +1,12 @@
 import { usePollDetailQuery } from '@/hooks/queries/usePollDetailQuery';
 import { Roboto_Mono } from 'next/font/google';
 import { twMerge } from 'tailwind-merge';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/Popover';
+import { usePollQuery } from '@/hooks/queries/usePollQuery';
 
 const roboto = Roboto_Mono({
   weight: '500',
@@ -29,18 +35,19 @@ const mbtis = [
 type MBTI = (typeof mbtis)[number];
 
 const PollDetailSection = ({ id }: { id: string }) => {
-  const { data } = usePollDetailQuery(id);
-  if (!data) return <section>loading</section>;
-  console.log(data);
+  const { data: poll } = usePollQuery(id);
+  const { data: pollDetail } = usePollDetailQuery(id);
 
-  data.choices.forEach((choice) => {
-    console.log(data.counts.get(choice)?.get('INTP'));
+  if (!pollDetail) return <section>loading</section>;
+
+  pollDetail.choices.forEach((choice) => {
+    console.log(pollDetail.counts.get(choice)?.get('INTP'));
   });
 
   return (
     <section className="mt-2 bg-base-200 p-2 pl-1.5">
       <div className="flex flex-col gap-1">
-        {data.choices.map((choice, index) => (
+        {pollDetail.choices.map((choice, index) => (
           <div key={choice} className="flex gap-1">
             <div
               className={
@@ -52,10 +59,10 @@ const PollDetailSection = ({ id }: { id: string }) => {
             {mbtis.map((mbti) => (
               <PollChartCell
                 key={mbti}
-                count={data.counts.get(choice)?.get(mbti) ?? 0}
-                maxCount={data.maxCount ?? 1}
                 mbti={mbti}
-                choiceId={choice}
+                choice={poll.choices[index].main}
+                count={pollDetail.counts.get(choice)?.get(mbti) ?? 0}
+                maxCount={pollDetail.maxCount ?? 1}
               />
             ))}
           </div>
@@ -82,23 +89,42 @@ const PollDetailSection = ({ id }: { id: string }) => {
 export default PollDetailSection;
 
 const PollChartCell = ({
+  choice,
+  mbti,
   count,
   maxCount,
 }: {
-  choiceId: string;
+  choice: string;
   mbti: MBTI;
   count: number;
   maxCount: number;
 }) => {
   return (
-    <div className="relative flex flex-1 items-center justify-center">
-      <div className="z-0 w-full rounded bg-base-100 pb-[100%]"></div>
-      <div
-        className="absolute z-10 h-full w-full rounded bg-primary"
-        style={{
-          opacity: count / maxCount,
-        }}
-      ></div>
-    </div>
+    <Popover>
+      <PopoverTrigger className="relative flex flex-1 items-center justify-center">
+        <div className="z-0 w-full rounded bg-base-100 pb-[100%]"></div>
+        <div
+          className="absolute z-10 h-full w-full rounded bg-primary hover:bg-primary-focus"
+          style={{
+            opacity: count / maxCount,
+          }}
+        ></div>
+      </PopoverTrigger>
+      <PopoverContent
+        className="min-w-[40px] max-w-[100px] overflow-hidden rounded-md border-none bg-popover/80 p-1 px-1.5 text-xs leading-normal"
+        align="start"
+        alignOffset={-5}
+        collisionPadding={5}
+      >
+        <div>
+          <span className="font-semibold">{count}</span>
+          <span className="ml-[1px] text-[8px]">명</span>
+        </div>
+        <div className="gap-x-0.5 text-[8px]">
+          <div className="truncate">{choice}</div>
+          <div className="">{mbti}</div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
