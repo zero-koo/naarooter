@@ -91,6 +91,7 @@ export const pollRouter = router({
       return {
         items: items.map((item) => ({
           id: item.id,
+          authorId: item.authorId,
           title: item.title,
           description: item.description,
           choices: item.choices.map((choice) => ({
@@ -126,6 +127,7 @@ export const pollRouter = router({
       }
       return {
         id: poll.id,
+        authorId: poll.authorId,
         title: poll.title,
         description: poll.description,
         choices: poll.choices.map((choice) => ({

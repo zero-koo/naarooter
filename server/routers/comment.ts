@@ -17,32 +17,35 @@ export const commentRouter = router({
     .query(async ({ input }) => {
       const cursor = input.cursor ?? input.initialCursor;
 
-      const comments = await prisma.comment.findMany({
-        select: {
-          id: true,
-          author: {
-            select: {
-              id: true,
-              mbti: true,
-              name: true,
+      const [comments, count] = await prisma.$transaction([
+        prisma.comment.findMany({
+          select: {
+            id: true,
+            author: {
+              select: {
+                id: true,
+                mbti: true,
+                name: true,
+              },
             },
+            text: true,
+            updatedAt: true,
           },
-          text: true,
-          updatedAt: true,
-        },
-        take: input.limit + 1,
-        where: {
-          pollId: input.pollId,
-        },
-        cursor: cursor
-          ? {
-              id: cursor,
-            }
-          : undefined,
-        orderBy: {
-          createdAt: 'desc',
-        },
-      });
+          take: input.limit + 1,
+          where: {
+            pollId: input.pollId,
+          },
+          cursor: cursor
+            ? {
+                id: cursor,
+              }
+            : undefined,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        }),
+        prisma.comment.count({ where: { pollId: input.pollId } }),
+      ]);
 
       let nextCursor: number | undefined = undefined;
       if (comments.length > input.limit) {
@@ -54,6 +57,7 @@ export const commentRouter = router({
       return {
         comments,
         nextCursor,
+        totalCount: count,
       };
     }),
   add: privateProcedure

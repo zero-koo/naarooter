@@ -89,11 +89,22 @@
     @apply border-border;
   }
 
+  textarea:focus-visible {
+    outline: none;
+  }
+
 }
 
 @layer utilities {
   .text-vertical {
     text-orientation: mixed;
     writing-mode: vertical-rl;
+  }
+
+  .dot-between + .dot-between {
+    &::before {
+      content: '·';
+      margin-inline: 0.25em;
+    }
   }
 }
