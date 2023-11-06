@@ -16,6 +16,17 @@ import { trpc } from '@/client/trpcClient';
 import { useUser } from '@clerk/nextjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/AlertDialog';
 
 interface PollCommentSectionProps {
   pollId: string;
@@ -134,15 +145,36 @@ const PollComment = ({
                     <PencilIcon size={14} />
                     <div>수정</div>
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="flex items-center gap-2 p-1 py-1.5 opacity-70"
-                    onClick={() => {
-                      removeComment({ id });
-                    }}
-                  >
-                    <Trash2Icon size={14} />
-                    <div>삭제</div>
-                  </DropdownMenuItem>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 p-1 py-1.5 opacity-70"
+                        onSelect={(e) => e.preventDefault()}
+                      >
+                        <Trash2Icon size={14} />
+                        <div>삭제</div>
+                      </DropdownMenuItem>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>댓글 삭제</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          댓글을 완전히 삭제할까요?
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          variant={'destructive'}
+                          onClick={() => {
+                            removeComment({ id });
+                          }}
+                        >
+                          삭제
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
