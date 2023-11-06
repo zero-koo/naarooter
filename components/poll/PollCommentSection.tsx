@@ -42,7 +42,9 @@ const PollCommentSection = ({ pollId }: PollCommentSectionProps) => {
   return (
     <section className="mt-2 bg-base-200 px-3 py-1">
       <div className="flex flex-col">
-        <div className="py-2 font-semibold">{`댓글 ${commentsData?.pages[0].totalCount}개`}</div>
+        {commentsData?.pages[0].totalCount && (
+          <div className="py-2 font-semibold">{`댓글 ${commentsData?.pages[0].totalCount}개`}</div>
+        )}
         {isSignedIn && (
           <div className="mb-1 py-1">
             <PollCommentEdit
