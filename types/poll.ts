@@ -14,7 +14,7 @@ export type TPoll = {
 
 export type PollChoiceInput = {
   main: string;
-  sub: string;
+  image?: File;
 };
 
 export type PollChoice = PollChoiceInput & {

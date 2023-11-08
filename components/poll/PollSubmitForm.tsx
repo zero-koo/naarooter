@@ -76,20 +76,22 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
       <div className="mt-2 flex flex-col gap-2">
         {choices
           .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
-          .map(({ id: choiceId, main, sub, voteCount, selected }, index) => (
-            <PollChoiceItem
-              id={index}
-              key={index}
-              mainText={main}
-              subText={sub}
-              isSelected={selected}
-              showResult={voted}
-              voteCountRate={(voteCount / totalVoteCount) * 100}
-              onClick={() => {
-                createVote({ pollId: id, choiceId });
-              }}
-            />
-          ))}
+          .map(
+            ({ id: choiceId, main, imageUrl, voteCount, selected }, index) => (
+              <PollChoiceItem
+                id={index}
+                key={index}
+                mainText={main}
+                imageUrl={imageUrl}
+                isSelected={selected}
+                showResult={voted}
+                voteCountRate={(voteCount / totalVoteCount) * 100}
+                onClick={() => {
+                  createVote({ pollId: id, choiceId });
+                }}
+              />
+            )
+          )}
       </div>
       <div className="mt-3 flex px-1 text-xs opacity-75">
         <div>{numberFormat(totalVoteCount)}명 투표</div>

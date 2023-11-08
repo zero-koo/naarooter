@@ -21,7 +21,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     mainText: 'A형',
-    subText: '소심하다',
     isSelected: false,
     showResult: false,
     voteCountRate: 25,
@@ -48,7 +47,6 @@ const DefaultPollChoiceItem = (args: Parameters<typeof PollChoiceItem>[0]) => {
 export const BeforeVote: Story = {
   args: {
     mainText: 'A형',
-    subText: '소심하다',
     isSelected: false,
     showResult: false,
     voteCountRate: 25,
@@ -65,7 +63,6 @@ export const BeforeVote: Story = {
 export const AfterVote: Story = {
   args: {
     mainText: 'A형',
-    subText: '소심하다',
     isSelected: true,
     showResult: true,
     voteCountRate: 25,

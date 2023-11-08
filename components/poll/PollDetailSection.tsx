@@ -62,7 +62,7 @@ const PollDetailSection = ({ id }: { id: string }) => {
                 mbti={mbti}
                 choice={poll.choices[index].main}
                 count={pollDetail.counts.get(choice)?.get(mbti) ?? 0}
-                maxCount={pollDetail.maxCount ?? 1}
+                maxCount={pollDetail.maxCount || 1}
               />
             ))}
           </div>

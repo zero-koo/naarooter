@@ -1,21 +1,27 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { trpc } from '@/client/trpcClient';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, MinusCircle, PlusIcon, XIcon } from 'lucide-react';
-import { SubmitErrorHandler, useFieldArray, useForm } from 'react-hook-form';
+import {
+  Controller,
+  SubmitErrorHandler,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
 import z from 'zod';
 
 import { PollInput } from '@/types/poll';
 import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/Button';
-import DoubleTextInput from '@/components/DoubleTextInput';
 import TextArea from '@/components/TextArea';
 import TextInput from '@/components/TextInput';
 import { Toggle } from '@/components/Toggle';
+import { SingleImageUploader } from '@/components/SingleImageUploader';
+import { cn } from '@/lib/utils';
+import { useEdgeStore } from '@/lib/edgestore';
 
 export default function CreatePollPage() {
   return <PollForm />;
@@ -27,44 +33,58 @@ const MAX_CHOICE_COUNT = 5;
 const MAX_POLL_TITLE_LENGTH = 100;
 const MAX_POLL_DESCRIPTION_LENGTH = 200;
 const MAX_CHOICE_TITLE_LENGTH = 100;
-const MAX_CHOICE_DESCRIPTION_LENGTH = 200;
 
-const pollFormSchema = z.object({
-  title: z
-    .string()
-    .min(1, { message: '제목을 입력하세요.' })
-    .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
-  description: z.string(),
-  choices: z.array(
-    z.object({
-      main: z.string().min(1, { message: '보기를 입력하세요.' }),
-      sub: z.string(),
-    })
-  ),
-});
+const pollFormSchema = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: '제목을 입력하세요.' })
+      .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
+    description: z.string(),
+    useImage: z.boolean(),
+    choices: z.array(
+      z.object({
+        main: z.string().min(1, { message: '보기를 입력하세요.' }),
+        image: z.instanceof(File).optional(),
+      })
+    ),
+  })
+  .refine(
+    ({ useImage, choices }) => {
+      if (!useImage) return true;
+      return choices.every((choice) => !!choice.image);
+    },
+    {
+      message: '이미지를 삽입하세요.',
+    }
+  );
 
 function PollForm() {
   const router = useRouter();
   const { toast } = useToast();
 
+  const { edgestore } = useEdgeStore();
+
   const {
     control,
     formState: { errors },
     register,
+    watch,
     handleSubmit,
-  } = useForm<PollInput>({
+  } = useForm<z.infer<typeof pollFormSchema>>({
     resolver: zodResolver(pollFormSchema),
     defaultValues: {
       title: '',
       description: '',
+      useImage: false,
       choices: [
         {
           main: '',
-          sub: '',
+          image: undefined,
         },
         {
           main: '',
-          sub: '',
+          image: undefined,
         },
       ],
     },
@@ -79,13 +99,13 @@ function PollForm() {
     },
   });
 
-  const [expanded, setExanded] = useState(false);
+  const useImage = watch('useImage');
 
   const handleAddChoice = () => {
     if (fields.length >= MAX_CHOICE_COUNT) return;
     append({
       main: '',
-      sub: '',
+      image: undefined,
     });
   };
 
@@ -99,14 +119,28 @@ function PollForm() {
       router.push(`/poll/${data.id}`);
     },
   });
-  const onSubmit = (data: PollInput) =>
+  const onSubmit = async (data: PollInput) => {
+    const imageUrls = useImage
+      ? await Promise.all(
+          data.choices.map((choice) =>
+            edgestore.publicFiles
+              .upload({
+                file: choice.image!,
+              })
+              .then((image) => image.url)
+          )
+        )
+      : data.choices.map(() => undefined);
+
     createPoll({
       ...data,
       choices: data.choices.map((choice, index) => ({
-        ...choice,
+        main: choice.main,
+        imageUrl: imageUrls[index],
         index,
       })),
     });
+  };
 
   const onInvalid: SubmitErrorHandler<PollInput> = (e) => {
     const message =
@@ -151,39 +185,38 @@ function PollForm() {
         <div className="mt-2 flex items-center pl-3 pr-1">
           <div className="form-control ml-auto">
             <label className="label flex cursor-pointer gap-2 py-0">
-              <span className="label-text text-xs font-medium">설명란</span>
-              <Toggle
-                theme="primary"
-                size="xs"
-                checked={expanded}
-                onChange={(e) => setExanded(e.currentTarget.checked)}
-              />
+              <span className="label-text text-xs font-medium">이미지</span>
+              <Toggle theme="primary" size="xs" {...register('useImage')} />
             </label>
           </div>
         </div>
         {fields.map((field, index) => (
-          <div key={field.id} className="relative">
-            <DoubleTextInput
-              main={
-                <DoubleTextInput.Main
-                  className="!pr-11"
-                  placeholder={`보기 ${index + 1}`}
-                  maxLength={MAX_CHOICE_TITLE_LENGTH}
-                  {...register(`choices.${index}.main`)}
+          <div
+            key={field.id}
+            className="relative flex items-center overflow-hidden rounded-lg border border-neutral pr-3 focus-within:border-primary-focus focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
+          >
+            {useImage && (
+              <div className="flex h-16 w-16 items-center justify-center border-r border-neutral">
+                <Controller
+                  control={control}
+                  name={`choices.${index}.image`}
+                  render={({ field: { value, onChange } }) => (
+                    <SingleImageUploader value={value} onChange={onChange} />
+                  )}
                 />
-              }
-              sub={
-                <DoubleTextInput.Sub
-                  expanded={expanded}
-                  placeholder={'보기에 대한 설명을 적어주세요'}
-                  maxLength={MAX_CHOICE_DESCRIPTION_LENGTH}
-                  {...register(`choices.${index}.sub`)}
-                />
-              }
-              error={!!errors.choices?.[index]?.main?.message}
+              </div>
+            )}
+            <input
+              className={cn('input-md flex h-12 flex-1 px-3', {
+                'h-16': useImage,
+              })}
+              placeholder={`보기 ${index + 1}`}
+              maxLength={MAX_CHOICE_TITLE_LENGTH}
+              {...register(`choices.${index}.main`)}
             />
+
             <button
-              className="absolute right-1.5 top-2 p-1"
+              className="p-1"
               disabled={fields.length <= MIN_CHOICE_COUNT}
               onClick={() => remove(index)}
             >

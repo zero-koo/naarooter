@@ -87,6 +87,10 @@
 
   * {
     @apply border-border;
+
+    &:focus-visible {
+      outline: none
+    }
   }
 
   textarea:focus-visible {

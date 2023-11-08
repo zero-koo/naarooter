@@ -17,12 +17,12 @@ model User {
   name  String?
   mbti  MBTI?
 
-  polls Poll[]
-  votes Vote[]
-  comments   Comment[]
+  polls    Poll[]
+  votes    Vote[]
+  comments Comment[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum MBTI {
@@ -55,18 +55,17 @@ model Poll {
 
   votes Vote[]
 
-  comment   Comment[]
+  comment Comment[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model PollChoice {
-  id    String @id @default(uuid())
-  index Int
-  main  String
-  sub   String
+  id       String  @id @default(uuid())
+  index    Int
+  main     String
+  imageUrl String?
 
   pollId String
   poll   Poll   @relation(fields: [pollId], references: [id])
@@ -101,10 +100,10 @@ model Comment {
   pollId String
   poll   Poll   @relation(fields: [pollId], references: [id])
 
-  childComments  Comment[] @relation("ChildComments")
+  childComments Comment[] @relation("ChildComments")
 
   parentCommentId Int?
-  parentComment  Comment?  @relation("ChildComments", fields: [parentCommentId], references: [id])
+  parentComment   Comment? @relation("ChildComments", fields: [parentCommentId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

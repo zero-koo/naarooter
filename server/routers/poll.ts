@@ -31,7 +31,7 @@ const defaultPollSelect = (userId: string | undefined) =>
           },
         },
         main: true,
-        sub: true,
+        imageUrl: true,
         index: true,
       },
     },
@@ -97,7 +97,7 @@ export const pollRouter = router({
           choices: item.choices.map((choice) => ({
             id: choice.id,
             main: choice.main,
-            sub: choice.sub,
+            imageUrl: choice.imageUrl,
             index: choice.index,
             voteCount: choice._count.votes,
             selected: item.votes[0]?.pollChoiceId === choice.id,
@@ -133,7 +133,7 @@ export const pollRouter = router({
         choices: poll.choices.map((choice) => ({
           id: choice.id,
           main: choice.main,
-          sub: choice.sub,
+          imageUrl: choice.imageUrl,
           index: choice.index,
           voteCount: choice._count.votes,
           selected: poll.votes[0]?.pollChoiceId === choice.id,
@@ -150,7 +150,7 @@ export const pollRouter = router({
         choices: z.array(
           z.object({
             main: z.string().min(1, 'Required'),
-            sub: z.string(),
+            imageUrl: z.string().optional(),
             index: z.number(),
           })
         ),
@@ -210,7 +210,7 @@ export const pollRouter = router({
       const pollTable = new PollTable(
         poll.votes.map((vote) => ({
           choiceId: vote.pollChoiceId,
-          mbti: vote.author.mbti,
+          mbti: vote.author.mbti!,
         })),
         poll.choices
           .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))

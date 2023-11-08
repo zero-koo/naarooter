@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 import { ToastContainer } from '@/hooks/useToast';
 
 import styles from './layout.module.scss';
+import { EdgeStoreProvider } from '@/lib/edgestore';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={twMerge(inter.className, 'flex flex-col')}>
           <ClientProvider>
-            <div className={styles.container}>{children}</div>
+            <EdgeStoreProvider>
+              <div className={styles.container}>{children}</div>
+            </EdgeStoreProvider>
           </ClientProvider>
           <ToastContainer />
         </body>
