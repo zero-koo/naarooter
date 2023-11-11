@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { trpc } from '@/client/trpcClient';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, MinusCircle, PlusIcon, XIcon } from 'lucide-react';
+import { ArrowLeft, ArrowLeftIcon, MinusCircle, PlusIcon } from 'lucide-react';
 import {
   Controller,
   SubmitErrorHandler,
@@ -22,6 +22,15 @@ import { Toggle } from '@/components/Toggle';
 import { SingleImageUploader } from '@/components/SingleImageUploader';
 import { cn } from '@/lib/utils';
 import { useEdgeStore } from '@/lib/edgestore';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/Sheet';
+import PollSubmitPreview from '@/components/poll/PollSubmitPreview';
 
 export default function CreatePollPage() {
   return <PollForm />;
@@ -65,30 +74,25 @@ function PollForm() {
 
   const { edgestore } = useEdgeStore();
 
-  const {
-    control,
-    formState: { errors },
-    register,
-    watch,
-    handleSubmit,
-  } = useForm<z.infer<typeof pollFormSchema>>({
-    resolver: zodResolver(pollFormSchema),
-    defaultValues: {
-      title: '',
-      description: '',
-      useImage: false,
-      choices: [
-        {
-          main: '',
-          image: undefined,
-        },
-        {
-          main: '',
-          image: undefined,
-        },
-      ],
-    },
-  });
+  const { control, formState, register, watch, handleSubmit, getValues } =
+    useForm<z.infer<typeof pollFormSchema>>({
+      resolver: zodResolver(pollFormSchema),
+      defaultValues: {
+        title: '',
+        description: '',
+        useImage: false,
+        choices: [
+          {
+            main: '',
+            image: undefined,
+          },
+          {
+            main: '',
+            image: undefined,
+          },
+        ],
+      },
+    });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -109,7 +113,7 @@ function PollForm() {
     });
   };
 
-  const { mutate: createPoll } = trpc.poll.add.useMutation({
+  const { mutate: createPoll, isLoading } = trpc.poll.add.useMutation({
     onSuccess(data) {
       toast.update({
         message: '투표가 생성되었습니다.',
@@ -160,9 +164,63 @@ function PollForm() {
         <h1 className="absolute left-1/2 top-1/2 m-auto -translate-x-1/2 -translate-y-1/2 font-bold">
           설문 만들기
         </h1>
-        <Button size="sm" ghost onClick={handleSubmit(onSubmit, onInvalid)}>
-          완료
-        </Button>
+        <Sheet>
+          <SheetTrigger>
+            <Button
+              size="sm"
+              ghost
+              disabled={!formState.isValid || formState.isSubmitting}
+            >
+              완료
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="h-full w-full">
+            <SheetHeader className="p-3">
+              <SheetClose disabled={isLoading}>
+                <ArrowLeftIcon size={20} className="opacity-70" />
+              </SheetClose>
+            </SheetHeader>
+            <div className="p-3 pt-1">
+              <div className="flex items-center gap-2">
+                <SheetTitle>미리보기</SheetTitle>
+                <Button
+                  className="ml-auto"
+                  theme="primary"
+                  disabled={isLoading}
+                  onClick={handleSubmit(onSubmit, onInvalid)}
+                >
+                  생성하기
+                </Button>
+              </div>
+            </div>
+            <PollSubmitPreview
+              title={getValues('title')}
+              description={getValues('description')}
+              choices={getValues('choices')}
+            />
+            <div className="mt-1 p-3">
+              <div className="alert alert-warning flex items-start gap-2 rounded-lg bg-warning/80 p-2 text-start text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span>
+                  한 명 이상 투표가 진행된 설문은 작성자 임의로 수정 혹은 삭제할
+                  수 없습니다. 내용을 잘 확인해 주세요.
+                </span>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </header>
       <form
         className="flex flex-1 flex-col gap-2 overflow-auto p-3 pt-1"
@@ -171,7 +229,7 @@ function PollForm() {
         <TextInput
           className="shrink-0 font-semibold"
           placeholder="제목을 입력하세요"
-          error={!!errors.title?.message}
+          error={!!formState.errors.title?.message}
           maxLength={MAX_POLL_TITLE_LENGTH}
           {...register('title')}
         />
