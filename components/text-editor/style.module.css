@@ -1,0 +1,25 @@
+.container {
+  @apply textarea relative overflow-auto p-0 rounded-none;
+
+  .input {
+    @apply relative p-2 px-3 text-base-content text-base;
+
+    height: 300px;
+    outline: 0;
+    resize: none;
+    tab-size: 1;
+  }
+
+  .placeholder {
+    @apply left-4 right-4 top-2 text-base-content/70 text-base;
+
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    font-size: 15px;
+    pointer-events: none;
+    text-overflow: ellipsis;
+    user-select: none;
+    white-space: nowrap;
+  }
+}
