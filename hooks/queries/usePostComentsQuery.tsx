@@ -1,13 +1,12 @@
 import { trpc } from '@/client/trpcClient';
 
-export const usePollCommentsQuery = ({ pollId }: { pollId: string }) => {
+export const usePostCommentsQuery = ({ postId }: { postId: string }) => {
   return trpc.comment.comments.useInfiniteQuery(
     {
-      pollId,
+      postId,
     },
     {
       staleTime: Infinity,
-      cacheTime: Infinity,
       refetchOnWindowFocus: false,
     }
   );

@@ -8,7 +8,7 @@ import { usePollQuery } from '@/hooks/queries/usePollQuery';
 import PollSubmitForm from './PollSubmitForm';
 import React from 'react';
 import PollDetailSection from './PollDetailSection';
-import PollCommentSection from './PollCommentSection';
+import PostCommentSection from './PostCommentSection';
 
 interface PollPageProps {
   id: string;
@@ -31,7 +31,7 @@ export default function PollPage({ id }: PollPageProps) {
         <React.Fragment key={poll.id}>
           <PollSubmitForm id={poll.id} />
           <PollDetailSection id={poll.id} />
-          <PollCommentSection pollId={poll.id} />
+          <PostCommentSection postId={poll.postId} authorId={poll.authorId} />
         </React.Fragment>
       ) : (
         <div>loading</div>

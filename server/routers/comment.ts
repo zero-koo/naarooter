@@ -8,7 +8,7 @@ export const commentRouter = router({
   comments: privateProcedure
     .input(
       z.object({
-        pollId: z.string().uuid(),
+        postId: z.string().uuid(),
         limit: z.number().min(1).max(100).default(20),
         cursor: z.number().nullish(),
         initialCursor: z.number().nullish(),
@@ -28,12 +28,12 @@ export const commentRouter = router({
                 name: true,
               },
             },
-            text: true,
+            content: true,
             updatedAt: true,
           },
           take: input.limit + 1,
           where: {
-            pollId: input.pollId,
+            postId: input.postId,
           },
           cursor: cursor
             ? {
@@ -44,7 +44,7 @@ export const commentRouter = router({
             createdAt: 'desc',
           },
         }),
-        prisma.comment.count({ where: { pollId: input.pollId } }),
+        prisma.comment.count({ where: { postId: input.postId } }),
       ]);
 
       let nextCursor: number | undefined = undefined;
@@ -63,17 +63,17 @@ export const commentRouter = router({
   add: privateProcedure
     .input(
       z.object({
-        pollId: z.string().uuid(),
-        text: z.string(),
+        postId: z.string().uuid(),
+        content: z.string(),
         parentId: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       const comment = await prisma.comment.create({
         data: {
-          pollId: input.pollId,
+          postId: input.postId,
           authorId: ctx.auth.userId,
-          text: input.text,
+          content: input.content,
         },
       });
 
@@ -85,7 +85,7 @@ export const commentRouter = router({
     .input(
       z.object({
         id: z.number(),
-        text: z.string(),
+        content: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -114,7 +114,7 @@ export const commentRouter = router({
           id: input.id,
         },
         data: {
-          text: input.text,
+          content: input.content,
         },
       });
     }),

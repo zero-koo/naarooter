@@ -19,9 +19,14 @@ import { PollTable } from '../models/PollTable';
 const defaultPollSelect = (userId: string | undefined) =>
   Prisma.validator<Prisma.PollSelect>()({
     id: true,
-    title: true,
-    description: true,
-    authorId: true,
+    post: {
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        authorId: true,
+      },
+    },
     choices: {
       select: {
         id: true,
@@ -74,7 +79,9 @@ export const pollRouter = router({
             }
           : undefined,
         orderBy: {
-          createdAt: 'desc',
+          post: {
+            createdAt: 'desc',
+          },
         },
       });
 
@@ -90,18 +97,20 @@ export const pollRouter = router({
 
       return {
         items: items.map((item) => ({
-          id: item.id,
-          authorId: item.authorId,
-          title: item.title,
-          description: item.description,
-          choices: item.choices.map((choice) => ({
-            id: choice.id,
-            main: choice.main,
-            imageUrl: choice.imageUrl,
-            index: choice.index,
-            voteCount: choice._count.votes,
-            selected: item.votes[0]?.pollChoiceId === choice.id,
-          })),
+          id: item!.id,
+          postId: item.post.id,
+          authorId: item.post.authorId,
+          title: item.post.title,
+          description: item.post.description,
+          choices:
+            item.choices.map((choice) => ({
+              id: choice.id,
+              main: choice.main,
+              imageUrl: choice.imageUrl,
+              index: choice.index,
+              voteCount: choice._count.votes,
+              selected: item.votes[0]?.pollChoiceId === choice.id,
+            })) ?? [],
           voted: item.votes.length > 0,
         })),
         nextCursor,
@@ -127,9 +136,10 @@ export const pollRouter = router({
       }
       return {
         id: poll.id,
-        authorId: poll.authorId,
-        title: poll.title,
-        description: poll.description,
+        postId: poll.post.id,
+        authorId: poll.post.authorId,
+        title: poll.post.title,
+        description: poll.post.description,
         choices: poll.choices.map((choice) => ({
           id: choice.id,
           main: choice.main,
@@ -159,15 +169,28 @@ export const pollRouter = router({
     .mutation(async ({ input, ctx }) => {
       const poll = await prisma.poll.create({
         data: {
-          ...input,
+          id: input.id,
+          post: {
+            create: {
+              title: input.title,
+              description: input.description,
+              type: 'POLL',
+              authorId: ctx.auth?.userId,
+            },
+          },
           choices: {
             create: input.choices,
           },
-          authorId: ctx.auth?.userId,
         },
         select: defaultPollSelect(ctx.auth.userId ?? undefined),
       });
-      return poll;
+      return {
+        id: poll.id,
+        postId: poll.post.id,
+        title: poll.post.title,
+        description: poll.post.description,
+        choices: poll.choices,
+      };
     }),
   detail: privateProcedure
     .input(
@@ -181,6 +204,7 @@ export const pollRouter = router({
           id: input.id,
         },
         select: {
+          postId: true,
           choices: {
             select: {
               id: true,
@@ -228,7 +252,7 @@ export const pollRouter = router({
   comment: privateProcedure
     .input(
       z.object({
-        pollId: z.string().uuid(),
+        postId: z.string().uuid(),
         limit: z.number().min(1).max(100).default(20),
         cursor: z.number().nullish(),
         initialCursor: z.number().nullish(),
@@ -247,12 +271,12 @@ export const pollRouter = router({
               name: true,
             },
           },
-          text: true,
+          content: true,
           updatedAt: true,
         },
         take: input.limit + 1,
         where: {
-          pollId: input.pollId,
+          postId: input.postId,
         },
         cursor: cursor
           ? {

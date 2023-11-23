@@ -8,42 +8,21 @@ import { z } from 'zod';
 
 import { privateProcedure, router } from '../trpc';
 
-const defaultMBTISelect = Prisma.validator<Prisma.UserMbtiSelect>()({
+const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,
-  ei: true,
-  sn: true,
-  ft: true,
-  jp: true,
+  mbti: true,
   updatedAt: true,
 });
 
 export const userRouter = router({
   mbti: privateProcedure.query(async ({ ctx }) => {
-    return await prisma.userMbti.findUnique({
+    return await prisma.user.findUnique({
       select: defaultMBTISelect,
       where: {
-        userId: ctx.auth.userId,
+        id: ctx.auth.userId,
       },
     });
   }),
-  createMbti: privateProcedure
-    .input(
-      z.object({
-        ei: z.enum(['E', 'I']),
-        sn: z.enum(['S', 'N']),
-        ft: z.enum(['F', 'T']),
-        jp: z.enum(['J', 'P']),
-      })
-    )
-    .mutation(async ({ input, ctx }) => {
-      return await prisma.userMbti.create({
-        select: defaultMBTISelect,
-        data: {
-          ...input,
-          userId: ctx.auth.userId,
-        },
-      });
-    }),
   updateMbti: privateProcedure
     .input(
       z.object({
@@ -54,14 +33,13 @@ export const userRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      return await prisma.userMbti.update({
+      return await prisma.user.update({
         select: defaultMBTISelect,
         where: {
-          userId: ctx.auth.userId,
+          id: ctx.auth.userId,
         },
         data: {
-          ...input,
-          userId: ctx.auth.userId,
+          mbti: `${input.ei}${input.sn}${input.ft}${input.jp}`,
         },
       });
     }),

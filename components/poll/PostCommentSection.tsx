@@ -1,5 +1,4 @@
-import { usePollCommentsQuery } from '@/hooks/queries/usePollComentsQuery';
-import { usePollQuery } from '@/hooks/queries/usePollQuery';
+import { usePostCommentsQuery } from '@/hooks/queries/usePostComentsQuery';
 import { cn, formatTimeAgo } from '@/lib/utils';
 import { MoreVerticalIcon, PencilIcon, Trash2Icon } from 'lucide-react';
 import {
@@ -28,14 +27,14 @@ import {
   AlertDialogTrigger,
 } from '../ui/AlertDialog';
 
-interface PollCommentSectionProps {
-  pollId: string;
+interface PostCommentSectionProps {
+  postId: string;
+  authorId: string;
 }
 
-const PollCommentSection = ({ pollId }: PollCommentSectionProps) => {
+const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
   const { user, isSignedIn } = useUser();
-  const { data: pollData } = usePollQuery(pollId);
-  const { data: commentsData } = usePollCommentsQuery({ pollId });
+  const { data: commentsData } = usePostCommentsQuery({ postId });
 
   const { mutate: addComment } = trpc.comment.add.useMutation();
 
@@ -51,8 +50,8 @@ const PollCommentSection = ({ pollId }: PollCommentSectionProps) => {
               hideButtonsByDefault
               onSave={(text) =>
                 addComment({
-                  pollId,
-                  text,
+                  postId,
+                  content: text,
                 })
               }
             />
@@ -65,11 +64,11 @@ const PollCommentSection = ({ pollId }: PollCommentSectionProps) => {
               <PollComment
                 key={comment.id}
                 id={comment.id}
-                text={comment.text}
+                text={comment.content?.toString() ?? ''}
                 authorMbti={comment.author.mbti!}
                 authorName={comment.author.name}
                 isMe={comment.author.id === user?.id}
-                isAuthor={comment.author.id === pollData.authorId}
+                isAuthor={comment.author.id === authorId}
                 updatedAt={comment.updatedAt}
               ></PollComment>
             ))}
@@ -79,7 +78,7 @@ const PollCommentSection = ({ pollId }: PollCommentSectionProps) => {
   );
 };
 
-export default PollCommentSection;
+export default PostCommentSection;
 
 const PollComment = ({
   id,
@@ -190,7 +189,7 @@ const PollComment = ({
           onSave={(text) => {
             updateComment({
               id,
-              text,
+              content: text,
             });
           }}
         />

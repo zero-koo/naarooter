@@ -69,7 +69,7 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
     <PollSubmitFormComponent
       id={id}
       title={title}
-      description={description}
+      description={description?.toString() ?? ''}
       choices={choices}
       totalVoteCount={totalVoteCount}
       showResult={voted}
