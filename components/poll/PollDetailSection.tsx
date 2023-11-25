@@ -40,10 +40,6 @@ const PollDetailSection = ({ id }: { id: string }) => {
 
   if (!pollDetail) return <section>loading</section>;
 
-  pollDetail.choices.forEach((choice) => {
-    console.log(pollDetail.counts.get(choice)?.get('INTP'));
-  });
-
   return (
     <section className="mt-2 bg-base-200 p-2 pl-1.5">
       <div className="flex flex-col gap-1">
