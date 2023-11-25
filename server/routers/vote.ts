@@ -32,15 +32,16 @@ export const voteRouter = router({
 
       // Delete
       if (vote.pollChoiceId === choiceId) {
-        return await prisma.vote.delete({
+        await prisma.vote.delete({
           where: {
             id: vote.id,
           },
         });
+        return;
       }
 
       // Update
-      await prisma.vote.update({
+      return await prisma.vote.update({
         data: {
           pollChoiceId: choiceId,
         },
