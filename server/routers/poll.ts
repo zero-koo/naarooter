@@ -16,7 +16,7 @@ import { PollTable } from '../models/PollTable';
  * @see https://github.com/prisma/prisma/issues/9353
  */
 
-const defaultPollSelect = (userId: string | undefined) =>
+const defaultPollSelect = (userId: string) =>
   Prisma.validator<Prisma.PollSelect>()({
     id: true,
     post: {
@@ -69,7 +69,7 @@ export const pollRouter = router({
       const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.poll.findMany({
-        select: defaultPollSelect(ctx.auth.userId ?? undefined),
+        select: defaultPollSelect(ctx.auth.userId ?? ''),
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {},
@@ -126,7 +126,7 @@ export const pollRouter = router({
       const { id } = input;
       const poll = await prisma.poll.findUnique({
         where: { id },
-        select: defaultPollSelect(ctx.auth.userId ?? undefined),
+        select: defaultPollSelect(ctx.auth.userId ?? ''),
       });
       if (!poll) {
         throw new TRPCError({
