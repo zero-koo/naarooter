@@ -15,6 +15,7 @@ export const usePollQuery = (id: string) => {
         return polls?.items.find((item) => item.id === id);
       },
       staleTime: Infinity,
+      cacheTime: 300 * 1000,
       refetchOnWindowFocus: false,
     }
   );

@@ -7,6 +7,7 @@ export const usePostCommentsQuery = ({ postId }: { postId: string }) => {
     },
     {
       staleTime: Infinity,
+      cacheTime: 300 * 1000,
       refetchOnWindowFocus: false,
     }
   );
