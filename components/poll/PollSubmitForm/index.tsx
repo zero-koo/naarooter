@@ -31,6 +31,7 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
       if (!voteData) {
         updatePoll({
           ...data,
+          voted: false,
           choices: choices.map((choice) => ({
             ...choice,
             selected: false,
@@ -45,6 +46,7 @@ function PollSubmitForm({ id, showLink = false }: PollSubmitFormProps) {
       const { pollChoiceId } = voteData;
       updatePoll({
         ...data,
+        voted: true,
         choices: choices.map((choice) => ({
           ...choice,
           selected: pollChoiceId === choice.id,
