@@ -15,6 +15,19 @@ const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
 });
 
 export const userRouter = router({
+  me: privateProcedure.query(async ({ ctx }) => {
+    return await prisma.user.findUnique({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        mbti: true,
+      },
+      where: {
+        id: ctx.auth.userId,
+      },
+    });
+  }),
   mbti: privateProcedure.query(async ({ ctx }) => {
     return await prisma.user.findUnique({
       select: defaultMBTISelect,
