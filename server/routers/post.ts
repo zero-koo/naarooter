@@ -14,12 +14,26 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   title: true,
   description: true,
   authorId: true,
+  author: {
+    select: {
+      id: true,
+      name: true,
+      mbti: true,
+    },
+  },
+  _count: {
+    select: {
+      comment: true,
+    },
+  },
+  createdAt: true,
 });
 
 export const postRouter = router({
   list: publicProcedure
     .input(
       z.object({
+        groupId: z.string().optional(),
         limit: z.number().min(1).max(100).default(20),
         cursor: z.string().nullish(),
         initialCursor: z.string().nullish(),
@@ -38,7 +52,10 @@ export const postRouter = router({
         select: defaultPostSelect,
         // get an extra item to know if there's a next page
         take: input.limit + 1,
-        where: {},
+        where: {
+          type: 'POST',
+          group: input.groupId,
+        },
         cursor: cursor
           ? {
               id: cursor,
@@ -99,11 +116,43 @@ export const postRouter = router({
           title: input.title,
           description: input.description,
           type: 'POST',
-          authorId: ctx.auth?.userId,
+          authorId: ctx.auth.userId,
         },
         select: defaultPostSelect,
       });
       return post;
+    }),
+  update: privateProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        title: z.string().min(1, 'Required').max(32),
+        description: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await prisma.post.update({
+        where: { id: input.id },
+        data: {
+          id: input.id,
+          title: input.title,
+          description: input.description,
+          type: 'POST',
+          authorId: ctx.auth.userId,
+        },
+        select: defaultPostSelect,
+      });
+    }),
+  delete: privateProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      return await prisma.post.delete({
+        where: { id: input.id },
+      });
     }),
   comment: privateProcedure
     .input(

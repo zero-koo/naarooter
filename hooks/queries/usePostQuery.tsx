@@ -15,6 +15,7 @@ export const usePostQuery = (id: string) => {
         return posts?.posts.find((post) => post.id === id);
       },
       staleTime: Infinity,
+      cacheTime: 300 * 1000,
       refetchOnWindowFocus: false,
     }
   );

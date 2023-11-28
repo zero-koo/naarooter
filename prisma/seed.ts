@@ -131,6 +131,35 @@ const polls: Readonly<Record<string, Poll>> = {
   },
 };
 
+type PostSeed = {
+  group: string;
+  title: string;
+  description: string;
+};
+
+const posts: PostSeed[] = [
+  {
+    group: 'i',
+    title: 'INTP 모여라!',
+    description: '손?!',
+  },
+  {
+    group: 'i',
+    title: 'ISFJ 모여라!',
+    description: '우리 존재 화이팅!',
+  },
+  {
+    group: 'i',
+    title: 'INFP 모여라!',
+    description: '손?!',
+  },
+  {
+    group: 'e',
+    title: 'ESTJ 모여라!',
+    description: '손?!',
+  },
+];
+
 const createVotes = () =>
   Object.values(polls).map((poll) => ({
     pollId: poll.id,
@@ -144,6 +173,7 @@ async function seedDefaultData() {
     create: {
       id: 'user_2XWzthp7ZkYUJsVJGVfqsDfBrHR',
       email: 'berksmile@gmail.com',
+      name: '질문봇',
       mbti: 'INTP',
       posts: {
         create: Object.values(polls).map((poll) => {
@@ -172,7 +202,14 @@ async function seedDefaultData() {
     create: {
       id: 'user_2XZhhCAYmqcTyFcUbaaAqFL0MIa',
       email: 'inzerokoo@gmail.com',
+      name: '운영자',
       mbti: 'ESFJ',
+      posts: {
+        create: posts.map((post) => ({
+          type: 'POST',
+          ...post,
+        })),
+      },
       votes: {
         create: createVotes(),
       },
@@ -185,6 +222,7 @@ async function seedDefaultData() {
       update: {},
       create: {
         email: `dev_account+${i}@gmail.com`,
+        name: `dev_name+${i}`,
         mbti: mbtis[randomInteger(16)],
         votes: {
           create: createVotes(),
