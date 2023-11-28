@@ -18,6 +18,8 @@ import { cn } from '@/lib/utils';
 interface TextEditorProps {
   intialState?: EditorState;
   onChange?: (editorState: EditorState) => void;
+  placeholder?: string;
+  containerClass?: string;
 }
 
 const theme: InitialConfigType['theme'] = {
@@ -32,7 +34,12 @@ function onError(error: any) {
   console.error(error);
 }
 
-export function TextEditor({ intialState, onChange }: TextEditorProps) {
+export function TextEditor({
+  intialState,
+  onChange,
+  placeholder,
+  containerClass,
+}: TextEditorProps) {
   const initialConfig: InitialConfigType = {
     namespace: 'TextEditor',
     theme,
@@ -42,11 +49,19 @@ export function TextEditor({ intialState, onChange }: TextEditorProps) {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className={cn(style.container)}>
+      <div
+        className={cn(
+          style.container,
+          'textarea relative overflow-auto p-0 rounded-none',
+          containerClass
+        )}
+      >
         <PlainTextPlugin
           contentEditable={<ContentEditable className={style.input} />}
           placeholder={
-            <div className={style.placeholder}>Enter some text...</div>
+            <div className={style.placeholder}>
+              {placeholder ?? 'Enter some text...'}
+            </div>
           }
           ErrorBoundary={LexicalErrorBoundary}
         />
