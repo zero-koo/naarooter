@@ -15,7 +15,6 @@ interface PostListItemProps {
 const PostListItem = ({
   id,
   title,
-  description,
   authorName,
   viewCount,
   commentCount,
@@ -29,7 +28,6 @@ const PostListItem = ({
         }
       >
         <div className="font-semibold">{title}</div>
-        <div className="text-xs opacity-70">{description}</div>
         <div className="flex justify-between text-xs opacity-70">
           <div className="flex">
             <div>{authorName}</div>
