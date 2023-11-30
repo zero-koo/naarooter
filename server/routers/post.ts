@@ -54,7 +54,7 @@ export const postRouter = router({
         take: input.limit + 1,
         where: {
           type: 'POST',
-          group: input.groupId,
+          groupId: input.groupId,
         },
         cursor: cursor
           ? {

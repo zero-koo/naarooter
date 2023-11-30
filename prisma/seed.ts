@@ -132,29 +132,29 @@ const polls: Readonly<Record<string, Poll>> = {
 };
 
 type PostSeed = {
-  group: string;
+  groupId: string;
   title: string;
   description: string;
 };
 
 const posts: PostSeed[] = [
   {
-    group: 'i',
+    groupId: 'i',
     title: 'INTP 모여라!',
     description: '손?!',
   },
   {
-    group: 'i',
+    groupId: 'i',
     title: 'ISFJ 모여라!',
     description: '우리 존재 화이팅!',
   },
   {
-    group: 'i',
+    groupId: 'i',
     title: 'INFP 모여라!',
     description: '손?!',
   },
   {
-    group: 'e',
+    groupId: 'e',
     title: 'ESTJ 모여라!',
     description: '손?!',
   },
@@ -167,6 +167,27 @@ const createVotes = () =>
   }));
 
 async function seedDefaultData() {
+  await prisma.postGroup.upsert({
+    where: {
+      id: 'i',
+    },
+    update: {},
+    create: {
+      id: 'i',
+      name: 'I 방',
+    },
+  });
+  await prisma.postGroup.upsert({
+    where: {
+      id: 'e',
+    },
+    update: {},
+    create: {
+      id: 'e',
+      name: 'E 방',
+    },
+  });
+
   await prisma.user.upsert({
     where: { email: 'berksmile@gmail.com' },
     update: {},
