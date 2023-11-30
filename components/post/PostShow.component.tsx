@@ -21,7 +21,7 @@ const PostShowComponent = ({
   createdAt,
 }: PostShowComponentProps) => {
   return (
-    <div className="p-3">
+    <div className="bg-base-200 p-3">
       <div className="py-1 text-lg font-semibold">{title}</div>
       <div className="flex items-center justify-between text-xs opacity-70">
         {author && (
