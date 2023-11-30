@@ -1,5 +1,6 @@
 import { formatTimeAgo } from '@/lib/utils';
 import { MBTI } from '@prisma/client';
+import { TextViewer } from '../text-viewer';
 
 interface PostShowComponentProps {
   id: string;
@@ -36,7 +37,12 @@ const PostShowComponent = ({
           <div>{`조회 ${10}`}</div>
         </div>
       </div>
-      <div className="flex min-h-[100px] py-2 text-sm">{description}</div>
+      <div className="flex min-h-[100px] py-2 text-sm">
+        <TextViewer
+          content={JSON.parse(description)}
+          containerClass="opacity-80"
+        />
+      </div>
     </div>
   );
 };
