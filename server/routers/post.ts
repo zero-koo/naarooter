@@ -14,6 +14,7 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   title: true,
   description: true,
   authorId: true,
+  groupId: true,
   author: {
     select: {
       id: true,

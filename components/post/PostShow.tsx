@@ -16,6 +16,7 @@ const PostShow = ({ id }: PostShowProps) => {
   return (
     <div>
       <PostShowComponent
+        groupId={data.groupId}
         id={id}
         title={data.title}
         description={data.description as string}
