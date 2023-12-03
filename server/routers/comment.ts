@@ -3,6 +3,16 @@ import { z } from 'zod';
 
 import { privateProcedure, router } from '../trpc';
 import { TRPCError } from '@trpc/server';
+import { Prisma } from '@prisma/client';
+
+const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
+  id: true,
+  author: true,
+  content: true,
+  parentCommentId: true,
+  createdAt: true,
+  updatedAt: true,
+});
 
 export const commentRouter = router({
   comments: privateProcedure
@@ -69,17 +79,14 @@ export const commentRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const comment = await prisma.comment.create({
+      return await prisma.comment.create({
         data: {
           postId: input.postId,
           authorId: ctx.auth.userId,
           content: input.content,
         },
+        select: defaultCommentSelector,
       });
-
-      return {
-        id: comment.id,
-      };
     }),
   update: privateProcedure
     .input(
@@ -93,6 +100,7 @@ export const commentRouter = router({
         where: {
           id: input.id,
         },
+        select: defaultCommentSelector,
       });
 
       if (!comment) {
@@ -102,20 +110,21 @@ export const commentRouter = router({
         });
       }
 
-      if (comment.authorId !== ctx.auth.userId) {
+      if (comment.author.id !== ctx.auth.userId) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
           message: `Unauthorized: Invalid user id`,
         });
       }
 
-      await prisma.comment.update({
+      return await prisma.comment.update({
         where: {
           id: input.id,
         },
         data: {
           content: input.content,
         },
+        select: defaultCommentSelector,
       });
     }),
 
