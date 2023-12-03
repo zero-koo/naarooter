@@ -132,6 +132,20 @@ export const postRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      const post = await prisma.post.findUnique({
+        where: { id: input.id },
+      });
+      if (!post) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No post with id '${input.id}'`,
+        });
+      }
+      if (post.id !== ctx.auth.userId) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+        });
+      }
       return await prisma.post.update({
         where: { id: input.id },
         data: {
@@ -150,7 +164,22 @@ export const postRouter = router({
         id: z.string().uuid(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
+      const post = await prisma.post.findUnique({
+        where: { id: input.id },
+      });
+      if (!post) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No post with id '${input.id}'`,
+        });
+      }
+      if (post.id !== ctx.auth.userId) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+        });
+      }
+
       return await prisma.post.delete({
         where: { id: input.id },
       });
