@@ -141,7 +141,7 @@ export const postRouter = router({
           message: `No post with id '${input.id}'`,
         });
       }
-      if (post.id !== ctx.auth.userId) {
+      if (post.authorId !== ctx.auth.userId) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
         });
@@ -174,7 +174,7 @@ export const postRouter = router({
           message: `No post with id '${input.id}'`,
         });
       }
-      if (post.id !== ctx.auth.userId) {
+      if (post.authorId !== ctx.auth.userId) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
         });
