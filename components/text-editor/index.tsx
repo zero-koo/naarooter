@@ -1,6 +1,11 @@
 'use client';
 
-import { EditorState } from 'lexical';
+import {
+  $getRoot,
+  $parseSerializedNode,
+  EditorState,
+  SerializedEditorState,
+} from 'lexical';
 
 import {
   InitialConfigType,
@@ -16,7 +21,7 @@ import style from './style.module.css';
 import { cn } from '@/lib/utils';
 
 interface TextEditorProps {
-  intialState?: EditorState;
+  initialContents?: SerializedEditorState;
   onChange?: (editorState: EditorState) => void;
   placeholder?: string;
   containerClass?: string;
@@ -35,7 +40,7 @@ function onError(error: any) {
 }
 
 export function TextEditor({
-  intialState,
+  initialContents,
   onChange,
   placeholder,
   containerClass,
@@ -43,7 +48,12 @@ export function TextEditor({
   const initialConfig: InitialConfigType = {
     namespace: 'TextEditor',
     theme,
-    editorState: intialState ?? null,
+    editorState() {
+      if (!initialContents) return;
+      const children = initialContents.root.children.map($parseSerializedNode);
+      const root = $getRoot();
+      root.append(...children);
+    },
     onError,
   };
 
