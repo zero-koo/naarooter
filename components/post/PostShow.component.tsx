@@ -35,6 +35,7 @@ interface PostShowComponentProps {
     name: string;
     mbti: MBTI | null;
   };
+  isAuthor: boolean;
   createdAt: Date;
 }
 
@@ -44,13 +45,14 @@ const PostShowComponent = ({
   title,
   description,
   author,
+  isAuthor,
   createdAt,
 }: PostShowComponentProps) => {
   return (
     <div className="bg-base-200 p-3">
       <div className="flex items-start py-1">
         <div className="text-lg font-semibold">{title}</div>
-        <PostShowUserMenu postId={id} postGroupId={groupId} />
+        {isAuthor && <PostShowUserMenu postId={id} postGroupId={groupId} />}
       </div>
       <div className="flex items-center justify-between text-xs opacity-70">
         {author && (
