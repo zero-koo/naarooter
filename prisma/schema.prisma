@@ -47,7 +47,7 @@ enum MBTI {
 model Post {
   id          String @id @default(uuid())
   title       String
-  description Json
+  description String
 
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
@@ -119,7 +119,7 @@ model Vote {
 model Comment {
   id Int @id @default(autoincrement())
 
-  content Json
+  content String
 
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
