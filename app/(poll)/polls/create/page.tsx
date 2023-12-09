@@ -1,10 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { trpc } from '@/client/trpcClient';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, ArrowLeftIcon, MinusCircle, PlusIcon } from 'lucide-react';
+import { ArrowLeftIcon, MinusCircle, PlusIcon } from 'lucide-react';
 import {
   Controller,
   SubmitErrorHandler,
@@ -31,6 +30,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/Sheet';
 import PollSubmitPreview from '@/components/poll/PollSubmitPreview';
+import DefaultItemHeader from '@/components/DefaultItemHeader';
 
 export default function CreatePollPage() {
   return <PollForm />;
@@ -157,73 +157,71 @@ function PollForm() {
 
   return (
     <div className="flex flex-col bg-base-200">
-      <header className="relative flex items-center justify-between p-3">
-        <Link href="/">
-          <ArrowLeft size="20" />
-        </Link>
-        <h1 className="absolute left-1/2 top-1/2 m-auto -translate-x-1/2 -translate-y-1/2 font-bold">
-          설문 만들기
-        </h1>
-        <Sheet>
-          <SheetTrigger>
-            <Button
-              size="sm"
-              ghost
-              disabled={!formState.isValid || formState.isSubmitting}
-            >
-              완료
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="h-full w-full">
-            <SheetHeader className="p-3">
-              <SheetClose disabled={isLoading}>
-                <ArrowLeftIcon size={20} className="opacity-70" />
-              </SheetClose>
-            </SheetHeader>
-            <div className="p-3 pt-1">
-              <div className="flex items-center gap-2">
-                <SheetTitle>미리보기</SheetTitle>
-                <Button
-                  className="ml-auto"
-                  theme="primary"
-                  disabled={isLoading}
-                  onClick={handleSubmit(onSubmit, onInvalid)}
-                >
-                  생성하기
-                </Button>
+      <DefaultItemHeader
+        backLink={'/polls'}
+        title={'설문 만들기'}
+        right={
+          <Sheet>
+            <SheetTrigger>
+              <Button
+                size="sm"
+                ghost
+                disabled={!formState.isValid || formState.isSubmitting}
+              >
+                완료
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="h-full w-full">
+              <SheetHeader className="p-3">
+                <SheetClose disabled={isLoading}>
+                  <ArrowLeftIcon size={20} className="opacity-70" />
+                </SheetClose>
+              </SheetHeader>
+              <div className="p-3 pt-1">
+                <div className="flex items-center gap-2">
+                  <SheetTitle>미리보기</SheetTitle>
+                  <Button
+                    className="ml-auto"
+                    theme="primary"
+                    disabled={isLoading}
+                    onClick={handleSubmit(onSubmit, onInvalid)}
+                  >
+                    생성하기
+                  </Button>
+                </div>
               </div>
-            </div>
-            <PollSubmitPreview
-              title={getValues('title')}
-              description={getValues('description')}
-              choices={getValues('choices')}
-            />
-            <div className="mt-1 p-3">
-              <div className="alert alert-warning flex items-start gap-2 rounded-lg bg-warning/80 p-2 text-start text-sm">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  />
-                </svg>
-                <span>
-                  한 명 이상 투표가 진행된 설문은 작성자 임의로 수정 혹은 삭제할
-                  수 없습니다. 내용을 잘 확인해 주세요.
-                </span>
+              <PollSubmitPreview
+                title={getValues('title')}
+                description={getValues('description')}
+                choices={getValues('choices')}
+              />
+              <div className="mt-1 p-3">
+                <div className="alert alert-warning flex items-start gap-2 rounded-lg bg-warning/80 p-2 text-start text-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                  <span>
+                    한 명 이상 투표가 진행된 설문은 작성자 임의로 수정 혹은
+                    삭제할 수 없습니다. 내용을 잘 확인해 주세요.
+                  </span>
+                </div>
               </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </header>
+            </SheetContent>
+          </Sheet>
+        }
+      />
       <form
-        className="flex flex-1 flex-col gap-2 overflow-auto p-3 pt-1"
+        className="flex flex-1 flex-col gap-2 overflow-auto p-3"
         autoComplete="off"
       >
         <TextInput

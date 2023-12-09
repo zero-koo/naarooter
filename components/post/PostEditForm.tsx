@@ -42,7 +42,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
   return (
     <PostCreateOrEditForm
       title={'글 수정하기'}
-      prevLink={`/post/${id}`}
+      backLink={`/post/${id}`}
       initialValues={{
         title: data.title,
         contents: JSON.parse(data.description),

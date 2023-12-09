@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { PostCreateOrEditForm } from './PostCreateOrEditForm';
 
-export const PostCreateForm = () => {
+export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -29,7 +29,7 @@ export const PostCreateForm = () => {
   return (
     <PostCreateOrEditForm
       title={'글 쓰기'}
-      prevLink={'/posts'}
+      backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
       onSubmit={(data) =>
         mutate({
           title: data.title,

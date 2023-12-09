@@ -6,9 +6,8 @@ import { SerializedEditorState, SerializedLexicalNode } from 'lexical';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import TextInput from '../TextInput';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 import { Button } from '../Button';
+import DefaultItemHeader from '../DefaultItemHeader';
 
 type PostForm = {
   title: string;
@@ -27,7 +26,7 @@ const postFormSchema = z.object({
 
 interface PostCreateOrEditFormProps {
   title: string;
-  prevLink: string;
+  backLink: string;
   initialValues?: {
     title: string;
     contents: SerializedEditorState<SerializedLexicalNode>;
@@ -37,7 +36,7 @@ interface PostCreateOrEditFormProps {
 
 export const PostCreateOrEditForm = ({
   title,
-  prevLink,
+  backLink,
   initialValues,
   onSubmit,
 }: PostCreateOrEditFormProps) => {
@@ -48,24 +47,22 @@ export const PostCreateOrEditForm = ({
 
   return (
     <div className="flex flex-col bg-base-200">
-      <header className="relative flex items-center justify-between p-3">
-        <Link href={prevLink}>
-          <ArrowLeft size="20" />
-        </Link>
-        <h1 className="absolute left-1/2 top-1/2 m-auto -translate-x-1/2 -translate-y-1/2 font-bold">
-          {title}
-        </h1>
-        <Button
-          size="sm"
-          ghost
-          disabled={!formState.isValid || formState.isSubmitting}
-          onClick={handleSubmit(onSubmit)}
-        >
-          완료
-        </Button>
-      </header>
+      <DefaultItemHeader
+        title={title}
+        backLink={backLink}
+        right={
+          <Button
+            size="sm"
+            ghost
+            disabled={!formState.isValid || formState.isSubmitting}
+            onClick={handleSubmit(onSubmit)}
+          >
+            완료
+          </Button>
+        }
+      />
       <form
-        className="flex flex-1 flex-col gap-2 overflow-auto p-3 pt-1"
+        className="flex flex-1 flex-col gap-2 overflow-auto p-3"
         autoComplete="off"
       >
         <TextInput

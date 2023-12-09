@@ -27,6 +27,7 @@ const PostList = ({ groupId }: PostListProps) => {
             createdAt={post.createdAt}
             viewCount={1}
             commentCount={post._count.comment}
+            listGroupId={groupId}
           />
         ))}
       </div>

@@ -50,7 +50,7 @@ const PostShowComponent = ({
 }: PostShowComponentProps) => {
   return (
     <div className="bg-base-200 px-3 py-2">
-      <div className="flex items-start py-1">
+      <div className="flex items-start py-2">
         <div className="text-lg font-semibold">{title}</div>
         {isAuthor && <PostShowUserMenu postId={id} postGroupId={groupId} />}
       </div>

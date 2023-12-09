@@ -10,6 +10,7 @@ interface PostListItemProps {
   viewCount: number;
   commentCount: number;
   createdAt: Date;
+  listGroupId?: string;
 }
 
 const PostListItem = ({
@@ -19,9 +20,15 @@ const PostListItem = ({
   viewCount,
   commentCount,
   createdAt,
+  listGroupId,
 }: PostListItemProps) => {
   return (
-    <Link href={`/post/${id}`}>
+    <Link
+      href={{
+        pathname: `/posts/${id}`,
+        query: { groupId: listGroupId },
+      }}
+    >
       <div
         className={
           'flex flex-col gap-1 border-b border-neutral-content/30 pb-3 pt-2.5'

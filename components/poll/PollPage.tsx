@@ -1,14 +1,13 @@
 'use client';
 
-import Link from 'next/link';
-import { ArrowLeft, RotateCcw } from 'lucide-react';
-
+import { RotateCcw } from 'lucide-react';
 import { usePollQuery } from '@/hooks/queries/usePollQuery';
 
 import PollSubmitForm from './PollSubmitForm';
 import React from 'react';
 import PollDetailSection from './PollDetailSection';
 import PostCommentSection from './PostCommentSection';
+import DefaultItemHeader from '../DefaultItemHeader';
 
 interface PollPageProps {
   id: string;
@@ -19,14 +18,14 @@ export default function PollPage({ id }: PollPageProps) {
 
   return (
     <div className="h-full">
-      <div className="flex items-center bg-base-200 p-3 pb-1">
-        <Link href={'/'}>
-          <ArrowLeft size={20} />
-        </Link>
-        <button className="ml-auto opacity-50" onClick={() => refetch()}>
-          <RotateCcw size={18} />
-        </button>
-      </div>
+      <DefaultItemHeader
+        backLink={'/'}
+        right={
+          <button className="ml-auto p-1 opacity-50" onClick={() => refetch()}>
+            <RotateCcw size={18} />
+          </button>
+        }
+      />
       {poll ? (
         <React.Fragment key={poll.id}>
           <PollSubmitForm id={poll.id} />

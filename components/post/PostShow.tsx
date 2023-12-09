@@ -4,14 +4,14 @@ import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import PostShowComponent from './PostShow.component';
 import PostCommentSection from '../poll/PostCommentSection';
 import { useUser } from '@clerk/nextjs';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import DefaultItemHeader from '../DefaultItemHeader';
 
 interface PostShowProps {
   id: string;
+  listGroupId?: string;
 }
 
-const PostShow = ({ id }: PostShowProps) => {
+const PostShow = ({ id, listGroupId }: PostShowProps) => {
   const { data } = usePostQuery(id);
   const { user, isLoaded } = useUser();
 
@@ -19,11 +19,9 @@ const PostShow = ({ id }: PostShowProps) => {
 
   return (
     <div>
-      <div className="flex items-center bg-base-200 p-3 pb-0">
-        <Link href={'/posts'}>
-          <ArrowLeft size={20} />
-        </Link>
-      </div>
+      <DefaultItemHeader
+        backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
+      />
       <PostShowComponent
         groupId={data.groupId}
         id={id}
