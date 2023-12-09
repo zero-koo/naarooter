@@ -60,6 +60,7 @@ export async function POST(req: Request) {
         await prisma.user.create({
           data: {
             id: evt.data.id,
+            name: evt.data.id.slice(0, 10),
             email: email.email_address,
             createdAt: new Date(evt.data.created_at),
           },
