@@ -57,7 +57,7 @@ export const PollSubmitFormComponent = ({
       <div className="mt-3 flex px-1 text-xs opacity-75">
         <div>{numberFormat(totalVoteCount)}명 투표</div>
         {showLink && (
-          <Link className="ml-auto" href={`/poll/${id}`}>
+          <Link className="ml-auto" href={`/polls/${id}`}>
             자세히 보기
           </Link>
         )}
