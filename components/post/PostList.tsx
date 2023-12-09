@@ -15,7 +15,7 @@ const PostList = ({ groupId }: PostListProps) => {
   if (!data) return 'Loading...';
 
   return (
-    <div className="flex flex-col gap-2 pb-5">
+    <div className="flex flex-col gap-2 bg-base-200 pb-5">
       <div className="px-3 py-1">
         {data.posts.map((post) => (
           <PostListItem
