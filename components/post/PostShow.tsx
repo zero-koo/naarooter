@@ -30,6 +30,7 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
         author={data.author}
         isAuthor={data.authorId === user?.id}
         createdAt={data.createdAt}
+        viewCount={data.viewCount}
       />
       <PostCommentSection postId={id} authorId={data.authorId} />
     </div>

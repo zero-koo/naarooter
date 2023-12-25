@@ -25,7 +25,7 @@ const PostList = ({ groupId }: PostListProps) => {
             description={post.description as string}
             authorName={post.author.name ?? '익명'}
             createdAt={post.createdAt}
-            viewCount={1}
+            viewCount={post.viewCount}
             commentCount={post._count.comment}
             listGroupId={groupId}
           />

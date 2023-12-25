@@ -28,6 +28,7 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
     },
   },
   createdAt: true,
+  viewCount: true,
 });
 
 export const postRouter = router({
@@ -88,7 +89,7 @@ export const postRouter = router({
         id: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const { id } = input;
       const post = await prisma.post.findUnique({
         where: { id },
@@ -100,7 +101,18 @@ export const postRouter = router({
           message: `No post with id '${id}'`,
         });
       }
-      return post;
+
+      const updatedCount = await updateViewCount(
+        id,
+        String(ctx.req.headers['x-forwarded-for'])
+      );
+
+      return updatedCount === undefined
+        ? post
+        : {
+            ...post,
+            viewCount: updatedCount,
+          };
     }),
   add: privateProcedure
     .input(
@@ -239,3 +251,30 @@ export const postRouter = router({
       };
     }),
 });
+
+// TODO: Replace in-memory cache
+const viewCountCache = new Set<string>();
+const VIEW_LIMIT_TIME = 5 * 60 * 1000; // 5 minutes
+async function updateViewCount(
+  postId: string,
+  userIP: string
+): Promise<number | void> {
+  const cacheKey = `${postId}-${userIP}`;
+  if (viewCountCache.has(cacheKey)) return;
+
+  viewCountCache.add(cacheKey);
+  setTimeout(() => viewCountCache.delete(cacheKey), VIEW_LIMIT_TIME);
+
+  const { viewCount } = await prisma.post.update({
+    where: { id: postId },
+    data: {
+      viewCount: {
+        increment: 1,
+      },
+    },
+    select: {
+      viewCount: true,
+    },
+  });
+  return viewCount;
+}

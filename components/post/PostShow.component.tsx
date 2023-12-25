@@ -37,6 +37,7 @@ interface PostShowComponentProps {
   };
   isAuthor: boolean;
   createdAt: Date;
+  viewCount: number;
 }
 
 const PostShowComponent = ({
@@ -47,6 +48,7 @@ const PostShowComponent = ({
   author,
   isAuthor,
   createdAt,
+  viewCount,
 }: PostShowComponentProps) => {
   return (
     <div className="bg-base-200 px-3 py-2">
@@ -65,7 +67,7 @@ const PostShowComponent = ({
         <div className="ml-auto flex">
           <div>{formatTimeAgo(createdAt)}</div>
           <div className={'mx-0.5'}>·</div>
-          <div>{`조회 ${10}`}</div>
+          <div>{`조회 ${viewCount.toLocaleString()}`}</div>
         </div>
       </div>
       <div className="flex min-h-[100px] py-2 text-sm">

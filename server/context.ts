@@ -35,6 +35,7 @@ export async function createContext(
   if (opts.type === 'rsc') {
     // RSC
     return {
+      ...opts,
       type: opts.type,
       auth: getAuth(opts.req),
     };
@@ -45,9 +46,10 @@ export async function createContext(
   //   opts.res,
   //   nextAuthOptions
   // );
-  return createContextInner({
+  return {
+    ...opts,
     auth: getAuth(opts.req),
-  });
+  };
 }
 
 export type Context = trpc.inferAsyncReturnType<typeof createContext>;

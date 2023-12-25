@@ -8,7 +8,7 @@ export const usePostQuery = (id: string) => {
   return trpc.post.byId.useQuery(
     { id },
     {
-      initialData: () => {
+      placeholderData: () => {
         const posts = queryClient.getQueryData<RouterOutputs['post']['list']>(
           getQueryKey(trpc.post.list, {}, 'query')
         );
