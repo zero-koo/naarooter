@@ -20,9 +20,10 @@ model User {
   posts    Post[]
   votes    Vote[]
   comments Comment[]
+  postReaction  PostReaction[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
 }
 
 enum MBTI {
@@ -62,9 +63,10 @@ model Post {
   poll Poll?
 
   viewCount Int @default(0)
+  postReaction  PostReaction[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
 }
 
 enum PostType {
@@ -136,4 +138,25 @@ model Comment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model PostReaction {
+  id Int @id @default(autoincrement())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id])
+
+  reactionType REACTION_TYPE
+
+  createdAt DateTime @default(now())
+
+  @@unique([postId, authorId])
+}
+
+enum REACTION_TYPE {
+  like
+  dislike
 }

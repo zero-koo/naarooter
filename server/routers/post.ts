@@ -27,6 +27,12 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
       comment: true,
     },
   },
+  postReaction: {
+    select: {
+      authorId: true,
+      reactionType: true,
+    },
+  },
   createdAt: true,
   viewCount: true,
 });
@@ -41,7 +47,7 @@ export const postRouter = router({
         initialCursor: z.string().nullish(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       /**
        * For pagination docs you can have a look here
        * @see https://trpc.io/docs/useInfiniteQuery
@@ -79,7 +85,10 @@ export const postRouter = router({
       }
 
       return {
-        posts,
+        posts: posts.map((post) => ({
+          ...post,
+          postReaction: countReactions(post.postReaction, ctx.auth.userId),
+        })),
         nextCursor,
       };
     }),
@@ -102,17 +111,16 @@ export const postRouter = router({
         });
       }
 
-      const updatedCount = await updateViewCount(
+      const updatedViewCount = await updateViewCount(
         id,
         String(ctx.req.headers['x-forwarded-for'])
       );
 
-      return updatedCount === undefined
-        ? post
-        : {
-            ...post,
-            viewCount: updatedCount,
-          };
+      return {
+        ...post,
+        postReaction: countReactions(post.postReaction, ctx.auth.userId),
+        viewCount: updatedViewCount ?? post.viewCount,
+      };
     }),
   add: privateProcedure
     .input(
@@ -250,6 +258,44 @@ export const postRouter = router({
         nextCursor,
       };
     }),
+  reaction: privateProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+        type: z.enum(['like', 'dislike', 'cancel']),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (input.type === 'cancel') {
+        await prisma.postReaction.delete({
+          where: {
+            postId_authorId: {
+              postId: input.postId,
+              authorId: ctx.auth.userId,
+            },
+          },
+        });
+        return;
+      }
+      await prisma.postReaction.upsert({
+        where: {
+          postId_authorId: {
+            postId: input.postId,
+            authorId: ctx.auth.userId,
+          },
+        },
+        create: {
+          postId: input.postId,
+          authorId: ctx.auth.userId,
+          reactionType: input.type,
+        },
+        update: {
+          postId: input.postId,
+          authorId: ctx.auth.userId,
+          reactionType: input.type,
+        },
+      });
+    }),
 });
 
 // TODO: Replace in-memory cache
@@ -277,4 +323,33 @@ async function updateViewCount(
     },
   });
   return viewCount;
+}
+
+function countReactions(
+  reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
+  userId: string | null
+): {
+  userSelection: 'like' | 'dislike' | null;
+  likeCount: number;
+  dislikeCount: number;
+} {
+  return reactions.reduce(
+    (accum, { authorId, reactionType }) => {
+      return {
+        ...accum,
+        userSelection: authorId === userId ? reactionType : accum.userSelection,
+        likeCount:
+          reactionType === 'like' ? accum.likeCount + 1 : accum.likeCount,
+        dislikeCount:
+          reactionType === 'dislike'
+            ? accum.dislikeCount + 1
+            : accum.dislikeCount,
+      };
+    },
+    {
+      userSelection: null as 'like' | 'dislike' | null,
+      likeCount: 0,
+      dislikeCount: 0,
+    }
+  );
 }

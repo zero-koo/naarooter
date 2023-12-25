@@ -7,7 +7,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { MoreVerticalIcon, PencilIcon, Trash2Icon } from 'lucide-react';
+import {
+  MoreVerticalIcon,
+  PencilIcon,
+  ThumbsDownIcon,
+  ThumbsUpIcon,
+  Trash2Icon,
+} from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,6 +44,16 @@ interface PostShowComponentProps {
   isAuthor: boolean;
   createdAt: Date;
   viewCount: number;
+  like: {
+    count: number;
+    selected: boolean;
+  };
+  dislike: {
+    count: number;
+    selected: boolean;
+  };
+  onClickLike: ({ isCancel }: { isCancel: boolean }) => void;
+  onClickDislike: ({ isCancel }: { isCancel: boolean }) => void;
 }
 
 const PostShowComponent = ({
@@ -49,6 +65,10 @@ const PostShowComponent = ({
   isAuthor,
   createdAt,
   viewCount,
+  like,
+  dislike,
+  onClickLike,
+  onClickDislike,
 }: PostShowComponentProps) => {
   return (
     <div className="bg-base-200 px-3 py-2">
@@ -75,6 +95,34 @@ const PostShowComponent = ({
           content={JSON.parse(description)}
           containerClass="opacity-80"
         />
+      </div>
+      <div className="flex py-1">
+        <div className="ml-auto flex gap-3 text-xs opacity-80">
+          <div className="flex items-center gap-1">
+            <ThumbsUpIcon
+              size={12}
+              fill={like.selected ? 'currentColor' : 'transparent'}
+              onClick={() =>
+                onClickLike({
+                  isCancel: like.selected,
+                })
+              }
+            />
+            <div>{like.count}</div>
+          </div>
+          <div className="flex items-center gap-1">
+            <ThumbsDownIcon
+              size={12}
+              fill={dislike.selected ? 'currentColor' : 'transparent'}
+              onClick={() =>
+                onClickDislike({
+                  isCancel: dislike.selected,
+                })
+              }
+            />
+            <div>{dislike.count}</div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import PostShowComponent from './PostShow.component';
 import PostCommentSection from '../poll/PostCommentSection';
 import { useUser } from '@clerk/nextjs';
 import DefaultItemHeader from '../DefaultItemHeader';
+import { trpc } from '@/client/trpcClient';
+import { useEffect, useState } from 'react';
 
 interface PostShowProps {
   id: string;
@@ -14,6 +16,36 @@ interface PostShowProps {
 const PostShow = ({ id, listGroupId }: PostShowProps) => {
   const { data } = usePostQuery(id);
   const { user, isLoaded } = useUser();
+
+  const [like, setLike] = useState<{
+    count: number;
+    selected: boolean;
+  }>({
+    count: 0,
+    selected: false,
+  });
+
+  const [dislike, setDislike] = useState<{
+    count: number;
+    selected: boolean;
+  }>({
+    count: 0,
+    selected: false,
+  });
+
+  useEffect(() => {
+    if (!data) return;
+    setLike({
+      count: data.postReaction.likeCount,
+      selected: data.postReaction.userSelection === 'like',
+    });
+    setDislike({
+      count: data.postReaction.dislikeCount,
+      selected: data.postReaction.userSelection === 'dislike',
+    });
+  }, [data]);
+
+  const { mutate } = trpc.post.reaction.useMutation();
 
   if (!data || !isLoaded) return 'Loading...';
 
@@ -31,6 +63,44 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
         isAuthor={data.authorId === user?.id}
         createdAt={data.createdAt}
         viewCount={data.viewCount}
+        like={like}
+        dislike={dislike}
+        onClickLike={({ isCancel }) => {
+          mutate({
+            postId: id,
+            type: isCancel ? 'cancel' : 'like',
+          });
+          setLike((like) => ({
+            count: isCancel ? like.count - 1 : like.count + 1,
+            selected: !isCancel,
+          }));
+          setDislike((dislike) =>
+            dislike.selected
+              ? {
+                  count: dislike.count - 1,
+                  selected: false,
+                }
+              : { ...dislike }
+          );
+        }}
+        onClickDislike={({ isCancel }) => {
+          mutate({
+            postId: id,
+            type: isCancel ? 'cancel' : 'dislike',
+          });
+          setDislike((dislike) => ({
+            count: isCancel ? dislike.count - 1 : dislike.count + 1,
+            selected: !isCancel,
+          }));
+          setLike((like) =>
+            like.selected
+              ? {
+                  count: like.count - 1,
+                  selected: false,
+                }
+              : { ...like }
+          );
+        }}
       />
       <PostCommentSection postId={id} authorId={data.authorId} />
     </div>

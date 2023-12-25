@@ -26,6 +26,9 @@ const PostList = ({ groupId }: PostListProps) => {
             authorName={post.author.name ?? '익명'}
             createdAt={post.createdAt}
             viewCount={post.viewCount}
+            likeCount={
+              post.postReaction.likeCount - post.postReaction.dislikeCount
+            }
             commentCount={post._count.comment}
             listGroupId={groupId}
           />

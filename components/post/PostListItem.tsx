@@ -1,5 +1,5 @@
 import { formatTimeAgo } from '@/lib/utils';
-import { MessageCircleIcon } from 'lucide-react';
+import { MessageCircleIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 import Link from 'next/link';
 
 interface PostListItemProps {
@@ -8,6 +8,7 @@ interface PostListItemProps {
   authorName: string;
   description: string;
   viewCount: number;
+  likeCount: number;
   commentCount: number;
   createdAt: Date;
   listGroupId?: string;
@@ -18,6 +19,7 @@ const PostListItem = ({
   title,
   authorName,
   viewCount,
+  likeCount,
   commentCount,
   createdAt,
   listGroupId,
@@ -43,9 +45,19 @@ const PostListItem = ({
             <div className={'mx-0.5'}>·</div>
             <div>{`조회 ${viewCount.toLocaleString()}`}</div>
           </div>
-          <div className="flex gap-0.5">
-            <MessageCircleIcon size={16} />
-            {commentCount}
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-1">
+              {likeCount >= 0 ? (
+                <ThumbsUpIcon size={12} />
+              ) : (
+                <ThumbsDownIcon size={12} />
+              )}
+              <div>{Math.abs(likeCount)}</div>
+            </div>
+            <div className="flex items-center gap-0.5">
+              <MessageCircleIcon size={12} />
+              {commentCount}
+            </div>
           </div>
         </div>
       </div>
