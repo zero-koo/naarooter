@@ -7,7 +7,7 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/(polls|posts)(.*)',
-    '/api/trpc/(poll|post).(list|byId)(.*)',
+    '/api/trpc/(poll|post|comment).(list|byId)(.*)',
     '/api/webhook',
   ],
 });

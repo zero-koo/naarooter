@@ -1,7 +1,7 @@
 import { trpc } from '@/client/trpcClient';
 
 export const usePostCommentsQuery = ({ postId }: { postId: string }) => {
-  return trpc.comment.comments.useInfiniteQuery(
+  return trpc.comment.list.useInfiniteQuery(
     {
       postId,
     },

@@ -1,7 +1,7 @@
 import { prisma } from '@/server/prisma';
 import { z } from 'zod';
 
-import { privateProcedure, router } from '../trpc';
+import { privateProcedure, publicProcedure, router } from '../trpc';
 import { TRPCError } from '@trpc/server';
 import { Prisma } from '@prisma/client';
 
@@ -15,7 +15,7 @@ const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
 });
 
 export const commentRouter = router({
-  comments: privateProcedure
+  list: publicProcedure
     .input(
       z.object({
         postId: z.string().uuid(),
