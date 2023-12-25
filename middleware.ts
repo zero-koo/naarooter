@@ -6,7 +6,7 @@ import { authMiddleware } from '@clerk/nextjs';
 export default authMiddleware({
   publicRoutes: [
     '/',
-    '/(poll|post)/(.+)',
+    '/(polls|posts)(.*)',
     '/api/trpc/(poll|post).(list|byId)(.*)',
     '/api/webhook',
   ],
