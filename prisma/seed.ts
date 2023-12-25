@@ -42,6 +42,50 @@ type Comment = {
   content: string;
 };
 
+type PostGroup = {
+  id: string;
+  name: string;
+};
+
+const postGroups: PostGroup[] = [
+  {
+    id: 'x',
+    name: '자유방',
+  },
+  {
+    id: 'e',
+    name: '외향방',
+  },
+  {
+    id: 'i',
+    name: '내향방',
+  },
+  {
+    id: 's',
+    name: '현실방',
+  },
+  {
+    id: 'n',
+    name: '이상방',
+  },
+  {
+    id: 'f',
+    name: '감성방',
+  },
+  {
+    id: 't',
+    name: '이성방',
+  },
+  {
+    id: 'j',
+    name: '계획방',
+  },
+  {
+    id: 'p',
+    name: '즉흥방',
+  },
+];
+
 const polls: Readonly<Record<string, Poll>> = {
   'c84d8367-460a-4772-b2dd-42170110d774': {
     id: 'c84d8367-460a-4772-b2dd-42170110d774',
@@ -167,25 +211,17 @@ const createVotes = () =>
   }));
 
 async function seedDefaultData() {
-  await prisma.postGroup.upsert({
-    where: {
-      id: 'i',
-    },
-    update: {},
-    create: {
-      id: 'i',
-      name: 'I 방',
-    },
-  });
-  await prisma.postGroup.upsert({
-    where: {
-      id: 'e',
-    },
-    update: {},
-    create: {
-      id: 'e',
-      name: 'E 방',
-    },
+  postGroups.forEach(async ({ id, name }) => {
+    await prisma.postGroup.upsert({
+      where: {
+        id,
+      },
+      update: {},
+      create: {
+        id,
+        name,
+      },
+    });
   });
 
   await prisma.user.upsert({

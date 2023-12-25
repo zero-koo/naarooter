@@ -33,7 +33,7 @@ const PostList = ({ groupId }: PostListProps) => {
       </div>
       <Link
         className="fixed bottom-5 right-5 rounded-full bg-primary p-2"
-        href="/post/create"
+        href={`/posts/create?groupId=${groupId}`}
       >
         <PlusIcon />
       </Link>

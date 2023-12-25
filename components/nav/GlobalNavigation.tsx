@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { Black_Han_Sans } from 'next/font/google';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ReactNode } from 'react';
 
 const blackHanSans = Black_Han_Sans({
@@ -22,40 +22,76 @@ const GlobalNavigation = () => {
           Coconut Space
         </Link>
       </div>
-      <NavMenu link={'/polls'} icon={<LetterIcon alphabet="Q" />}>
+      <NavMenu link={'/polls'} groupId="q" icon={<LetterIcon alphabet="Q" />}>
         설문조사
       </NavMenu>
       <div className="mb-1 mt-4 w-full px-2.5 text-left text-xs opacity-50">
         커뮤니티
       </div>
-      <NavMenu link={'/posts'} icon={<LetterIcon alphabet="A" />}>
+      <NavMenu link={'/posts'} groupId="" icon={<LetterIcon alphabet="A" />}>
         전체방
       </NavMenu>
-      <NavMenu link={'/posts/group/x'} icon={<LetterIcon alphabet="X" />}>
+      <NavMenu
+        link={'/posts/group/x'}
+        groupId="x"
+        icon={<LetterIcon alphabet="X" />}
+      >
         자유방
       </NavMenu>
-      <NavMenu link={'/posts/group/e'} icon={<LetterIcon alphabet="E" />}>
+      <NavMenu
+        link={'/posts/group/e'}
+        groupId="e"
+        icon={<LetterIcon alphabet="E" />}
+      >
         외향방
       </NavMenu>
-      <NavMenu link={'/posts/group/i'} icon={<LetterIcon alphabet="I" />}>
+      <NavMenu
+        link={'/posts/group/i'}
+        groupId="i"
+        icon={<LetterIcon alphabet="I" />}
+      >
         내향방
       </NavMenu>
-      <NavMenu link={'/posts/group/s'} icon={<LetterIcon alphabet="S" />}>
+      <NavMenu
+        link={'/posts/group/s'}
+        groupId="s"
+        icon={<LetterIcon alphabet="S" />}
+      >
         현실방
       </NavMenu>
-      <NavMenu link={'/posts/group/n'} icon={<LetterIcon alphabet="N" />}>
+      <NavMenu
+        link={'/posts/group/n'}
+        groupId="n"
+        icon={<LetterIcon alphabet="N" />}
+      >
         이상방
       </NavMenu>
-      <NavMenu link={'/posts/group/f'} icon={<LetterIcon alphabet="F" />}>
+      <NavMenu
+        link={'/posts/group/f'}
+        groupId="f"
+        icon={<LetterIcon alphabet="F" />}
+      >
         감성방
       </NavMenu>
-      <NavMenu link={'/posts/group/t'} icon={<LetterIcon alphabet="T" />}>
+      <NavMenu
+        link={'/posts/group/t'}
+        groupId="t"
+        icon={<LetterIcon alphabet="T" />}
+      >
         이성방
       </NavMenu>
-      <NavMenu link={'/posts/group/j'} icon={<LetterIcon alphabet="J" />}>
+      <NavMenu
+        link={'/posts/group/j'}
+        groupId="j"
+        icon={<LetterIcon alphabet="J" />}
+      >
         계획방
       </NavMenu>
-      <NavMenu link={'/posts/group/p'} icon={<LetterIcon alphabet="P" />}>
+      <NavMenu
+        link={'/posts/group/p'}
+        groupId="p"
+        icon={<LetterIcon alphabet="P" />}
+      >
         즉흥방
       </NavMenu>
     </nav>
@@ -66,14 +102,17 @@ export default GlobalNavigation;
 
 function NavMenu({
   link,
+  groupId,
   icon,
   children,
 }: {
   link: string;
+  groupId: string;
   icon: ReactNode;
   children: ReactNode;
 }) {
   const pathName = usePathname();
+  const searchParams = useSearchParams();
 
   return (
     <Link href={link}>
@@ -81,7 +120,8 @@ function NavMenu({
         className={cn(
           'flex items-center rounded-lg h-10 my-0.5 px-2.5 w-full text-left font-normal text-sm hover:bg-primary/20',
           {
-            'bg-primary/20 font-bold': pathName === link,
+            'bg-primary/20 font-bold':
+              pathName === link || searchParams?.get('groupId') == groupId,
           }
         )}
       >

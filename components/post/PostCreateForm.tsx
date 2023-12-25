@@ -16,7 +16,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
         theme: 'success',
       });
 
-      router.push(`/post/${data.id}`);
+      router.push(`/posts/${data.id}`);
     },
     onError() {
       toast.update({
@@ -33,6 +33,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
       onSubmit={(data) =>
         mutate({
           title: data.title,
+          groupId: listGroupId!, // TODO: Remove '!' after implementing group selector
           description: JSON.stringify(data.contents),
         })
       }

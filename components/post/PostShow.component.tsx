@@ -116,7 +116,7 @@ const PostShowUserMenu = React.memo(
         >
           <DropdownMenuItem className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70">
             <PencilIcon size={14} />
-            <Link href={`/post/${postId}/edit`}>수정</Link>
+            <Link href={`/posts/${postId}/edit`}>수정</Link>
           </DropdownMenuItem>
           <AlertDialog>
             <AlertDialogTrigger asChild>

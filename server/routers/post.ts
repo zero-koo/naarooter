@@ -107,6 +107,7 @@ export const postRouter = router({
       z.object({
         id: z.string().uuid().optional(),
         title: z.string().min(1, 'Required').max(32),
+        groupId: z.string(),
         description: z.string(),
       })
     )
@@ -116,6 +117,7 @@ export const postRouter = router({
           id: input.id,
           title: input.title,
           description: input.description,
+          groupId: input.groupId,
           type: 'POST',
           authorId: ctx.auth.userId,
         },

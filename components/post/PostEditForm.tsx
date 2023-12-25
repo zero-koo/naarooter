@@ -27,7 +27,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
         getQueryKey(trpc.post.list),
       ]);
 
-      router.push(`/post/${data.id}`);
+      router.push(`/posts/${data.id}`);
     },
     onError() {
       toast.update({
@@ -42,7 +42,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
   return (
     <PostCreateOrEditForm
       title={'글 수정하기'}
-      backLink={`/post/${id}`}
+      backLink={`/posts/${id}`}
       initialValues={{
         title: data.title,
         contents: JSON.parse(data.description),
