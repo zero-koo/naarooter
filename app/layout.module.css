@@ -1,0 +1,11 @@
+.outer {
+  @apply mx-auto flex h-full justify-center;
+
+  height: 100%;
+  flex: 0 1 768px;
+}
+
+.inner {
+  height: 100%;
+  flex: 0 1 540px;
+}
