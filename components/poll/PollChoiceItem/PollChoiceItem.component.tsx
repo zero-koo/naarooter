@@ -30,7 +30,10 @@ export default function PollChoiceItem({
           'h-14': imageUrl,
         }
       )}
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
     >
       {imageUrl ? (
         <div className="h-full w-14">

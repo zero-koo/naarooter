@@ -4,11 +4,18 @@ import { z } from 'zod';
 import { privateProcedure, publicProcedure, router } from '../trpc';
 import { TRPCError } from '@trpc/server';
 import { Prisma } from '@prisma/client';
+import { countReactions } from '@/lib/utils';
 
 const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
   id: true,
   author: true,
   content: true,
+  commentReaction: {
+    select: {
+      authorId: true,
+      reactionType: true,
+    },
+  },
   parentCommentId: true,
   createdAt: true,
   updatedAt: true,
@@ -24,7 +31,7 @@ export const commentRouter = router({
         initialCursor: z.number().nullish(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const cursor = input.cursor ?? input.initialCursor;
 
       const [comments, count] = await prisma.$transaction([
@@ -39,6 +46,12 @@ export const commentRouter = router({
               },
             },
             content: true,
+            commentReaction: {
+              select: {
+                authorId: true,
+                reactionType: true,
+              },
+            },
             updatedAt: true,
           },
           take: input.limit + 1,
@@ -65,9 +78,61 @@ export const commentRouter = router({
       }
 
       return {
-        comments,
+        comments: comments.map((comment) => ({
+          ...comment,
+          commentReaction: countReactions(
+            comment.commentReaction,
+            ctx.auth.userId
+          ),
+        })),
         nextCursor,
         totalCount: count,
+      };
+    }),
+  byId: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const comment = await prisma.comment.findUnique({
+        where: {
+          id: input.id,
+        },
+        select: {
+          id: true,
+          author: {
+            select: {
+              id: true,
+              mbti: true,
+              name: true,
+            },
+          },
+          content: true,
+          commentReaction: {
+            select: {
+              authorId: true,
+              reactionType: true,
+            },
+          },
+          updatedAt: true,
+        },
+      });
+
+      if (!comment) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No comment with id '${input.id}'`,
+        });
+      }
+
+      return {
+        ...comment,
+        commentReaction: countReactions(
+          comment.commentReaction,
+          ctx.auth.userId
+        ),
       };
     }),
   add: privateProcedure
@@ -158,6 +223,44 @@ export const commentRouter = router({
       await prisma.comment.delete({
         where: {
           id: input.id,
+        },
+      });
+    }),
+  reaction: privateProcedure
+    .input(
+      z.object({
+        commentId: z.number(),
+        type: z.enum(['like', 'dislike', 'cancel']),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (input.type === 'cancel') {
+        await prisma.commentReaction.delete({
+          where: {
+            commentId_authorId: {
+              commentId: input.commentId,
+              authorId: ctx.auth.userId,
+            },
+          },
+        });
+        return;
+      }
+      await prisma.commentReaction.upsert({
+        where: {
+          commentId_authorId: {
+            commentId: input.commentId,
+            authorId: ctx.auth.userId,
+          },
+        },
+        create: {
+          commentId: input.commentId,
+          authorId: ctx.auth.userId,
+          reactionType: input.type,
+        },
+        update: {
+          commentId: input.commentId,
+          authorId: ctx.auth.userId,
+          reactionType: input.type,
         },
       });
     }),

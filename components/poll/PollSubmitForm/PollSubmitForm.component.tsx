@@ -1,6 +1,6 @@
 import { numberFormat } from '@/utils/format';
 import PollChoiceItem from '../PollChoiceItem';
-import Link from 'next/link';
+import LikeDislike, { Reaction } from '@/components/LikeDislike';
 
 interface PollSubmitFormProps {
   id: string;
@@ -15,23 +15,30 @@ interface PollSubmitFormProps {
     selected: boolean;
   }>;
   totalVoteCount: number;
+  like: number;
+  dislike: number;
+  userReaction: Reaction;
   showResult?: boolean;
-  showLink?: boolean;
+  onClick?: () => void;
   onSelectChoice: (choiceId: string) => void;
+  onUpdateReaction?: (value: Reaction) => Promise<void>;
 }
 
 export const PollSubmitFormComponent = ({
-  id,
   title,
   description,
   choices,
   totalVoteCount,
+  like,
+  dislike,
+  userReaction,
   showResult = false,
-  showLink = false,
+  onClick,
   onSelectChoice,
+  onUpdateReaction,
 }: PollSubmitFormProps) => {
   return (
-    <div className={'bg-base-200 p-3'}>
+    <div className={'bg-base-200 p-3'} onClick={onClick}>
       <div className={'p-1 text-lg font-semibold'}>{title}</div>
       {description.trim() && (
         <div className={'p-1 text-xs opacity-90'}>{description}</div>
@@ -54,13 +61,14 @@ export const PollSubmitFormComponent = ({
             )
           )}
       </div>
-      <div className="mt-3 flex px-1 text-xs opacity-75">
-        <div>{numberFormat(totalVoteCount)}명 투표</div>
-        {showLink && (
-          <Link className="ml-auto" href={`/polls/${id}`}>
-            자세히 보기
-          </Link>
-        )}
+      <div className="mt-3 flex items-center px-1 text-xs opacity-75">
+        <div className="mr-auto">{numberFormat(totalVoteCount)}명 투표</div>
+        <LikeDislike
+          like={like}
+          dislike={dislike}
+          userSelect={userReaction}
+          onUpdate={onUpdateReaction}
+        />
       </div>
     </div>
   );

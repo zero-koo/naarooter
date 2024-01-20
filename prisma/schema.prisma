@@ -17,13 +17,14 @@ model User {
   name  String
   mbti  MBTI?
 
-  posts    Post[]
-  votes    Vote[]
-  comments Comment[]
-  postReaction  PostReaction[]
+  posts        Post[]
+  votes        Vote[]
+  comments     Comment[]
+  postReaction PostReaction[]
+  commentReaction CommentReaction[]
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
 }
 
 enum MBTI {
@@ -62,11 +63,11 @@ model Post {
 
   poll Poll?
 
-  viewCount Int @default(0)
-  postReaction  PostReaction[]
+  viewCount    Int            @default(0)
+  postReaction PostReaction[]
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum PostType {
@@ -136,8 +137,10 @@ model Comment {
   parentCommentId Int?
   parentComment   Comment? @relation("ChildComments", fields: [parentCommentId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  commentReaction CommentReaction[]
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
 }
 
 model PostReaction {
@@ -154,6 +157,22 @@ model PostReaction {
   createdAt DateTime @default(now())
 
   @@unique([postId, authorId])
+}
+
+model CommentReaction {
+  id Int @id @default(autoincrement())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  commentId Int
+  comment   Comment @relation(fields: [commentId], references: [id])
+
+  reactionType REACTION_TYPE
+
+  createdAt DateTime @default(now())
+
+  @@unique([commentId, authorId])
 }
 
 enum REACTION_TYPE {

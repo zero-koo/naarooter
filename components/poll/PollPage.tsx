@@ -8,6 +8,7 @@ import React from 'react';
 import PollDetailSection from './PollDetailSection';
 import PostCommentSection from './PostCommentSection';
 import DefaultItemHeader from '../DefaultItemHeader';
+import { trpc } from '@/client/trpcClient';
 
 interface PollPageProps {
   id: string;
@@ -15,6 +16,8 @@ interface PollPageProps {
 
 export default function PollPage({ id }: PollPageProps) {
   const { data: poll, refetch } = usePollQuery(id);
+
+  const { mutateAsync } = trpc.post.reaction.useMutation();
 
   return (
     <div className="h-full">
@@ -28,7 +31,15 @@ export default function PollPage({ id }: PollPageProps) {
       />
       {poll ? (
         <React.Fragment key={poll.id}>
-          <PollSubmitForm id={poll.id} />
+          <PollSubmitForm
+            id={poll.id}
+            onUpdateReaction={(reaction) =>
+              mutateAsync({
+                type: reaction ?? 'cancel',
+                postId: poll.postId,
+              })
+            }
+          />
           <PollDetailSection id={poll.id} />
           <PostCommentSection postId={poll.postId} authorId={poll.authorId} />
         </React.Fragment>

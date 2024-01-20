@@ -24,6 +24,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../Button';
+import { trpc } from '@/client/trpcClient';
+import { useToast } from '@/hooks/useToast';
+import LikeDislike from '../LikeDislike';
 
 interface PostCommentSectionComponentProps {
   comments: Comment[];
@@ -31,7 +34,6 @@ interface PostCommentSectionComponentProps {
   postAuthorId: string;
   userId?: string;
   onAdd: (data: { text: string }) => Promise<Comment>;
-  onUpdate: (data: { commentId: number; text: string }) => Promise<Comment>;
   onDelete: (data: { commentId: number }) => Promise<void>;
 }
 
@@ -45,6 +47,9 @@ type Comment = {
   text: string;
   children: Comment[];
   updatedAt: Date;
+  like: number;
+  dislike: number;
+  reaction: 'like' | 'dislike' | null;
 };
 
 const PostCommentSectionComponent = ({
@@ -53,7 +58,6 @@ const PostCommentSectionComponent = ({
   postAuthorId,
   userId,
   onAdd,
-  onUpdate,
   onDelete,
 }: PostCommentSectionComponentProps) => {
   const [commentList, setCommentList] = useState<Comment[]>(comments);
@@ -66,7 +70,7 @@ const PostCommentSectionComponent = ({
 
         {userId && (
           <div className="mb-1 py-1">
-            <PollCommentEdit
+            <PostCommentEdit
               hideButtonsByDefault
               onSave={async (text) => {
                 const data = await onAdd({ text });
@@ -87,15 +91,9 @@ const PostCommentSectionComponent = ({
               isMe={comment.author.id === userId}
               isAuthor={comment.author.id === postAuthorId}
               updatedAt={comment.updatedAt}
-              onUpdate={async ({ text }) => {
-                const data = await onUpdate({
-                  commentId: comment.id,
-                  text,
-                });
-                setCommentList((comments) =>
-                  comments.map((c) => (c.id === comment.id ? data : c))
-                );
-              }}
+              like={comment.like}
+              dislike={comment.dislike}
+              reaction={comment.reaction}
               onDelete={async () => {
                 await onDelete({ commentId: comment.id });
 
@@ -122,7 +120,9 @@ const PollComment = ({
   isMe,
   isAuthor,
   updatedAt,
-  onUpdate,
+  like,
+  dislike,
+  reaction,
   onDelete,
 }: {
   id: number;
@@ -132,89 +132,59 @@ const PollComment = ({
   isMe: boolean;
   isAuthor: boolean;
   updatedAt: Date;
-  onUpdate: (data: { text: string }) => Promise<void>;
+  like: number;
+  dislike: number;
+  reaction: 'like' | 'dislike' | null;
   onDelete: () => Promise<void>;
 }) => {
+  const { toast } = useToast();
+  const [commentText, setCommentText] = useState<string>(text);
+
   const [isEdit, setIsEdit] = useState(false);
 
+  const { mutateAsync: updateComment } = trpc.comment.update.useMutation({
+    onError() {
+      toast.update({
+        theme: 'error',
+        message: '댓글이 저장되지 않았습니다. 잠시 후 다시 시도해주세요.',
+      });
+    },
+  });
+
+  const { mutateAsync: updateReaction } = trpc.comment.reaction.useMutation();
+
   return (
-    <div
-      key={id}
-      className="flex flex-col gap-1 border-t border-neutral-content/20 py-3 first:border-t-0"
-    >
+    <div className="flex flex-col gap-1 border-t border-neutral-content/20 py-3 first:border-t-0">
       {!isEdit ? (
-        <div className="relative flex flex-col gap-1">
-          <div className="flex text-xs opacity-70 ">
-            {isAuthor && (
-              <div className="dot-between text-primary">{'글쓴이'}</div>
-            )}
-            {authorName && <div className="dot-between">{authorName}</div>}
-            {authorMbti && <div className="dot-between">{authorMbti}</div>}
-            <div className="dot-between font-light">
-              {formatTimeAgo(updatedAt)}
-            </div>
-            {isMe && (
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  asChild
-                  className="absolute -top-1 right-0 rounded-lg p-1 hover:bg-slate-500"
-                >
-                  <MoreVerticalIcon size={24} />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-18 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"
-                  collisionPadding={8}
-                  align="end"
-                >
-                  <DropdownMenuItem
-                    className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
-                    onClick={() => setIsEdit(true)}
-                  >
-                    <PencilIcon size={14} />
-                    <div>수정</div>
-                  </DropdownMenuItem>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <DropdownMenuItem
-                        className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
-                        onSelect={(e) => e.preventDefault()}
-                      >
-                        <Trash2Icon size={14} />
-                        <div>삭제</div>
-                      </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>댓글 삭제</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          댓글을 완전히 삭제할까요?
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          variant={'destructive'}
-                          onClick={onDelete}
-                        >
-                          삭제
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
-          <div className="text-sm">{text}</div>
-        </div>
+        <PostCommentShow
+          text={commentText}
+          authorName={authorName}
+          authorMbti={authorMbti}
+          isMe={isMe}
+          isAuthor={isAuthor}
+          updatedAt={updatedAt}
+          like={like}
+          dislike={dislike}
+          reaction={reaction}
+          onClickEdit={() => setIsEdit(true)}
+          onClickDelete={onDelete}
+          onReact={(reaction) =>
+            updateReaction({
+              commentId: id,
+              type: reaction === null ? 'cancel' : reaction,
+            })
+          }
+        />
       ) : (
-        <PollCommentEdit
-          initialText={text}
+        <PostCommentEdit
+          initialText={commentText}
           onCancel={() => setIsEdit(false)}
-          onSave={async (text) => {
-            await onUpdate({
-              text,
+          onSave={async (content) => {
+            await updateComment({
+              id,
+              content,
             });
+            setCommentText(content);
             setIsEdit(false);
           }}
         />
@@ -223,7 +193,106 @@ const PollComment = ({
   );
 };
 
-const PollCommentEdit = ({
+const PostCommentShow = ({
+  text,
+  authorName,
+  authorMbti,
+  isMe,
+  isAuthor,
+  updatedAt,
+  like,
+  dislike,
+  reaction,
+  onClickEdit,
+  onClickDelete,
+  onReact,
+}: {
+  text: string;
+  authorName: string | null;
+  authorMbti: string | null;
+  isMe: boolean;
+  isAuthor: boolean;
+  updatedAt: Date;
+  like: number;
+  dislike: number;
+  reaction: 'like' | 'dislike' | null;
+  onClickEdit: () => void;
+  onClickDelete: () => void;
+  onReact: (reaction: 'like' | 'dislike' | null) => Promise<void>;
+}) => {
+  return (
+    <div className="relative flex flex-col gap-1">
+      <div className="flex text-xs opacity-70 ">
+        {isAuthor && <div className="dot-between text-primary">{'글쓴이'}</div>}
+        {authorName && <div className="dot-between">{authorName}</div>}
+        {authorMbti && <div className="dot-between">{authorMbti}</div>}
+        <div className="dot-between font-light">{formatTimeAgo(updatedAt)}</div>
+        {isMe && (
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              asChild
+              className="absolute -top-1 right-0 rounded-lg p-1 hover:bg-slate-500"
+            >
+              <MoreVerticalIcon size={24} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-18 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"
+              collisionPadding={8}
+              align="end"
+            >
+              <DropdownMenuItem
+                className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
+                onClick={() => onClickEdit()}
+              >
+                <PencilIcon size={14} />
+                <div>수정</div>
+              </DropdownMenuItem>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem
+                    className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <Trash2Icon size={14} />
+                    <div>삭제</div>
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>댓글 삭제</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      댓글을 완전히 삭제할까요?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      variant={'destructive'}
+                      onClick={onClickDelete}
+                    >
+                      삭제
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
+      <div className="text-sm">{text}</div>
+      <div className="mt-2 flex">
+        <LikeDislike
+          like={like}
+          dislike={dislike}
+          userSelect={reaction}
+          onUpdate={onReact}
+        />
+      </div>
+    </div>
+  );
+};
+
+const PostCommentEdit = ({
   initialText = '',
   hideButtonsByDefault = false,
   onSave,

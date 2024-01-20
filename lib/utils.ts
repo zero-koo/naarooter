@@ -37,3 +37,32 @@ export function randomInteger(max = 100, min = 0): number {
   }
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export function countReactions(
+  reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
+  userId: string | null
+): {
+  userSelection: 'like' | 'dislike' | null;
+  likeCount: number;
+  dislikeCount: number;
+} {
+  return reactions.reduce(
+    (accum, { authorId, reactionType }) => {
+      return {
+        ...accum,
+        userSelection: authorId === userId ? reactionType : accum.userSelection,
+        likeCount:
+          reactionType === 'like' ? accum.likeCount + 1 : accum.likeCount,
+        dislikeCount:
+          reactionType === 'dislike'
+            ? accum.dislikeCount + 1
+            : accum.dislikeCount,
+      };
+    },
+    {
+      userSelection: null as 'like' | 'dislike' | null,
+      likeCount: 0,
+      dislikeCount: 0,
+    }
+  );
+}

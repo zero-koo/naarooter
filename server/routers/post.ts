@@ -8,6 +8,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { privateProcedure, publicProcedure, router } from '../trpc';
+import { countReactions } from '@/lib/utils';
 
 const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   id: true,
@@ -323,33 +324,4 @@ async function updateViewCount(
     },
   });
   return viewCount;
-}
-
-function countReactions(
-  reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
-  userId: string | null
-): {
-  userSelection: 'like' | 'dislike' | null;
-  likeCount: number;
-  dislikeCount: number;
-} {
-  return reactions.reduce(
-    (accum, { authorId, reactionType }) => {
-      return {
-        ...accum,
-        userSelection: authorId === userId ? reactionType : accum.userSelection,
-        likeCount:
-          reactionType === 'like' ? accum.likeCount + 1 : accum.likeCount,
-        dislikeCount:
-          reactionType === 'dislike'
-            ? accum.dislikeCount + 1
-            : accum.dislikeCount,
-      };
-    },
-    {
-      userSelection: null as 'like' | 'dislike' | null,
-      likeCount: 0,
-      dislikeCount: 0,
-    }
-  );
 }

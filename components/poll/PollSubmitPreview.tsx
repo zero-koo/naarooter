@@ -61,6 +61,9 @@ const PollSubmitPreview = ({
       title={title}
       description={description}
       choices={choices}
+      like={0}
+      dislike={0}
+      userReaction={null}
       showResult
       totalVoteCount={totalVoteCount}
       onSelectChoice={handleSelectChoice}

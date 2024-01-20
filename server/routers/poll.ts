@@ -9,6 +9,7 @@ import { z } from 'zod';
 
 import { privateProcedure, publicProcedure, router } from '../trpc';
 import { PollTable } from '../models/PollTable';
+import { countReactions } from '@/lib/utils';
 
 /**
  * Default selector for Post.
@@ -25,6 +26,12 @@ const defaultPollSelect = (userId: string) =>
         title: true,
         description: true,
         authorId: true,
+        postReaction: {
+          select: {
+            authorId: true,
+            reactionType: true,
+          },
+        },
       },
     },
     choices: {
@@ -112,6 +119,7 @@ export const pollRouter = router({
               selected: item.votes[0]?.pollChoiceId === choice.id,
             })) ?? [],
           voted: item.votes.length > 0,
+          postReaction: countReactions(item.post.postReaction, ctx.auth.userId),
         })),
         nextCursor,
       };
@@ -149,6 +157,7 @@ export const pollRouter = router({
           selected: poll.votes[0]?.pollChoiceId === choice.id,
         })),
         voted: poll.votes.length > 0,
+        postReaction: countReactions(poll.post.postReaction, ctx.auth.userId),
       };
     }),
   add: privateProcedure

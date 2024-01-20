@@ -22,14 +22,6 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
       });
     },
   });
-  const { mutateAsync: updateComment } = trpc.comment.update.useMutation({
-    onError() {
-      toast.update({
-        theme: 'error',
-        message: '댓글이 저장되지 않았습니다. 잠시 후 다시 시도해주세요.',
-      });
-    },
-  });
   const { mutateAsync: deleteComment } = trpc.comment.delete.useMutation({
     onError() {
       toast.update({
@@ -51,6 +43,9 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           author: comment.author,
           children: [],
           updatedAt: comment.updatedAt,
+          like: comment.commentReaction.likeCount,
+          dislike: comment.commentReaction.dislikeCount,
+          reaction: comment.commentReaction.userSelection,
         }))}
       totalCount={commentsData.pages[0].totalCount}
       userId={user?.id}
@@ -66,19 +61,9 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           author: data.author,
           text: data.content as string,
           updatedAt: data.updatedAt,
-          children: [],
-        };
-      }}
-      onUpdate={async ({ commentId, text }) => {
-        const data = await updateComment({
-          id: commentId,
-          content: text,
-        });
-        return {
-          id: data.id,
-          author: data.author,
-          text: data.content as string,
-          updatedAt: data.updatedAt,
+          like: 0,
+          dislike: 0,
+          reaction: null,
           children: [],
         };
       }}
