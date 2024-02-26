@@ -19,8 +19,9 @@ const DIVISIONS = [
   { amount: Number.POSITIVE_INFINITY, name: 'years' },
 ] as const;
 
-export function formatTimeAgo(date: Date) {
-  let duration = (date.getTime() - new Date().getTime()) / 1000;
+export function formatTimeAgo(date: Date | string | number) {
+  const d = date instanceof Date ? date : new Date(date);
+  let duration = (d.getTime() - new Date().getTime()) / 1000;
 
   for (let i = 0; i < DIVISIONS.length; i++) {
     const division = DIVISIONS[i];
@@ -42,7 +43,7 @@ export function countReactions(
   reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
   userId: string | null
 ): {
-  userSelection: 'like' | 'dislike' | null;
+  userReaction: 'like' | 'dislike' | null;
   likeCount: number;
   dislikeCount: number;
 } {
@@ -50,7 +51,7 @@ export function countReactions(
     (accum, { authorId, reactionType }) => {
       return {
         ...accum,
-        userSelection: authorId === userId ? reactionType : accum.userSelection,
+        userReaction: authorId === userId ? reactionType : accum.userReaction,
         likeCount:
           reactionType === 'like' ? accum.likeCount + 1 : accum.likeCount,
         dislikeCount:
@@ -60,7 +61,7 @@ export function countReactions(
       };
     },
     {
-      userSelection: null as 'like' | 'dislike' | null,
+      userReaction: null as 'like' | 'dislike' | null,
       likeCount: 0,
       dislikeCount: 0,
     }

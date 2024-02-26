@@ -1,7 +1,6 @@
+import { UserReaction } from '@/types/shared';
 import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
-
-export type Reaction = 'like' | 'dislike' | null;
 
 const LikeDislike = ({
   like,
@@ -11,16 +10,16 @@ const LikeDislike = ({
 }: {
   like: number;
   dislike: number;
-  userSelect: Reaction;
-  onUpdate?: (value: Reaction) => Promise<void>;
+  userSelect: UserReaction;
+  onUpdate?: (value: UserReaction) => Promise<void>;
 }) => {
   const [likeCount, setLikeCount] = useState(like);
   const [dislikeCount, setDislikeCount] = useState(dislike);
-  const [select, setSelect] = useState<Reaction>(userSelect);
+  const [select, setSelect] = useState<UserReaction>(userSelect);
 
   return (
     <>
-      <div className="mr-3 flex items-center gap-1">
+      <div className="mr-3 flex items-center gap-1 text-xs">
         <ThumbsUpIcon
           size={12}
           fill={select === 'like' ? 'currentColor' : 'transparent'}
@@ -43,7 +42,7 @@ const LikeDislike = ({
         />
         <div>{likeCount}</div>
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 text-xs">
         <ThumbsDownIcon
           size={12}
           fill={select === 'dislike' ? 'currentColor' : 'transparent'}

@@ -129,8 +129,8 @@ model Comment {
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
 
-  postId String
-  post   Post   @relation(fields: [postId], references: [id])
+  postId String?
+  post   Post?   @relation(fields: [postId], references: [id])
 
   childComments Comment[] @relation("ChildComments")
 

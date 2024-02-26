@@ -1,3 +1,22 @@
+export const mbtis = [
+  'ISTJ',
+  'ISFJ',
+  'INFJ',
+  'INTJ',
+  'ISTP',
+  'ISFP',
+  'INFP',
+  'INTP',
+  'ESTP',
+  'ESFP',
+  'ENFP',
+  'ENTP',
+  'ESTJ',
+  'ESFJ',
+  'ENFJ',
+  'ENTJ',
+] as const;
+
 export const COMMUNITY_GROUP_MAP = {
   x: {
     id: 'x',

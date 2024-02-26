@@ -2,11 +2,11 @@
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import PostShowComponent from './PostShow.component';
-import PostCommentSection from '../poll/PostCommentSection';
 import { useUser } from '@clerk/nextjs';
 import DefaultItemHeader from '../DefaultItemHeader';
 import { trpc } from '@/client/trpcClient';
 import { useEffect, useState } from 'react';
+import CommentList from '../comment/CommentList';
 
 interface PostShowProps {
   id: string;
@@ -37,11 +37,11 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
     if (!data) return;
     setLike({
       count: data.postReaction.likeCount,
-      selected: data.postReaction.userSelection === 'like',
+      selected: data.postReaction.userReaction === 'like',
     });
     setDislike({
       count: data.postReaction.dislikeCount,
-      selected: data.postReaction.userSelection === 'dislike',
+      selected: data.postReaction.userReaction === 'dislike',
     });
   }, [data]);
 
@@ -102,7 +102,7 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
           );
         }}
       />
-      <PostCommentSection postId={id} authorId={data.authorId} />
+      <CommentList postId={id} />
     </div>
   );
 };

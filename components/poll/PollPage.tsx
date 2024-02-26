@@ -6,9 +6,10 @@ import { usePollQuery } from '@/hooks/queries/usePollQuery';
 import PollSubmitForm from './PollSubmitForm';
 import React from 'react';
 import PollDetailSection from './PollDetailSection';
-import PostCommentSection from './PostCommentSection';
 import DefaultItemHeader from '../DefaultItemHeader';
 import { trpc } from '@/client/trpcClient';
+import CommentList from '../comment/CommentList';
+import { PostContextProvider } from '@/contexts/PostContext';
 
 interface PollPageProps {
   id: string;
@@ -30,7 +31,7 @@ export default function PollPage({ id }: PollPageProps) {
         }
       />
       {poll ? (
-        <React.Fragment key={poll.id}>
+        <PostContextProvider key={poll.id} postId={poll.postId}>
           <PollSubmitForm
             id={poll.id}
             onUpdateReaction={(reaction) =>
@@ -41,8 +42,10 @@ export default function PollPage({ id }: PollPageProps) {
             }
           />
           <PollDetailSection id={poll.id} />
-          <PostCommentSection postId={poll.postId} authorId={poll.authorId} />
-        </React.Fragment>
+          <div className="mt-4">
+            <CommentList postId={poll.postId} />
+          </div>
+        </PostContextProvider>
       ) : (
         <div>loading</div>
       )}

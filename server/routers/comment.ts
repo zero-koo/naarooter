@@ -3,32 +3,18 @@ import { z } from 'zod';
 
 import { privateProcedure, publicProcedure, router } from '../trpc';
 import { TRPCError } from '@trpc/server';
-import { Prisma } from '@prisma/client';
-import { countReactions } from '@/lib/utils';
-
-const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
-  id: true,
-  author: true,
-  content: true,
-  commentReaction: {
-    select: {
-      authorId: true,
-      reactionType: true,
-    },
-  },
-  parentCommentId: true,
-  createdAt: true,
-  updatedAt: true,
-});
+import { createCommentDto, defaultCommentSelector } from '@/dtos/comment.dto';
 
 export const commentRouter = router({
   list: publicProcedure
     .input(
       z.object({
         postId: z.string().uuid(),
-        limit: z.number().min(1).max(100).default(20),
-        cursor: z.number().nullish(),
+        parentCommentId: z.number().optional(),
         initialCursor: z.number().nullish(),
+        limit: z.number().min(1).max(100).default(5),
+        direction: z.enum(['asc', 'desc']).default('desc'),
+        cursor: z.number().nullish(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -36,27 +22,11 @@ export const commentRouter = router({
 
       const [comments, count] = await prisma.$transaction([
         prisma.comment.findMany({
-          select: {
-            id: true,
-            author: {
-              select: {
-                id: true,
-                mbti: true,
-                name: true,
-              },
-            },
-            content: true,
-            commentReaction: {
-              select: {
-                authorId: true,
-                reactionType: true,
-              },
-            },
-            updatedAt: true,
-          },
-          take: input.limit + 1,
+          select: defaultCommentSelector,
+          take: input.limit + (cursor ? 2 : 1),
           where: {
             postId: input.postId,
+            parentCommentId: input.parentCommentId ?? null,
           },
           cursor: cursor
             ? {
@@ -64,28 +34,25 @@ export const commentRouter = router({
               }
             : undefined,
           orderBy: {
-            createdAt: 'desc',
+            createdAt: input.direction,
           },
         }),
         prisma.comment.count({ where: { postId: input.postId } }),
       ]);
 
-      let nextCursor: number | undefined = undefined;
+      if (cursor) comments.shift();
+
+      let hasNextPage = false;
       if (comments.length > input.limit) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const lastItem = comments.pop()!;
-        nextCursor = lastItem.id;
+        comments.pop();
+        hasNextPage = true;
       }
 
       return {
-        comments: comments.map((comment) => ({
-          ...comment,
-          commentReaction: countReactions(
-            comment.commentReaction,
-            ctx.auth.userId
-          ),
-        })),
-        nextCursor,
+        comments: comments.map((comment) =>
+          createCommentDto({ comment, userId: ctx.auth.userId })
+        ),
+        hasNextPage,
         totalCount: count,
       };
     }),
@@ -100,24 +67,7 @@ export const commentRouter = router({
         where: {
           id: input.id,
         },
-        select: {
-          id: true,
-          author: {
-            select: {
-              id: true,
-              mbti: true,
-              name: true,
-            },
-          },
-          content: true,
-          commentReaction: {
-            select: {
-              authorId: true,
-              reactionType: true,
-            },
-          },
-          updatedAt: true,
-        },
+        select: defaultCommentSelector,
       });
 
       if (!comment) {
@@ -127,31 +77,28 @@ export const commentRouter = router({
         });
       }
 
-      return {
-        ...comment,
-        commentReaction: countReactions(
-          comment.commentReaction,
-          ctx.auth.userId
-        ),
-      };
+      return createCommentDto({ comment, userId: ctx.auth.userId });
     }),
   add: privateProcedure
     .input(
       z.object({
-        postId: z.string().uuid(),
+        postId: z.string().uuid().optional(),
         content: z.string(),
-        parentId: z.string().optional(),
+        parentId: z.number().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      return await prisma.comment.create({
+      const comment = await prisma.comment.create({
         data: {
-          postId: input.postId,
+          postId: input.postId ?? null,
+          parentCommentId: input.parentId,
           authorId: ctx.auth.userId,
           content: input.content,
         },
         select: defaultCommentSelector,
       });
+
+      return createCommentDto({ comment, userId: ctx.auth.userId });
     }),
   update: privateProcedure
     .input(
@@ -182,7 +129,7 @@ export const commentRouter = router({
         });
       }
 
-      return await prisma.comment.update({
+      const updatedComment = await prisma.comment.update({
         where: {
           id: input.id,
         },
@@ -190,6 +137,10 @@ export const commentRouter = router({
           content: input.content,
         },
         select: defaultCommentSelector,
+      });
+      return createCommentDto({
+        comment: updatedComment,
+        userId: ctx.auth.userId,
       });
     }),
 
