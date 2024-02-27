@@ -171,6 +171,30 @@ export const commentRouter = router({
         });
       }
 
+      const childrenExists = await prisma.comment.findFirst({
+        where: {
+          parentCommentId: input.id,
+        },
+      });
+
+      if (childrenExists) {
+        const deletedComment = await prisma.comment.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            content: '',
+            status: 'deleted',
+          },
+          select: defaultCommentSelector,
+        });
+
+        return createCommentDto({
+          comment: deletedComment,
+          userId: ctx.auth.userId,
+        });
+      }
+
       await prisma.comment.delete({
         where: {
           id: input.id,

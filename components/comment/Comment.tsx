@@ -14,7 +14,7 @@ import { usePostContext } from '@/contexts/PostContext';
 import { useUser } from '@clerk/nextjs';
 
 type CommentProps = {
-  comment: TComment;
+  initialData: TComment;
   postId: string;
   onIncreaseCommentsCount: () => void;
   onDecreaseCommentsCount: () => void;
@@ -23,7 +23,7 @@ type CommentProps = {
 
 const Comment = ({
   postId,
-  comment,
+  initialData,
   onIncreaseCommentsCount,
   onDecreaseCommentsCount,
   onDelete,
@@ -32,8 +32,7 @@ const Comment = ({
   const post = usePostContext();
   const { user } = useUser();
 
-  const [content, setContent] = useState<CommentContent>(comment.content);
-  const [updatedAt, setUpdatedAt] = useState<Date>(comment.updatedAt);
+  const [comment, setComment] = useState<TComment>(initialData);
 
   const [showReplies, setShowReplies] = useState(!!comment.comments?.length);
   const {
@@ -103,15 +102,21 @@ const Comment = ({
   const { mutateAsync: updateComment } = trpc.comment.update.useMutation();
   async function handleUpdateComment(content: CommentContent) {
     const updatedComment = await updateComment({ id: comment.id, content });
-    setContent(updatedComment.content);
-    setUpdatedAt(updatedComment.updatedAt);
+    setComment(updatedComment);
   }
 
   const { mutateAsync: deleteComment } = trpc.comment.delete.useMutation();
   async function handleDeleteComment() {
-    await deleteComment({ id: comment.id });
-    onDelete();
+    const deletedComment = await deleteComment({ id: comment.id });
+
+    if (!deletedComment) {
+      onDelete();
+      return;
+    }
+
+    setComment(deletedComment);
   }
+
   function onDeleteReply(pageIndex: number, id: number) {
     if (!replies) return;
     updatePostCommentsQuery({
@@ -149,8 +154,6 @@ const Comment = ({
       <CommentView
         {...restProps}
         {...comment}
-        content={content}
-        updatedAt={updatedAt}
         isAuthor={comment.authorId === user?.id}
         isPostAuthor={comment.authorId === post.authorId}
         likeCount={likeCount}

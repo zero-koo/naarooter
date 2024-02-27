@@ -138,9 +138,16 @@ model Comment {
   parentComment   Comment? @relation("ChildComments", fields: [parentCommentId], references: [id])
 
   commentReaction CommentReaction[]
+
+  status COMMENT_STATUS @default(default)
   
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
+}
+
+enum COMMENT_STATUS {
+  default
+  deleted
 }
 
 model PostReaction {

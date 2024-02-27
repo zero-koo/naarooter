@@ -28,7 +28,7 @@ const CommentListView = ({
           <Comment
             key={`${page}-${comment.id}`}
             postId={postId}
-            comment={comment}
+            initialData={comment}
             onDelete={() => onDelete(page, comment.id)}
             onIncreaseCommentsCount={onIncreaseCommentsCount}
             onDecreaseCommentsCount={onDecreaseCommentsCount}

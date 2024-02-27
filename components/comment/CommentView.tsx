@@ -1,4 +1,4 @@
-import { formatTimeAgo } from '@/lib/utils';
+import { cn, formatTimeAgo } from '@/lib/utils';
 import { CommentContent, TComment } from '@/types/shared';
 import {
   DropdownMenu,
@@ -22,7 +22,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '../ui/AlertDialog';
 import { Button } from '../Button';
 import LikeDislikeV1 from '../LikeDislikeV1';
@@ -52,6 +51,7 @@ const CommentView = ({
   dislikeCount,
   userReaction,
   commentsCount,
+  status,
   hideReplyCount = false,
   onAddReply,
   onClickLike,
@@ -63,11 +63,14 @@ const CommentView = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [showReplyInput, setShowReplyInput] = useState(false);
 
+  const isDeleted = status === 'deleted';
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   return (
     <div className="flex flex-1 flex-col gap-1 border-b border-base-content/30 py-2">
       {!isEditMode ? (
         <>
-          <div className="flex items-center text-xs opacity-70">
+          <div className="flex h-6 items-center text-xs opacity-70">
             {isPostAuthor && (
               <div className="dot-between text-primary">{'글쓴이'}</div>
             )}
@@ -89,46 +92,58 @@ const CommentView = ({
                   collisionPadding={8}
                   align="end"
                 >
+                  {!isDeleted && (
+                    <DropdownMenuItem
+                      className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
+                      onClick={() => setIsEditMode(true)}
+                    >
+                      <PencilIcon size={14} />
+                      <div>수정</div>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
                     className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
-                    onClick={() => setIsEditMode(true)}
+                    disabled={isDeleted && commentsCount > 0}
+                    onClick={() => setIsDeleteModalOpen(true)}
                   >
-                    <PencilIcon size={14} />
-                    <div>수정</div>
+                    <Trash2Icon size={14} />
+                    <div>삭제</div>
                   </DropdownMenuItem>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <DropdownMenuItem
-                        className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70"
-                        onSelect={(e) => e.preventDefault()}
-                      >
-                        <Trash2Icon size={14} />
-                        <div>삭제</div>
-                      </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>댓글 삭제</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          댓글을 완전히 삭제할까요?
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          variant={'destructive'}
-                          onClick={() => onDelete()}
-                        >
-                          삭제
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
                 </DropdownMenuContent>
+                <AlertDialog
+                  open={isDeleteModalOpen}
+                  onOpenChange={setIsDeleteModalOpen}
+                >
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>댓글 삭제</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {commentsCount > 0
+                          ? '답글이 있는 댓글은 완전히 삭제할 수 없으며, 댓글의 내용만 지워집니다. 계속 진행하시겠습니까?'
+                          : '댓글을 완전히 삭제할까요?'}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        variant={'destructive'}
+                        onClick={() => onDelete()}
+                      >
+                        삭제
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenu>
             )}
           </div>
-          <div className="whitespace-pre-wrap text-sm">{content}</div>
+          <div
+            className={cn('whitespace-pre-wrap text-sm', {
+              'opacity-50 italic': isDeleted,
+            })}
+          >
+            {isDeleted ? '삭제된 댓글입니다' : content}
+          </div>
           <div className="mt-2 flex">
             <LikeDislikeV1
               likeCount={likeCount}

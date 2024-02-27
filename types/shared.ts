@@ -1,4 +1,5 @@
 import { mbtis } from '@/lib/constants';
+import { COMMENT_STATUS } from '@prisma/client';
 
 // MBTI
 export type MBTI = (typeof mbtis)[number];
@@ -18,6 +19,7 @@ export type TComment = {
   likeCount: number;
   dislikeCount: number;
   userReaction: UserReaction;
+  status: COMMENT_STATUS;
 };
 
 export type TReply = Omit<TComment, 'parentCommentId'> & {
