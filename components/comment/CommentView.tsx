@@ -46,6 +46,7 @@ const CommentView = ({
   content,
   isPostAuthor,
   isAuthor,
+  createdAt,
   updatedAt,
   likeCount,
   dislikeCount,
@@ -76,8 +77,10 @@ const CommentView = ({
             )}
             {authorName && <div className="dot-between">{authorName}</div>}
             {authorMBTI && <div className="dot-between">{authorMBTI}</div>}
-            <div className="dot-between mr-2 font-light">
-              {formatTimeAgo(updatedAt)}
+            <div className="dot-between font-light">
+              {`${formatTimeAgo(createdAt)}${
+                updatedAt.getTime() !== createdAt.getTime() ? ' (수정됨)' : ''
+              }`}
             </div>
             {isAuthor && (
               <DropdownMenu>
