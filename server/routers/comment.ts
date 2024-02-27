@@ -85,6 +85,7 @@ export const commentRouter = router({
         postId: z.string().uuid().optional(),
         content: z.string(),
         parentId: z.number().optional(),
+        targetUserId: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -94,6 +95,7 @@ export const commentRouter = router({
           parentCommentId: input.parentId,
           authorId: ctx.auth.userId,
           content: input.content,
+          targetUserId: input.targetUserId,
         },
         select: defaultCommentSelector,
       });

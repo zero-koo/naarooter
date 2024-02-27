@@ -20,6 +20,8 @@ export type TComment = {
   dislikeCount: number;
   userReaction: UserReaction;
   status: COMMENT_STATUS;
+  targetUserId?: string;
+  targetUserName?: string;
 };
 
 export type TReply = Omit<TComment, 'parentCommentId'> & {

@@ -27,6 +27,7 @@ import { Button } from '../Button';
 import LikeDislikeV1 from '../LikeDislikeV1';
 import { useState } from 'react';
 import CommentInput from './CommentInput';
+import CommentTargetUserTag from './CommentTargetUserTag';
 
 export type CommentProps = TComment & {
   isAuthor: boolean;
@@ -53,6 +54,7 @@ const CommentView = ({
   userReaction,
   commentsCount,
   status,
+  targetUserName,
   hideReplyCount = false,
   onAddReply,
   onClickLike,
@@ -145,7 +147,19 @@ const CommentView = ({
               'opacity-50 italic': isDeleted,
             })}
           >
-            {isDeleted ? '삭제된 댓글입니다' : content}
+            {isDeleted ? (
+              '삭제된 댓글입니다'
+            ) : (
+              <>
+                {targetUserName && (
+                  <CommentTargetUserTag
+                    username={targetUserName}
+                    className="mb-1"
+                  />
+                )}
+                <div>{content}</div>
+              </>
+            )}
           </div>
           <div className="mt-2 flex">
             <LikeDislikeV1
@@ -179,9 +193,10 @@ const CommentView = ({
         </>
       ) : (
         <div className="py-1">
-          <div className="mb-1 text-xs font-bold">댓글 수정</div>
+          <div className="h-6 text-xs font-bold">댓글 수정</div>
           <CommentInput
             initialText={content}
+            targetUserName={targetUserName}
             focusOnMount
             onSave={async (content) => {
               await onUpdate(content);

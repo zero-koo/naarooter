@@ -29,12 +29,13 @@ const CommentReply = ({
 
   const { mutateAsync: createComment } = trpc.comment.add.useMutation();
   async function handleAddReply(content: CommentContent) {
-    const reply = await createComment({
+    const comment = await createComment({
       postId,
       parentId: parentCommentId,
       content,
+      targetUserId: reply.authorId,
     });
-    onAddReply(reply);
+    onAddReply(comment);
   }
 
   const { mutateAsync: updateComment } = trpc.comment.update.useMutation();

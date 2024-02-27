@@ -45,6 +45,12 @@ export const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
         },
       },
       status: true,
+      targetUser: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
     orderBy: {
       createdAt: 'asc',
@@ -59,6 +65,12 @@ export const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
     },
   },
   status: true,
+  targetUser: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
 });
 
 export function createCommentDto({
@@ -83,5 +95,7 @@ export function createCommentDto({
     commentsCount: comment._count.childComments,
     ...countReactions(comment.commentReaction, userId),
     status: comment.status,
+    targetUserId: comment.targetUser?.id,
+    targetUserName: comment.targetUser?.name,
   };
 }

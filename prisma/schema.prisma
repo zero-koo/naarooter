@@ -17,14 +17,15 @@ model User {
   name  String
   mbti  MBTI?
 
-  posts        Post[]
-  votes        Vote[]
-  comments     Comment[]
-  postReaction PostReaction[]
-  commentReaction CommentReaction[]
+  posts            Post[]
+  votes            Vote[]
+  comments         Comment[]         @relation("AuthorRelation")
+  targetedComments Comment[]         @relation("TargetUserRelation")
+  postReaction     PostReaction[]
+  commentReaction  CommentReaction[]
 
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum MBTI {
@@ -127,7 +128,7 @@ model Comment {
   content String
 
   authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation("AuthorRelation", fields: [authorId], references: [id])
 
   postId String?
   post   Post?   @relation(fields: [postId], references: [id])
@@ -139,10 +140,13 @@ model Comment {
 
   commentReaction CommentReaction[]
 
+  targetUserId String?
+  targetUser   User?   @relation("TargetUserRelation", fields: [targetUserId], references: [id])
+
   status COMMENT_STATUS @default(default)
-  
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum COMMENT_STATUS {

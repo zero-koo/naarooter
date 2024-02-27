@@ -6,17 +6,20 @@ import { cn } from '@/lib/utils';
 import { Button } from '../../Button';
 import { Textarea } from '../../ui/textarea';
 import { CommentContent } from '@/types/shared';
+import CommentTargetUserTag from '../CommentTargetUserTag';
 
 const CommentInput = ({
   initialText = '',
   focusOnMount = false,
   hideButtonsByDefault = false,
+  targetUserName,
   onSave,
   onCancel,
 }: {
   initialText?: CommentContent;
   focusOnMount?: boolean;
   hideButtonsByDefault?: boolean;
+  targetUserName?: string;
   onSave: (text: CommentContent) => Promise<void>;
   onCancel?: () => void;
 }) => {
@@ -38,11 +41,14 @@ const CommentInput = ({
 
   return (
     <div className="flex w-full flex-col">
+      {targetUserName && (
+        <CommentTargetUserTag username={targetUserName} className="mb-1" />
+      )}
       <Textarea
         {...register('text')}
         rows={Math.min(watch('text').split('\n').length, 4)}
         className={cn(
-          'w-full border-b border-base-content/60 bg-transparent py-1 px-0 focus-visible:border-base-content mb-1.5'
+          'w-full border-b border-base-content/60 bg-transparent py-0 px-0 pb-1 focus-visible:border-base-content mb-1.5'
         )}
         placeholder="댓글 남기기"
         onFocus={() => setShowButtons(true)}
