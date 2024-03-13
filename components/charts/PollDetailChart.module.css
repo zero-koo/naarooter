@@ -1,0 +1,79 @@
+.grid {
+  position: relative;
+  display: grid;
+  width: 100%;
+  gap: 4px;
+  grid-template-columns: 8px repeat(16, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows), minmax(0, 1fr)) auto;
+}
+
+.bubble {
+  display: grid;
+  grid-column: 2 / -1;
+  grid-row: 1 / -1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
+.bubbleRow {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.cell {
+  padding-top: 100%;
+}
+
+.yaxis {
+  display: grid;
+  grid-column: 1 / 2;
+  grid-row: 1 / -2;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
+.xaxis {
+  display: grid;
+  grid-column: 2 / -1;
+  grid-row: -2 / -1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
+
+.rows {
+  position: absolute;
+  display: grid;
+  gap: 4px;
+  grid-column: 2 / -1;
+  grid-row: 1 / -2;
+  grid-template-rows: subgrid;
+  inset: 0;
+
+  @apply z-20
+}
+
+.row {
+  @apply rounded bg-base-100
+}
+
+.cols {
+  position: absolute;
+  display: grid;
+  gap: 4px;
+  grid-column: 2 / -1;
+  grid-row: 1 / -2;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+
+  /* grid-template-columns: subgrid; */
+
+  /* grid-template-rows: subgrid; */
+  inset: 0;
+
+  @apply z-20
+}
+
+.col {
+  @apply rounded bg-base-100
+}
