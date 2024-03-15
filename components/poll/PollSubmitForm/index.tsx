@@ -83,7 +83,7 @@ function PollSubmitForm({
       totalVoteCount={totalVoteCount}
       like={postReaction.likeCount}
       dislike={postReaction.dislikeCount}
-      userReaction={postReaction.userSelection}
+      userReaction={postReaction.userReaction}
       showResult={voted}
       onClick={onClick}
       onSelectChoice={(choiceId) =>

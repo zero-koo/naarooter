@@ -6,6 +6,7 @@
 }
 
 .inner {
+  overflow: hidden;
   height: 100%;
   flex: 0 1 540px;
 }

@@ -1,28 +1,36 @@
+'use client';
+
 import Link from 'next/link';
-import { auth, UserButton } from '@clerk/nextjs';
+import { useAuth, UserButton } from '@clerk/nextjs';
 
 import { Button } from './Button';
+import SearchBox from './SearchBox';
+import { useURLSearchParams } from '@/hooks/useURLSearchParams';
 
 const RootHeader = () => {
-  const { userId } = auth();
+  const { userId } = useAuth();
+  const { setSearchParams } = useURLSearchParams();
 
   return (
-    <header className={'flex items-center p-2'}>
+    <header className={'flex items-center gap-3 p-2'}>
       <Link
-        className="text-l rounded-lg bg-primary px-1.5 py-0.5 font-extrabold text-white"
+        className="text-l mr-auto rounded-lg bg-primary px-1.5 py-0.5 font-extrabold text-white"
         href={'/'}
       >
         Na
       </Link>
-      <div className={'ml-auto'}>
+      <>
         {userId ? (
-          <UserButton afterSignOutUrl="/sign-in" />
+          <>
+            <SearchBox onSubmit={(value) => setSearchParams('search', value)} />
+            <UserButton afterSignOutUrl="/sign-in" />
+          </>
         ) : (
           <Link href={'/sign-in'}>
             <Button theme="primary">login</Button>
           </Link>
         )}
-      </div>
+      </>
     </header>
   );
 };

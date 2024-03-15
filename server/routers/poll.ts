@@ -62,6 +62,7 @@ export const pollRouter = router({
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(20),
+        search: z.string().nullish(),
         cursor: z.string().nullish(),
         initialCursor: z.string().nullish(),
       })
@@ -79,7 +80,16 @@ export const pollRouter = router({
         select: defaultPollSelect(ctx.auth.userId ?? ''),
         // get an extra item to know if there's a next page
         take: input.limit + 1,
-        where: {},
+        where: {
+          AND: input.search?.split(' ').map((keyword) => ({
+            post: {
+              title: {
+                contains: keyword,
+                mode: 'insensitive',
+              },
+            },
+          })),
+        },
         cursor: cursor
           ? {
               id: cursor,

@@ -7,14 +7,31 @@ import { usePollListQuery } from '@/hooks/queries/usePollListQuery';
 
 import PollSubmitForm from './PollSubmitForm';
 import { useRouter } from 'next/navigation';
+import { useURLSearchParams } from '@/hooks/useURLSearchParams';
+import { Label } from '../ui/Label';
 
-const PollList = () => {
-  const { data } = usePollListQuery();
+const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
+  const { getSearchParams, deleteSearchParams } = useURLSearchParams();
+
+  const search = getSearchParams('search') ?? searchKeyword;
+  const { data } = usePollListQuery({
+    search,
+  });
   const router = useRouter();
 
   if (!data) return <div>loading..</div>;
   return (
     <div className="flex flex-col gap-2 pb-5">
+      <div className="w-full px-2 py-0.5">
+        {search ? (
+          <Label closable onClose={() => deleteSearchParams('search')}>
+            {search}
+          </Label>
+        ) : null}
+      </div>
+      {!data.items.length ? (
+        <div className="flex-center bg-base-100 py-20 text-sm opacity-80">{`'${search}' 에 대한 검색 결과가 없습니다.`}</div>
+      ) : null}
       {data.items.map((poll) => (
         <>
           <PollSubmitForm
