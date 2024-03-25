@@ -6,8 +6,12 @@ import { redirect } from 'next/navigation';
 
 const PostListByGroupPage = ({
   params: { gid },
+  searchParams,
 }: {
-  params: { gid: CommunityGroupId };
+  params: {
+    gid: CommunityGroupId;
+  };
+  searchParams?: { [key: string]: string | undefined };
 }) => {
   if (!isValidCommunityGroupId(gid)) {
     redirect('/not-found');
@@ -17,7 +21,7 @@ const PostListByGroupPage = ({
     <>
       <RootHeader />
       <CommunityHeader title={COMMUNITY_GROUP_MAP[gid].title} />
-      <PostList groupId={gid} />
+      <PostList groupId={gid} searchKeyword={searchParams?.search} />
     </>
   );
 };

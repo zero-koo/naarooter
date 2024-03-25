@@ -1,8 +1,9 @@
 'use client';
 
 import { useOutsideClick } from '@/hooks/useClickOutside';
+import { useURLSearchParams } from '@/hooks/useURLSearchParams';
 import { cn } from '@/lib/utils';
-import { SearchIcon } from 'lucide-react';
+import { DeleteIcon, SearchIcon, Undo2Icon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -12,7 +13,10 @@ type SearchBoxProps = {
 };
 
 const SearchBox = ({ className, onSubmit }: SearchBoxProps) => {
-  const [extended, setExtended] = useState(false);
+  const { getSearchParams, deleteSearchParams } = useURLSearchParams();
+  const search = getSearchParams('search');
+
+  const [extended, setExtended] = useState(!!search);
 
   return (
     <div
@@ -26,11 +30,14 @@ const SearchBox = ({ className, onSubmit }: SearchBoxProps) => {
     >
       {extended ? (
         <SearchBoxInput
+          submittedValue={search ?? ''}
           onSubmit={(value) => {
-            setExtended(false);
             onSubmit?.(value);
           }}
-          onClickOutside={() => setExtended(false)}
+          onRevert={() => {
+            deleteSearchParams('search');
+          }}
+          onClickOutside={() => search || setExtended(false)}
         />
       ) : (
         <button
@@ -48,17 +55,25 @@ const SearchBox = ({ className, onSubmit }: SearchBoxProps) => {
 export default SearchBox;
 
 function SearchBoxInput({
+  submittedValue,
   className,
   onSubmit,
+  onRevert,
   onClickOutside,
 }: {
+  submittedValue?: string;
   className?: string;
   onSubmit?: (value: string) => void;
+  onRevert?: () => void;
   onClickOutside?: () => void;
 }) {
-  const { register, setFocus, handleSubmit } = useForm<{
+  const { register, watch, setValue, setFocus, handleSubmit } = useForm<{
     value: string;
-  }>();
+  }>({
+    defaultValues: {
+      value: submittedValue ?? '',
+    },
+  });
 
   useEffect(() => {
     setFocus('value');
@@ -70,12 +85,31 @@ function SearchBoxInput({
 
   return (
     <form ref={elementRef} className={cn('flex h-8 flex-1', className)}>
-      <input
-        {...register('value')}
-        className="h-full flex-1 pl-4 pr-1 text-sm"
-        placeholder="검색"
-        autoComplete={'off'}
-      />
+      <div
+        className={cn(
+          'h-full flex flex-1 pl-4 pr-2 text-sm gap-1.5 items-center'
+        )}
+      >
+        <input
+          {...register('value')}
+          className={'h-full w-full'}
+          placeholder="검색"
+          autoComplete={'off'}
+        />
+        {submittedValue || watch('value') ? (
+          <button
+            className="flex-center h-fit w-fit rounded-full bg-neutral-100/20 p-0.5"
+            type="button"
+            onClick={() => {
+              setValue('value', '');
+              setFocus('value');
+              submittedValue && onRevert?.();
+            }}
+          >
+            <XIcon size={12} />
+          </button>
+        ) : null}
+      </div>
       <button
         className="flex-center h-full rounded-e-full bg-neutral-100/10 px-2 pr-2.5"
         onClick={handleSubmit(({ value }) => {

@@ -43,6 +43,7 @@ export const postRouter = router({
     .input(
       z.object({
         groupId: z.string().optional(),
+        search: z.string().optional(),
         limit: z.number().min(1).max(100).default(20),
         cursor: z.string().nullish(),
         initialCursor: z.string().nullish(),
@@ -64,6 +65,12 @@ export const postRouter = router({
         where: {
           type: 'POST',
           groupId: input.groupId,
+          AND: input.search?.split(' ').map((keyword) => ({
+            title: {
+              contains: keyword,
+              mode: 'insensitive',
+            },
+          })),
         },
         cursor: cursor
           ? {

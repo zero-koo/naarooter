@@ -1,6 +1,6 @@
 import { MenuIcon } from 'lucide-react';
 import { ReactNode } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from './ui/Sheet';
+import { Sheet, SheetContent, SheetTrigger } from './ui/Sheet';
 import GlobalNavigation from './nav/GlobalNavigation';
 
 type CommunityHeaderProps = {
@@ -11,7 +11,7 @@ type CommunityHeaderProps = {
 
 const CommunityHeader = ({ title, left, right }: CommunityHeaderProps) => {
   return (
-    <div className="relative flex h-12 items-center justify-between bg-base-300">
+    <div className="relative flex h-12 items-center justify-between border-b border-base-content/30">
       {left ?? <NavMenuToggle />}
       <h1 className="absolute left-1/2 flex -translate-x-1/2 items-center text-lg font-semibold">
         {title}
