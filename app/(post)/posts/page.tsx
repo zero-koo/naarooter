@@ -1,4 +1,4 @@
-import CommunityHeader from '@/components/CommunityHeader';
+import DefaultListHeader from '@/components/DefaultListHeader';
 import RootHeader from '@/components/RootHeader';
 import PostList from '@/components/post/PostList';
 
@@ -6,7 +6,7 @@ const PostListPage = () => {
   return (
     <>
       <RootHeader />
-      <CommunityHeader title="전체방" />
+      <DefaultListHeader title="전체방" />
       <PostList />
     </>
   );

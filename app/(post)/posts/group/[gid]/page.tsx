@@ -1,4 +1,4 @@
-import CommunityHeader from '@/components/CommunityHeader';
+import DefaultListHeader from '@/components/DefaultListHeader';
 import RootHeader from '@/components/RootHeader';
 import PostList from '@/components/post/PostList';
 import { COMMUNITY_GROUP_MAP, CommunityGroupId } from '@/lib/constants';
@@ -20,7 +20,7 @@ const PostListByGroupPage = ({
   return (
     <>
       <RootHeader />
-      <CommunityHeader title={COMMUNITY_GROUP_MAP[gid].title} />
+      <DefaultListHeader title={COMMUNITY_GROUP_MAP[gid].title} />
       <PostList groupId={gid} searchKeyword={searchParams?.search} />
     </>
   );

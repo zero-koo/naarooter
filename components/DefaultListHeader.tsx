@@ -3,13 +3,13 @@ import { ReactNode } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from './ui/Sheet';
 import GlobalNavigation from './nav/GlobalNavigation';
 
-type CommunityHeaderProps = {
+type DefaultListHeaderProps = {
   title: ReactNode;
   left?: ReactNode;
   right?: ReactNode;
 };
 
-const CommunityHeader = ({ title, left, right }: CommunityHeaderProps) => {
+const DefaultListHeader = ({ title, left, right }: DefaultListHeaderProps) => {
   return (
     <div className="relative flex h-12 items-center justify-between border-b border-base-content/30">
       {left ?? <NavMenuToggle />}
@@ -21,7 +21,7 @@ const CommunityHeader = ({ title, left, right }: CommunityHeaderProps) => {
   );
 };
 
-export default CommunityHeader;
+export default DefaultListHeader;
 
 const NavMenuToggle = () => {
   return (
