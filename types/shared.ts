@@ -1,6 +1,15 @@
 import { mbtis } from '@/lib/constants';
 import { COMMENT_STATUS } from '@prisma/client';
 
+// REACT | NEXT
+export type NextPage = ({
+  params,
+  searchParams,
+}: {
+  params?: Record<string, string>;
+  searchParams?: Record<string, string>;
+}) => React.ReactNode;
+
 // MBTI
 export type MBTI = (typeof mbtis)[number];
 
