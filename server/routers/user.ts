@@ -3,10 +3,12 @@
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
 import { prisma } from '@/server/prisma';
-import { Prisma } from '@prisma/client';
+import { MBTI, Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 import { privateProcedure, router } from '../trpc';
+import { mbtis } from '@/lib/constants';
+import { clerkClient } from '@clerk/nextjs';
 
 const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,
@@ -28,6 +30,28 @@ export const userRouter = router({
       },
     });
   }),
+  update: privateProcedure
+    .input(
+      z.object({
+        name: z.string().optional(),
+        mbti: z.enum(mbtis).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await prisma.user.update({
+        select: {
+          id: true,
+          name: true,
+          mbti: true,
+        },
+        where: {
+          id: ctx.auth.userId,
+        },
+        data: {
+          ...input,
+        },
+      });
+    }),
   mbti: privateProcedure.query(async ({ ctx }) => {
     return await prisma.user.findUnique({
       select: defaultMBTISelect,
@@ -56,4 +80,18 @@ export const userRouter = router({
         },
       });
     }),
+  withdraw: privateProcedure.mutation(async ({ ctx }) => {
+    await clerkClient.users.deleteUser(ctx.auth.userId);
+    return prisma.user.update({
+      select: defaultMBTISelect,
+      where: {
+        id: ctx.auth.userId,
+      },
+      data: {
+        email: null,
+        name: null,
+        status: 'DELETED',
+      },
+    });
+  }),
 });

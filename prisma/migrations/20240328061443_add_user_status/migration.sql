@@ -1,0 +1,7 @@
+-- CreateEnum
+CREATE TYPE "UserStatus" AS ENUM ('DEFAULT', 'DELETED');
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "status" "UserStatus" NOT NULL DEFAULT 'DELETED',
+ALTER COLUMN "email" DROP NOT NULL,
+ALTER COLUMN "name" DROP NOT NULL;

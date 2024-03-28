@@ -15,6 +15,7 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   title: true,
   description: true,
   authorId: true,
+  type: true,
   groupId: true,
   author: {
     select: {
@@ -65,6 +66,65 @@ export const postRouter = router({
         where: {
           type: 'POST',
           groupId: input.groupId,
+          AND: input.search?.split(' ').map((keyword) => ({
+            title: {
+              contains: keyword,
+              mode: 'insensitive',
+            },
+          })),
+        },
+        cursor: cursor
+          ? {
+              id: cursor,
+            }
+          : undefined,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      let nextCursor: string | undefined = undefined;
+
+      if (posts.length > input.limit) {
+        // Remove the last item and use it as next cursor
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const lastItem = posts.pop()!;
+        nextCursor = lastItem.id;
+      }
+
+      return {
+        posts: posts.map((post) => ({
+          ...post,
+          postReaction: countReactions(post.postReaction, ctx.auth.userId),
+        })),
+        nextCursor,
+      };
+    }),
+  myList: privateProcedure
+    .input(
+      z.object({
+        search: z.string().optional(),
+        limit: z.number().min(1).max(100).default(20),
+        cursor: z.string().nullish(),
+        initialCursor: z.string().nullish(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      /**
+       * For pagination docs you can have a look here
+       * @see https://trpc.io/docs/useInfiniteQuery
+       * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
+       */
+
+      const cursor = input.cursor ?? input.initialCursor;
+
+      const posts = await prisma.post.findMany({
+        select: defaultPostSelect,
+        // get an extra item to know if there's a next page
+        take: input.limit + 1,
+        where: {
+          authorId: ctx.auth.userId,
           AND: input.search?.split(' ').map((keyword) => ({
             title: {
               contains: keyword,

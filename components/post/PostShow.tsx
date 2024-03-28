@@ -7,6 +7,7 @@ import DefaultItemHeader from '../DefaultItemHeader';
 import { trpc } from '@/client/trpcClient';
 import { useEffect, useState } from 'react';
 import CommentList from '../comment/CommentList';
+import { PostContextProvider } from '@/contexts/PostContext';
 
 interface PostShowProps {
   id: string;
@@ -50,7 +51,7 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
   if (!data || !isLoaded) return 'Loading...';
 
   return (
-    <div>
+    <PostContextProvider postId={id}>
       <DefaultItemHeader
         backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
       />
@@ -103,7 +104,7 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
         }}
       />
       <CommentList postId={id} />
-    </div>
+    </PostContextProvider>
   );
 };
 

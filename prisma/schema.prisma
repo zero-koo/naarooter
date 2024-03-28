@@ -12,10 +12,11 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String
-  mbti  MBTI?
+  id     String     @id @default(uuid())
+  email  String?    @unique
+  name   String?
+  mbti   MBTI?
+  status UserStatus @default(DELETED)
 
   posts            Post[]
   votes            Vote[]
@@ -45,6 +46,11 @@ enum MBTI {
   ESFJ
   ENFJ
   ENTJ
+}
+
+enum UserStatus {
+  DEFAULT
+  DELETED
 }
 
 model Post {

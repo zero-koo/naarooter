@@ -7,21 +7,23 @@ import {
 import { useToast } from '@/hooks/useToast';
 
 import PollSubmitFormComponent from './PollSubmitForm.component';
-import { Reaction } from '@/components/LikeDislike';
+import { UserReaction } from '@/types/shared';
 
 type PollSubmitFormProps = {
   id: string;
+  initialData?: any;
   showLink?: boolean;
   onClick?: () => void;
-  onUpdateReaction?: (value: Reaction) => Promise<void>;
+  onUpdateReaction?: (value: UserReaction) => Promise<void>;
 };
 
 function PollSubmitForm({
   id,
+  initialData,
   onClick,
   onUpdateReaction,
 }: PollSubmitFormProps) {
-  const { data } = usePollQuery(id);
+  const { data } = usePollQuery(id, initialData);
   const { title, description, choices, voted, postReaction } = data;
   const totalVoteCount = choices.reduce(
     (count, item) => count + item.voteCount,

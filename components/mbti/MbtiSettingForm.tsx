@@ -12,7 +12,7 @@ const mbtiFormSchema = z.object({
   jp: z.enum(['J', 'P']),
 });
 
-type MbtiFormInput = z.infer<typeof mbtiFormSchema>;
+export type MbtiFormInput = z.infer<typeof mbtiFormSchema>;
 
 interface MbtiSettingFormProps {
   initialData?: MbtiFormInput;

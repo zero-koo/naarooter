@@ -38,6 +38,7 @@ const PostList = ({ groupId, searchKeyword }: PostListProps) => {
               title={post.title}
               description={post.description as string}
               authorName={post.author.name ?? '익명'}
+              postType={post.type}
               createdAt={post.createdAt}
               viewCount={post.viewCount}
               likeCount={

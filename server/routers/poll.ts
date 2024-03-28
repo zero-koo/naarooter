@@ -134,6 +134,81 @@ export const pollRouter = router({
         nextCursor,
       };
     }),
+  myList: privateProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).default(20),
+        search: z.string().nullish(),
+        cursor: z.string().nullish(),
+        initialCursor: z.string().nullish(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const cursor = input.cursor ?? input.initialCursor;
+
+      const items = await prisma.poll.findMany({
+        select: defaultPollSelect(ctx.auth.userId),
+        // get an extra item to know if there's a next page
+        take: input.limit + 1,
+        where: {
+          votes: {
+            some: {
+              authorId: ctx.auth.userId,
+            },
+          },
+          AND: input.search?.split(' ').map((keyword) => ({
+            post: {
+              title: {
+                contains: keyword,
+                mode: 'insensitive',
+              },
+            },
+          })),
+        },
+        cursor: cursor
+          ? {
+              id: cursor,
+            }
+          : undefined,
+        orderBy: {
+          post: {
+            createdAt: 'desc',
+          },
+        },
+      });
+
+      let nextCursor: string | undefined = undefined;
+
+      if (items.length > input.limit) {
+        // Remove the last item and use it as next cursor
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const lastItem = items.pop()!;
+        nextCursor = lastItem.id;
+      }
+
+      return {
+        items: items.map((item) => ({
+          id: item!.id,
+          postId: item.post.id,
+          authorId: item.post.authorId,
+          title: item.post.title,
+          description: item.post.description,
+          choices:
+            item.choices.map((choice) => ({
+              id: choice.id,
+              main: choice.main,
+              imageUrl: choice.imageUrl,
+              index: choice.index,
+              voteCount: choice._count.votes,
+              selected: item.votes[0]?.pollChoiceId === choice.id,
+            })) ?? [],
+          voted: item.votes.length > 0,
+          postReaction: countReactions(item.post.postReaction, ctx.auth.userId),
+        })),
+        nextCursor,
+      };
+    }),
   byId: publicProcedure
     .input(
       z.object({

@@ -3,6 +3,7 @@ import styles from '../layout.module.css';
 import { NavMenu } from '@/components/nav/NavMenu';
 import { CheckIcon, InfoIcon, ListIcon } from 'lucide-react';
 import { NavMenuIcon } from '@/components/nav/NavMenuIcon';
+import RootHeaderContainer from '@/components/RootHeaderContainer';
 
 export default function MainLayout({
   children,
@@ -14,7 +15,10 @@ export default function MainLayout({
       <aside className="mr-3 hidden w-40 py-3 md:block">
         <Navigation />
       </aside>
-      <div className={styles.inner}>{children}</div>
+      <div className={styles.inner}>
+        <RootHeaderContainer />
+        {children}
+      </div>
     </div>
   );
 }
@@ -24,31 +28,19 @@ function Navigation() {
     <GlobalNavigationContainer>
       <NavMenu
         link={'/account'}
-        icon={
-          <NavMenuIcon>
-            <InfoIcon size={16} strokeWidth={2.5} />
-          </NavMenuIcon>
-        }
+        icon={<InfoIcon size={16} strokeWidth={2.5} />}
       >
         회원 정보
       </NavMenu>
       <NavMenu
         link={'/account/posts'}
-        icon={
-          <NavMenuIcon>
-            <ListIcon size={16} strokeWidth={2.5} />
-          </NavMenuIcon>
-        }
+        icon={<ListIcon size={16} strokeWidth={2.5} />}
       >
         나의 포스트
       </NavMenu>
       <NavMenu
         link={'/account/polls'}
-        icon={
-          <NavMenuIcon>
-            <CheckIcon size={16} strokeWidth={2.5} />
-          </NavMenuIcon>
-        }
+        icon={<CheckIcon size={16} strokeWidth={2.5} />}
       >
         내가 참여한 투표
       </NavMenu>

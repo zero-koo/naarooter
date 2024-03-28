@@ -1,46 +1,45 @@
 'use client';
 
 import GlobalNavigationContainer from './GlobalNavigationContainer';
-import { NavMenuIcon } from './NavMenuIcon';
 import { NavMenu } from './NavMenu';
 
 const GlobalNavigation = () => {
   return (
     <GlobalNavigationContainer>
-      <NavMenu link={'/polls'} icon={<NavMenuIcon>Q</NavMenuIcon>}>
+      <NavMenu link={'/polls'} icon={'Q'}>
         설문조사
       </NavMenu>
       <div className="mb-1 mt-4 w-full px-2.5 text-left text-xs opacity-50">
         커뮤니티
       </div>
-      <NavMenu link={'/posts'} icon={<NavMenuIcon>A</NavMenuIcon>}>
+      <NavMenu link={'/posts'} icon={'A'}>
         전체방
       </NavMenu>
-      <NavMenu link={'/posts/group/x'} icon={<NavMenuIcon>X</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/x'} icon={'X'}>
         자유방
       </NavMenu>
-      <NavMenu link={'/posts/group/e'} icon={<NavMenuIcon>E</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/e'} icon={'E'}>
         외향방
       </NavMenu>
-      <NavMenu link={'/posts/group/i'} icon={<NavMenuIcon>I</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/i'} icon={'I'}>
         내향방
       </NavMenu>
-      <NavMenu link={'/posts/group/s'} icon={<NavMenuIcon>S</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/s'} icon={'S'}>
         현실방
       </NavMenu>
-      <NavMenu link={'/posts/group/n'} icon={<NavMenuIcon>N</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/n'} icon={'N'}>
         이상방
       </NavMenu>
-      <NavMenu link={'/posts/group/f'} icon={<NavMenuIcon>F</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/f'} icon={'F'}>
         감성방
       </NavMenu>
-      <NavMenu link={'/posts/group/t'} icon={<NavMenuIcon>T</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/t'} icon={'T'}>
         이성방
       </NavMenu>
-      <NavMenu link={'/posts/group/j'} icon={<NavMenuIcon>J</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/j'} icon={'J'}>
         계획방
       </NavMenu>
-      <NavMenu link={'/posts/group/p'} icon={<NavMenuIcon>P</NavMenuIcon>}>
+      <NavMenu link={'/posts/group/p'} icon={'P'}>
         즉흥방
       </NavMenu>
     </GlobalNavigationContainer>
