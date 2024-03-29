@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth, UserButton } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 import { Button } from './Button';
+import UserButton from './UserButton';
 
 const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
   const { userId } = useAuth();
@@ -19,7 +20,7 @@ const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
         {userId ? (
           <>
             {children}
-            <UserButton afterSignOutUrl="/sign-in" />
+            <UserButton />
           </>
         ) : (
           <Link href={'/sign-in'}>
