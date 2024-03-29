@@ -1,7 +1,9 @@
 'use client';
 
+import { CheckIcon, InfoIcon, ListIcon } from 'lucide-react';
 import GlobalNavigationContainer from './GlobalNavigationContainer';
 import { NavMenu } from './NavMenu';
+import NavSubtitle from './NavSubtitle';
 
 const GlobalNavigation = () => {
   return (
@@ -9,9 +11,7 @@ const GlobalNavigation = () => {
       <NavMenu link={'/polls'} icon={'Q'}>
         설문조사
       </NavMenu>
-      <div className="mb-1 mt-4 w-full px-2.5 text-left text-xs opacity-50">
-        커뮤니티
-      </div>
+      <NavSubtitle>커뮤니티</NavSubtitle>
       <NavMenu link={'/posts'} icon={'A'}>
         전체방
       </NavMenu>
@@ -41,6 +41,25 @@ const GlobalNavigation = () => {
       </NavMenu>
       <NavMenu link={'/posts/group/p'} icon={'P'}>
         즉흥방
+      </NavMenu>
+      <NavSubtitle>나</NavSubtitle>
+      <NavMenu
+        link={'/account/posts'}
+        icon={<ListIcon size={16} strokeWidth={2.5} />}
+      >
+        나의 포스트
+      </NavMenu>
+      <NavMenu
+        link={'/account/polls'}
+        icon={<CheckIcon size={16} strokeWidth={2.5} />}
+      >
+        내가 참여한 투표
+      </NavMenu>
+      <NavMenu
+        link={'/account'}
+        icon={<InfoIcon size={16} strokeWidth={2.5} />}
+      >
+        회원 정보
       </NavMenu>
     </GlobalNavigationContainer>
   );
