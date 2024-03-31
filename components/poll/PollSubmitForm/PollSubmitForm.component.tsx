@@ -38,7 +38,7 @@ export const PollSubmitFormComponent = ({
   onUpdateReaction,
 }: PollSubmitFormProps) => {
   return (
-    <div className={'bg-base-200 p-3'} onClick={onClick}>
+    <div className={'bg-base-200 p-3 px-2'} onClick={onClick}>
       <div className={'p-1 text-lg font-semibold'}>{title}</div>
       {description.trim() && (
         <div className={'p-1 text-xs opacity-90'}>{description}</div>

@@ -2,10 +2,12 @@ import { trpc } from '@/client/trpcClient';
 
 export const usePollListQuery = ({
   search,
-}: { search?: string | null } = {}) => {
+  limit,
+}: { search?: string | null; limit?: number } = {}) => {
   return trpc.poll.list.useQuery(
     {
       search,
+      limit,
     },
     {
       keepPreviousData: true,

@@ -20,7 +20,7 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
 
   if (!data) return <div>loading..</div>;
   return (
-    <div className="flex flex-col gap-2 pb-5">
+    <div className="flex flex-1 flex-col gap-2 overflow-auto pb-5">
       {!data.items.length ? (
         <div className="flex-center bg-base-100 py-20 text-sm opacity-80">{`'${search}' 에 대한 검색 결과가 없습니다.`}</div>
       ) : null}

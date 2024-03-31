@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckIcon, InfoIcon, ListIcon } from 'lucide-react';
+import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
 import GlobalNavigationContainer from './GlobalNavigationContainer';
 import { NavMenu } from './NavMenu';
 import NavSubtitle from './NavSubtitle';
@@ -8,6 +8,9 @@ import NavSubtitle from './NavSubtitle';
 const GlobalNavigation = () => {
   return (
     <GlobalNavigationContainer>
+      <NavMenu link={'/'} icon={<HomeIcon size={16} strokeWidth={2.5} />}>
+        홈
+      </NavMenu>
       <NavMenu link={'/polls'} icon={'Q'}>
         설문조사
       </NavMenu>
