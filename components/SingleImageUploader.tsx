@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { ImageIcon, X } from 'lucide-react';
-import Image from 'next/image';
+import { ImagePlusIcon } from 'lucide-react';
 import { useDropzone, type DropzoneOptions } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
 import { cn } from '@/lib/utils';
+import ImageUploadPreview from './ImageUploadPreview';
 
 const variants = {
   base: 'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[30px] min-w-[30px] transition-colors duration-200 ease-in-out',
@@ -122,50 +122,34 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div>
-        <div
-          {...getRootProps({
-            className: cn(dropZoneClassName, 'h-full w-full outline-none'),
-            style: {
-              width,
-              height,
-            },
-          })}
-        >
-          {/* Main File Input */}
-          <input ref={ref} {...getInputProps()} />
-
-          {imageUrl ? (
-            // Image Preview
-            <Image
-              className="h-full w-full object-cover"
-              width={100}
-              height={100}
-              src={imageUrl}
-              alt={acceptedFiles[0]?.name ?? 'poll-image'}
-            />
-          ) : (
-            // Upload Icon
+      <div className="relative">
+        {imageUrl ? (
+          <ImageUploadPreview
+            src={imageUrl}
+            alt={acceptedFiles[0]?.name ?? 'poll-image'}
+            removable={!disabled}
+            onRemove={() => {
+              void onChange?.(undefined);
+            }}
+          />
+        ) : (
+          <div
+            {...getRootProps({
+              className: cn(dropZoneClassName, 'h-full w-full outline-none'),
+              style: {
+                width,
+                height,
+              },
+            })}
+          >
+            {/* Main File Input */}
             <div className="flex flex-col items-center justify-center text-sm text-foreground">
-              <ImageIcon className="h-6 w-6" strokeWidth={2} />
+              <input ref={ref} {...getInputProps()} />
+              <ImagePlusIcon className="h-6 w-6" strokeWidth={2} />
             </div>
-          )}
-
-          {/* Remove Image Icon */}
-          {imageUrl && !disabled && (
-            <div
-              className="group absolute right-1 top-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                void onChange?.(undefined);
-              }}
-            >
-              <div className="flex h-4 w-4 items-center justify-center rounded-full border border-neutral-content/30 bg-neutral transition-all duration-300 hover:scale-110">
-                <X className="text-neutral-content" width={12} height={12} />
-              </div>
-            </div>
-          )}
-        </div>
+            {/* Remove Image Icon */}
+          </div>
+        )}
       </div>
     );
   }
