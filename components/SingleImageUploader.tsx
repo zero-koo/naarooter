@@ -23,7 +23,8 @@ type InputProps = {
   height?: number;
   className?: string;
   value?: File | string | null;
-  onChange?: (file?: File) => void | Promise<void>;
+  onChange?: (file?: string) => void | Promise<void>;
+  uploading?: boolean;
   disabled?: boolean;
   dropzoneOptions?: Omit<DropzoneOptions, 'disabled'>;
 };
@@ -45,7 +46,16 @@ const ERROR_MESSAGES = {
 
 const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { dropzoneOptions, width, height, value, className, disabled, onChange },
+    {
+      dropzoneOptions,
+      width,
+      height,
+      value,
+      className,
+      uploading,
+      disabled,
+      onChange,
+    },
     ref
   ) => {
     const imageUrl = React.useMemo(() => {
@@ -75,7 +85,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
       onDrop: (acceptedFiles) => {
         const file = acceptedFiles[0];
         if (file) {
-          void onChange?.(file);
+          void onChange?.(URL.createObjectURL(file));
         }
       },
       ...dropzoneOptions,
@@ -122,12 +132,13 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className="relative">
+      <div className="relative h-48 w-48">
         {imageUrl ? (
           <ImageUploadPreview
             src={imageUrl}
             alt={acceptedFiles[0]?.name ?? 'poll-image'}
             removable={!disabled}
+            uploading={uploading}
             onRemove={() => {
               void onChange?.(undefined);
             }}
