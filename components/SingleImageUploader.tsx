@@ -22,7 +22,7 @@ type InputProps = {
   width?: number;
   height?: number;
   className?: string;
-  value?: File | string;
+  value?: File | string | null;
   onChange?: (file?: File) => void | Promise<void>;
   disabled?: boolean;
   dropzoneOptions?: Omit<DropzoneOptions, 'disabled'>;
@@ -122,7 +122,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className={'h-full w-full'}>
+      <div>
         <div
           {...getRootProps({
             className: cn(dropZoneClassName, 'h-full w-full outline-none'),
