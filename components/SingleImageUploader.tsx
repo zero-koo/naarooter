@@ -23,7 +23,7 @@ type InputProps = {
   height?: number;
   className?: string;
   value?: File | string | null;
-  onChange?: (file?: string) => void | Promise<void>;
+  onChange?: (file?: File) => void | Promise<void>;
   uploading?: boolean;
   disabled?: boolean;
   dropzoneOptions?: Omit<DropzoneOptions, 'disabled'>;
@@ -85,7 +85,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
       onDrop: (acceptedFiles) => {
         const file = acceptedFiles[0];
         if (file) {
-          void onChange?.(URL.createObjectURL(file));
+          void onChange?.(file);
         }
       },
       ...dropzoneOptions,

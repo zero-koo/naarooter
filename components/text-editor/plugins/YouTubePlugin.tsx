@@ -1,4 +1,3 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   COMMAND_PRIORITY_EDITOR,
   createCommand,
@@ -8,6 +7,7 @@ import { useEffect } from 'react';
 
 import { $createYouTubeNode, YouTubeNode } from '../nodes/YouTubeNode';
 import { $insertNodeToNearestRoot } from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 export const INSERT_YOUTUBE_COMMAND: LexicalCommand<string> = createCommand(
   'INSERT_YOUTUBE_COMMAND'

@@ -1,59 +1,38 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import type {
-  DOMConversionMap,
-  DOMConversionOutput,
-  DOMExportOutput,
+import { IconButton } from '@/components/ui/IconButton';
+import { cn } from '@/lib/utils';
+import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
+import {
+  DecoratorBlockNode,
+  SerializedDecoratorBlockNode,
+} from '@lexical/react/LexicalDecoratorBlockNode';
+import {
   EditorConfig,
+  ElementFormatType,
+  LexicalEditor,
   LexicalNode,
   NodeKey,
-  SerializedLexicalNode,
   Spread,
 } from 'lexical';
-
-import { $applyNodeReplacement, DecoratorNode } from 'lexical';
+import { Captions, CaptionsOff, LoaderCircleIcon, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import * as React from 'react';
-import { Suspense } from 'react';
-
-export interface ImagePayload {
-  key?: NodeKey;
-  src: string;
-  width: number;
-  height: number;
-  altText: string;
-}
-
-function convertImageElement(domNode: Node): null | DOMConversionOutput {
-  if (domNode instanceof HTMLImageElement) {
-    const { alt: altText, src, width, height } = domNode;
-    const node = $createImageNode({ altText, height, src, width });
-    return { node };
-  }
-  return null;
-}
+import { useRef, useState } from 'react';
 
 export type SerializedImageNode = Spread<
   {
     src: string;
-    width: number;
-    height: number;
-    altText: string;
+    caption: string;
+    index: number | null;
+    isThumbnail: boolean;
   },
-  SerializedLexicalNode
+  SerializedDecoratorBlockNode
 >;
 
-export class ImageNode extends DecoratorNode<JSX.Element> {
+export class ImageNode extends DecoratorBlockNode {
   __src: string;
-  __width: number;
-  __height: number;
-  __altText: string;
+  __caption: string;
+  __index: number | null;
+  __isThumbnail: boolean;
+  __uploading: boolean;
 
   static getType(): string {
     return 'image';
@@ -61,129 +40,243 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
 
   static clone(node: ImageNode): ImageNode {
     return new ImageNode(
-      node.__src,
-      node.__altText,
-      node.__width,
-      node.__height
+      {
+        src: node.__src,
+        caption: node.__caption,
+        index: node.__index,
+        uploading: node.__uploading,
+        isThumbnail: node.__isThumbnail,
+      },
+      node.__format,
+      node.__key
     );
   }
 
   static importJSON(serializedNode: SerializedImageNode): ImageNode {
-    const { altText, height, width, src } = serializedNode;
-    const node = $createImageNode({
-      altText,
-      height,
-      src,
-      width,
-    });
+    const node = $createImageNode(serializedNode);
+    node.setFormat(serializedNode.format);
     return node;
-  }
-
-  exportDOM(): DOMExportOutput {
-    const element = document.createElement('img');
-    element.setAttribute('src', this.__src);
-    element.setAttribute('alt', this.__altText);
-    element.setAttribute('width', this.__width.toString());
-    element.setAttribute('height', this.__height.toString());
-    return { element };
-  }
-
-  static importDOM(): DOMConversionMap | null {
-    return {
-      img: (node: Node) => ({
-        conversion: convertImageElement,
-        priority: 0,
-      }),
-    };
-  }
-
-  constructor(
-    src: string,
-    altText: string,
-    width: number,
-    height: number,
-    key?: NodeKey
-  ) {
-    super(key);
-    this.__src = src;
-    this.__altText = altText;
-    this.__width = width;
-    this.__height = height;
   }
 
   exportJSON(): SerializedImageNode {
     return {
+      ...super.exportJSON(),
       type: 'image',
       version: 1,
-      src: this.src,
-      width: this.__width,
-      height: this.__height,
-      altText: this.altText,
+      src: this.__src,
+      caption: this.__caption,
+      index: this.__index ?? null,
+      isThumbnail: this.__isThumbnail,
     };
   }
 
-  setWidthAndHeight(width: number, height: number): void {
-    const writable = this.getWritable();
-    writable.__width = width;
-    writable.__height = height;
-  }
-
-  // View
-  createDOM(config: EditorConfig): HTMLElement {
-    const span = document.createElement('span');
-    const theme = config.theme;
-    const className = theme.image;
-    if (className !== undefined) {
-      span.className = className;
-    }
-    return span;
+  constructor(
+    {
+      src,
+      index,
+      caption,
+      uploading,
+      isThumbnail,
+    }: {
+      src: string | File;
+      index?: number | null;
+      caption?: string;
+      uploading?: boolean;
+      isThumbnail: boolean;
+    },
+    format?: ElementFormatType,
+    key?: NodeKey
+  ) {
+    super(format, key);
+    this.__src = typeof src === 'string' ? src : URL.createObjectURL(src);
+    this.__caption = caption ?? '';
+    this.__index = index ?? null;
+    this.__uploading = uploading ?? false;
+    this.__isThumbnail = isThumbnail;
   }
 
   updateDOM(): false {
     return false;
   }
 
-  get src(): string {
-    return this.__src;
+  setIndex(index: number) {
+    const writable = this.getWritable();
+    writable.__index = index;
   }
 
-  get width(): number {
-    return this.__width;
+  changeCaption(caption: string) {
+    const writable = this.getWritable();
+    writable.__caption = caption;
   }
 
-  get height(): number {
-    return this.__height;
+  setAsThumnail() {
+    const writable = this.getWritable();
+    writable.__isThumbnail = true;
   }
 
-  get altText(): string {
-    return this.__altText;
+  startUpload() {
+    const writable = this.getWritable();
+    writable.__uploading = true;
   }
 
-  decorate(): JSX.Element {
+  finishUpload(src: string) {
+    const writable = this.getWritable();
+    writable.__src = src;
+    writable.__uploading = false;
+  }
+
+  decorate(_editor: LexicalEditor, config: EditorConfig): JSX.Element {
+    const embedBlockTheme = config.theme.embedBlock || {};
+    const className = {
+      base: cn('my-1', embedBlockTheme.base || ''),
+      focus: embedBlockTheme.focus || '',
+    };
+
     return (
-      <Suspense fallback={null}>
-        <Image
-          src={this.__src}
-          alt={this.__altText}
-          width={this.__width}
-          height={this.__height}
-        />
-      </Suspense>
+      <ImageComponent
+        className={className}
+        format={this.__format}
+        nodeKey={this.getKey()}
+        src={this.__src}
+        index={this.__index}
+        caption={this.__caption}
+        uploading={this.__uploading}
+        readonly={config.namespace === 'read-only'}
+        onChangeCaption={(caption) => {
+          _editor.update(() => this.changeCaption(caption));
+        }}
+        onRemove={() => {
+          _editor.update(() => this.remove());
+        }}
+      />
     );
   }
 }
 
+type ImageComponentProps = Readonly<{
+  className: Readonly<{
+    base: string;
+    focus: string;
+  }>;
+  format: ElementFormatType | null;
+  nodeKey: NodeKey;
+  src: string;
+  index: number | null;
+  caption: string;
+  altText?: string;
+  uploading?: boolean;
+  readonly?: boolean;
+  onChangeCaption?: (caption: string) => void;
+  onRemove?: () => void;
+}>;
+
+function ImageComponent({
+  className,
+  format,
+  nodeKey,
+  src,
+  index,
+  caption,
+  altText,
+  uploading,
+  readonly,
+  onChangeCaption,
+  onRemove,
+}: ImageComponentProps) {
+  const [hasCaption, setHasCaption] = useState(!!caption);
+  const captionInputRef = useRef<HTMLInputElement>(null);
+
+  console.log({ uploading });
+
+  return (
+    <BlockWithAlignableContents
+      className={className}
+      format={format}
+      nodeKey={nodeKey}
+    >
+      <div className={'group relative w-full'}>
+        <div className="relative h-full w-full">
+          <Image
+            src={src}
+            alt={altText ?? 'Image'}
+            className="w-full"
+            width={0}
+            height={0}
+          />
+          {index !== null && (
+            <div
+              className={
+                'flex-center absolute right-1 top-1 h-[20px] min-w-[20px] select-none rounded-full bg-base-100/80 px-1 py-0.5 text-xs'
+              }
+            >
+              {index + 1}
+            </div>
+          )}
+          {uploading && (
+            <div className="flex-center absolute inset-0 bg-neutral/70">
+              <LoaderCircleIcon className="animate-spin" size={32} />
+            </div>
+          )}
+          {!readonly && (
+            <div className="absolute bottom-1 left-1 hidden gap-1 rounded-sm shadow group-hover:flex">
+              <IconButton
+                size={'xs'}
+                onClick={async () => {
+                  if (hasCaption) {
+                    setHasCaption(false);
+                    onChangeCaption?.('');
+                    return;
+                  }
+                  setHasCaption(true);
+                  await new Promise(requestAnimationFrame);
+                  captionInputRef.current?.focus();
+                }}
+              >
+                {hasCaption ? (
+                  <CaptionsOff size={20} />
+                ) : (
+                  <Captions size={20} />
+                )}
+              </IconButton>
+              <IconButton size={'xs'} onClick={() => onRemove?.()}>
+                <Trash2 size={20} />
+              </IconButton>
+            </div>
+          )}
+        </div>
+        {hasCaption && (
+          <input
+            className={cn(
+              'w-full text-center text-sm font-semibold focus:border-b border-base-content/30'
+            )}
+            ref={captionInputRef}
+            disabled={readonly}
+            onBlur={(e) => {
+              const caption = e.target.value.trim();
+              onChangeCaption?.(caption);
+              if (!caption) setHasCaption(false);
+            }}
+          />
+        )}
+      </div>
+    </BlockWithAlignableContents>
+  );
+}
+
 export function $createImageNode({
   src,
-  width,
-  height,
-  altText,
-}: ImagePayload): ImageNode {
-  return $applyNodeReplacement(new ImageNode(src, altText, width, height));
+  caption,
+  isThumbnail,
+}: {
+  src: string | File;
+  caption?: string;
+  isThumbnail: boolean;
+}): ImageNode {
+  return new ImageNode({ src, caption, isThumbnail });
 }
 
 export function $isImageNode(
-  node: LexicalNode | null | undefined
+  node: ImageNode | LexicalNode | null | undefined
 ): node is ImageNode {
   return node instanceof ImageNode;
 }

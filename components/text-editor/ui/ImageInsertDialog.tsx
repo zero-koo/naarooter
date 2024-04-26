@@ -15,12 +15,12 @@ export default function ImageInsertDialog({
   onSave,
   onClose,
 }: {
-  initialImage?: string;
+  initialImage?: File;
   open?: boolean;
-  onSave: (src: string) => void;
+  onSave: (image: File) => void;
   onClose: () => void;
 }) {
-  const [image, setImage] = useState(initialImage);
+  const [image, setImage] = useState<File | undefined>(initialImage);
 
   return (
     <Dialog

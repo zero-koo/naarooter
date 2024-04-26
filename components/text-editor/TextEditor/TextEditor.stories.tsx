@@ -9,9 +9,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  argTypes: {
-    mainText: { control: 'text' },
-  },
+  argTypes: {},
 } satisfies Meta<typeof TextEditor>;
 
 export default meta;
@@ -19,15 +17,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {},
-  render: (args) => {
-    return <DefaultTextEditor {...args} />;
+  render: () => {
+    return <DefaultTextEditor />;
   },
 };
 
 const DefaultTextEditor = () => {
+  function onAddImage(image: File) {
+    return new Promise<string>((resolve) => {
+      setTimeout(() => resolve(URL.createObjectURL(image)), 1000);
+    });
+  }
   return (
     <div className="flex w-[300px]">
-      <TextEditor />
+      <TextEditor onAddImage={onAddImage} />
     </div>
   );
 };

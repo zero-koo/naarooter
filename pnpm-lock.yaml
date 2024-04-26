@@ -20,6 +20,9 @@ dependencies:
   '@lexical/react':
     specifier: ^0.14.5
     version: 0.14.5(react-dom@18.2.0)(react@18.2.0)(yjs@13.6.8)
+  '@lexical/rich-text':
+    specifier: ^0.14.5
+    version: 0.14.5
   '@lexical/utils':
     specifier: ^0.14.5
     version: 0.14.5

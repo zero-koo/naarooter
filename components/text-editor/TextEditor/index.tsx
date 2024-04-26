@@ -13,40 +13,52 @@ import {
   SharedHistoryContext,
   useSharedHistoryContext,
 } from '../contexts/SharedHistoryContext';
+import { ImageNode } from '../nodes/ImageNode';
+import ImagePlugin from '../plugins/ImagePlugin';
+import { RootEditorContextProvider } from '../contexts/RootEditorContext';
+import DragDropPastePlugin from '../plugins/DragDropPastePlugin';
 
 const defaultInitialConfig: InitialConfigType = {
   namespace: 'text-editor',
-  nodes: [YouTubeNode],
+  nodes: [ImageNode, YouTubeNode],
   onError(e) {
     console.error(e);
   },
 };
 
-export default function TextEditor() {
+type TextEditorProps = {
+  onAddImage?: (image: File) => Promise<string>;
+};
+
+export default function TextEditor({ onAddImage }: TextEditorProps) {
   const { historyState } = useSharedHistoryContext();
 
   return (
-    <LexicalComposer initialConfig={defaultInitialConfig}>
-      <SharedHistoryContext>
-        <div className={'relative mx-auto my-5 w-full max-w-xl'}>
-          <HistoryPlugin externalHistoryState={historyState} />
-          <ToolbarPlugin />
-          <RichTextPlugin
-            contentEditable={
-              <div className="relative flex overflow-auto border-y border-b-2 border-t-4 border-base-content/40 bg-base-100">
-                <div className="-z-1 relative flex-auto resize-y">
-                  <ContentEditable className="min-h-[350px] px-3 pb-14 pt-2 md:pb-2" />
+    <RootEditorContextProvider onAddImage={onAddImage}>
+      <LexicalComposer initialConfig={defaultInitialConfig}>
+        <SharedHistoryContext>
+          <div className={'relative mx-auto my-5 w-full max-w-xl'}>
+            <HistoryPlugin externalHistoryState={historyState} />
+            <DragDropPastePlugin />
+            <ToolbarPlugin />
+            <RichTextPlugin
+              contentEditable={
+                <div className="relative flex overflow-auto border-y border-b-2 border-t-4 border-base-content/40 bg-base-100">
+                  <div className="-z-1 relative flex-auto resize-y">
+                    <ContentEditable className="min-h-[350px] px-3 pb-14 pt-2 md:pb-2" />
+                  </div>
                 </div>
-              </div>
-            }
-            placeholder={(children: React.ReactNode) => (
-              <div className={'Placeholder__root'}>{children}</div>
-            )}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <YouTubePlugin />
-        </div>
-      </SharedHistoryContext>
-    </LexicalComposer>
+              }
+              placeholder={(children: React.ReactNode) => (
+                <div className={'Placeholder__root'}>{children}</div>
+              )}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <ImagePlugin />
+            <YouTubePlugin />
+          </div>
+        </SharedHistoryContext>
+      </LexicalComposer>
+    </RootEditorContextProvider>
   );
 }
