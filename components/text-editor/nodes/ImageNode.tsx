@@ -85,24 +85,24 @@ export class ImageNode extends DecoratorBlockNode {
       isThumbnail,
     }: {
       src: string | File;
-      url: string | null;
+      url?: string | null;
       index?: number | null;
       caption?: string;
       srcPromise?: Promise<string> | null;
       uploading?: boolean;
-      isThumbnail: boolean;
+      isThumbnail?: boolean;
     },
     format?: ElementFormatType,
     key?: NodeKey
   ) {
     super(format, key);
     this.__src = typeof src === 'string' ? src : URL.createObjectURL(src);
-    this.__url = url;
+    this.__url = url ?? null;
     this.__caption = caption ?? '';
     this.__index = index ?? null;
     this.__srcPromise = srcPromise ?? null;
     this.__uploading = uploading ?? false;
-    this.__isThumbnail = isThumbnail;
+    this.__isThumbnail = isThumbnail ?? false;
   }
 
   updateDOM(): false {
@@ -295,14 +295,18 @@ function ImageComponent({
 
 export function $createImageNode({
   src,
+  srcPromise,
+  url,
   caption,
   isThumbnail,
 }: {
   src: string | File;
+  srcPromise?: Promise<string> | null;
+  url?: string | null;
   caption?: string;
-  isThumbnail: boolean;
+  isThumbnail?: boolean;
 }): ImageNode {
-  return new ImageNode({ src, caption, isThumbnail });
+  return new ImageNode({ src, srcPromise, url, caption, isThumbnail });
 }
 
 export function $isImageNode(
