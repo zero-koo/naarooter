@@ -15,7 +15,7 @@ import {
 } from 'lexical';
 import { Captions, CaptionsOff, LoaderCircleIcon, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export type SerializedImageNode = Spread<
   {
@@ -29,10 +29,12 @@ export type SerializedImageNode = Spread<
 
 export class ImageNode extends DecoratorBlockNode {
   __src: string;
+  __url: string | null;
   __caption: string;
   __index: number | null;
   __isThumbnail: boolean;
   __uploading: boolean;
+  __srcPromise: Promise<string> | null;
 
   static getType(): string {
     return 'image';
@@ -42,8 +44,10 @@ export class ImageNode extends DecoratorBlockNode {
     return new ImageNode(
       {
         src: node.__src,
+        url: node.__url,
         caption: node.__caption,
         index: node.__index,
+        srcPromise: node.__srcPromise,
         uploading: node.__uploading,
         isThumbnail: node.__isThumbnail,
       },
@@ -63,7 +67,7 @@ export class ImageNode extends DecoratorBlockNode {
       ...super.exportJSON(),
       type: 'image',
       version: 1,
-      src: this.__src,
+      src: this.__url ?? this.__src,
       caption: this.__caption,
       index: this.__index ?? null,
       isThumbnail: this.__isThumbnail,
@@ -73,14 +77,18 @@ export class ImageNode extends DecoratorBlockNode {
   constructor(
     {
       src,
+      url,
       index,
       caption,
       uploading,
+      srcPromise,
       isThumbnail,
     }: {
       src: string | File;
+      url: string | null;
       index?: number | null;
       caption?: string;
+      srcPromise?: Promise<string> | null;
       uploading?: boolean;
       isThumbnail: boolean;
     },
@@ -89,14 +97,21 @@ export class ImageNode extends DecoratorBlockNode {
   ) {
     super(format, key);
     this.__src = typeof src === 'string' ? src : URL.createObjectURL(src);
+    this.__url = url;
     this.__caption = caption ?? '';
     this.__index = index ?? null;
+    this.__srcPromise = srcPromise ?? null;
     this.__uploading = uploading ?? false;
     this.__isThumbnail = isThumbnail;
   }
 
   updateDOM(): false {
     return false;
+  }
+
+  setUrl(url: string) {
+    const writable = this.getWritable();
+    writable.__url = url;
   }
 
   setIndex(index: number) {
@@ -114,14 +129,14 @@ export class ImageNode extends DecoratorBlockNode {
     writable.__isThumbnail = true;
   }
 
-  startUpload() {
+  startUpload(promise: Promise<string>) {
     const writable = this.getWritable();
     writable.__uploading = true;
+    writable.__srcPromise = promise;
   }
 
-  finishUpload(src: string) {
+  finishUpload() {
     const writable = this.getWritable();
-    writable.__src = src;
     writable.__uploading = false;
   }
 
@@ -140,8 +155,14 @@ export class ImageNode extends DecoratorBlockNode {
         src={this.__src}
         index={this.__index}
         caption={this.__caption}
-        uploading={this.__uploading}
+        srcPromise={this.__srcPromise}
         readonly={config.namespace === 'read-only'}
+        onUploadSettled={(url) => {
+          _editor.update(() => {
+            if (url === this.__url) return;
+            this.setUrl(url);
+          });
+        }}
         onChangeCaption={(caption) => {
           _editor.update(() => this.changeCaption(caption));
         }}
@@ -161,11 +182,12 @@ type ImageComponentProps = Readonly<{
   format: ElementFormatType | null;
   nodeKey: NodeKey;
   src: string;
+  srcPromise: Promise<string> | null;
   index: number | null;
   caption: string;
   altText?: string;
-  uploading?: boolean;
   readonly?: boolean;
+  onUploadSettled?: (url: string) => void;
   onChangeCaption?: (caption: string) => void;
   onRemove?: () => void;
 }>;
@@ -175,18 +197,26 @@ function ImageComponent({
   format,
   nodeKey,
   src,
+  srcPromise,
   index,
   caption,
   altText,
-  uploading,
   readonly,
+  onUploadSettled,
   onChangeCaption,
   onRemove,
 }: ImageComponentProps) {
   const [hasCaption, setHasCaption] = useState(!!caption);
   const captionInputRef = useRef<HTMLInputElement>(null);
 
-  console.log({ uploading });
+  const [uploading, setUploading] = useState(!!srcPromise);
+  useEffect(() => {
+    srcPromise && setUploading(true);
+    srcPromise?.then((url) => {
+      setUploading(false);
+      onUploadSettled?.(url);
+    });
+  }, [srcPromise, onUploadSettled]);
 
   return (
     <BlockWithAlignableContents

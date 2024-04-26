@@ -37,14 +37,11 @@ export default function ImagePlugin(): JSX.Element | null {
     return editor.registerCommand<File>(
       INSERT_IMAGE_COMMAND,
       (image) => {
-        const imageNode = $createImageNode({ src: image, isThumbnail: false });
+        const imageNode = $createImageNode({ src: image });
         $insertNodeToNearestRoot(imageNode);
 
-        imageNode.startUpload();
-        onAddImage(image).then((url) => {
-          editor.update(() => imageNode.finishUpload(url));
-        });
-
+        const srcPromise = onAddImage(image);
+        imageNode.startUpload(srcPromise);
         return true;
       },
       COMMAND_PRIORITY_EDITOR
