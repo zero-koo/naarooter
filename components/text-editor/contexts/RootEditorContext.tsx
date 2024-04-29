@@ -1,12 +1,14 @@
 import { createContext, useContext } from 'react';
 
 type RootEditorContext = {
-  onAddImage: (image: File) => Promise<string>;
+  onAddImage: (image: File | string) => Promise<string>;
 };
 
 const Context = createContext<RootEditorContext>({
   onAddImage(image) {
-    return Promise.resolve(URL.createObjectURL(image));
+    return Promise.resolve(
+      typeof image === 'string' ? image : URL.createObjectURL(image)
+    );
   },
 });
 
@@ -19,7 +21,10 @@ export function RootEditorContextProvider({
       value={{
         onAddImage:
           onAddImage ??
-          ((image) => Promise.resolve(URL.createObjectURL(image))),
+          ((image) =>
+            Promise.resolve(
+              typeof image === 'string' ? image : URL.createObjectURL(image)
+            )),
       }}
     >
       {children}

@@ -23,13 +23,19 @@ export const Default: Story = {
 };
 
 const DefaultTextEditor = () => {
-  function onAddImage(image: File) {
+  function onAddImage(image: File | string) {
     return new Promise<string>((resolve) => {
-      setTimeout(() => resolve(URL.createObjectURL(image)), 1000);
+      setTimeout(
+        () =>
+          resolve(
+            typeof image === 'string' ? image : URL.createObjectURL(image)
+          ),
+        1000
+      );
     });
   }
   return (
-    <div className="flex w-[300px]">
+    <div className="flex w-[800px]">
       <TextEditor onAddImage={onAddImage} />
     </div>
   );

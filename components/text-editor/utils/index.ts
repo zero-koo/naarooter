@@ -1,6 +1,6 @@
 import { youtubeLinkRegex } from '@/lib/regex';
-import { $getEditor, $getNodeByKey, $getRoot, LexicalNode } from 'lexical';
-import { $isImageNode, ImageNode } from '../nodes/ImageNode';
+import { $getNodeByKey, $getRoot, LexicalNode } from 'lexical';
+import { $isImagesNode, ImagesNode } from '../nodes/ImagesNode';
 
 export function getYoutubeVideoIdFromLink(link: string): string | null {
   const match = link.match(youtubeLinkRegex);
@@ -22,10 +22,10 @@ export function $traverseTopLevelNodes(
   }
 }
 
-export function $getImageNodes(): Array<ImageNode> {
-  const nodes: ImageNode[] = [];
+export function $getImageNodes(): Array<ImagesNode> {
+  const nodes: ImagesNode[] = [];
   $traverseTopLevelNodes((node) => {
-    if (!$isImageNode(node)) return;
+    if (!$isImagesNode(node)) return;
     nodes.push(node);
   });
   return nodes;

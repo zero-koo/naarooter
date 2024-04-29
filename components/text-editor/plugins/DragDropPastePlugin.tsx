@@ -3,7 +3,7 @@ import { DRAG_DROP_PASTE } from '@lexical/rich-text';
 import { isMimeType, mediaFileReader } from '@lexical/utils';
 import { COMMAND_PRIORITY_LOW } from 'lexical';
 import { useEffect } from 'react';
-import { INSERT_IMAGE_COMMAND } from './ImagePlugin';
+import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
 
 const ACCEPTABLE_IMAGE_TYPES = [
   'image/',
@@ -26,7 +26,7 @@ export default function DragDropPastePlugin(): null {
           );
           for (const { file } of filesResult) {
             if (isMimeType(file, ACCEPTABLE_IMAGE_TYPES)) {
-              editor.dispatchCommand(INSERT_IMAGE_COMMAND, file);
+              editor.dispatchCommand(INSERT_IMAGES_COMMAND, [file]);
             }
           }
         })();

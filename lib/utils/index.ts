@@ -39,6 +39,55 @@ export function randomInteger(max = 100, min = 0): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+export function nextTick(callback?: () => any) {
+  return new Promise((resolve) =>
+    requestAnimationFrame(() => {
+      callback?.();
+      resolve(undefined);
+    })
+  );
+}
+
+export function uploadFile({
+  maxCount = 1,
+  accept,
+  onUpload,
+}: {
+  maxCount?: number;
+  accept: string;
+  onUpload: (file: File[]) => void;
+}) {
+  const inputElem = document.createElement('input');
+  inputElem.type = 'file';
+  inputElem.multiple = maxCount > 1;
+  inputElem.maxLength = maxCount;
+  inputElem.accept = accept;
+
+  inputElem.addEventListener('change', handleFiles);
+
+  function handleFiles(e: Event) {
+    const files = (e.target as HTMLInputElement).files;
+    if (!files) return;
+
+    onUpload(Array.from(files).slice(0, maxCount));
+
+    inputElem.removeEventListener('change', handleFiles);
+  }
+
+  inputElem.click();
+  inputElem.remove();
+}
+
+export function uploadImages({
+  maxCount = 1,
+  onUpload,
+}: {
+  maxCount: number;
+  onUpload: (file: File[]) => void;
+}) {
+  uploadFile({ accept: 'image/*', maxCount, onUpload });
+}
+
 export function countReactions(
   reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
   userId: string | null

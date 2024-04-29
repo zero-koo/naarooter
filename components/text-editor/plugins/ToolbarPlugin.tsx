@@ -3,41 +3,40 @@ import { IconButton } from '@/components/ui/IconButton';
 import { ImageIcon, YoutubeIcon } from 'lucide-react';
 import YouTubeInputDialog from '../ui/YouTubeInsertModal';
 import { useState } from 'react';
-import { INSERT_IMAGE_COMMAND } from './ImagePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import ImageInsertDialog from '../ui/ImageInsertDialog';
+import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
+import { uploadImages } from '@/lib/utils';
 
 function ToolbarPlugin() {
   return (
     <div className="absolute bottom-0 left-0 z-10 flex w-full gap-1 border-y-2 border-base-content/40 bg-base-100 p-1 md:-right-1 md:bottom-auto md:left-auto md:top-0 md:w-auto md:translate-x-full md:flex-col md:border-t-4">
-      <ImageInsertButton />
+      <ImagesInsertButton />
       <YouTubeInsertButton />
-      <IconButton variant="ghost" size="sm">
-        <ImageIcon />
-      </IconButton>
     </div>
   );
 }
 
 export default ToolbarPlugin;
 
-function ImageInsertButton() {
+function ImagesInsertButton() {
   const [editor] = useLexicalComposerContext();
-  const [open, setOpen] = useState(false);
 
   return (
     <>
-      <IconButton variant="ghost" size="sm" onClick={() => setOpen(true)}>
+      <IconButton
+        variant="ghost"
+        size="sm"
+        onClick={() =>
+          uploadImages({
+            maxCount: 5,
+            onUpload: (images) => {
+              editor.dispatchCommand(INSERT_IMAGES_COMMAND, images);
+            },
+          })
+        }
+      >
         <ImageIcon />
       </IconButton>
-      {open && (
-        <ImageInsertDialog
-          onSave={(image) => {
-            editor.dispatchCommand(INSERT_IMAGE_COMMAND, image);
-          }}
-          onClose={() => setOpen(false)}
-        />
-      )}
     </>
   );
 }

@@ -13,21 +13,21 @@ import {
   SharedHistoryContext,
   useSharedHistoryContext,
 } from '../contexts/SharedHistoryContext';
-import { ImageNode } from '../nodes/ImageNode';
-import ImagePlugin from '../plugins/ImagePlugin';
+import { ImagesNode } from '../nodes/ImagesNode';
 import { RootEditorContextProvider } from '../contexts/RootEditorContext';
 import DragDropPastePlugin from '../plugins/DragDropPastePlugin';
+import ImagesPlugin from '../plugins/ImagesPlugin';
 
 const defaultInitialConfig: InitialConfigType = {
   namespace: 'text-editor',
-  nodes: [ImageNode, YouTubeNode],
+  nodes: [ImagesNode, YouTubeNode],
   onError(e) {
     console.error(e);
   },
 };
 
 type TextEditorProps = {
-  onAddImage?: (image: File) => Promise<string>;
+  onAddImage?: (image: File | string) => Promise<string>;
 };
 
 export default function TextEditor({ onAddImage }: TextEditorProps) {
@@ -44,8 +44,8 @@ export default function TextEditor({ onAddImage }: TextEditorProps) {
             <RichTextPlugin
               contentEditable={
                 <div className="relative flex overflow-auto border-y border-b-2 border-t-4 border-base-content/40 bg-base-100">
-                  <div className="-z-1 relative flex-auto resize-y">
-                    <ContentEditable className="min-h-[350px] px-3 pb-14 pt-2 md:pb-2" />
+                  <div className="-z-1 relative w-full flex-auto resize-y overflow-hidden">
+                    <ContentEditable className="min-h-[350px] w-full overflow-hidden px-3 pb-14 pt-2 md:pb-2" />
                   </div>
                 </div>
               }
@@ -54,7 +54,7 @@ export default function TextEditor({ onAddImage }: TextEditorProps) {
               )}
               ErrorBoundary={LexicalErrorBoundary}
             />
-            <ImagePlugin />
+            <ImagesPlugin />
             <YouTubePlugin />
           </div>
         </SharedHistoryContext>
