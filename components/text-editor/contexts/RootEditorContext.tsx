@@ -1,37 +1,19 @@
 import { createContext, useContext } from 'react';
 
-type RootEditorContext = {
-  onAddImage: (image: File | string) => Promise<string>;
+type RootEditorContextProps = {
+  onAddImage?: ({ image }: { image: File }) => Promise<string>;
 };
+const RootEditorContext = createContext<RootEditorContextProps>({});
 
-const Context = createContext<RootEditorContext>({
-  onAddImage(image) {
-    return Promise.resolve(
-      typeof image === 'string' ? image : URL.createObjectURL(image)
-    );
-  },
-});
-
-export function RootEditorContextProvider({
+export const RootEditorContextProvider = ({
   onAddImage,
   children,
-}: React.PropsWithChildren<Partial<RootEditorContext>>) {
+}: React.PropsWithChildren & RootEditorContextProps) => {
   return (
-    <Context.Provider
-      value={{
-        onAddImage:
-          onAddImage ??
-          ((image) =>
-            Promise.resolve(
-              typeof image === 'string' ? image : URL.createObjectURL(image)
-            )),
-      }}
-    >
+    <RootEditorContext.Provider value={{ onAddImage }}>
       {children}
-    </Context.Provider>
+    </RootEditorContext.Provider>
   );
-}
+};
 
-export function useRootEditorContext() {
-  return useContext(Context);
-}
+export const useRootEditorContext = () => useContext(RootEditorContext);

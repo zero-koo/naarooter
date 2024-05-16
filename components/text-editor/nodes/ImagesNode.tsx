@@ -17,6 +17,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { ImageEditableWrapper } from '../ui/ImageEditableWrapper';
 import { ImageUploadable } from '@/components/ImageUploadable';
 import Image from 'next/image';
+import { useRootEditorContext } from '../contexts/RootEditorContext';
 
 export type SerializedImagesNode = Spread<
   {
@@ -27,13 +28,24 @@ export type SerializedImagesNode = Spread<
   SerializedDecoratorBlockNode
 >;
 
-type ImageItem = {
-  src: string;
-};
+export type ImageItem = {
+  uploadPromise?: Promise<string>;
+} & (
+  | {
+      blobURL: string;
+      srcURL?: undefined;
+    }
+  | {
+      blobURL?: undefined;
+      srcURL: string;
+    }
+  | {
+      blobURL: string;
+      srcURL: string;
+    }
+);
 
-type ImageConstructorItem = {
-  src: File | string;
-};
+const imageUploadPromiseCache = new Map<string, Promise<string>>();
 
 export class ImagesNode extends DecoratorBlockNode {
   __images: Array<ImageItem>;
@@ -47,7 +59,7 @@ export class ImagesNode extends DecoratorBlockNode {
   static clone(node: ImagesNode): ImagesNode {
     return new ImagesNode(
       {
-        images: node.__images,
+        images: [...node.__images],
         caption: node.__caption,
         index: node.__index,
       },
@@ -57,6 +69,7 @@ export class ImagesNode extends DecoratorBlockNode {
   }
 
   static importJSON(serializedNode: SerializedImagesNode): ImagesNode {
+    console.log('importJSON', serializedNode);
     const node = $createImagesNode(serializedNode);
     node.setFormat(serializedNode.format);
     return node;
@@ -67,7 +80,13 @@ export class ImagesNode extends DecoratorBlockNode {
       ...super.exportJSON(),
       type: 'images',
       version: 1,
-      images: this.__images,
+      images: this.__images.map(
+        (image) =>
+          ({
+            blobURL: image.blobURL,
+            srcURL: image.srcURL,
+          } as ImageItem)
+      ),
       caption: this.__caption,
       index: this.__index,
     };
@@ -79,7 +98,7 @@ export class ImagesNode extends DecoratorBlockNode {
       index,
       caption,
     }: {
-      images: Array<ImageConstructorItem>;
+      images: Array<ImageItem>;
       index: number | null;
       caption: string;
     },
@@ -87,9 +106,27 @@ export class ImagesNode extends DecoratorBlockNode {
     key?: NodeKey
   ) {
     super(format, key);
-    this.__images = images.map(({ src }) => ({
-      src: typeof src === 'string' ? src : URL.createObjectURL(src),
-    }));
+    this.__images = images.map((image) => {
+      if (
+        image.blobURL &&
+        image.uploadPromise &&
+        !imageUploadPromiseCache.has(image.blobURL)
+      ) {
+        imageUploadPromiseCache.set(image.blobURL, image.uploadPromise);
+      }
+
+      if (!image.blobURL && !image.srcURL) {
+        throw Error('One of bloblURL or srcURL must be provided!');
+      }
+
+      return {
+        blobURL: image.blobURL,
+        srcURL: image.srcURL,
+        uploadPromise: image.blobURL
+          ? imageUploadPromiseCache.get(image.blobURL)
+          : undefined,
+      } as ImageItem;
+    });
     this.__caption = caption;
     this.__index = index;
   }
@@ -98,18 +135,21 @@ export class ImagesNode extends DecoratorBlockNode {
     return false;
   }
 
+  setImages(images: ImageItem[]) {
+    const writable = this.getWritable();
+    writable.__images = [...images];
+  }
+
   setIndex(index: number) {
     const writable = this.getWritable();
     writable.__index = index;
   }
 
-  addItems(images: Array<File | string>, at: number) {
+  addItems(images: Array<ImageItem>, at: number) {
     const writable = this.getWritable();
     writable.__images = [
       ...this.__images.slice(0, at + 1),
-      ...images.slice(0, 5 - this.__images.length).map((image) => ({
-        src: typeof image === 'string' ? image : URL.createObjectURL(image),
-      })),
+      ...images.slice(0, 5 - this.__images.length),
       ...this.__images.slice(at + 1),
     ];
   }
@@ -168,7 +208,7 @@ export function $createImagesNode({
   index,
   caption,
 }: {
-  images: Array<ImageConstructorItem>;
+  images: Array<ImageItem>;
   index: number | null;
   caption: string;
 }): ImagesNode {
@@ -201,13 +241,37 @@ function ImagesNodeComponent({
   }>;
   format: ElementFormatType | null;
   nodeKey: NodeKey;
-  onAddImages: (images: File[], at: number) => void;
+  onAddImages: (images: ImageItem[], at: number) => void;
   onRemoveItem: (subIndex: number) => void;
   onChangeCaption: (caption: string) => void;
 }) {
+  const { onAddImage } = useRootEditorContext();
+
   const [hasCaption, setHasCaption] = useState(!!caption?.trim());
   const [captionValue, setCaptionValue] = useState(caption);
   const [isEditMode, setIsEditMode] = useState(false);
+
+  function handleAddImages(images: File[], at = 0) {
+    onAddImages(
+      images.map((image) => ({
+        blobURL: URL.createObjectURL(image),
+        uploadPromise: onAddImage?.({ image }),
+      })),
+      at
+    );
+  }
+
+  function handleToggleCaption(hasCaption: boolean) {
+    if (hasCaption) {
+      setHasCaption(true);
+      onChangeCaption?.(captionValue);
+      setIsEditMode(true);
+    } else {
+      setHasCaption(false);
+      onChangeCaption?.('');
+      setIsEditMode(false);
+    }
+  }
 
   return (
     <BlockWithAlignableContents
@@ -217,42 +281,24 @@ function ImagesNodeComponent({
     >
       {images.length > 1 ? (
         <ImageCarousel
-          images={images}
+          images={images.map((image) => ({
+            src: image.blobURL ?? image.srcURL,
+            uploadPromise: image.uploadPromise,
+          }))}
           index={index}
           hasCaption={hasCaption}
-          onAddImages={(images: File[], at: number) => {
-            onAddImages(images, at);
-          }}
+          onAddImages={handleAddImages}
           onRemove={onRemoveItem}
-          onToggleCaption={(hasCaption) => {
-            if (hasCaption) {
-              setHasCaption(true);
-              onChangeCaption?.(captionValue);
-              setIsEditMode(true);
-            } else {
-              setHasCaption(false);
-              onChangeCaption?.('');
-              setIsEditMode(false);
-            }
-          }}
+          onToggleCaption={handleToggleCaption}
         />
       ) : (
         <SingleImageComponent
-          src={images[0].src}
+          src={images[0].blobURL ?? images[0].srcURL}
+          uploadPromise={images[0].uploadPromise}
           index={index}
           hasCaption={hasCaption}
-          onAddImages={(images) => onAddImages(images, 0)}
-          onToggleCaption={(hasCaption) => {
-            if (hasCaption) {
-              setHasCaption(true);
-              onChangeCaption?.(captionValue);
-              setIsEditMode(true);
-            } else {
-              setHasCaption(false);
-              onChangeCaption?.('');
-              setIsEditMode(false);
-            }
-          }}
+          onAddImages={handleAddImages}
+          onToggleCaption={handleToggleCaption}
           onRemove={() => onRemoveItem(0)}
         />
       )}
@@ -269,7 +315,7 @@ function ImagesNodeComponent({
         ) : (
           <>
             <div
-              className="flex-center min-h-6 absolute inset-x-0 overflow-hidden text-ellipsis text-center text-xs font-semibold"
+              className="min-h-6 absolute inset-x-0 flex items-center overflow-hidden text-ellipsis px-2 text-xs font-semibold"
               onClick={() => {
                 setIsEditMode(true);
               }}
@@ -285,6 +331,7 @@ function ImagesNodeComponent({
 
 function SingleImageComponent({
   src,
+  uploadPromise,
   index,
   hasCaption,
   readonly,
@@ -293,6 +340,7 @@ function SingleImageComponent({
   onRemove,
 }: {
   src: string;
+  uploadPromise?: Promise<string>;
   index: number | null;
   hasCaption: boolean;
   readonly?: boolean;
@@ -311,11 +359,12 @@ function SingleImageComponent({
     >
       <ImageUploadable
         src={src}
+        uploadPromise={uploadPromise}
         ImageComponent={({ src }) => (
           <Image
             src={src}
             alt={'Image'}
-            className="w-full"
+            className="w-full max-w-[500px]"
             width={0}
             height={0}
           />
@@ -340,7 +389,7 @@ function CaptionInput({
   }, [value, inputRef]);
   return (
     <input
-      className="block h-6 w-full text-center text-xs font-semibold"
+      className="block h-6 w-full text-xs font-semibold"
       ref={inputRef}
       onBlur={(e) => {
         onBlur(e.target.value);

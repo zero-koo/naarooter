@@ -40,6 +40,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(iconButtonVariants({ variant, size, shape, className }))}
+        type="button"
         ref={ref}
         {...props}
       />

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import TextEditor from '.';
+import TextEditor, { TextEditorHandle } from '.';
+import { useRef } from 'react';
+import { Button } from '@/components/ui/Button';
 
 const meta = {
   title: 'Editor/TextEditor',
@@ -22,21 +24,41 @@ export const Default: Story = {
   },
 };
 
+let id = 0;
 const DefaultTextEditor = () => {
-  function onAddImage(image: File | string) {
+  function onAddImage({ image }: { image: File | string }) {
     return new Promise<string>((resolve) => {
       setTimeout(
         () =>
           resolve(
-            typeof image === 'string' ? image : URL.createObjectURL(image)
+            typeof image === 'string' ? image : `path://image_path.com/${id++}`
           ),
         1000
       );
     });
   }
+
+  const editor = useRef<TextEditorHandle>(null);
+
   return (
-    <div className="flex w-[800px]">
-      <TextEditor onAddImage={onAddImage} />
+    <div className="w-[800px]">
+      <div className="mb-2 flex gap-2">
+        <Button
+          onClick={() => {
+            console.log(editor.current?.getSerializedState());
+          }}
+        >
+          Print Serialized State
+        </Button>
+        <Button
+          onClick={async () => {
+            console.log(await editor.current?.getThumbnailImageURL());
+          }}
+        >
+          Print Thumbnail URL
+        </Button>
+      </div>
+      <TextEditor onAddImage={onAddImage} ref={editor} />
     </div>
   );
 };

@@ -3,9 +3,9 @@ import { IconButton } from '@/components/ui/IconButton';
 import { ImageIcon, YoutubeIcon } from 'lucide-react';
 import YouTubeInputDialog from '../ui/YouTubeInsertModal';
 import { useState } from 'react';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
 import { uploadImages } from '@/lib/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 function ToolbarPlugin() {
   return (
@@ -26,14 +26,14 @@ function ImagesInsertButton() {
       <IconButton
         variant="ghost"
         size="sm"
-        onClick={() =>
+        onClick={() => {
           uploadImages({
             maxCount: 5,
             onUpload: (images) => {
               editor.dispatchCommand(INSERT_IMAGES_COMMAND, images);
             },
-          })
-        }
+          });
+        }}
       >
         <ImageIcon />
       </IconButton>

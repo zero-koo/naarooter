@@ -41,7 +41,7 @@ export function ImageEditableWrapper({
   onToggleCaption,
 }: ImageEditableWrapperProps) {
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn('relative w-fit', className)}>
       {children}
       {loading && (
         <div className="flex-center absolute inset-0 bg-neutral/70">
@@ -51,7 +51,7 @@ export function ImageEditableWrapper({
       {indexLabel && (
         <div
           className={
-            'flex-center absolute right-2 top-2 h-[20px] min-w-[20px] select-none rounded-full bg-base-100/90 px-1 py-0.5 text-xs'
+            'flex-center absolute right-1 top-1 h-[18px] min-w-[18px] select-none rounded bg-neutral-900/80 px-1 py-0.5 text-xxs text-white'
           }
         >
           {indexLabel}

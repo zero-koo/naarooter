@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 const imageSquareViewVariants = cva(
-  'relative shrink-0 overflow-hidden rounded text-sm',
+  'relative max-h-[320px] max-w-[320px] shrink-0 overflow-hidden rounded text-sm',
   {
     variants: {
       size: {
@@ -26,6 +26,7 @@ type ImageSquareViewProps = React.HTMLAttributes<HTMLDivElement> &
     src?: string;
     alt?: string;
     loading?: boolean;
+    customSize?: number;
     removable?: boolean;
     onRemove?: () => void;
   };
@@ -34,13 +35,22 @@ export default function ImageSquareView({
   src,
   alt = '',
   size,
+  customSize,
   className,
   ...props
 }: ImageSquareViewProps) {
   const [objectFit, setObjectFit] = useState<'cover' | 'contain'>('cover');
   return (
     <div
-      className={cn(imageSquareViewVariants({ size, className }))}
+      className={cn(
+        'bg-base-content/10',
+        imageSquareViewVariants({ size, className })
+      )}
+      style={
+        customSize
+          ? { width: `${customSize}px`, height: `${customSize}px` }
+          : undefined
+      }
       {...props}
       onClick={() => {
         setObjectFit((prev) => (prev === 'cover' ? 'contain' : 'cover'));

@@ -8,6 +8,7 @@ interface TextInputProps extends React.HTMLAttributes<HTMLInputElement> {
   ghost?: boolean;
   noBorder?: boolean;
   error?: boolean;
+  flat?: boolean;
 }
 
 function TextInput(
@@ -16,6 +17,7 @@ function TextInput(
     size = 'md',
     ghost = false,
     noBorder = false,
+    flat = false,
     error,
     className,
     ...restProps
@@ -44,6 +46,7 @@ function TextInput(
           'input-md': size === 'md',
           'input-sm': size === 'sm',
           'input-xs': size === 'xs',
+          'rounded-none': flat,
         },
         className
       )}
