@@ -63,8 +63,7 @@ export default function ImageSquareView({
               'object-cover': objectFit === 'cover',
               'object-contain': objectFit === 'contain',
             })}
-            width={100}
-            height={100}
+            fill
             src={src}
             alt={alt}
           />

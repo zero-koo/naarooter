@@ -1,17 +1,18 @@
 'use client';
 
-import { TextEditor } from '@/components/text-editor';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SerializedEditorState, SerializedLexicalNode } from 'lexical';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import TextInput from '../TextInput';
 import { Button } from '../Button';
 import DefaultItemHeader from '../DefaultItemHeader';
+import TextEditor, { TextEditorHandle } from '../text-editor/TextEditor';
+import { useRef } from 'react';
+import { useImageUpload } from '@/hooks/useImageUpload';
 
 type PostForm = {
   title: string;
-  contents: SerializedEditorState<SerializedLexicalNode>;
+  contents: string;
 };
 
 const postFormSchema = z.object({
@@ -19,9 +20,7 @@ const postFormSchema = z.object({
     .string()
     .min(1, { message: '제목을 입력하세요.' })
     .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
-  contents: z.object({
-    root: z.record(z.any()),
-  }),
+  contents: z.string().optional(),
 });
 
 interface PostCreateOrEditFormProps {
@@ -29,7 +28,7 @@ interface PostCreateOrEditFormProps {
   backLink: string;
   initialValues?: {
     title: string;
-    contents: SerializedEditorState<SerializedLexicalNode>;
+    contents: string;
   };
   onSubmit: (data: PostForm) => void;
 }
@@ -40,10 +39,13 @@ export const PostCreateOrEditForm = ({
   initialValues,
   onSubmit,
 }: PostCreateOrEditFormProps) => {
-  const { register, control, handleSubmit, formState } = useForm<PostForm>({
+  const { register, setValue, handleSubmit, formState } = useForm<PostForm>({
     resolver: zodResolver(postFormSchema),
     defaultValues: initialValues,
   });
+
+  const editor = useRef<TextEditorHandle>(null);
+  const { uploadImage } = useImageUpload();
 
   return (
     <div className="flex flex-col bg-base-200">
@@ -55,7 +57,11 @@ export const PostCreateOrEditForm = ({
             size="sm"
             ghost
             disabled={!formState.isValid || formState.isSubmitting}
-            onClick={handleSubmit(onSubmit)}
+            onClick={async () => {
+              if (!editor.current) return;
+              setValue('contents', await editor.current.getSerializedState());
+              handleSubmit(onSubmit)();
+            }}
           >
             완료
           </Button>
@@ -71,20 +77,17 @@ export const PostCreateOrEditForm = ({
           error={!!formState.errors.title?.message}
           {...register('title')}
         />
-        <Controller
-          control={control}
-          name="contents"
-          render={({ field: { onChange } }) => (
-            <TextEditor
-              initialContents={initialValues?.contents}
-              containerClass="text-sm rounded-lg border-neutral focus-within:border-primary focus-within:outline-primary focus-within:outline outline-offset-2"
-              placeholder="입력하세요"
-              onChange={(state) => {
-                onChange(state.toJSON());
-              }}
-            />
-          )}
-        ></Controller>
+
+        <TextEditor
+          ref={editor}
+          initialValues={initialValues?.contents}
+          onAddImage={async ({ image }) => {
+            const { url } = await uploadImage({
+              file: image,
+            });
+            return url;
+          }}
+        />
       </form>
     </div>
   );

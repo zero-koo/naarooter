@@ -45,7 +45,7 @@ export type ImageItem = {
     }
 );
 
-const imageUploadPromiseCache = new Map<string, Promise<string>>();
+export const imageUploadPromiseCache = new Map<string, Promise<string>>();
 
 export class ImagesNode extends DecoratorBlockNode {
   __images: Array<ImageItem>;
@@ -69,7 +69,6 @@ export class ImagesNode extends DecoratorBlockNode {
   }
 
   static importJSON(serializedNode: SerializedImagesNode): ImagesNode {
-    console.log('importJSON', serializedNode);
     const node = $createImagesNode(serializedNode);
     node.setFormat(serializedNode.format);
     return node;
@@ -107,14 +106,6 @@ export class ImagesNode extends DecoratorBlockNode {
   ) {
     super(format, key);
     this.__images = images.map((image) => {
-      if (
-        image.blobURL &&
-        image.uploadPromise &&
-        !imageUploadPromiseCache.has(image.blobURL)
-      ) {
-        imageUploadPromiseCache.set(image.blobURL, image.uploadPromise);
-      }
-
       if (!image.blobURL && !image.srcURL) {
         throw Error('One of bloblURL or srcURL must be provided!');
       }
@@ -253,10 +244,19 @@ function ImagesNodeComponent({
 
   function handleAddImages(images: File[], at = 0) {
     onAddImages(
-      images.map((image) => ({
-        blobURL: URL.createObjectURL(image),
-        uploadPromise: onAddImage?.({ image }),
-      })),
+      images.map((image) => {
+        const blobURL = URL.createObjectURL(image);
+        const uploadPromise = onAddImage?.({ image });
+
+        if (uploadPromise && !imageUploadPromiseCache.has(blobURL)) {
+          imageUploadPromiseCache.set(blobURL, uploadPromise);
+        }
+
+        return {
+          blobURL,
+          uploadPromise,
+        };
+      }),
       at
     );
   }
@@ -365,8 +365,8 @@ function SingleImageComponent({
             src={src}
             alt={'Image'}
             className="w-full max-w-[500px]"
-            width={0}
-            height={0}
+            width={500}
+            height={500}
           />
         )}
       />

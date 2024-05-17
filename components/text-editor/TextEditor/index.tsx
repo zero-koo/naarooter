@@ -13,9 +13,12 @@ import ImagesPlugin from '../plugins/ImagesPlugin';
 import { RootEditorContextProvider } from '../contexts/RootEditorContext';
 import { forwardRef, useCallback, useImperativeHandle } from 'react';
 import { useInitializeEditorComposerContext } from '../contexts/useInitializeEditorComposerContext';
-import { ImagesNode } from '../nodes/ImagesNode';
+import {
+  ImagesNode,
+  SerializedImagesNode,
+  imageUploadPromiseCache,
+} from '../nodes/ImagesNode';
 import { InitialConfigType } from '@lexical/react/LexicalComposer';
-import { SerializedEditorState, SerializedLexicalNode } from 'lexical';
 import { YouTubeNode } from '../nodes/YouTubeNode';
 import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { getImageNodes } from '../utils';
@@ -35,7 +38,7 @@ const defaultInitialConfig: InitialConfigType = {
 };
 
 export type TextEditorHandle = {
-  getSerializedState(): SerializedEditorState<SerializedLexicalNode>;
+  getSerializedState(): Promise<string>;
   getThumbnailImageURL(): Promise<string | undefined>;
   waitForImagesUpload(): Promise<void>;
 };
@@ -64,8 +67,33 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
       ref,
       () => {
         return {
-          getSerializedState() {
-            return editor._editorState.toJSON();
+          async getSerializedState() {
+            const serialized = editor._editorState.toJSON();
+
+            Object.assign(serialized.root, {
+              children: await Promise.all(
+                serialized.root.children.map(async (child) => {
+                  if (child.type !== 'images') return child;
+
+                  return {
+                    ...child,
+                    images: await Promise.all(
+                      (child as SerializedImagesNode).images.map(
+                        async (image) => ({
+                          blobURL: undefined,
+                          srcURL: await (image.srcURL ??
+                            (image.blobURL
+                              ? imageUploadPromiseCache.get(image.blobURL)
+                              : undefined)),
+                        })
+                      )
+                    ),
+                  };
+                })
+              ),
+            });
+
+            return JSON.stringify(serialized);
           },
           async getThumbnailImageURL() {
             await waitForImagesUpload();
@@ -113,5 +141,4 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
 );
 
 TextEditor.displayName = 'TextEditor';
-
 export default TextEditor;

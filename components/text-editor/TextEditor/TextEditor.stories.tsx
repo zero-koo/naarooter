@@ -44,8 +44,8 @@ const DefaultTextEditor = () => {
     <div className="w-[800px]">
       <div className="mb-2 flex gap-2">
         <Button
-          onClick={() => {
-            console.log(editor.current?.getSerializedState());
+          onClick={async () => {
+            console.log(await editor.current?.getSerializedState());
           }}
         >
           Print Serialized State

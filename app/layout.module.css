@@ -6,9 +6,5 @@
 }
 
 .inner {
-  display: flex;
-  overflow: hidden;
-  height: 100%;
-  flex: 0 1 540px;
-  flex-direction: column;
+  width: min(540px, 100vw);
 }

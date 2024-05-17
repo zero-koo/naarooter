@@ -6,7 +6,11 @@ import {
 } from 'lexical';
 import { useEffect } from 'react';
 
-import { $createImagesNode, ImagesNode } from '../nodes/ImagesNode';
+import {
+  $createImagesNode,
+  ImagesNode,
+  imageUploadPromiseCache,
+} from '../nodes/ImagesNode';
 import { $insertNodeToNearestRoot } from '@lexical/utils';
 import { useRootEditorContext } from '../contexts/RootEditorContext';
 import { getImageNodes } from '../utils';
@@ -37,16 +41,20 @@ export default function ImagesPlugin(): JSX.Element | null {
     return editor.registerCommand<File[]>(
       INSERT_IMAGES_COMMAND,
       (images) => {
-        const imagesWithUrl = images.map((image) => ({
-          blobURL: URL.createObjectURL(image),
-          image,
-        }));
-
         const imageNode = $createImagesNode({
-          images: imagesWithUrl.map(({ blobURL, image }) => ({
-            blobURL,
-            uploadPromise: onAddImage?.({ image }),
-          })),
+          images: images.map((image) => {
+            const blobURL = URL.createObjectURL(image);
+            const uploadPromise = onAddImage?.({ image });
+
+            if (uploadPromise && !imageUploadPromiseCache.has(blobURL)) {
+              imageUploadPromiseCache.set(blobURL, uploadPromise);
+            }
+
+            return {
+              blobURL,
+              uploadPromise,
+            };
+          }),
           caption: '',
           index: null,
         });

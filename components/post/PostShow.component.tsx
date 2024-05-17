@@ -1,6 +1,5 @@
 import { formatTimeAgo } from '@/lib/utils';
 import { MBTI } from '@prisma/client';
-import { TextViewer } from '../text-viewer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +29,7 @@ import { trpc } from '@/client/trpcClient';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import React from 'react';
+import TextViewer from '../text-editor/TextViewer';
 
 interface PostShowComponentProps {
   groupId: string | null;
@@ -91,10 +91,7 @@ const PostShowComponent = ({
         </div>
       </div>
       <div className="flex min-h-[100px] py-2 text-sm">
-        <TextViewer
-          content={JSON.parse(description)}
-          containerClass="opacity-80"
-        />
+        <TextViewer initialValue={description} />
       </div>
       <div className="flex py-1">
         <div className="ml-auto flex gap-3 text-xs opacity-80">

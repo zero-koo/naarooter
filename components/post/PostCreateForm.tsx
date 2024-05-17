@@ -30,13 +30,13 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
     <PostCreateOrEditForm
       title={'글 쓰기'}
       backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
-      onSubmit={(data) =>
+      onSubmit={(data) => {
         mutate({
           title: data.title,
           groupId: listGroupId!, // TODO: Remove '!' after implementing group selector
-          description: JSON.stringify(data.contents),
-        })
-      }
+          description: data.contents,
+        });
+      }}
     />
   );
 };

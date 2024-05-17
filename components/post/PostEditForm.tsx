@@ -45,13 +45,13 @@ export const PostEditForm = ({ id }: { id: string }) => {
       backLink={`/posts/${id}`}
       initialValues={{
         title: data.title,
-        contents: JSON.parse(data.description),
+        contents: data.description,
       }}
       onSubmit={(data) =>
         mutate({
           id,
           title: data.title,
-          description: JSON.stringify(data.contents),
+          description: data.contents,
         })
       }
     />
