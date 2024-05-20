@@ -364,7 +364,7 @@ function SingleImageComponent({
           <Image
             src={src}
             alt={'Image'}
-            className="w-full max-w-[500px]"
+            className="w-full"
             width={500}
             height={500}
           />

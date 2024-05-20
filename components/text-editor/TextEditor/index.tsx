@@ -119,7 +119,7 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
               <ToolbarPlugin />
               <RichTextPlugin
                 contentEditable={
-                  <div className="relative flex overflow-auto border-y border-b-2 border-t-4 border-base-content/40 bg-base-100 text-sm">
+                  <div className="relative flex overflow-auto border-y border-base-content/40 text-sm">
                     <div className="-z-1 relative w-full flex-auto resize-y overflow-hidden">
                       <ContentEditable className="min-h-[350px] w-full overflow-hidden px-3 pb-14 pt-2 md:pb-2" />
                     </div>

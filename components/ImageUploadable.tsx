@@ -23,7 +23,7 @@ export function ImageUploadable({
   }, [uploadPromise]);
 
   return (
-    <div className="relative w-fit">
+    <div className="relative">
       <ImageComponent src={src} />
       {loading && (
         <div className="flex-center absolute inset-0 bg-neutral/70">

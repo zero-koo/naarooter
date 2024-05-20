@@ -71,26 +71,28 @@ const PostShowComponent = ({
   onClickDislike,
 }: PostShowComponentProps) => {
   return (
-    <div className="bg-base-200 px-3 py-2">
-      <div className="flex items-start py-2">
-        <div className="text-lg font-semibold">{title}</div>
-        {isAuthor && <PostShowUserMenu postId={id} postGroupId={groupId} />}
-      </div>
-      <div className="flex items-center justify-between text-xs opacity-70">
-        {author && (
-          <div className="flex py-1">
-            <div>{author.mbti ?? 'UNKNOWN'}</div>
+    <div className="py-2">
+      <div className="px-3 py-2">
+        <div className="flex items-start py-1">
+          <div className="text-lg font-semibold">{title}</div>
+          {isAuthor && <PostShowUserMenu postId={id} postGroupId={groupId} />}
+        </div>
+        <div className="flex items-center justify-between text-xs opacity-70">
+          {author && (
+            <div className="flex py-1">
+              <div>{author.mbti ?? 'UNKNOWN'}</div>
+              <div className={'mx-0.5'}>·</div>
+              <div>{author.name ?? '익명'}</div>
+            </div>
+          )}
+          <div className="ml-auto flex">
+            <div>{formatTimeAgo(createdAt)}</div>
             <div className={'mx-0.5'}>·</div>
-            <div>{author.name ?? '익명'}</div>
+            <div>{`조회 ${viewCount.toLocaleString()}`}</div>
           </div>
-        )}
-        <div className="ml-auto flex">
-          <div>{formatTimeAgo(createdAt)}</div>
-          <div className={'mx-0.5'}>·</div>
-          <div>{`조회 ${viewCount.toLocaleString()}`}</div>
         </div>
       </div>
-      <div className="flex min-h-[100px] py-2 text-sm">
+      <div className="flex min-h-[100px] text-sm">
         <TextViewer initialValue={description} />
       </div>
       <div className="flex py-1">

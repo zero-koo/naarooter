@@ -40,7 +40,7 @@ function TextInput(
           'input-success': theme === 'success',
           'input-warning': theme === 'warning',
           '!input-error': theme === 'error' || error,
-          'input-ghost': ghost,
+          'input-ghost border-none': ghost,
           'input-bordered': !noBorder,
           'input-lg': size === 'lg',
           'input-md': size === 'md',

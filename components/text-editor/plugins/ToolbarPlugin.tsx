@@ -9,7 +9,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 
 function ToolbarPlugin() {
   return (
-    <div className="absolute bottom-0 left-0 z-10 flex w-full gap-1 border-y-2 border-base-content/40 bg-base-100 p-1 md:-right-1 md:bottom-auto md:left-auto md:top-0 md:w-auto md:translate-x-full md:flex-col md:border-t-4">
+    <div className="absolute bottom-0 left-0 z-10 flex w-full gap-1 border-y border-base-content/40 p-1 md:-right-1 md:bottom-auto md:left-auto md:top-0 md:w-auto md:translate-x-full md:flex-col">
       <ImagesInsertButton />
       <YouTubeInsertButton />
     </div>

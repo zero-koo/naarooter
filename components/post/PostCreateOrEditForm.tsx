@@ -48,7 +48,7 @@ export const PostCreateOrEditForm = ({
   const { uploadImage } = useImageUpload();
 
   return (
-    <div className="flex flex-col bg-base-200">
+    <div>
       <DefaultItemHeader
         title={title}
         backLink={backLink}
@@ -67,12 +67,11 @@ export const PostCreateOrEditForm = ({
           </Button>
         }
       />
-      <form
-        className="flex flex-1 flex-col gap-2 overflow-auto p-3"
-        autoComplete="off"
-      >
+      <form autoComplete="off">
         <TextInput
           className="text-md shrink-0 font-semibold"
+          ghost
+          flat
           placeholder="제목을 입력하세요"
           error={!!formState.errors.title?.message}
           {...register('title')}

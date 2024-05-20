@@ -41,7 +41,7 @@ export function ImageEditableWrapper({
   onToggleCaption,
 }: ImageEditableWrapperProps) {
   return (
-    <div className={cn('relative w-fit', className)}>
+    <div className={cn('relative', className)}>
       {children}
       {loading && (
         <div className="flex-center absolute inset-0 bg-neutral/70">
