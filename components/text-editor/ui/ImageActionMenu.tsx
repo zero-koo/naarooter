@@ -23,11 +23,11 @@ const ImageActionMenu = ({ subIndex = 0 }: { subIndex?: number }) => {
   return (
     <div className="absolute bottom-0 right-0 flex p-1">
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <IconButton
             size="xs"
             shape={'square'}
-            className="bg-base-100/60 hover:bg-base-100/90"
+            className="bg-base-100/60 text-primary-content/80 hover:bg-base-100/90"
           >
             <MoreVerticalIcon size={20} />
           </IconButton>
