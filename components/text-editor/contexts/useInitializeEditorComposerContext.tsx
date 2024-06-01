@@ -53,7 +53,9 @@ export const useInitializeEditorComposerContext = (
 
   useEffect(() => {
     const [editor] = composerContext;
-    initializeEditor(editor, initialConfig.editorState);
+    setTimeout(() => {
+      initializeEditor(editor, initialConfig.editorState);
+    });
   }, [composerContext, initialConfig.editorState]);
 
   return composerContext;
