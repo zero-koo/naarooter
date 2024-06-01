@@ -10,12 +10,9 @@ import {
   NodeKey,
   Spread,
 } from 'lexical';
-import { ImageCarousel } from '../ui/ImageCarousel';
 import { cn } from '@/lib/utils';
-import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
 import React from 'react';
-import { ImageEditableWrapper } from '../ui/ImageEditableWrapper';
-import Image from 'next/image';
+import { ImagesBlock } from '../ui/ImagesBlock';
 
 export type SerializedReadonlyImagesNode = Spread<
   {
@@ -101,7 +98,7 @@ export class ReadonlyImagesNode extends DecoratorBlockNode {
     };
 
     return (
-      <ImagesNodeComponent
+      <ImagesNodeReadonlyBlock
         className={className}
         images={this.__images}
         index={this.__index}
@@ -131,14 +128,7 @@ export function $isImagesNode(
   return node instanceof ReadonlyImagesNode;
 }
 
-function ImagesNodeComponent({
-  images,
-  index,
-  caption,
-  className,
-  format,
-  nodeKey,
-}: {
+const ImagesNodeReadonlyBlock = (props: {
   images: Array<ImageItem>;
   index: number | null;
   caption: string;
@@ -148,63 +138,4 @@ function ImagesNodeComponent({
   }>;
   format: ElementFormatType | null;
   nodeKey: NodeKey;
-}) {
-  return (
-    <BlockWithAlignableContents
-      className={className}
-      format={format}
-      nodeKey={nodeKey}
-    >
-      {images.length > 1 ? (
-        <ImageCarousel
-          images={images.map((image) => ({
-            src: image.srcURL,
-          }))}
-          index={index}
-          hasCaption={!!caption}
-          readonly
-        />
-      ) : (
-        <SingleImageComponent
-          src={images[0].srcURL}
-          index={index}
-          hasCaption={!!caption}
-        />
-      )}
-      {caption && (
-        <>
-          <div className="min-h-6 absolute inset-x-0 flex items-center overflow-hidden text-ellipsis px-2 text-xs font-semibold">
-            {caption}
-          </div>
-          <div className="h-6 w-full"></div>
-        </>
-      )}
-    </BlockWithAlignableContents>
-  );
-}
-
-function SingleImageComponent({
-  src,
-  index,
-  hasCaption,
-}: {
-  src: string;
-  index: number | null;
-  hasCaption: boolean;
-}) {
-  return (
-    <ImageEditableWrapper
-      indexLabel={index !== null ? `${index + 1}` : undefined}
-      hasCaption={hasCaption}
-      readonly
-    >
-      <Image
-        src={src}
-        alt={'Image'}
-        className="w-full"
-        width={500}
-        height={500}
-      />
-    </ImageEditableWrapper>
-  );
-}
+}) => <ImagesBlock {...props} readonly hasCaption={!!props.caption.trim()} />;

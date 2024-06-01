@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { LoaderCircleIcon } from 'lucide-react';
+import { usePromise } from '@/hooks/usePromise';
 
 export const imageUploadPromiseMap = new Map<string, Promise<string>>();
 
@@ -12,15 +12,7 @@ export function ImageUploadable({
   uploadPromise?: Promise<string>;
   ImageComponent: React.FC<{ src: string }>;
 }) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!uploadPromise) {
-      setLoading(false);
-      return;
-    }
-    uploadPromise?.then(() => setLoading(false));
-  }, [uploadPromise]);
+  const { loading } = usePromise(uploadPromise);
 
   return (
     <div className="relative">

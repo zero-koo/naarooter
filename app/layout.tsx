@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 import { ToastContainer } from '@/hooks/useToast';
 
 import { EdgeStoreProvider } from '@/lib/edgestore';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <body className={twMerge(inter.className, 'flex justify-center')}>
           <ClientProvider>
             <EdgeStoreProvider>{children}</EdgeStoreProvider>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </ClientProvider>
           <ToastContainer />
         </body>

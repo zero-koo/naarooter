@@ -13,21 +13,14 @@ import {
   LexicalEditor,
   createEditor,
 } from 'lexical';
-import { useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 
 export const useInitializeEditorComposerContext = (
   initialConfig: InitialConfigType
 ) => {
   const composerContext: [LexicalEditor, LexicalComposerContextType] = useMemo(
     () => {
-      const {
-        theme,
-        namespace,
-        nodes,
-        onError,
-        editorState: initialEditorState,
-        html,
-      } = initialConfig;
+      const { theme, namespace, nodes, onError, html } = initialConfig;
 
       const context: LexicalComposerContextType = createLexicalComposerContext(
         null,
@@ -40,8 +33,6 @@ export const useInitializeEditorComposerContext = (
         onError: (error) => onError(error, editor),
         theme,
       });
-
-      initializeEditor(editor, initialEditorState);
 
       return [editor, context];
     },
@@ -59,6 +50,11 @@ export const useInitializeEditorComposerContext = (
     // We only do this for init
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const [editor] = composerContext;
+    initializeEditor(editor, initialConfig.editorState);
+  }, [composerContext, initialConfig.editorState]);
 
   return composerContext;
 };

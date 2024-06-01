@@ -10,14 +10,11 @@ import {
   NodeKey,
   Spread,
 } from 'lexical';
-import { ImageCarousel } from '../ui/ImageCarousel';
+import { ImagesBlock } from '../ui/ImagesBlock';
 import { cn } from '@/lib/utils';
-import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import { ImageEditableWrapper } from '../ui/ImageEditableWrapper';
-import { ImageUploadable } from '@/components/ImageUploadable';
-import Image from 'next/image';
+import { ImageActionMenuContextProvider } from '../contexts/ImageActionMenuContext';
 import { useRootEditorContext } from '../contexts/RootEditorContext';
+import { useState } from 'react';
 
 export type SerializedImagesNode = Spread<
   {
@@ -163,7 +160,7 @@ export class ImagesNode extends DecoratorBlockNode {
     };
 
     return (
-      <ImagesNodeComponent
+      <ImagesNodeBlock
         className={className}
         images={this.__images}
         index={this.__index}
@@ -212,7 +209,7 @@ export function $isImagesNode(
   return node instanceof ImagesNode;
 }
 
-function ImagesNodeComponent({
+export function ImagesNodeBlock({
   images,
   index,
   caption,
@@ -239,8 +236,6 @@ function ImagesNodeComponent({
   const { onAddImage } = useRootEditorContext();
 
   const [hasCaption, setHasCaption] = useState(!!caption?.trim());
-  const [captionValue, setCaptionValue] = useState(caption);
-  const [isEditMode, setIsEditMode] = useState(false);
 
   function handleAddImages(images: File[], at = 0) {
     onAddImages(
@@ -261,139 +256,32 @@ function ImagesNodeComponent({
     );
   }
 
-  function handleToggleCaption(hasCaption: boolean) {
+  function handleToggleCaption() {
     if (hasCaption) {
-      setHasCaption(true);
-      onChangeCaption?.(captionValue);
-      setIsEditMode(true);
-    } else {
       setHasCaption(false);
-      onChangeCaption?.('');
-      setIsEditMode(false);
+    } else {
+      setHasCaption(true);
     }
   }
 
   return (
-    <BlockWithAlignableContents
-      className={className}
-      format={format}
-      nodeKey={nodeKey}
-    >
-      {images.length > 1 ? (
-        <ImageCarousel
-          images={images.map((image) => ({
-            src: image.blobURL ?? image.srcURL,
-            uploadPromise: image.uploadPromise,
-          }))}
-          index={index}
-          hasCaption={hasCaption}
-          onAddImages={handleAddImages}
-          onRemove={onRemoveItem}
-          onToggleCaption={handleToggleCaption}
-        />
-      ) : (
-        <SingleImageComponent
-          src={images[0].blobURL ?? images[0].srcURL}
-          uploadPromise={images[0].uploadPromise}
-          index={index}
-          hasCaption={hasCaption}
-          onAddImages={handleAddImages}
-          onToggleCaption={handleToggleCaption}
-          onRemove={() => onRemoveItem(0)}
-        />
-      )}
-      {hasCaption &&
-        (isEditMode ? (
-          <CaptionInput
-            value={captionValue}
-            onBlur={(caption) => {
-              setCaptionValue(caption);
-              onChangeCaption?.(caption);
-              setIsEditMode(false);
-            }}
-          />
-        ) : (
-          <>
-            <div
-              className="min-h-6 absolute inset-x-0 flex items-center overflow-hidden text-ellipsis px-2 text-xs font-semibold"
-              onClick={() => {
-                setIsEditMode(true);
-              }}
-            >
-              {captionValue}
-            </div>
-            <div className="h-6 w-full"></div>
-          </>
-        ))}
-    </BlockWithAlignableContents>
-  );
-}
-
-function SingleImageComponent({
-  src,
-  uploadPromise,
-  index,
-  hasCaption,
-  readonly,
-  onToggleCaption,
-  onAddImages,
-  onRemove,
-}: {
-  src: string;
-  uploadPromise?: Promise<string>;
-  index: number | null;
-  hasCaption: boolean;
-  readonly?: boolean;
-  onAddImages: (images: File[]) => void;
-  onToggleCaption?: (hasCaption: boolean) => void;
-  onRemove?: () => void;
-}) {
-  return (
-    <ImageEditableWrapper
-      indexLabel={index !== null ? `${index + 1}` : undefined}
+    <ImageActionMenuContextProvider
+      imageCount={images.length}
       hasCaption={hasCaption}
-      readonly={readonly}
-      onAddImages={onAddImages}
-      onToggleCaption={onToggleCaption}
-      onRemove={() => onRemove?.()}
+      onAddImages={handleAddImages}
+      onRemoveImage={onRemoveItem}
+      onToggleCaption={handleToggleCaption}
     >
-      <ImageUploadable
-        src={src}
-        uploadPromise={uploadPromise}
-        ImageComponent={({ src }) => (
-          <Image
-            src={src}
-            alt={'Image'}
-            className="w-full"
-            width={500}
-            height={500}
-          />
-        )}
+      <ImagesBlock
+        images={images}
+        index={index}
+        hasCaption={hasCaption}
+        caption={caption}
+        className={className}
+        format={format}
+        nodeKey={nodeKey}
+        onChangeCaption={onChangeCaption}
       />
-    </ImageEditableWrapper>
-  );
-}
-
-function CaptionInput({
-  value,
-  onBlur,
-}: {
-  value: string;
-  onBlur: (value: string) => void;
-}) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  useLayoutEffect(() => {
-    if (!inputRef.current) return;
-    inputRef.current.value = value.trim();
-    inputRef.current.focus();
-  }, [value, inputRef]);
-  return (
-    <input
-      className="block h-6 w-full text-xs font-semibold"
-      ref={inputRef}
-      onBlur={(e) => {
-        onBlur(e.target.value);
-      }}
-    />
+    </ImageActionMenuContextProvider>
   );
 }
