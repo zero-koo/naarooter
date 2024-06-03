@@ -69,7 +69,7 @@ export const PostCreateOrEditForm = ({
       />
       <form autoComplete="off">
         <TextInput
-          className="text-md shrink-0 font-semibold"
+          className="w-full shrink-0 text-lg font-semibold"
           ghost
           flat
           placeholder="제목을 입력하세요"
