@@ -14,13 +14,19 @@ import {
 } from '@lexical/react/LexicalDecoratorBlockNode';
 import YoutubeEmbed from '../ui/YoutubeEmbed';
 import YouTubeInputDialog from '../ui/YouTubeInsertModal';
-import { Edit } from 'lucide-react';
+import { Edit, MoreVerticalIcon, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { getYoutubeVideoIdFromLink } from '../utils';
 import { IconButton } from '@/components/ui/IconButton';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu';
 
-type YouTubeComponentProps = Readonly<{
+type YouTubeNodeBlockProps = Readonly<{
   className: Readonly<{
     base: string;
     focus: string;
@@ -30,16 +36,18 @@ type YouTubeComponentProps = Readonly<{
   link: string;
   readonly?: boolean;
   onChangeLink: (link: string) => void;
+  onRemove: () => void;
 }>;
 
-function YouTubeComponent({
+function YouTubeNodeBlock({
   className,
   format,
   nodeKey,
   link,
   readonly,
   onChangeLink,
-}: YouTubeComponentProps) {
+  onRemove,
+}: YouTubeNodeBlockProps) {
   const [open, setOpen] = useState(false);
   return (
     <BlockWithAlignableContents
@@ -51,12 +59,42 @@ function YouTubeComponent({
         <YoutubeEmbed className="aspect-video w-full" link={link} />
         {!readonly && (
           <>
-            <IconButton
-              className="absolute bottom-1 right-1"
-              onClick={() => setOpen(true)}
-            >
-              <Edit />
-            </IconButton>
+            <div className="absolute bottom-0 right-0 flex p-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <IconButton
+                    size="xs"
+                    shape={'square'}
+                    className="bg-base-100/60 text-primary-content/80 hover:bg-base-100/90"
+                  >
+                    <MoreVerticalIcon size={20} />
+                  </IconButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-18 min-w-0 rounded-sm border border-base-content/10 bg-base-100/70 text-xs text-primary-content shadow"
+                  side="top"
+                  sideOffset={2}
+                  align="end"
+                >
+                  <DropdownMenuItem
+                    className={cn(
+                      'flex select-none items-center justify-between gap-3 p-1.5 cursor-pointer'
+                    )}
+                    onClick={() => setOpen(true)}
+                  >
+                    <Edit size={14} />
+                    <div>수정</div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="flex cursor-pointer select-none items-center justify-between gap-3 p-1.5"
+                    onClick={() => onRemove()}
+                  >
+                    <Trash2 size={14} />
+                    <div>삭제</div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <YouTubeInputDialog
               open={open}
               initialLink={link}
@@ -133,7 +171,7 @@ export class YouTubeNode extends DecoratorBlockNode {
     };
 
     return (
-      <YouTubeComponent
+      <YouTubeNodeBlock
         className={className}
         format={this.__format}
         nodeKey={this.getKey()}
@@ -142,6 +180,11 @@ export class YouTubeNode extends DecoratorBlockNode {
         onChangeLink={(link) => {
           _editor.update(() => {
             this.changeLink(link);
+          });
+        }}
+        onRemove={() => {
+          _editor.update(() => {
+            this.remove();
           });
         }}
       />
