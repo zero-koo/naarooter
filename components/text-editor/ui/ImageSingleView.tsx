@@ -23,7 +23,7 @@ export default function ImageSingleView({
           <Image
             src={src}
             alt={'Image'}
-            className="w-full"
+            className="min-h-16 w-full object-contain"
             width={500}
             height={500}
           />
