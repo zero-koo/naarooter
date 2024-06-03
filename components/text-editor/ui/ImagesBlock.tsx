@@ -15,6 +15,7 @@ export function ImagesBlock({
   format,
   nodeKey,
   onChangeCaption,
+  onRemoveCaption,
 }: {
   images: Array<ImageItem>;
   index: number | null;
@@ -28,6 +29,7 @@ export function ImagesBlock({
   format: ElementFormatType | null;
   nodeKey: NodeKey;
   onChangeCaption?: (caption: string) => void;
+  onRemoveCaption?: () => void;
 }) {
   return (
     <BlockWithAlignableContents
@@ -57,6 +59,7 @@ export function ImagesBlock({
         readonly={readonly}
         initialValue={caption}
         onChangeCaption={onChangeCaption}
+        onRemoveCaption={onRemoveCaption}
       />
     </BlockWithAlignableContents>
   );

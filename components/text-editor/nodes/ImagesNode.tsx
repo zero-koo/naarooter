@@ -281,6 +281,7 @@ export function ImagesNodeBlock({
         format={format}
         nodeKey={nodeKey}
         onChangeCaption={onChangeCaption}
+        onRemoveCaption={() => setHasCaption(false)}
       />
     </ImageActionMenuContextProvider>
   );

@@ -4,11 +4,13 @@ export const ImageCaption = ({
   hasCaption,
   initialValue,
   onChangeCaption,
+  onRemoveCaption,
   readonly,
 }: {
   hasCaption: boolean;
   initialValue?: string;
   onChangeCaption?: (value: string) => void;
+  onRemoveCaption?: () => void;
   readonly?: boolean;
 }) => {
   const contentEditableRef = useRef<HTMLDivElement>(null);
@@ -51,6 +53,10 @@ export const ImageCaption = ({
             e.preventDefault();
             e.stopPropagation();
           }
+        }}
+        onBlur={(e) => {
+          if (e.currentTarget.textContent?.trim()) return;
+          onRemoveCaption?.();
         }}
       />
     </div>
