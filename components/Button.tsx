@@ -6,8 +6,8 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   theme?: Theme;
   size?: Size;
-  LeftIcon?: React.FC<{ size?: number }>;
-  RightIcon?: React.FC<{ size?: number }>;
+  LeftIcon?: React.FC<{ size?: number | string }>;
+  RightIcon?: React.FC<{ size?: number | string }>;
   ghost?: boolean;
   outline?: boolean;
   link?: boolean;
