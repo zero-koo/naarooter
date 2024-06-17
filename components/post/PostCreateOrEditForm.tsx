@@ -48,7 +48,7 @@ export const PostCreateOrEditForm = ({
   const { uploadImage } = useImageUpload();
 
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <DefaultItemHeader
         title={title}
         backLink={backLink}
@@ -67,7 +67,10 @@ export const PostCreateOrEditForm = ({
           </Button>
         }
       />
-      <form autoComplete="off">
+      <form
+        autoComplete="off"
+        className="-mr-40 flex flex-1 flex-col overflow-auto pr-40"
+      >
         <TextInput
           className="w-full shrink-0 text-lg font-semibold"
           ghost

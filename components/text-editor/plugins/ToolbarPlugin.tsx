@@ -4,12 +4,17 @@ import { ImageIcon, ImagesIcon, YoutubeIcon } from 'lucide-react';
 import YouTubeInputDialog from '../ui/YouTubeInsertModal';
 import { useState } from 'react';
 import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
-import { uploadImages } from '@/lib/utils';
+import { cn, uploadImages } from '@/lib/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-function ToolbarPlugin() {
+function ToolbarPlugin({ className }: { className?: string }) {
   return (
-    <div className="absolute bottom-0 left-0 z-10 flex w-full gap-1 border-y border-base-content/40 p-1 md:-right-1 md:bottom-auto md:left-auto md:top-0 md:w-auto md:translate-x-full md:flex-col">
+    <div
+      className={cn(
+        'flex w-full gap-1 border-t-4 border-base-content/40 p-1 md:absolute md:right-11 md:top-0 md:w-auto md:translate-x-full md:flex-col md:border-b-4 md:px-0',
+        className
+      )}
+    >
       <ImageInsertButton />
       <ImagesInsertButton />
       <YouTubeInsertButton />
@@ -38,7 +43,7 @@ function ImageInsertButton() {
           });
         }}
       >
-        <ImageIcon />
+        <ImageIcon strokeWidth={1.5} />
       </IconButton>
     </>
   );
@@ -61,7 +66,7 @@ function ImagesInsertButton() {
           });
         }}
       >
-        <ImagesIcon />
+        <ImagesIcon strokeWidth={1.5} />
       </IconButton>
     </>
   );
@@ -75,7 +80,7 @@ function YouTubeInsertButton() {
   return (
     <>
       <IconButton variant="ghost" size="sm" onClick={() => setOpen(true)}>
-        <YoutubeIcon />
+        <YoutubeIcon strokeWidth={1.5} />
       </IconButton>
       {open && (
         <YouTubeInputDialog

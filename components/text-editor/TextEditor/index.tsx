@@ -113,25 +113,33 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
       <RootEditorContextProvider onAddImage={onAddImage}>
         <LexicalComposerContext.Provider value={composerContext}>
           <SharedHistoryContext>
-            <div className={'relative mx-auto w-full'}>
+            <div
+              className={
+                'relative -mr-12 flex h-full flex-col overflow-auto pr-12'
+              }
+            >
               <HistoryPlugin externalHistoryState={historyState} />
               <DragDropPastePlugin />
-              <ToolbarPlugin />
               <RichTextPlugin
                 contentEditable={
-                  <div className="relative flex overflow-auto border-y border-base-content/40 text-sm">
-                    <div className="-z-1 relative w-full flex-auto resize-y overflow-hidden">
-                      <ContentEditable className="min-h-[350px] w-full overflow-hidden px-3 pb-14 pt-2 md:pb-2" />
-                    </div>
+                  <div className="-z-1 relative w-full flex-1 overflow-auto text-sm">
+                    <ContentEditable className="min-h-full w-full px-3 pb-14 pt-2 md:h-auto" />
                   </div>
                 }
-                placeholder={(children: React.ReactNode) => (
-                  <div className={'Placeholder__root'}>{children}</div>
+                placeholder={() => (
+                  <div
+                    className={
+                      'Placeholder__root absolute px-3 pt-2 text-sm opacity-70'
+                    }
+                  >
+                    가나다라마바사
+                  </div>
                 )}
                 ErrorBoundary={LexicalErrorBoundary}
               />
               <ImagesPlugin />
               <YouTubePlugin />
+              <ToolbarPlugin />
             </div>
           </SharedHistoryContext>
         </LexicalComposerContext.Provider>
