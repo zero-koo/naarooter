@@ -1,7 +1,7 @@
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import YouTubePlugin from '../plugins/YouTubePlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import ToolbarPlugin from '../plugins/ToolbarPlugin';
+import ToolbarPlugin, { ToolbarItem } from '../plugins/ToolbarPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import {
@@ -26,6 +26,9 @@ import { getImageNodes } from '../utils';
 type TextEditorProps = {
   initialConfig?: InitialConfigType;
   initialValues?: string;
+  toolbarItems?: ToolbarItem[];
+  maxContentNode?: number;
+  disableDragDrop?: boolean;
   onAddImage?: ({ image }: { image: File }) => Promise<string>;
 };
 
@@ -43,8 +46,12 @@ export type TextEditorHandle = {
   waitForImagesUpload(): Promise<void>;
 };
 
+// TODO: Develop maxContentNode
 const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
-  ({ initialConfig, initialValues, onAddImage }, ref) => {
+  (
+    { initialConfig, initialValues, toolbarItems, disableDragDrop, onAddImage },
+    ref
+  ) => {
     const { historyState } = useSharedHistoryContext();
 
     const editorConfig = initialConfig ?? defaultInitialConfig;
@@ -119,7 +126,7 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
               }
             >
               <HistoryPlugin externalHistoryState={historyState} />
-              <DragDropPastePlugin />
+              {!disableDragDrop && <DragDropPastePlugin />}
               <RichTextPlugin
                 contentEditable={
                   <div className="-z-1 relative w-full flex-1 overflow-auto text-sm">
@@ -139,7 +146,7 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
               />
               <ImagesPlugin />
               <YouTubePlugin />
-              <ToolbarPlugin />
+              <ToolbarPlugin items={toolbarItems} />
             </div>
           </SharedHistoryContext>
         </LexicalComposerContext.Provider>

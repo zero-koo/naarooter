@@ -7,7 +7,15 @@ import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
 import { cn, uploadImages } from '@/lib/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-function ToolbarPlugin({ className }: { className?: string }) {
+export type ToolbarItem = 'Image' | 'Images' | 'Youtube';
+
+function ToolbarPlugin({
+  items,
+  className,
+}: {
+  items?: ToolbarItem[];
+  className?: string;
+}) {
   return (
     <div
       className={cn(
@@ -15,9 +23,9 @@ function ToolbarPlugin({ className }: { className?: string }) {
         className
       )}
     >
-      <ImageInsertButton />
-      <ImagesInsertButton />
-      <YouTubeInsertButton />
+      {(!items || items.includes('Image')) && <ImageInsertButton />}
+      {(!items || items.includes('Images')) && <ImagesInsertButton />}
+      {(!items || items.includes('Youtube')) && <YouTubeInsertButton />}
     </div>
   );
 }
