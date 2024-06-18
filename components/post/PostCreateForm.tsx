@@ -3,7 +3,7 @@
 import { trpc } from '@/client/trpcClient';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
-import { PostCreateOrEditForm } from './PostCreateOrEditForm';
+import BaseTitleDescriptionForm from '../BaseTitleDescriptionForm';
 
 export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   const router = useRouter();
@@ -27,7 +27,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   });
 
   return (
-    <PostCreateOrEditForm
+    <BaseTitleDescriptionForm
       title={'글 쓰기'}
       backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
       onSubmit={(data) => {

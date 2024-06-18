@@ -3,19 +3,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import TextInput from '../TextInput';
-import { Button } from '../Button';
-import DefaultItemHeader from '../DefaultItemHeader';
-import TextEditor, { TextEditorHandle } from '../text-editor/TextEditor';
 import { useRef } from 'react';
 import { useImageUpload } from '@/hooks/useImageUpload';
+import TextEditor, { TextEditorHandle } from './text-editor/TextEditor';
+import DefaultItemHeader from './DefaultItemHeader';
+import { Button } from './Button';
+import TextInput from './TextInput';
+import { ToolbarItem } from './text-editor/plugins/ToolbarPlugin';
 
-type PostForm = {
+type BaseForm = {
   title: string;
   contents: string;
 };
 
-const postFormSchema = z.object({
+const baseFromSchema = z.object({
   title: z
     .string()
     .min(1, { message: '제목을 입력하세요.' })
@@ -23,24 +24,32 @@ const postFormSchema = z.object({
   contents: z.string().optional(),
 });
 
-interface PostCreateOrEditFormProps {
+type BaseTitleDescriptionFormProps = {
   title: string;
   backLink: string;
   initialValues?: {
     title: string;
     contents: string;
   };
-  onSubmit: (data: PostForm) => void;
-}
+  toolbarItems?: ToolbarItem[];
+  maxContentNode?: number;
+  disableDragDrop?: boolean;
+  submitButtonName?: string;
+  onSubmit: (data: BaseForm) => void;
+};
 
-export const PostCreateOrEditForm = ({
+export default function BaseTitleDescriptionForm({
   title,
   backLink,
   initialValues,
+  toolbarItems,
+  maxContentNode,
+  disableDragDrop,
+  submitButtonName,
   onSubmit,
-}: PostCreateOrEditFormProps) => {
-  const { register, setValue, handleSubmit, formState } = useForm<PostForm>({
-    resolver: zodResolver(postFormSchema),
+}: BaseTitleDescriptionFormProps) {
+  const { register, setValue, handleSubmit, formState } = useForm<BaseForm>({
+    resolver: zodResolver(baseFromSchema),
     defaultValues: initialValues,
   });
 
@@ -63,7 +72,7 @@ export const PostCreateOrEditForm = ({
               handleSubmit(onSubmit)();
             }}
           >
-            완료
+            {submitButtonName ?? '완료'}
           </Button>
         }
       />
@@ -79,10 +88,12 @@ export const PostCreateOrEditForm = ({
           error={!!formState.errors.title?.message}
           {...register('title')}
         />
-
         <TextEditor
           ref={editor}
           initialValues={initialValues?.contents}
+          toolbarItems={toolbarItems}
+          maxContentNode={maxContentNode}
+          disableDragDrop={disableDragDrop}
           onAddImage={async ({ image }) => {
             const { url } = await uploadImage({
               file: image,
@@ -93,4 +104,4 @@ export const PostCreateOrEditForm = ({
       </form>
     </div>
   );
-};
+}

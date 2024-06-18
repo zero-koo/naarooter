@@ -3,10 +3,10 @@
 import { trpc } from '@/client/trpcClient';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
-import { PostCreateOrEditForm } from './PostCreateOrEditForm';
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
+import BaseTitleDescriptionForm from '../BaseTitleDescriptionForm';
 
 export const PostEditForm = ({ id }: { id: string }) => {
   const router = useRouter();
@@ -40,7 +40,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
   if (!data) return <div>Loading...</div>;
 
   return (
-    <PostCreateOrEditForm
+    <BaseTitleDescriptionForm
       title={'글 수정하기'}
       backLink={`/posts/${id}`}
       initialValues={{
