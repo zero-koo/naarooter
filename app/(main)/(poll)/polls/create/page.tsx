@@ -3,7 +3,14 @@
 import { useRouter } from 'next/navigation';
 import { trpc } from '@/client/trpcClient';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeftIcon, MinusCircle, PlusIcon } from 'lucide-react';
+import {
+  ArrowLeftIcon,
+  ImagePlusIcon,
+  ImagesIcon,
+  MinusCircle,
+  PlusIcon,
+  TrashIcon,
+} from 'lucide-react';
 import {
   Controller,
   SubmitErrorHandler,
@@ -15,12 +22,9 @@ import z from 'zod';
 import { PollInput } from '@/types/poll';
 import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/Button';
-import TextArea from '@/components/TextArea';
-import TextInput from '@/components/TextInput';
 import { Toggle } from '@/components/Toggle';
 import { SingleImageUploader } from '@/components/SingleImageUploader';
-import { cn } from '@/lib/utils';
-import { useEdgeStore } from '@/lib/edgestore';
+import { cn, uploadImages } from '@/lib/utils';
 import {
   Sheet,
   SheetClose,
@@ -31,6 +35,13 @@ import {
 } from '@/components/ui/Sheet';
 import PollSubmitPreview from '@/components/poll/PollSubmitPreview';
 import DefaultItemHeader from '@/components/DefaultItemHeader';
+import TextInput from '@/components/ui/TextInput';
+import PlainTextEditor from '@/components/text-editor/PlainTextEditor';
+import { useState } from 'react';
+import { IconButton } from '@/components/ui/IconButton';
+import ImageCarousel from '@/components/ImageCarousel';
+import ActionMenu from '@/components/ActionMenu';
+import { useImageUpload } from '@/hooks/useImageUpload';
 
 export default function CreatePollPage() {
   return <PollForm />;
@@ -49,7 +60,7 @@ const pollFormSchema = z
       .string()
       .min(1, { message: '제목을 입력하세요.' })
       .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
-    description: z.string(),
+    description: z.string().optional(),
     useImage: z.boolean(),
     choices: z.array(
       z.object({
@@ -72,27 +83,35 @@ function PollForm() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { edgestore } = useEdgeStore();
+  const { uploadImage } = useImageUpload();
 
-  const { control, formState, register, watch, handleSubmit, getValues } =
-    useForm<z.infer<typeof pollFormSchema>>({
-      resolver: zodResolver(pollFormSchema),
-      defaultValues: {
-        title: '',
-        description: '',
-        useImage: false,
-        choices: [
-          {
-            main: '',
-            image: undefined,
-          },
-          {
-            main: '',
-            image: undefined,
-          },
-        ],
-      },
-    });
+  const [imagesPromise, setImagesPromise] = useState<
+    Array<{
+      image: File;
+      promise: Promise<string>;
+    }>
+  >([]);
+
+  const { control, formState, register, watch, handleSubmit } = useForm<
+    z.infer<typeof pollFormSchema>
+  >({
+    resolver: zodResolver(pollFormSchema),
+    defaultValues: {
+      title: '',
+      description: undefined,
+      useImage: false,
+      choices: [
+        {
+          main: '',
+          image: undefined,
+        },
+        {
+          main: '',
+          image: undefined,
+        },
+      ],
+    },
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -124,23 +143,27 @@ function PollForm() {
     },
   });
   const onSubmit = async (data: PollInput) => {
-    const imageUrls = useImage
+    const choiceImageUrls = useImage
       ? await Promise.all(
           data.choices.map((choice) =>
-            edgestore.publicFiles
-              .upload({
-                file: choice.image!,
-              })
-              .then((image) => image.url)
+            uploadImage({
+              file: choice.image!,
+            }).then((image) => image.url)
           )
         )
       : data.choices.map(() => undefined);
 
+    const imageUrls = await Promise.all(
+      imagesPromise.map(({ promise }) => promise)
+    );
+
     createPoll({
       ...data,
+      description: data.description ?? '',
+      images: imageUrls,
       choices: data.choices.map((choice, index) => ({
         main: choice.main,
-        imageUrl: imageUrls[index],
+        imageUrl: choiceImageUrls[index],
         index,
       })),
     });
@@ -156,7 +179,7 @@ function PollForm() {
   };
 
   return (
-    <div className="flex flex-col bg-base-200">
+    <>
       <DefaultItemHeader
         backLink={'/polls'}
         title={'설문 만들기'}
@@ -191,9 +214,12 @@ function PollForm() {
                 </div>
               </div>
               <PollSubmitPreview
-                title={getValues('title')}
-                description={getValues('description')}
-                choices={getValues('choices')}
+                title={watch('title')}
+                description={watch('description')}
+                images={imagesPromise.map((image) =>
+                  URL.createObjectURL(image.image)
+                )}
+                choices={watch('choices')}
               />
               <div className="mt-1 p-3">
                 <div className="alert alert-warning flex items-start gap-2 rounded-lg bg-warning/80 p-2 text-start text-sm">
@@ -221,75 +247,161 @@ function PollForm() {
         }
       />
       <form
-        className="flex flex-1 flex-col gap-2 overflow-auto p-3"
+        className="relative flex flex-1 flex-col overflow-auto"
         autoComplete="off"
       >
-        <TextInput
-          className="shrink-0 font-semibold"
-          placeholder="제목을 입력하세요"
-          error={!!formState.errors.title?.message}
-          maxLength={MAX_POLL_TITLE_LENGTH}
-          {...register('title')}
-        />
-        <TextArea
-          size="xs"
-          className="shrink-0 p-3"
-          placeholder="내용을 적어주세요"
-          maxLength={MAX_POLL_DESCRIPTION_LENGTH}
-          {...register('description')}
-        />
-        <div className="mt-2 flex items-center pl-3 pr-1">
-          <div className="form-control ml-auto">
-            <label className="label flex cursor-pointer gap-2 py-0">
-              <span className="label-text text-xs font-medium">이미지</span>
-              <Toggle theme="primary" size="xs" {...register('useImage')} />
-            </label>
+        <div className="relative">
+          <TextInput
+            size="lg"
+            placeholder="제목을 입력하세요"
+            error={!!formState.errors.title?.message}
+            maxLength={MAX_POLL_TITLE_LENGTH}
+            {...register('title')}
+          />
+          {imagesPromise.length ? (
+            <div className="px-2">
+              <ImageCarousel
+                images={imagesPromise.map(({ image, promise }) => ({
+                  src: image,
+                  uploadPromise: promise,
+                }))}
+                chilrenPerItem={({ index }) => (
+                  <div className="absolute bottom-0 right-0 flex p-1">
+                    <ActionMenu
+                      items={[
+                        {
+                          name: '추가',
+                          icon: ImagePlusIcon,
+                          onClick: async () => {
+                            const [newImage] = await uploadImages({
+                              maxCount: 1,
+                            });
+                            setImagesPromise((images) => [
+                              ...images.slice(0, index),
+                              {
+                                image: newImage,
+                                promise: uploadImage({
+                                  file: newImage,
+                                }).then((image) => image.url),
+                              },
+                              ...images.slice(index),
+                            ]);
+                            setImagesPromise((images) =>
+                              images.filter((_, idx) => index !== idx)
+                            );
+                          },
+                        },
+                        {
+                          name: '삭제',
+                          icon: TrashIcon,
+                          onClick: () => {
+                            setImagesPromise((images) =>
+                              images.filter((_, idx) => index !== idx)
+                            );
+                          },
+                        },
+                      ]}
+                    />
+                  </div>
+                )}
+              />
+            </div>
+          ) : null}
+          <Controller
+            control={control}
+            name={'description'}
+            render={({ field: { value, onChange } }) => (
+              <PlainTextEditor
+                className="shrink-0"
+                placeholder="설명을 적어주세요 (선택)"
+                initialValues={value}
+                onChange={onChange}
+              />
+            )}
+          />
+          <div
+            className={cn(
+              'absolute bottom-0 left-0 right-0 flex w-full gap-1 border-b border-base-content/40 p-1 pointer-events-none'
+            )}
+          >
+            <IconButton
+              variant="ghost"
+              size="sm"
+              disabled={!!imagesPromise.length}
+              onClick={async () => {
+                const images = await uploadImages({
+                  maxCount: 10,
+                });
+                setImagesPromise(
+                  images.map((image) => ({
+                    image,
+                    promise: uploadImage({
+                      file: image,
+                    }).then((image) => image.url),
+                  }))
+                );
+              }}
+            >
+              <ImagesIcon />
+            </IconButton>
           </div>
         </div>
-        {fields.map((field, index) => (
-          <div
-            key={field.id}
-            className="relative flex items-center overflow-hidden rounded-lg border border-neutral pr-3 focus-within:border-primary-focus focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
-          >
-            {useImage && (
-              <div className="flex h-16 w-16 items-center justify-center border-r border-neutral">
-                <Controller
-                  control={control}
-                  name={`choices.${index}.image`}
-                  render={({ field: { value, onChange } }) => (
-                    <SingleImageUploader value={value} onChange={onChange} />
-                  )}
-                />
-              </div>
-            )}
-            <input
-              className={cn('input-md flex h-12 flex-1 px-3', {
-                'h-16': useImage,
-              })}
-              placeholder={`보기 ${index + 1}`}
-              maxLength={MAX_CHOICE_TITLE_LENGTH}
-              {...register(`choices.${index}.main`)}
-            />
-
-            <button
-              className="p-1"
-              disabled={fields.length <= MIN_CHOICE_COUNT}
-              onClick={() => remove(index)}
-            >
-              <MinusCircle strokeWidth={1.5} className="opacity-80" />
-            </button>
+        <div className="mt-3 flex flex-col gap-2">
+          <div className="mt-2 flex items-center pl-3 pr-1">
+            <div className="form-control ml-auto">
+              <label className="label flex cursor-pointer gap-2 py-0">
+                <span className="label-text text-xs font-medium">이미지</span>
+                <Toggle theme="primary" size="xs" {...register('useImage')} />
+              </label>
+            </div>
           </div>
-        ))}
-        <Button
-          size="xs"
-          className="ml-auto border-neutral"
-          disabled={fields.length >= MAX_CHOICE_COUNT}
-          RightIcon={PlusIcon}
-          onClick={handleAddChoice}
-        >
-          보기 추가
-        </Button>
+          {fields.map((field, index) => (
+            <div
+              key={field.id}
+              className="relative flex items-center overflow-hidden rounded-lg border border-neutral pr-3 focus-within:border-primary-focus focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
+            >
+              {useImage && (
+                <div className="flex h-16 w-16 items-center justify-center border-r border-neutral">
+                  <Controller
+                    control={control}
+                    name={`choices.${index}.image`}
+                    render={({ field: { value, onChange } }) => (
+                      <SingleImageUploader
+                        value={value}
+                        onChange={(file) => onChange(file)}
+                      />
+                    )}
+                  />
+                </div>
+              )}
+              <input
+                className={cn('input-md flex h-12 flex-1 px-3', {
+                  'h-16': useImage,
+                })}
+                placeholder={`보기 ${index + 1}`}
+                maxLength={MAX_CHOICE_TITLE_LENGTH}
+                {...register(`choices.${index}.main`)}
+              />
+              <button
+                className="p-1"
+                disabled={fields.length <= MIN_CHOICE_COUNT}
+                onClick={() => remove(index)}
+              >
+                <MinusCircle strokeWidth={1.5} className="opacity-80" />
+              </button>
+            </div>
+          ))}
+          <Button
+            size="xs"
+            className="ml-auto border-neutral"
+            disabled={fields.length >= MAX_CHOICE_COUNT}
+            RightIcon={PlusIcon}
+            onClick={handleAddChoice}
+          >
+            보기 추가
+          </Button>
+        </div>
       </form>
-    </div>
+    </>
   );
 }

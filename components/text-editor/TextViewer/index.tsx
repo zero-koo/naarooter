@@ -41,12 +41,9 @@ const TextViewer = ({ initialValue }: TextEditorProps) => {
       <div className={'relative mx-auto w-full'}>
         <PlainTextPlugin
           contentEditable={
-            <div className="relative flex overflow-auto border-y border-base-content/60 text-sm">
+            <div className="relative flex overflow-auto border-base-content/60 text-sm">
               <div className="-z-1 relative w-full flex-auto resize-y overflow-hidden">
-                <div
-                  ref={ref}
-                  className="min-h-[350px] w-full overflow-hidden px-3 pb-14 pt-2 md:pb-2"
-                />
+                <div ref={ref} className="w-full overflow-hidden px-3 py-2" />
               </div>
             </div>
           }

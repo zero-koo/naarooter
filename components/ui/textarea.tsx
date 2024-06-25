@@ -4,20 +4,21 @@ import { cn } from '@/lib/utils';
 
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, ref) => {
+const TextArea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, placeholder, ...props }, ref) => {
     return (
       <textarea
         className={cn(
-          'flex w-full px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          'flex w-full p-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-base-content/50 bg-base-300',
           className
         )}
+        placeholder={placeholder ?? '입력하세요..'}
         ref={ref}
         {...props}
       />
     );
   }
 );
-Textarea.displayName = 'Textarea';
+TextArea.displayName = 'TextArea';
 
-export { Textarea };
+export default TextArea;

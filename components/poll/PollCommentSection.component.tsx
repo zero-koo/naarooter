@@ -22,7 +22,7 @@ import { MBTI } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Textarea } from '../ui/textarea';
+import TextArea from '../ui/TextArea';
 import { Button } from '../Button';
 import { trpc } from '@/client/trpcClient';
 import { useToast } from '@/hooks/useToast';
@@ -315,7 +315,7 @@ const PostCommentEdit = ({
 
   return (
     <div className="flex w-full flex-col gap-1.5">
-      <Textarea
+      <TextArea
         {...register('text')}
         rows={Math.min(watch('text').split('\n').length, 4)}
         className={cn(

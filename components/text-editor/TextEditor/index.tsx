@@ -136,7 +136,7 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
                 placeholder={() => (
                   <div
                     className={
-                      'Placeholder__root absolute px-3 pt-2 text-sm opacity-70'
+                      'Placeholder__root absolute px-3 pt-2 text-sm text-base-content/50'
                     }
                   >
                     가나다라마바사

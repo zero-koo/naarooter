@@ -76,7 +76,7 @@ const CommentList = ({ postId }: { postId: string }) => {
   if (error) return <div>Error...</div>;
 
   return (
-    <>
+    <div className="px-2">
       <CommentListView
         postId={postId}
         commentsChunks={data.pages}
@@ -94,7 +94,7 @@ const CommentList = ({ postId }: { postId: string }) => {
           더보기
         </button>
       )}
-    </>
+    </div>
   );
 };
 

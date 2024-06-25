@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 
 export interface PollChoiceItemComponentProps {
   mainText: string;
-  imageUrl: string | null;
+  imageUrl?: string;
   voteCountRate: number;
   showResult: boolean;
   isSelected: boolean;

@@ -55,27 +55,29 @@ export function uploadFile({
 }: {
   maxCount?: number;
   accept: string;
-  onUpload: (file: File[]) => void;
-}) {
+  onUpload?: (file: File[]) => void;
+}): Promise<File[]> {
   const inputElem = document.createElement('input');
   inputElem.type = 'file';
   inputElem.multiple = maxCount > 1;
   inputElem.maxLength = maxCount;
   inputElem.accept = accept;
 
-  inputElem.addEventListener('change', handleFiles);
-
-  function handleFiles(e: Event) {
-    const files = (e.target as HTMLInputElement).files;
-    if (!files) return;
-
-    onUpload(Array.from(files).slice(0, maxCount));
-
-    inputElem.removeEventListener('change', handleFiles);
-  }
-
   inputElem.click();
   inputElem.remove();
+  return new Promise((resolve) => {
+    inputElem.addEventListener('change', handleFiles);
+
+    function handleFiles(e: Event) {
+      const files = (e.target as HTMLInputElement).files;
+      if (!files) return;
+
+      onUpload?.(Array.from(files).slice(0, maxCount));
+      resolve(Array.from(files).slice(0, maxCount));
+
+      inputElem.removeEventListener('change', handleFiles);
+    }
+  });
 }
 
 export function uploadImages({
@@ -83,9 +85,9 @@ export function uploadImages({
   onUpload,
 }: {
   maxCount: number;
-  onUpload: (file: File[]) => void;
+  onUpload?: (file: File[]) => void;
 }) {
-  uploadFile({ accept: 'image/*', maxCount, onUpload });
+  return uploadFile({ accept: 'image/*', maxCount, onUpload });
 }
 
 export function countReactions(

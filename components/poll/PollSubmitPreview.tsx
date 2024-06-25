@@ -4,15 +4,17 @@ import { useRef, useState } from 'react';
 
 interface PollSubmitPreviewProps {
   title: string;
-  description: string;
+  description?: string;
+  images?: string[];
   choices: Array<{
     main: string;
-    image?: File;
+    image?: File | string;
   }>;
 }
 
 const PollSubmitPreview = ({
   title,
+  images,
   description,
   choices: initialChoices,
 }: PollSubmitPreviewProps) => {
@@ -22,7 +24,10 @@ const PollSubmitPreview = ({
       id: String(index),
       index,
       main: choice.main,
-      imageUrl: choice.image ? URL.createObjectURL(choice.image) : null,
+      imageUrl:
+        choice.image instanceof File
+          ? URL.createObjectURL(choice.image)
+          : choice.image,
       selected: selectedIndex.current === index,
       voteCount: randomInteger(100, 1),
     }))
@@ -59,6 +64,7 @@ const PollSubmitPreview = ({
     <PollSubmitFormComponent
       id={''}
       title={title}
+      images={images}
       description={description}
       choices={choices}
       like={0}

@@ -1,6 +1,6 @@
 export type PollInput = {
   title: string;
-  description: string;
+  description?: string;
   choices: PollChoiceInput[];
 };
 

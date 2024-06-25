@@ -25,6 +25,7 @@ const defaultPollSelect = (userId: string) =>
         id: true,
         title: true,
         description: true,
+        images: true,
         authorId: true,
         postReaction: {
           select: {
@@ -233,6 +234,7 @@ export const pollRouter = router({
         authorId: poll.post.authorId,
         title: poll.post.title,
         description: poll.post.description,
+        images: poll.post.images,
         choices: poll.choices.map((choice) => ({
           id: choice.id,
           main: choice.main,
@@ -251,6 +253,7 @@ export const pollRouter = router({
         id: z.string().uuid().optional(),
         title: z.string().min(1, 'Required').max(32),
         description: z.string(),
+        images: z.array(z.string()).optional(),
         choices: z.array(
           z.object({
             main: z.string().min(1, 'Required'),
@@ -268,6 +271,7 @@ export const pollRouter = router({
             create: {
               title: input.title,
               description: input.description,
+              images: input.images ?? [],
               type: 'POLL',
               authorId: ctx.auth?.userId,
             },

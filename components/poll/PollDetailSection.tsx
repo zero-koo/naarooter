@@ -9,7 +9,7 @@ const PollDetailSection = ({ id }: { id: string }) => {
   if (!pollDetail) return <section>loading</section>;
 
   return (
-    <section className="mt-2 bg-base-200 p-2 pl-0">
+    <section className="mt-2 p-2 py-3 pl-0">
       <PollDetailChart
         choices={poll.choices.map((choice) => ({
           id: choice.id,

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '../../Button';
-import { Textarea } from '../../ui/textarea';
+import Textarea from '../../ui/TextArea';
 import { CommentContent } from '@/types/shared';
 import CommentTargetUserTag from '../CommentTargetUserTag';
 

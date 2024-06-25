@@ -24,7 +24,7 @@ function PollSubmitForm({
   onUpdateReaction,
 }: PollSubmitFormProps) {
   const { data } = usePollQuery(id, initialData);
-  const { title, description, choices, voted, postReaction } = data;
+  const { title, description, images, choices, voted, postReaction } = data;
   const totalVoteCount = choices.reduce(
     (count, item) => count + item.voteCount,
     0
@@ -81,6 +81,7 @@ function PollSubmitForm({
       id={id}
       title={title}
       description={description?.toString() ?? ''}
+      images={images}
       choices={choices}
       totalVoteCount={totalVoteCount}
       like={postReaction.likeCount}
