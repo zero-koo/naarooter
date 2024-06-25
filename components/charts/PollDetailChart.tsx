@@ -2,13 +2,14 @@ import * as d3 from 'd3';
 import style from './PollDetailChart.module.css';
 import { MBTI } from '@/types/shared';
 import { mbtis } from '@/lib/constants';
-import ChartCell from './ChartCell';
+import ChartCell, { ChartCellShape } from './ChartCell';
 import { Roboto_Mono } from 'next/font/google';
 import HorizontalBarChart from './HorizontalBarChart';
 import { CSSProperties, useState } from 'react';
 import VerticalBarChart from './VerticalBarChart';
 import { cn } from '@/lib/utils';
 import ChartCellPopover from './ChartCellPopover';
+import { Toggle } from '../Toggle';
 
 type PollDetailChartProps = {
   choices: Array<{
@@ -49,67 +50,87 @@ const PollDetailChart = ({
     };
   });
 
+  const [cellType, setCellType] = useState<ChartCellShape>('grid');
+
   return (
-    <div
-      className={style.grid}
-      style={{ '--rows': choices.length } as CSSProperties}
-    >
-      <div className={style.bubble}>
-        {choices.map((choice, index) => (
-          <div className={style.bubbleRow} key={index}>
-            {mbtis.map((mbti) => {
-              const count = counts.get(choice.id)?.get(mbti) ?? 0;
-              return (
-                <ChartCellPopover
-                  key={mbti}
-                  mbti={mbti}
-                  choice={choices[index].text}
-                  count={count}
-                  className="flex flex-1 items-center justify-center"
-                  alignOffset={-5}
-                >
-                  <ChartCell opacity={count / (maxCount || 1)} />
-                </ChartCellPopover>
-              );
-            })}
-          </div>
-        ))}
+    <div className="flex flex-col">
+      <div className="mb-2 ml-auto flex items-center gap-1">
+        <Toggle
+          theme="primary"
+          size="xs"
+          checked={cellType === 'bubble'}
+          onChange={(e) => {
+            setCellType(
+              (e.target as HTMLInputElement).checked ? 'bubble' : 'grid'
+            );
+          }}
+        />
+        <span>버블</span>
       </div>
-      {selectedMbti && (
-        <HorizontalBarChart
-          data={countsPerSelectedMbti}
-          mbti={selectedMbti}
-          maxCount={maxCount}
+      <div
+        className={style.grid}
+        style={{ '--rows': choices.length } as CSSProperties}
+      >
+        <div className={style.bubble}>
+          {choices.map((choice, index) => (
+            <div className={style.bubbleRow} key={index}>
+              {mbtis.map((mbti) => {
+                const count = counts.get(choice.id)?.get(mbti) ?? 0;
+                return (
+                  <ChartCellPopover
+                    key={mbti}
+                    mbti={mbti}
+                    choice={choices[index].text}
+                    count={count}
+                    className="flex flex-1 items-center justify-center"
+                    alignOffset={-5}
+                  >
+                    <ChartCell
+                      countRatio={count / (maxCount || 1)}
+                      shape={cellType}
+                    />
+                  </ChartCellPopover>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        {selectedMbti && (
+          <HorizontalBarChart
+            data={countsPerSelectedMbti}
+            mbti={selectedMbti}
+            maxCount={maxCount}
+          />
+        )}
+        {selectedChoiceId && (
+          <VerticalBarChart
+            data={countsPerSelectedChoice}
+            choice={
+              choices.find((choice) => choice.id === selectedChoiceId)!.text
+            }
+            maxCount={maxCount}
+          />
+        )}
+        <YAxis
+          choices={choices.map(({ id }) => ({
+            id,
+            isSelected: selectedChoiceId === id,
+          }))}
+          onSelect={(choiceId: string) => {
+            setSelectedChoiceId((id) => (id === choiceId ? null : choiceId));
+            setSelectedMbti(null);
+          }}
         />
-      )}
-      {selectedChoiceId && (
-        <VerticalBarChart
-          data={countsPerSelectedChoice}
-          choice={
-            choices.find((choice) => choice.id === selectedChoiceId)!.text
-          }
-          maxCount={maxCount}
+        <XAxis
+          selectedMbti={selectedMbti}
+          onSelect={(mbti) => {
+            setSelectedMbti((selectedMbti) =>
+              selectedMbti === mbti ? null : mbti
+            );
+            setSelectedChoiceId(null);
+          }}
         />
-      )}
-      <YAxis
-        choices={choices.map(({ id }) => ({
-          id,
-          isSelected: selectedChoiceId === id,
-        }))}
-        onSelect={(choiceId: string) => {
-          setSelectedChoiceId((id) => (id === choiceId ? null : choiceId));
-          setSelectedMbti(null);
-        }}
-      />
-      <XAxis
-        selectedMbti={selectedMbti}
-        onSelect={(mbti) => {
-          setSelectedMbti((selectedMbti) =>
-            selectedMbti === mbti ? null : mbti
-          );
-          setSelectedChoiceId(null);
-        }}
-      />
+      </div>
     </div>
   );
 };
