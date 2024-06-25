@@ -9,7 +9,8 @@ import { CSSProperties, useState } from 'react';
 import VerticalBarChart from './VerticalBarChart';
 import { cn } from '@/lib/utils';
 import ChartCellPopover from './ChartCellPopover';
-import { Toggle } from '../Toggle';
+import Switch from '../ui/Switch';
+import { GridIcon, ShellIcon } from 'lucide-react';
 
 type PollDetailChartProps = {
   choices: Array<{
@@ -55,17 +56,20 @@ const PollDetailChart = ({
   return (
     <div className="flex flex-col">
       <div className="mb-2 ml-auto flex items-center gap-1">
-        <Toggle
-          theme="primary"
-          size="xs"
-          checked={cellType === 'bubble'}
-          onChange={(e) => {
-            setCellType(
-              (e.target as HTMLInputElement).checked ? 'bubble' : 'grid'
-            );
-          }}
+        <Switch
+          items={[
+            {
+              value: 'grid',
+              render: () => <GridIcon size={16} />,
+            },
+            {
+              value: 'bubble',
+              render: () => <ShellIcon size={16} />,
+            },
+          ]}
+          selected={cellType}
+          onSelect={setCellType}
         />
-        <span>버블</span>
       </div>
       <div
         className={style.grid}
