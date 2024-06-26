@@ -14,7 +14,7 @@ interface PollSubmitFormProps {
   choices: Array<{
     id: string;
     main: string;
-    imageUrl?: string;
+    imageUrl?: string | null;
     index: number;
     voteCount: number;
     selected: boolean;
@@ -69,7 +69,7 @@ export const PollSubmitFormComponent = ({
                   id={index}
                   key={index}
                   mainText={main}
-                  imageUrl={imageUrl}
+                  imageUrl={imageUrl ?? undefined}
                   isSelected={selected}
                   showResult={showResult}
                   voteCountRate={(voteCount / totalVoteCount) * 100}
