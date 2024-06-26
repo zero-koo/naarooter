@@ -14,8 +14,7 @@ const MBTISettingPage = () => {
 
   const updateMbtiQuery = useUpdateMbtiQueryData();
 
-  const saveMbti = !mbti ? trpc.user.createMbti : trpc.user.updateMbti;
-  const { mutate: savePoll, isLoading } = saveMbti.useMutation({
+  const { mutate: savePoll, isLoading } = trpc.user.updateMbti.useMutation({
     onSuccess(data) {
       updateMbtiQuery(data);
       toast.update({
@@ -35,7 +34,16 @@ const MBTISettingPage = () => {
     <>
       {isFetched ? (
         <MBTISettingForm
-          initialData={mbti ?? undefined}
+          initialData={
+            mbti?.mbti
+              ? {
+                  ei: mbti.mbti[0] as 'E' | 'I',
+                  sn: mbti.mbti[1] as 'S' | 'N',
+                  ft: mbti.mbti[2] as 'F' | 'T',
+                  jp: mbti.mbti[3] as 'J' | 'P',
+                }
+              : undefined
+          }
           onSave={savePoll}
           isSaving={isLoading}
         />
