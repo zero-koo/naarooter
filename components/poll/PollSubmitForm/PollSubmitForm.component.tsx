@@ -4,6 +4,7 @@ import LikeDislike from '@/components/LikeDislike';
 import { UserReaction } from '@/types/shared';
 import TextViewer from '@/components/text-editor/TextViewer';
 import ImageCarousel from '@/components/ImageCarousel';
+import CollapsibleContainer from '@/components/CollapsibleContainer';
 
 interface PollSubmitFormProps {
   id: string;
@@ -51,24 +52,33 @@ export const PollSubmitFormComponent = ({
         </div>
       ) : null}
       {description && <TextViewer initialValue={description} />}
-      <div className="mt-2 flex flex-col gap-2 p-2">
-        {choices
-          .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
-          .map(
-            ({ id: choiceId, main, imageUrl, selected, voteCount }, index) => (
-              <PollChoiceItem
-                id={index}
-                key={index}
-                mainText={main}
-                imageUrl={imageUrl}
-                isSelected={selected}
-                showResult={showResult}
-                voteCountRate={(voteCount / totalVoteCount) * 100}
-                onClick={() => onSelectChoice(choiceId)}
-              />
-            )
-          )}
-      </div>
+      <CollapsibleContainer
+        maxAllowableHeight={250}
+        collapsedHeight={220}
+        extendText="더보기"
+      >
+        <div className="mt-2 flex flex-col gap-2 p-2">
+          {choices
+            .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
+            .map(
+              (
+                { id: choiceId, main, imageUrl, selected, voteCount },
+                index
+              ) => (
+                <PollChoiceItem
+                  id={index}
+                  key={index}
+                  mainText={main}
+                  imageUrl={imageUrl}
+                  isSelected={selected}
+                  showResult={showResult}
+                  voteCountRate={(voteCount / totalVoteCount) * 100}
+                  onClick={() => onSelectChoice(choiceId)}
+                />
+              )
+            )}
+        </div>
+      </CollapsibleContainer>
       <div className="mt-3 flex items-center px-3 text-xs opacity-75">
         <div className="mr-auto">{numberFormat(totalVoteCount)}명 투표</div>
         <LikeDislike

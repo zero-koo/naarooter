@@ -48,7 +48,7 @@ export default function CreatePollPage() {
 }
 
 const MIN_CHOICE_COUNT = 2;
-const MAX_CHOICE_COUNT = 5;
+const MAX_CHOICE_COUNT = 20;
 
 const MAX_POLL_TITLE_LENGTH = 100;
 const MAX_POLL_DESCRIPTION_LENGTH = 200;
