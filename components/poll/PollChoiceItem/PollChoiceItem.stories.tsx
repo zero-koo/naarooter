@@ -24,7 +24,7 @@ export const Default: Story = {
     isSelected: false,
     showResult: false,
     voteCountRate: 25,
-    imageUrl: null,
+    imageUrl: undefined,
   },
   render: (args) => {
     return <DefaultPollChoiceItem {...args} />;
@@ -51,7 +51,7 @@ export const BeforeVote: Story = {
     isSelected: false,
     showResult: false,
     voteCountRate: 25,
-    imageUrl: null,
+    imageUrl: undefined,
   },
   render: (args) => {
     return (
@@ -68,7 +68,7 @@ export const AfterVote: Story = {
     isSelected: true,
     showResult: true,
     voteCountRate: 25,
-    imageUrl: null,
+    imageUrl: undefined,
   },
   render: (args) => {
     return (

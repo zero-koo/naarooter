@@ -40,12 +40,16 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
         .map((comment) => ({
           id: comment.id,
           text: comment.content as string,
-          author: comment.author,
+          author: {
+            id: comment.authorId,
+            name: comment.authorName,
+            mbti: comment.authorMBTI,
+          },
           children: [],
           updatedAt: comment.updatedAt,
-          like: comment.commentReaction.likeCount,
-          dislike: comment.commentReaction.dislikeCount,
-          reaction: comment.commentReaction.userSelection,
+          like: comment.likeCount,
+          dislike: comment.dislikeCount,
+          reaction: comment.userReaction,
         }))}
       totalCount={commentsData.pages[0].totalCount}
       userId={user?.id}
@@ -58,7 +62,11 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
 
         return {
           id: data.id,
-          author: data.author,
+          author: {
+            id: data.authorId,
+            name: data.authorName,
+            mbti: data.authorMBTI,
+          },
           text: data.content as string,
           updatedAt: data.updatedAt,
           like: 0,
@@ -67,7 +75,9 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           children: [],
         };
       }}
-      onDelete={({ commentId }) => deleteComment({ id: commentId })}
+      onDelete={async ({ commentId }) => {
+        await deleteComment({ id: commentId });
+      }}
     />
   );
 };

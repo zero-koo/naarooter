@@ -18,7 +18,7 @@ export type TComment = {
   id: number;
   content: string;
   authorId: string;
-  authorName: string;
+  authorName: string | null;
   authorMBTI: MBTI | null;
   createdAt: Date;
   updatedAt: Date;
@@ -30,7 +30,7 @@ export type TComment = {
   userReaction: UserReaction;
   status: COMMENT_STATUS;
   targetUserId?: string;
-  targetUserName?: string;
+  targetUserName?: string | null;
 };
 
 export type TReply = Omit<TComment, 'parentCommentId'> & {

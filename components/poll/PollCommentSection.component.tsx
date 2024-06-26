@@ -42,7 +42,7 @@ type Comment = {
   author: {
     id: string;
     mbti: MBTI | null;
-    name: string;
+    name: string | null;
   };
   text: string;
   children: Comment[];

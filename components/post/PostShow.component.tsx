@@ -38,7 +38,7 @@ interface PostShowComponentProps {
   description: string;
   author?: {
     id: string;
-    name: string;
+    name: string | null;
     mbti: MBTI | null;
   };
   isAuthor: boolean;

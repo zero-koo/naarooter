@@ -19,7 +19,7 @@ const CommentInput = ({
   initialText?: CommentContent;
   focusOnMount?: boolean;
   hideButtonsByDefault?: boolean;
-  targetUserName?: string;
+  targetUserName?: string | null;
   onSave: (text: CommentContent) => Promise<void>;
   onCancel?: () => void;
 }) => {
