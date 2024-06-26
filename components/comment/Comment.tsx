@@ -119,14 +119,16 @@ const Comment = ({
 
   function onDeleteReply(pageIndex: number, id: number) {
     if (!replies) return;
+    const pages = [...replies.pages];
+    pages[pageIndex] = {
+      comments: replies.pages[pageIndex].comments.filter(
+        (comment) => comment.id !== id
+      ),
+      totalCount: replies.pages[pageIndex].totalCount - 1,
+      hasNextPage: replies.pages[pageIndex].hasNextPage,
+    };
     updatePostCommentsQuery({
-      pages: replies.pages.with(pageIndex, {
-        comments: replies.pages[pageIndex].comments.filter(
-          (comment) => comment.id !== id
-        ),
-        totalCount: replies.pages[pageIndex].totalCount - 1,
-        hasNextPage: replies.pages[pageIndex].hasNextPage,
-      }),
+      pages,
     });
     setCommentsCount((count) => count - 1);
     onDecreaseCommentsCount();

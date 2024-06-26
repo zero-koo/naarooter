@@ -4,7 +4,6 @@ import {
 } from '@/hooks/queries/usePostComentsQuery';
 import CommentListView from './CommentListView';
 import { trpc } from '@/client/trpcClient';
-import { Button } from '../ui/Button';
 
 const CommentList = ({ postId }: { postId: string }) => {
   const { data, error, isLoading, fetchNextPage, hasNextPage } =
@@ -21,31 +20,42 @@ const CommentList = ({ postId }: { postId: string }) => {
     onIncreaseCommentsCount();
 
     if (!data) return;
+    if (!data.pages.length) {
+      updatePostCommentsQuery({
+        pages: [
+          {
+            comments: [newComment],
+            totalCount: 1,
+            hasNextPage: false,
+          },
+        ],
+      });
+      return;
+    }
+
+    const pages = [...data.pages];
+    pages[0] = {
+      ...data.pages[0],
+      comments: [newComment, ...data.pages[0].comments],
+      totalCount: data.pages[0].totalCount + 1,
+    };
     updatePostCommentsQuery({
-      pages: data.pages.with(0, {
-        ...data.pages[0],
-        comments: [newComment, ...data.pages[0].comments],
-        totalCount: data.pages[0].totalCount + 1,
-      }) ?? [
-        {
-          comments: [newComment],
-          nextCursor: undefined,
-          totalCount: 1,
-        },
-      ],
+      pages,
     });
   }
 
   function onDeleteComment(page: number, id: number) {
     if (!data) return;
+    const pages = [...data.pages];
+    pages[page] = {
+      comments: data.pages[page].comments.filter(
+        (comment) => comment.id !== id
+      ),
+      totalCount: data.pages[0].totalCount - 1,
+      hasNextPage: data.pages[0].hasNextPage,
+    };
     updatePostCommentsQuery({
-      pages: data.pages.with(page, {
-        comments: data.pages[page].comments.filter(
-          (comment) => comment.id !== id
-        ),
-        totalCount: data.pages[0].totalCount - 1,
-        hasNextPage: data.pages[0].hasNextPage,
-      }),
+      pages: pages,
     });
   }
 
