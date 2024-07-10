@@ -7,7 +7,7 @@ import PostList from './components/PostList';
 import PostSearchResultList from './components/PostSearchResultList';
 import PostListSkeleton from '@/components/skeletons/PostListSkeleton';
 import PollListSkeleton from '@/components/skeletons/PollListSkeleton';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function PollsPage({
   searchParams,
