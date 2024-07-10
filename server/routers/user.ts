@@ -8,7 +8,6 @@ import { z } from 'zod';
 
 import { privateProcedure, router } from '../trpc';
 import { mbtis } from '@/lib/constants';
-import { clerkClient } from '@clerk/nextjs';
 
 const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,
@@ -81,15 +80,14 @@ export const userRouter = router({
       });
     }),
   withdraw: privateProcedure.mutation(async ({ ctx }) => {
-    await clerkClient.users.deleteUser(ctx.auth.userId);
     return prisma.user.update({
       select: defaultMBTISelect,
       where: {
         id: ctx.auth.userId,
       },
       data: {
-        email: null,
-        name: null,
+        email: undefined,
+        name: undefined,
         status: 'DELETED',
       },
     });

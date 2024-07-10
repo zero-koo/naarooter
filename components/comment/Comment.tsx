@@ -11,7 +11,7 @@ import {
 import { Button } from '../ui/Button';
 import { CornerDownRightIcon } from 'lucide-react';
 import { usePostContext } from '@/contexts/PostContext';
-import { useUser } from '@clerk/nextjs';
+import { useUser } from '@/hooks/useUser';
 
 type CommentProps = {
   initialData: TComment;

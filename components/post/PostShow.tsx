@@ -2,7 +2,7 @@
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import PostShowComponent from './PostShow.component';
-import { useUser } from '@clerk/nextjs';
+import { useUser } from '@/hooks/useUser';
 import DefaultItemHeader from '../DefaultItemHeader';
 import { trpc } from '@/client/trpcClient';
 import { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ interface PostShowProps {
 
 const PostShow = ({ id, listGroupId }: PostShowProps) => {
   const { data } = usePostQuery(id);
-  const { user, isLoaded } = useUser();
+  const { user, isAuthenticated } = useUser();
 
   const [like, setLike] = useState<{
     count: number;
@@ -48,7 +48,7 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
 
   const { mutate } = trpc.post.reaction.useMutation();
 
-  if (!data || !isLoaded) return 'Loading...';
+  if (!data || !isAuthenticated) return 'Loading...';
 
   return (
     <PostContextProvider postId={id}>

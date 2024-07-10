@@ -1,15 +1,11 @@
-import {
-  getAuth,
-  SignedInAuthObject,
-  SignedOutAuthObject,
-} from '@clerk/nextjs/server';
+import { auth as getAuth } from '@/auth';
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 
 // import { unstable_getServerSession } from 'next-auth';
 
 interface AuthContext {
-  auth: SignedInAuthObject | SignedOutAuthObject;
+  auth: ReturnType<typeof getAuth>;
 }
 
 /**
@@ -32,12 +28,13 @@ export async function createContext(
 ) {
   // for API-response caching see https://trpc.io/docs/caching
 
+  const auth = await getAuth(opts.req, opts.res);
   if (opts.type === 'rsc') {
     // RSC
     return {
       ...opts,
       type: opts.type,
-      auth: getAuth(opts.req),
+      auth,
     };
   }
   // not RSC
@@ -48,7 +45,7 @@ export async function createContext(
   // );
   return {
     ...opts,
-    auth: getAuth(opts.req),
+    auth,
   };
 }
 

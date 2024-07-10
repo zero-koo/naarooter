@@ -62,7 +62,6 @@ const CommentList = ({ postId }: { postId: string }) => {
   const { updatePostCommentsQuery } = useUpdatePostCommentsQuery({ postId });
 
   function onIncreaseCommentsCount() {
-    console.log('onIncreateComment');
     if (!data) return;
     updatePostCommentsQuery({
       pages: data.pages.map((page) => ({

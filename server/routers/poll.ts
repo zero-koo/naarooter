@@ -78,7 +78,7 @@ export const pollRouter = router({
       const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.poll.findMany({
-        select: defaultPollSelect(ctx.auth.userId ?? ''),
+        select: defaultPollSelect(ctx.auth?.user?.id ?? ''),
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {
@@ -130,7 +130,10 @@ export const pollRouter = router({
               selected: item.votes[0]?.pollChoiceId === choice.id,
             })) ?? [],
           voted: item.votes.length > 0,
-          postReaction: countReactions(item.post.postReaction, ctx.auth.userId),
+          postReaction: countReactions(
+            item.post.postReaction,
+            ctx.auth?.user?.id
+          ),
         })),
         nextCursor,
       };
@@ -148,13 +151,13 @@ export const pollRouter = router({
       const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.poll.findMany({
-        select: defaultPollSelect(ctx.auth.userId),
+        select: defaultPollSelect(ctx.auth?.user?.id),
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {
           votes: {
             some: {
-              authorId: ctx.auth.userId,
+              authorId: ctx.auth?.user?.id,
             },
           },
           AND: input.search?.split(' ').map((keyword) => ({
@@ -205,7 +208,10 @@ export const pollRouter = router({
               selected: item.votes[0]?.pollChoiceId === choice.id,
             })) ?? [],
           voted: item.votes.length > 0,
-          postReaction: countReactions(item.post.postReaction, ctx.auth.userId),
+          postReaction: countReactions(
+            item.post.postReaction,
+            ctx.auth?.user?.id
+          ),
         })),
         nextCursor,
       };
@@ -220,7 +226,7 @@ export const pollRouter = router({
       const { id } = input;
       const poll = await prisma.poll.findUnique({
         where: { id },
-        select: defaultPollSelect(ctx.auth.userId ?? ''),
+        select: defaultPollSelect(ctx.auth?.user?.id ?? ''),
       });
       if (!poll) {
         throw new TRPCError({
@@ -244,7 +250,10 @@ export const pollRouter = router({
           selected: poll.votes[0]?.pollChoiceId === choice.id,
         })),
         voted: poll.votes.length > 0,
-        postReaction: countReactions(poll.post.postReaction, ctx.auth.userId),
+        postReaction: countReactions(
+          poll.post.postReaction,
+          ctx.auth?.user?.id
+        ),
       };
     }),
   add: privateProcedure
@@ -280,7 +289,7 @@ export const pollRouter = router({
             create: input.choices,
           },
         },
-        select: defaultPollSelect(ctx.auth.userId ?? undefined),
+        select: defaultPollSelect(ctx.auth?.user?.id ?? undefined),
       });
       return {
         id: poll.id,

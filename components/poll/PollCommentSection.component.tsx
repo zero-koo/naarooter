@@ -27,6 +27,7 @@ import { Button } from '../Button';
 import { trpc } from '@/client/trpcClient';
 import { useToast } from '@/hooks/useToast';
 import LikeDislike from '../LikeDislike';
+import { UserReaction } from '@/types/shared';
 
 interface PostCommentSectionComponentProps {
   comments: Comment[];
@@ -49,7 +50,7 @@ type Comment = {
   updatedAt: Date;
   like: number;
   dislike: number;
-  reaction: 'like' | 'dislike' | null;
+  reaction: 'like' | 'dislike' | null | undefined;
 };
 
 const PostCommentSectionComponent = ({
@@ -134,7 +135,7 @@ const PollComment = ({
   updatedAt: Date;
   like: number;
   dislike: number;
-  reaction: 'like' | 'dislike' | null;
+  reaction: 'like' | 'dislike' | null | undefined;
   onDelete: () => Promise<void>;
 }) => {
   const { toast } = useToast();
@@ -171,7 +172,10 @@ const PollComment = ({
           onReact={(reaction) =>
             updateReaction({
               commentId: id,
-              type: reaction === null ? 'cancel' : reaction,
+              type:
+                reaction === null || reaction === undefined
+                  ? 'cancel'
+                  : reaction,
             })
           }
         />
@@ -215,10 +219,10 @@ const PostCommentShow = ({
   updatedAt: Date;
   like: number;
   dislike: number;
-  reaction: 'like' | 'dislike' | null;
+  reaction: UserReaction;
   onClickEdit: () => void;
   onClickDelete: () => void;
-  onReact: (reaction: 'like' | 'dislike' | null) => Promise<void>;
+  onReact: (reaction: UserReaction) => Promise<void>;
 }) => {
   return (
     <div className="relative flex flex-col gap-1">

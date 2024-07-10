@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '@clerk/nextjs';
-import { Button } from './Button';
 import UserButton from './UserButton';
+import SignIn from './auth/SignIn';
+import { useUser } from '@/hooks/useUser';
 
 const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
-  const { userId } = useAuth();
+  const { user } = useUser();
 
   return (
     <header className={'flex items-center gap-3 p-2'}>
@@ -17,15 +17,13 @@ const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
         Na
       </Link>
       <>
-        {userId ? (
+        {user ? (
           <>
             {children}
             <UserButton />
           </>
         ) : (
-          <Link href={'/sign-in'}>
-            <Button theme="primary">login</Button>
-          </Link>
+          <SignIn />
         )}
       </>
     </header>

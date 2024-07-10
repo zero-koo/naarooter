@@ -1,8 +1,8 @@
 import { usePostCommentsQuery } from '@/hooks/queries/usePostComentsQuery';
 import PostCommentSectionComponent from './PollCommentSection.component';
 import { useToast } from '@/hooks/useToast';
-import { useUser } from '@clerk/nextjs';
 import { trpc } from '@/client/trpcClient';
+import { useUser } from '@/hooks/useUser';
 
 interface PostCommentSectionProps {
   postId: string;
@@ -11,7 +11,8 @@ interface PostCommentSectionProps {
 
 const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
   const { toast } = useToast();
-  const { user, isLoaded: isUserLoaded } = useUser();
+  const { user, isAuthenticated } = useUser();
+
   const { data: commentsData } = usePostCommentsQuery({ postId });
 
   const { mutateAsync: addComment } = trpc.comment.add.useMutation({
@@ -31,7 +32,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
     },
   });
 
-  if (!commentsData || !isUserLoaded) return <div>loading...</div>;
+  if (!commentsData || !isAuthenticated) return <div>loading...</div>;
 
   return (
     <PostCommentSectionComponent
@@ -42,7 +43,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           text: comment.content as string,
           author: {
             id: comment.authorId,
-            name: comment.authorName,
+            name: comment.authorName ?? null,
             mbti: comment.authorMBTI,
           },
           children: [],

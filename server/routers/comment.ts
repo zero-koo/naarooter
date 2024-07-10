@@ -50,7 +50,7 @@ export const commentRouter = router({
 
       return {
         comments: comments.map((comment) =>
-          createCommentDto({ comment, userId: ctx.auth.userId })
+          createCommentDto({ comment, userId: ctx.auth?.user?.id })
         ),
         hasNextPage,
         totalCount: count,
@@ -77,7 +77,7 @@ export const commentRouter = router({
         });
       }
 
-      return createCommentDto({ comment, userId: ctx.auth.userId });
+      return createCommentDto({ comment, userId: ctx.auth?.user?.id });
     }),
   add: privateProcedure
     .input(

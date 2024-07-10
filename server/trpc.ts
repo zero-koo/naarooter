@@ -66,13 +66,20 @@ export const mergeRouters = t.mergeRouters;
 
 // check if the user is signed in, otherwise through a UNAUTHORIZED CODE
 const isAuthed = t.middleware(({ next, ctx }) => {
-  if (!ctx.auth.userId) {
+  if (!ctx.auth?.user || !ctx.auth.user.id) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   return next({
     ctx: {
-      auth: ctx.auth,
+      auth: {
+        userId: ctx.auth.user.id,
+        user: {
+          ...ctx.auth.user,
+          id: ctx.auth.user.id,
+        },
+        expires: ctx.auth.expires,
+      },
     },
   });
 });

@@ -96,7 +96,7 @@ export const postRouter = router({
       return {
         posts: posts.map((post) => ({
           ...post,
-          postReaction: countReactions(post.postReaction, ctx.auth.userId),
+          postReaction: countReactions(post.postReaction, ctx.auth?.user?.id),
         })),
         nextCursor,
       };
@@ -124,7 +124,7 @@ export const postRouter = router({
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {
-          authorId: ctx.auth.userId,
+          authorId: ctx.auth.user.id,
           AND: input.search?.split(' ').map((keyword) => ({
             title: {
               contains: keyword,
@@ -155,7 +155,7 @@ export const postRouter = router({
       return {
         posts: posts.map((post) => ({
           ...post,
-          postReaction: countReactions(post.postReaction, ctx.auth.userId),
+          postReaction: countReactions(post.postReaction, ctx.auth.user.id),
         })),
         nextCursor,
       };
@@ -186,7 +186,7 @@ export const postRouter = router({
 
       return {
         ...post,
-        postReaction: countReactions(post.postReaction, ctx.auth.userId),
+        postReaction: countReactions(post.postReaction, ctx.auth?.user?.id),
         viewCount: updatedViewCount ?? post.viewCount,
       };
     }),
@@ -207,7 +207,7 @@ export const postRouter = router({
           description: input.description,
           groupId: input.groupId,
           type: 'POST',
-          authorId: ctx.auth.userId,
+          authorId: ctx.auth.user.id,
         },
         select: defaultPostSelect,
       });

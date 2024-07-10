@@ -1,15 +1,50 @@
-import { authMiddleware } from '@clerk/nextjs';
+import {
+  apiAuthPrefix,
+  authRoutes,
+  DEFAULT_LOGIN_REDIRECT,
+  publicRoutes,
+} from '@/routes';
+import NextAuth from 'next-auth';
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
-export default authMiddleware({
-  publicRoutes: [
-    '/',
-    '/(polls|posts)(.*)',
-    '/api/trpc/(poll|post|comment).(list|byId)(.*)',
-    '/api/webhook',
-  ],
+import authConfig from './auth.config';
+
+const { auth } = NextAuth(authConfig);
+
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.some((path) =>
+    new RegExp(path).test(nextUrl.pathname)
+  );
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
+  if (isApiAuthRoute) {
+    return;
+  }
+
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
+    return;
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    let redirect = nextUrl.pathname;
+    if (nextUrl.search) {
+      redirect += nextUrl.search;
+    }
+
+    const encodedRedirectUrl = encodeURIComponent(redirect);
+
+    return Response.redirect(
+      new URL(`/signin?redirect=${encodedRedirectUrl}`, nextUrl)
+    );
+  }
+
+  return;
 });
 
 export const config = {

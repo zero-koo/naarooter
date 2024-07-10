@@ -4,7 +4,7 @@ import { useReaction } from '@/hooks/useReaction';
 import { useState } from 'react';
 import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
-import { useUser } from '@clerk/nextjs';
+import { useUser } from '@/hooks/useUser';
 
 type CommentReplyProps = {
   postId: string;

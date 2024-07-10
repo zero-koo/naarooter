@@ -91,7 +91,8 @@ const polls: Readonly<Record<string, Poll>> = {
     id: 'c84d8367-460a-4772-b2dd-42170110d774',
     postId: '40dab068-67fd-4d9c-8728-f525025b3153',
     title: '혈액형 vs MBTI',
-    contents: '혈액형은 성격과 관련이 있을까?',
+    contents:
+      '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"혈액형은 성격과 관련이 있을까?","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
     choices: [
       {
         id: '36bf06ca-853c-4729-b1bf-a7ee5968059d',
@@ -120,7 +121,8 @@ const polls: Readonly<Record<string, Poll>> = {
     id: '0249a98f-b570-4e04-b89c-950e13650bc8',
     postId: 'a687f3bd-055e-4a57-aa48-48f4b395a7b0',
     title: '김치찌개 vs 된장찌개',
-    contents: '',
+    contents:
+      '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
     choices: [
       {
         id: '40ec1f12-6415-49b2-aa58-8ec58944edcc',
@@ -139,7 +141,8 @@ const polls: Readonly<Record<string, Poll>> = {
     id: 'fc0fc980-94c2-481c-930f-06a7c2dee1ba',
     postId: '82545c2a-f417-47dc-9a6d-cd8f87d858c7',
     title: '시험 컨닝해본적 있다 / 없다',
-    contents: '',
+    contents:
+      '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
     choices: [
       {
         id: 'dbb97f12-4b9b-4e2e-8dd3-126b9e1684d2',
@@ -158,7 +161,8 @@ const polls: Readonly<Record<string, Poll>> = {
     id: '6fb35c63-1b55-4e53-bf31-98e198d28667',
     postId: 'ebb93193-880f-418d-b531-39a2a61c10b3',
     title: '민트초코 호불호',
-    contents: '',
+    contents:
+      '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
     choices: [
       {
         id: '2c882f62-f9d4-491d-b4ca-74ade4a5bc49',
@@ -228,7 +232,7 @@ async function seedDefaultData() {
     where: { email: 'berksmile@gmail.com' },
     update: {},
     create: {
-      id: 'user_2XWzthp7ZkYUJsVJGVfqsDfBrHR',
+      id: 'clydwekn1000008la5qsv5l0t',
       email: 'berksmile@gmail.com',
       name: '질문봇',
       mbti: 'INTP',
@@ -257,7 +261,7 @@ async function seedDefaultData() {
     where: { email: 'inzerokoo@gmail.com' },
     update: {},
     create: {
-      id: 'user_2XZhhCAYmqcTyFcUbaaAqFL0MIa',
+      id: 'clydwfjqi000108la110h1bqe',
       email: 'inzerokoo@gmail.com',
       name: '운영자',
       mbti: 'ESFJ',

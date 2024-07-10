@@ -27,7 +27,7 @@ export type TComment = {
   commentsCount: number;
   likeCount: number;
   dislikeCount: number;
-  userReaction: UserReaction;
+  userReaction: UserReaction | undefined;
   status: COMMENT_STATUS;
   targetUserId?: string;
   targetUserName?: string | null;
@@ -40,7 +40,7 @@ export type TReply = Omit<TComment, 'parentCommentId'> & {
 export type CommentContent = string;
 
 // reaction
-export type UserReaction = 'like' | 'dislike' | null;
+export type UserReaction = 'like' | 'dislike' | null | undefined;
 export type Reaction = {
   likeCount: number;
   dislikeCount: number;

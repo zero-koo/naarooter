@@ -1,4 +1,3 @@
-import { useAuth, useClerk } from '@clerk/nextjs';
 import Image from 'next/image';
 import {
   DropdownMenu,
@@ -7,23 +6,31 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/hooks/useUser';
+import { logout } from '@/actions/logout';
+import { UserRound } from 'lucide-react';
 
 function UserButton() {
   const router = useRouter();
-  const { user } = useClerk();
-  const { signOut } = useAuth();
+  const { user } = useUser();
 
   return (
     <div className="h-8 w-8 overflow-hidden rounded-full">
-      {user?.imageUrl ? (
+      {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Image
-              src={user.imageUrl}
-              alt="profile image"
-              width={32}
-              height={32}
-            />
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt="profile image"
+                width={32}
+                height={32}
+              />
+            ) : (
+              <div className="flex-center h-full w-full bg-base-100">
+                <UserRound strokeWidth={1.5} />
+              </div>
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-24 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"
@@ -42,10 +49,7 @@ function UserButton() {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="flex items-center justify-between gap-2 p-1.5 opacity-70"
-              onClick={() => {
-                signOut();
-                router.replace('/');
-              }}
+              onClick={() => logout()}
             >
               로그아웃
             </DropdownMenuItem>

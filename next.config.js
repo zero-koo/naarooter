@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '(files.edgestore.dev|img.clerk.com)',
+        hostname: '(files.edgestore.dev)',
         port: '',
         pathname: '**',
       },

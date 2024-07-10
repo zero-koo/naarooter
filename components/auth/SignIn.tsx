@@ -1,9 +1,16 @@
-import { ComponentProps } from 'react';
-import { SignIn as ClerkSignIn } from '@clerk/nextjs';
+'use client';
 
-const SignIn = (props: ComponentProps<typeof ClerkSignIn>) => {
+import Link from 'next/link';
+import { Button } from '../ui/Button';
+import { usePathname } from 'next/navigation';
+
+const SignIn = () => {
+  const pathname = usePathname();
+
   return (
-    <ClerkSignIn afterSignInUrl="/" afterSignUpUrl="/my/mbti" {...props} />
+    <Link href={`/signin?redirect=${pathname}`}>
+      <Button size="sm">로그인</Button>
+    </Link>
   );
 };
 

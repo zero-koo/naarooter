@@ -1,5 +1,6 @@
 'use client';
 
+import { signOut } from '@/auth';
 import { trpc } from '@/client/trpcClient';
 import TextInput from '@/components/TextInput';
 import MbtiSettingForm, {
@@ -16,7 +17,6 @@ import {
 import { useUserQuery } from '@/hooks/queries/useUserQuery';
 import { useToast } from '@/hooks/useToast';
 import { MBTI } from '@/types/shared';
-import { useClerk, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -217,7 +217,6 @@ function MBTIEditModal({
 
 function WithDrawalRow() {
   const { toast } = useToast();
-  const { signOut } = useClerk();
   const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = useState(false);

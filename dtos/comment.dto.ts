@@ -78,7 +78,7 @@ export function createCommentDto({
   userId,
 }: {
   comment: Prisma.CommentGetPayload<{ select: typeof defaultCommentSelector }>;
-  userId: string | null;
+  userId?: string | null;
 }): TComment {
   return {
     id: comment.id,

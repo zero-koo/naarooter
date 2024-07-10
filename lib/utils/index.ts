@@ -92,9 +92,9 @@ export function uploadImages({
 
 export function countReactions(
   reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
-  userId: string | null
+  userId: string | null | undefined
 ): {
-  userReaction: 'like' | 'dislike' | null;
+  userReaction: 'like' | 'dislike' | null | undefined;
   likeCount: number;
   dislikeCount: number;
 } {
