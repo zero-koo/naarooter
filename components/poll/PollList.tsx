@@ -25,13 +25,11 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
         <div className="flex-center bg-base-100 py-20 text-sm opacity-80">{`'${search}' 에 대한 검색 결과가 없습니다.`}</div>
       ) : null}
       {data.items.map((poll) => (
-        <>
-          <PollSubmitForm
-            key={poll.id}
-            id={poll.id}
-            onClick={() => router.push(`/polls/${poll.id}`)}
-          />
-        </>
+        <PollSubmitForm
+          key={poll.id}
+          id={poll.id}
+          onClick={() => router.push(`/polls/${poll.id}`)}
+        />
       ))}
       <Link
         className="fixed bottom-5 right-5 rounded-full bg-primary p-2"

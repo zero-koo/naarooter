@@ -15,14 +15,12 @@ const PollList = () => {
   return (
     <div className="flex flex-col gap-2 pb-5">
       {data.items.map((poll) => (
-        <>
-          <PollSubmitForm
-            key={poll.id}
-            id={poll.id}
-            initialData={poll}
-            onClick={() => router.push(`/polls/${poll.id}`)}
-          />
-        </>
+        <PollSubmitForm
+          key={poll.id}
+          id={poll.id}
+          initialData={poll}
+          onClick={() => router.push(`/polls/${poll.id}`)}
+        />
       ))}
     </div>
   );
