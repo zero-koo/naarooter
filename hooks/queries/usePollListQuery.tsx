@@ -4,7 +4,7 @@ export const usePollListQuery = ({
   search,
   limit,
 }: { search?: string | null; limit?: number } = {}) => {
-  return trpc.poll.list.useQuery(
+  return trpc.poll.list.useSuspenseQuery(
     {
       search,
       limit,

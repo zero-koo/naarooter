@@ -9,7 +9,7 @@ export const usePostListQuery = ({
   search?: string;
   limit?: number;
 }) => {
-  return trpc.post.list.useQuery(
+  return trpc.post.list.useSuspenseQuery(
     { groupId, search, limit },
     {
       keepPreviousData: true,

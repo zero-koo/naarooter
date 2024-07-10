@@ -1,8 +1,10 @@
 import DefaultListHeader from '@/components/DefaultListHeader';
 import RootHeader from '@/components/RootHeader';
 import PostList from '@/components/post/PostList';
+import PostListSkeleton from '@/components/skeletons/PostListSkeleton';
 import { COMMUNITY_GROUP_MAP, CommunityGroupId } from '@/lib/constants';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 const PostListByGroupPage = ({
   params: { gid },
@@ -21,7 +23,9 @@ const PostListByGroupPage = ({
     <>
       <RootHeader />
       <DefaultListHeader title={COMMUNITY_GROUP_MAP[gid].title} />
-      <PostList groupId={gid} searchKeyword={searchParams?.search} />
+      <Suspense fallback={<PostListSkeleton count={20} />}>
+        <PostList groupId={gid} searchKeyword={searchParams?.search} />
+      </Suspense>
     </>
   );
 };

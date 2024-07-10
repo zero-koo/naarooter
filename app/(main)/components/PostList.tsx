@@ -4,14 +4,12 @@ import { usePostListQuery } from '@/hooks/queries/usePostListQuery';
 import PostListItem from '@/components/post/PostListItem';
 
 const PostList = () => {
-  const { data } = usePostListQuery({ limit: 10 });
-
-  if (!data) return <div>Loading...</div>;
+  const [posts] = usePostListQuery({ limit: 10 });
 
   return (
     <div className="flex flex-col gap-2 bg-base-200 pb-5 ">
       <div className="px-3">
-        {data.posts.map((post) => (
+        {posts.posts.map((post) => (
           <PostListItem
             key={post.id}
             id={post.id}

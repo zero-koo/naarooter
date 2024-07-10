@@ -5,7 +5,6 @@ import { PlusIcon } from 'lucide-react';
 import PostListItem from './PostListItem';
 import Link from 'next/link';
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
-import { Label } from '../ui/Label';
 
 interface PostListProps {
   groupId?: string;
@@ -17,13 +16,11 @@ const PostList = ({ groupId, searchKeyword }: PostListProps) => {
 
   const search = getSearchParams('search') ?? searchKeyword;
 
-  const { data } = usePostListQuery({ groupId, search });
-
-  if (!data) return 'Loading...';
+  const [posts] = usePostListQuery({ groupId, search });
 
   return (
     <div className="flex flex-col gap-2 pb-5">
-      {!data.posts.length ? (
+      {!posts.posts.length ? (
         <div className="flex-center py-20 text-sm opacity-80">
           {search
             ? `'${search}' 에 대한 검색 결과가 없습니다.`
@@ -31,7 +28,7 @@ const PostList = ({ groupId, searchKeyword }: PostListProps) => {
         </div>
       ) : (
         <div className="px-3 py-1">
-          {data.posts.map((post) => (
+          {posts.posts.map((post) => (
             <PostListItem
               key={post.id}
               id={post.id}
