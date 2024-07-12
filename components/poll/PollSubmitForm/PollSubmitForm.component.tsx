@@ -44,7 +44,10 @@ export const PollSubmitFormComponent = ({
   onUpdateReaction,
 }: PollSubmitFormProps) => {
   return (
-    <div className={'bg-base-300 py-3'} onClick={onClick}>
+    <div
+      className={'bg-base-100 py-3 md:rounded-lg md:px-1 md:py-4'}
+      onClick={onClick}
+    >
       <div className={'mb-2 px-3 text-lg font-semibold'}>{title}</div>
       {images.length ? (
         <div className="px-2">

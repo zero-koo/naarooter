@@ -80,7 +80,7 @@ const CommentList = ({ postId }: { postId: string }) => {
   }
 
   return (
-    <div className="px-2">
+    <div className="bg-base-100 px-2 py-3 md:rounded-lg md:px-3 md:py-4">
       <CommentListView
         postId={postId}
         commentsChunks={postComments.pages}

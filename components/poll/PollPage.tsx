@@ -42,7 +42,7 @@ export default function PollPage({ id }: PollPageProps) {
             }
           />
           <PollDetailSection id={poll.id} />
-          <div className="mt-4">
+          <div className="mt-2">
             <CommentList postId={poll.postId} />
           </div>
         </PostContextProvider>

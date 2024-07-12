@@ -70,7 +70,7 @@ const CommentView = ({
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   return (
-    <div className="flex flex-1 flex-col gap-1 border-b border-base-content/30 py-2">
+    <div className="flex-1 space-y-1 border-b border-base-content/30 py-2">
       {!isEditMode ? (
         <>
           <div className="flex h-6 items-center text-xs opacity-70">
