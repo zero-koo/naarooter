@@ -132,7 +132,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className="relative h-48 w-48">
+      <div className="relative h-full w-full">
         {imageUrl ? (
           <ImageUploadPreview
             src={imageUrl}

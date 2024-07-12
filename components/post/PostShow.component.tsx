@@ -95,7 +95,7 @@ const PostShowComponent = ({
       <div className="flex min-h-[100px] text-sm">
         <TextViewer initialValue={description} />
       </div>
-      <div className="flex py-1">
+      <div className="flex px-2 py-1">
         <div className="ml-auto flex gap-3 text-xs opacity-80">
           <div className="flex items-center gap-1">
             <ThumbsUpIcon

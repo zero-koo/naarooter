@@ -35,6 +35,17 @@ export default function PollChoiceItem({
         onClick();
       }}
     >
+      {imageUrl ? (
+        <div className="h-full w-14">
+          <Image
+            width={60}
+            height={60}
+            src={imageUrl}
+            alt={mainText}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      ) : null}
       <div className="relative flex h-full flex-1 items-center px-2.5 py-1.5">
         {showResult && (
           <div

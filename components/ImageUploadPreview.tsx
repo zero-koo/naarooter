@@ -14,10 +14,11 @@ const imageUploadPreviewVariants = cva(
         md: 'h-48 w-48',
         lg: 'h-64 w-64',
         xl: 'h-80 w-80',
+        full: 'h-full w-full',
       },
     },
     defaultVariants: {
-      size: 'md',
+      size: 'full',
     },
   }
 );

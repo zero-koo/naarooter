@@ -346,8 +346,8 @@ function PollForm() {
             </IconButton>
           </div>
         </div>
-        <div className="mt-3 flex flex-col gap-2">
-          <div className="mt-2 flex items-center pl-3 pr-1">
+        <div className="mt-3 flex flex-col gap-2 px-2">
+          <div className="mt-2 flex items-center">
             <div className="form-control ml-auto">
               <label className="label flex cursor-pointer gap-2 py-0">
                 <span className="label-text text-xs font-medium">이미지</span>
