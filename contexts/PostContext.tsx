@@ -11,12 +11,8 @@ export const PostContextProvider = ({
   postId: string;
   children: React.ReactNode;
 }) => {
-  const { data, isLoading } = usePostQuery(postId);
+  const [post] = usePostQuery(postId);
 
-  return (
-    <PostContext.Provider value={data}>
-      {data ? children : isLoading ? <div>loading...</div> : <div>error</div>}
-    </PostContext.Provider>
-  );
+  return <PostContext.Provider value={post}>{children}</PostContext.Provider>;
 };
 export const usePostContext = () => useContext(PostContext)!;

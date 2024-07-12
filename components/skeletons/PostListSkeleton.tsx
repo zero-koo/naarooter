@@ -1,14 +1,14 @@
-import { Skeleton } from '../ui/Skeleton';
+import PostListItemSkeleton from './PostListItemSkeleton';
 
 type PostListSkeletonProps = {
   count?: number;
 };
 
-const PostListSkeleton = ({ count = 2 }: PostListSkeletonProps) => {
+const PostListSkeleton = ({ count = 10 }: PostListSkeletonProps) => {
   return (
-    <div className="space-y-3 py-3">
+    <div className="space-y-6 px-2 py-3">
       {Array.from({ length: count }, (_, index) => (
-        <Skeleton key={index} className="h-10 w-full" />
+        <PostListItemSkeleton key={index} />
       ))}
     </div>
   );

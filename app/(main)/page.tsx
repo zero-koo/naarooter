@@ -5,9 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import PostList from './components/PostList';
 import PostSearchResultList from './components/PostSearchResultList';
-import PostListSkeleton from '@/components/skeletons/PostListSkeleton';
-import PollListSkeleton from '@/components/skeletons/PollListSkeleton';
-import { Skeleton } from '@/components/ui/Skeleton';
+import LoadingBox from '@/components/ui/LoadingBox';
 
 export default function PollsPage({
   searchParams,
@@ -20,16 +18,7 @@ export default function PollsPage({
       {searchParams?.search ? (
         <PostSearchResultList searchKeyword={searchParams.search} />
       ) : (
-        <Suspense
-          fallback={
-            <div className="">
-              <Skeleton className="mb-2 h-2 w-10" />
-              <PollListSkeleton />
-              <Skeleton className="mb-2 mt-10 h-2 w-10" />
-              <PostListSkeleton count={10} />
-            </div>
-          }
-        >
+        <Suspense fallback={<LoadingBox className="h-full" />}>
           <div className="mt-2 flex-1 overflow-auto">
             <Link href={'/polls'}>
               <Button

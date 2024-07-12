@@ -6,10 +6,9 @@ import CommentListView from './CommentListView';
 import { trpc } from '@/client/trpcClient';
 
 const CommentList = ({ postId }: { postId: string }) => {
-  const { data, error, isLoading, fetchNextPage, hasNextPage } =
-    usePostCommentsQuery({
-      postId,
-    });
+  const [postComments, { fetchNextPage, hasNextPage }] = usePostCommentsQuery({
+    postId,
+  });
 
   const { mutateAsync: addComment } = trpc.comment.add.useMutation();
   async function onAddComment(content: string) {
@@ -19,8 +18,7 @@ const CommentList = ({ postId }: { postId: string }) => {
     });
     onIncreaseCommentsCount();
 
-    if (!data) return;
-    if (!data.pages.length) {
+    if (!postComments.pages.length) {
       updatePostCommentsQuery({
         pages: [
           {
@@ -33,11 +31,11 @@ const CommentList = ({ postId }: { postId: string }) => {
       return;
     }
 
-    const pages = [...data.pages];
+    const pages = [...postComments.pages];
     pages[0] = {
-      ...data.pages[0],
-      comments: [newComment, ...data.pages[0].comments],
-      totalCount: data.pages[0].totalCount + 1,
+      ...postComments.pages[0],
+      comments: [newComment, ...postComments.pages[0].comments],
+      totalCount: postComments.pages[0].totalCount + 1,
     };
     updatePostCommentsQuery({
       pages,
@@ -45,14 +43,14 @@ const CommentList = ({ postId }: { postId: string }) => {
   }
 
   function onDeleteComment(page: number, id: number) {
-    if (!data) return;
-    const pages = [...data.pages];
+    if (!postComments) return;
+    const pages = [...postComments.pages];
     pages[page] = {
-      comments: data.pages[page].comments.filter(
+      comments: postComments.pages[page].comments.filter(
         (comment) => comment.id !== id
       ),
-      totalCount: data.pages[0].totalCount - 1,
-      hasNextPage: data.pages[0].hasNextPage,
+      totalCount: postComments.pages[0].totalCount - 1,
+      hasNextPage: postComments.pages[0].hasNextPage,
     };
     updatePostCommentsQuery({
       pages: pages,
@@ -62,34 +60,31 @@ const CommentList = ({ postId }: { postId: string }) => {
   const { updatePostCommentsQuery } = useUpdatePostCommentsQuery({ postId });
 
   function onIncreaseCommentsCount() {
-    if (!data) return;
+    if (!postComments) return;
     updatePostCommentsQuery({
-      pages: data.pages.map((page) => ({
+      pages: postComments.pages.map((page) => ({
         ...page,
-        totalCount: (data?.pages[0].totalCount ?? 0) + 1,
+        totalCount: (postComments?.pages[0].totalCount ?? 0) + 1,
       })),
     });
   }
 
   function onDecreaseCommentsCount() {
-    if (!data) return;
+    if (!postComments) return;
     updatePostCommentsQuery({
-      pages: data.pages.map((page) => ({
+      pages: postComments.pages.map((page) => ({
         ...page,
-        totalCount: (data?.pages[0].totalCount ?? 0) - 1,
+        totalCount: (postComments?.pages[0].totalCount ?? 0) - 1,
       })),
     });
   }
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
 
   return (
     <div className="px-2">
       <CommentListView
         postId={postId}
-        commentsChunks={data.pages}
-        commentsCount={data.pages[0].totalCount}
+        commentsChunks={postComments.pages}
+        commentsCount={postComments.pages[0].totalCount}
         onAddComment={onAddComment}
         onDelete={onDeleteComment}
         onIncreaseCommentsCount={onIncreaseCommentsCount}

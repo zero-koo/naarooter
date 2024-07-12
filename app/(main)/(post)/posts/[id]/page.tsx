@@ -1,4 +1,7 @@
+import DefaultItemHeader from '@/components/DefaultItemHeader';
 import PostShow from '@/components/post/PostShow';
+import PostSkeleton from '@/components/skeletons/PostSkeleton';
+import { Suspense } from 'react';
 
 const PostPage = ({
   params,
@@ -7,7 +10,17 @@ const PostPage = ({
   params: { id: string };
   searchParams?: { groupId?: string };
 }) => {
-  return <PostShow id={params.id} listGroupId={searchParams?.groupId} />;
+  const listGroupId = searchParams?.groupId;
+  return (
+    <>
+      <DefaultItemHeader
+        backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
+      />
+      <Suspense fallback={<PostSkeleton />}>
+        <PostShow id={params.id} />
+      </Suspense>
+    </>
+  );
 };
 
 export default PostPage;

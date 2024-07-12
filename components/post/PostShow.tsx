@@ -3,7 +3,6 @@
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import PostShowComponent from './PostShow.component';
 import { useUser } from '@/hooks/useUser';
-import DefaultItemHeader from '../DefaultItemHeader';
 import { trpc } from '@/client/trpcClient';
 import { useEffect, useState } from 'react';
 import CommentList from '../comment/CommentList';
@@ -11,12 +10,11 @@ import { PostContextProvider } from '@/contexts/PostContext';
 
 interface PostShowProps {
   id: string;
-  listGroupId?: string;
 }
 
-const PostShow = ({ id, listGroupId }: PostShowProps) => {
-  const { data } = usePostQuery(id);
-  const { user, isAuthenticated } = useUser();
+const PostShow = ({ id }: PostShowProps) => {
+  const [post] = usePostQuery(id);
+  const { user } = useUser();
 
   const [like, setLike] = useState<{
     count: number;
@@ -35,35 +33,30 @@ const PostShow = ({ id, listGroupId }: PostShowProps) => {
   });
 
   useEffect(() => {
-    if (!data) return;
+    if (!post) return;
     setLike({
-      count: data.postReaction.likeCount,
-      selected: data.postReaction.userReaction === 'like',
+      count: post.postReaction.likeCount,
+      selected: post.postReaction.userReaction === 'like',
     });
     setDislike({
-      count: data.postReaction.dislikeCount,
-      selected: data.postReaction.userReaction === 'dislike',
+      count: post.postReaction.dislikeCount,
+      selected: post.postReaction.userReaction === 'dislike',
     });
-  }, [data]);
+  }, [post]);
 
   const { mutate } = trpc.post.reaction.useMutation();
 
-  if (!data || !isAuthenticated) return 'Loading...';
-
   return (
     <PostContextProvider postId={id}>
-      <DefaultItemHeader
-        backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
-      />
       <PostShowComponent
-        groupId={data.groupId}
+        groupId={post.groupId}
         id={id}
-        title={data.title}
-        description={data.description as string}
-        author={data.author}
-        isAuthor={data.authorId === user?.id}
-        createdAt={data.createdAt}
-        viewCount={data.viewCount}
+        title={post.title}
+        description={post.description as string}
+        author={post.author}
+        isAuthor={post.authorId === user?.id}
+        createdAt={post.createdAt}
+        viewCount={post.viewCount}
         like={like}
         dislike={dislike}
         onClickLike={({ isCancel }) => {

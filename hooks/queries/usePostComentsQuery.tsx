@@ -12,9 +12,9 @@ export const usePostCommentsQuery = (
     parentCommentId?: number;
     direction?: 'asc' | 'desc';
   },
-  options: Parameters<typeof trpc.comment.list.useInfiniteQuery>[1] = {}
+  options: Parameters<typeof trpc.comment.list.useSuspenseInfiniteQuery>[1] = {}
 ) => {
-  return trpc.comment.list.useInfiniteQuery(
+  return trpc.comment.list.useSuspenseInfiniteQuery(
     {
       postId,
       parentCommentId,
@@ -41,7 +41,7 @@ export const useUpdatePostCommentsQuery = ({
   direction?: 'asc' | 'desc';
 }) => {
   const queryClient = useQueryClient();
-  const { data } = usePostCommentsQuery({
+  const [postComments] = usePostCommentsQuery({
     postId,
     parentCommentId,
     direction,
@@ -62,8 +62,8 @@ export const useUpdatePostCommentsQuery = ({
         'infinite'
       ),
       {
-        pages: pages ?? data?.pages ?? [],
-        pageParams: pageParams ?? data?.pageParams ?? [],
+        pages: pages ?? postComments?.pages ?? [],
+        pageParams: pageParams ?? postComments?.pageParams ?? [],
       }
     );
   }

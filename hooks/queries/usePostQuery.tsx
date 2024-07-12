@@ -1,19 +1,9 @@
-import { RouterOutputs, trpc } from '@/client/trpcClient';
-import { useQueryClient } from '@tanstack/react-query';
-import { getQueryKey } from '@trpc/react-query';
+import { trpc } from '@/client/trpcClient';
 
 export const usePostQuery = (id: string) => {
-  const queryClient = useQueryClient();
-
-  return trpc.post.byId.useQuery(
+  return trpc.post.byId.useSuspenseQuery(
     { id },
     {
-      initialData: () => {
-        const posts = queryClient.getQueryData<RouterOutputs['post']['list']>(
-          getQueryKey(trpc.post.list, {}, 'query')
-        );
-        return posts?.posts.find((post) => post.id === id);
-      },
       refetchOnWindowFocus: false,
     }
   );

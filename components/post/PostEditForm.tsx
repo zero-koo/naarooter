@@ -13,7 +13,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data } = usePostQuery(id);
+  const [post] = usePostQuery(id);
 
   const { mutate } = trpc.post.update.useMutation({
     onSuccess(data) {
@@ -37,15 +37,13 @@ export const PostEditForm = ({ id }: { id: string }) => {
     },
   });
 
-  if (!data) return <div>Loading...</div>;
-
   return (
     <BaseTitleDescriptionForm
       title={'글 수정하기'}
       backLink={`/posts/${id}`}
       initialValues={{
-        title: data.title,
-        contents: data.description,
+        title: post.title,
+        contents: post.description,
       }}
       onSubmit={(data) =>
         mutate({

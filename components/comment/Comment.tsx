@@ -35,11 +35,7 @@ const Comment = ({
   const [comment, setComment] = useState<TComment>(initialData);
 
   const [showReplies, setShowReplies] = useState(!!comment.comments?.length);
-  const {
-    data: replies,
-    hasNextPage,
-    fetchNextPage,
-  } = usePostCommentsQuery(
+  const [replies, { hasNextPage, fetchNextPage }] = usePostCommentsQuery(
     {
       postId,
       parentCommentId: comment.id,

@@ -11,9 +11,9 @@ interface PostCommentSectionProps {
 
 const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
   const { toast } = useToast();
-  const { user, isAuthenticated } = useUser();
+  const { user } = useUser();
 
-  const { data: commentsData } = usePostCommentsQuery({ postId });
+  const [postComments] = usePostCommentsQuery({ postId });
 
   const { mutateAsync: addComment } = trpc.comment.add.useMutation({
     onError() {
@@ -32,11 +32,9 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
     },
   });
 
-  if (!commentsData || !isAuthenticated) return <div>loading...</div>;
-
   return (
     <PostCommentSectionComponent
-      comments={commentsData?.pages
+      comments={postComments?.pages
         .flatMap(({ comments }) => comments)
         .map((comment) => ({
           id: comment.id,
@@ -52,7 +50,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           dislike: comment.dislikeCount,
           reaction: comment.userReaction,
         }))}
-      totalCount={commentsData.pages[0].totalCount}
+      totalCount={postComments.pages[0].totalCount}
       userId={user?.id}
       postAuthorId={authorId}
       onAdd={async ({ text }) => {
