@@ -61,7 +61,7 @@
     "@storybook/blocks": "^8.2.1",
     "@storybook/nextjs": "^8.2.1",
     "@storybook/react": "^8.2.1",
-    "@storybook/testing-library": "^0.2.2",
+    "@storybook/test": "^8.2.1",
     "@types/d3": "^7.4.2",
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",

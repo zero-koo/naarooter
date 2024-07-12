@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Header } from './Header';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'Example/Header',
@@ -9,6 +10,11 @@ const meta = {
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
+  },
+  args: {
+    onLogin: fn(),
+    onLogout: fn(),
+    onCreateAccount: fn(),
   },
 } satisfies Meta<typeof Header>;
 

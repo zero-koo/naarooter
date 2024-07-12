@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import YouTubeInsertModal from './YouTubeInsertModal';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'Editor/YouTubeInsertModal',
@@ -14,6 +15,10 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     initialLink: { control: 'text' },
+  },
+  args: {
+    onSave: fn(),
+    onClose: fn(),
   },
 } satisfies Meta<typeof YouTubeInsertModal>;
 

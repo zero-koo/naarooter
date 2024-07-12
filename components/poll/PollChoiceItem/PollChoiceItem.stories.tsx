@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import PollChoiceItem from './PollChoiceItem.component';
 import { useState } from 'react';
@@ -13,6 +14,7 @@ const meta = {
   argTypes: {
     mainText: { control: 'text' },
   },
+  args: { onClick: fn() },
 } satisfies Meta<typeof PollChoiceItem>;
 
 export default meta;

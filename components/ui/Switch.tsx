@@ -19,7 +19,7 @@ const switchVariants = cva(
 );
 
 const switchItemVariants = cva(
-  'flex-center has-[:checked]:bg-primary has-[:checked]:text-primary-content flex cursor-pointer rounded hover:text-primary-content',
+  'flex-center flex cursor-pointer rounded hover:text-primary-content has-[:checked]:bg-primary has-[:checked]:text-primary-content',
   {
     variants: {
       size: {

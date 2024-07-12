@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Switch from './Switch';
 import { School2Icon, SchoolIcon } from 'lucide-react';
 import { useState } from 'react';
+import { fn } from '@storybook/test';
 
 const meta = {
   title: 'UI/Switch',
@@ -13,6 +14,9 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {},
+  args: {
+    onSelect: fn(),
+  },
 } satisfies Meta<typeof Switch>;
 
 export default meta;
