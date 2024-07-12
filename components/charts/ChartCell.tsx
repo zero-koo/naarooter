@@ -12,15 +12,15 @@ const ChartCell = ({
   return (
     <>
       <div
-        className={cn('z-0 w-full rounded pb-[100%] transition-all', {
+        className={cn('z-0 w-full rounded-sm md:rounded pb-[100%]', {
           'bg-base-100': shape === 'grid',
         })}
       ></div>
       <div
         className={cn(
-          'absolute z-10 h-full w-full rounded bg-primary hover:bg-primary-focus transition-all',
+          'absolute z-10 h-full w-full rounded-sm md:rounded bg-primary hover:bg-primary-focus',
           {
-            'rounded-full': shape === 'bubble',
+            '!rounded-full': shape === 'bubble',
           }
         )}
         style={{
