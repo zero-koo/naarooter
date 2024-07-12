@@ -120,6 +120,7 @@ export const pollRouter = router({
           authorId: item.post.authorId,
           title: item.post.title,
           description: item.post.description,
+          images: item.post.images,
           choices:
             item.choices.map((choice) => ({
               id: choice.id,
@@ -198,6 +199,7 @@ export const pollRouter = router({
           authorId: item.post.authorId,
           title: item.post.title,
           description: item.post.description,
+          images: item.post.images,
           choices:
             item.choices.map((choice) => ({
               id: choice.id,
