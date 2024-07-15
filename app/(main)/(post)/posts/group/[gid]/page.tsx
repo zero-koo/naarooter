@@ -1,5 +1,5 @@
-import DefaultListHeader from '@/components/DefaultListHeader';
 import RootHeader from '@/components/RootHeader';
+import CommunityHeader from '@/components/community/CommunityHeader';
 import PostList from '@/components/post/PostList';
 import PostListSkeleton from '@/components/skeletons/PostListSkeleton';
 import { COMMUNITY_GROUP_MAP, CommunityGroupId } from '@/lib/constants';
@@ -22,7 +22,7 @@ const PostListByGroupPage = ({
   return (
     <>
       <RootHeader />
-      <DefaultListHeader title={COMMUNITY_GROUP_MAP[gid].title} />
+      <CommunityHeader title={COMMUNITY_GROUP_MAP[gid].title} />
       <Suspense fallback={<PostListSkeleton count={20} />}>
         <PostList groupId={gid} searchKeyword={searchParams?.search} />
       </Suspense>

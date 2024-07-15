@@ -71,8 +71,8 @@ const PostShowComponent = ({
   onClickDislike,
 }: PostShowComponentProps) => {
   return (
-    <div className="py-2">
-      <div className="px-3 py-2">
+    <div className="pb-2">
+      <div className="bg-base-100 px-3 py-2 md:rounded-lg">
         <div className="flex items-start py-1">
           <div className="text-lg font-semibold">{title}</div>
           {isAuthor && <PostShowUserMenu postId={id} postGroupId={groupId} />}

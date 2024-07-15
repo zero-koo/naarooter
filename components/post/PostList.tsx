@@ -27,7 +27,7 @@ const PostList = ({ groupId, searchKeyword }: PostListProps) => {
             : '등록된 글이 없습니다.'}
         </div>
       ) : (
-        <div className="px-3 py-1">
+        <div className="pb-2">
           {posts.posts.map((post) => (
             <PostListItem
               key={post.id}

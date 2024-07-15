@@ -53,10 +53,10 @@ const PostListItem = ({
   listGroupId,
 }: PostListItemProps) => {
   return (
-    <Link href={getLink({ postType, id, listGroupId })}>
+    <Link href={getLink({ postType, id, listGroupId })} className="group">
       <div
         className={
-          'flex flex-col gap-1 border-b border-neutral-content/30 pb-3 pt-2.5'
+          'flex flex-col gap-1 border-b border-neutral-content/10 bg-base-100 px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'
         }
       >
         <div className="flex items-center font-semibold">

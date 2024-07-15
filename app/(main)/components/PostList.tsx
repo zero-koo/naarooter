@@ -7,7 +7,7 @@ const PostList = () => {
   const [posts] = usePostListQuery({ limit: 10 });
 
   return (
-    <div className="px-3">
+    <div className="pb-3">
       {posts.posts.map((post) => (
         <PostListItem
           key={post.id}
