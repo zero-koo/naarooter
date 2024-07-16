@@ -55,7 +55,13 @@ const PollDetailChart = ({
 
   return (
     <div className="flex flex-col">
-      <div className="mb-2 ml-auto flex items-center gap-1">
+      <div
+        className="mb-2 ml-auto flex items-center gap-1"
+        onClick={() => {
+          setSelectedMbti(null);
+          setSelectedChoiceId(null);
+        }}
+      >
         <Switch
           items={[
             {
@@ -75,7 +81,11 @@ const PollDetailChart = ({
         className={style.grid}
         style={{ '--rows': choices.length } as CSSProperties}
       >
-        <div className={style.bubble}>
+        <div
+          className={cn(style.bubble, {
+            invisible: selectedMbti || selectedChoiceId,
+          })}
+        >
           {choices.map((choice, index) => (
             <div className={style.bubbleRow} key={index}>
               {mbtis.map((mbti) => {
