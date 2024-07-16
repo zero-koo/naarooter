@@ -26,7 +26,6 @@ export const usePostCommentsQuery = (
         if (!lastPage.hasNextPage) return undefined;
         return lastPage.comments.at(-1)?.id;
       },
-      staleTime: Infinity,
     }
   );
 };
