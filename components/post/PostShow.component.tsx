@@ -142,7 +142,7 @@ const PostShowUserMenu = React.memo(
 
     const { mutate: deletePost } = trpc.post.delete.useMutation({
       onSuccess() {
-        router.replace(`/post/posts/${postGroupId ?? 'all'}`);
+        router.replace(`/posts/group/${postGroupId}`);
       },
       onError() {
         toast.update({
