@@ -1,5 +1,6 @@
-import { mbtis } from '@/lib/constants';
 import { COMMENT_STATUS } from '@prisma/client';
+
+import { mbtis } from '@/lib/constants';
 
 // REACT | NEXT
 export type NextPage = ({

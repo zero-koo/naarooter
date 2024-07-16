@@ -1,11 +1,13 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
+import { CommentContent } from '@/types/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 import { cn } from '@/lib/utils';
+
 import { Button } from '../../Button';
 import Textarea from '../../ui/TextArea';
-import { CommentContent } from '@/types/shared';
 import CommentTargetUserTag from '../CommentTargetUserTag';
 
 const CommentInput = ({
@@ -48,7 +50,7 @@ const CommentInput = ({
         {...register('text')}
         rows={Math.min(watch('text').split('\n').length, 4)}
         className={cn(
-          'w-full border-b border-base-content/60 bg-transparent py-0 px-0 pb-1 focus-visible:border-base-content mb-1.5'
+          'mb-1.5 w-full border-b border-base-content/60 bg-transparent px-0 py-0 pb-1 focus-visible:border-base-content'
         )}
         placeholder="댓글 남기기"
         onFocus={() => setShowButtons(true)}

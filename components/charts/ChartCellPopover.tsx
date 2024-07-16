@@ -1,6 +1,8 @@
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
-import { cn } from '@/lib/utils';
 import { CSSProperties } from 'react';
+
+import { cn } from '@/lib/utils';
+
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
 
 const ChartCellPopover = ({
   children,
@@ -42,7 +44,7 @@ const ChartCellPopover = ({
       >
         <div>
           <span className="font-semibold">{count}</span>
-          <span className="ml-[1px] text-[8px]">명</span>
+          <span className="ml-px text-[8px]">명</span>
         </div>
         <div className="gap-x-0.5 text-[8px]">
           <div className="truncate">{choice}</div>

@@ -1,10 +1,12 @@
 import { Suspense } from 'react';
+
+import LoadingBox from '@/components/ui/LoadingBox';
+import CommunityHeader from '@/components/community/CommunityHeader';
 import RootHeader from '@/components/RootHeader';
+
 import PollList from './components/PollList';
 import PostList from './components/PostList';
 import PostSearchResultList from './components/PostSearchResultList';
-import LoadingBox from '@/components/ui/LoadingBox';
-import CommunityHeader from '@/components/community/CommunityHeader';
 
 export default function PollsPage({
   searchParams,

@@ -1,11 +1,13 @@
-import { INSERT_YOUTUBE_COMMAND } from './YouTubePlugin';
-import { IconButton } from '@/components/ui/IconButton';
-import { ImageIcon, ImagesIcon, YoutubeIcon } from 'lucide-react';
-import YouTubeInputDialog from '../ui/YouTubeInsertModal';
 import { useState } from 'react';
-import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
-import { cn, uploadImages } from '@/lib/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ImageIcon, ImagesIcon, YoutubeIcon } from 'lucide-react';
+
+import { cn, uploadImages } from '@/lib/utils';
+import { IconButton } from '@/components/ui/IconButton';
+
+import YouTubeInputDialog from '../ui/YouTubeInsertModal';
+import { INSERT_IMAGES_COMMAND } from './ImagesPlugin';
+import { INSERT_YOUTUBE_COMMAND } from './YouTubePlugin';
 
 export type ToolbarItem = 'Image' | 'Images' | 'Youtube';
 

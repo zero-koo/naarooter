@@ -1,21 +1,23 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { logout } from '@/actions/logout';
+import { UserRound } from 'lucide-react';
+
+import { useUser } from '@/hooks/useUser';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/hooks/useUser';
-import { logout } from '@/actions/logout';
-import { UserRound } from 'lucide-react';
 
 function UserButton() {
   const router = useRouter();
   const { user } = useUser();
 
   return (
-    <div className="h-8 w-8 overflow-hidden rounded-full">
+    <div className="size-8 overflow-hidden rounded-full">
       {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -27,7 +29,7 @@ function UserButton() {
                 height={32}
               />
             ) : (
-              <div className="flex-center h-full w-full bg-base-100">
+              <div className="flex-center size-full bg-base-100">
                 <UserRound strokeWidth={1.5} />
               </div>
             )}
@@ -56,7 +58,7 @@ function UserButton() {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <div className="h-full w-full bg-base-100" />
+        <div className="size-full bg-base-100" />
       )}
     </div>
   );

@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
+
+import { cn } from '@/lib/utils';
 
 type CollapsibleContainerProps = React.PropsWithChildren<{
   maxAllowableHeight: number;

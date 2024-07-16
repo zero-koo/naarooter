@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
@@ -10,8 +11,9 @@ import {
   NodeKey,
   Spread,
 } from 'lexical';
+
 import { cn } from '@/lib/utils';
-import React from 'react';
+
 import { ImagesBlock } from '../ui/ImagesBlock';
 
 export type SerializedReadonlyImagesNode = Spread<

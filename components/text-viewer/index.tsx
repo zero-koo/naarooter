@@ -1,14 +1,13 @@
 'use client';
 
-import { $getRoot, $parseSerializedNode, SerializedEditorState } from 'lexical';
-
 import {
   InitialConfigType,
   LexicalComposer,
 } from '@lexical/react/LexicalComposer';
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+import { $getRoot, $parseSerializedNode, SerializedEditorState } from 'lexical';
 
 import { cn } from '@/lib/utils';
 
@@ -38,7 +37,7 @@ export function TextViewer({ content, containerClass }: TextEditorProps) {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className={cn('relative p-0 rounded-none flex-1', containerClass)}>
+      <div className={cn('relative flex-1 rounded-none p-0', containerClass)}>
         <PlainTextPlugin
           contentEditable={<ContentEditable />}
           placeholder={null}

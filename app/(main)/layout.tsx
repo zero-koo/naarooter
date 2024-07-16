@@ -1,5 +1,6 @@
-import styles from '../layout.module.css';
 import GlobalNavigation from '@/components/nav/GlobalNavigation';
+
+import styles from '../layout.module.css';
 
 export default function MainLayout({
   children,

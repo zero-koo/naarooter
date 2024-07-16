@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+import { School2Icon, SchoolIcon } from 'lucide-react';
 
 import Switch from './Switch';
-import { School2Icon, SchoolIcon } from 'lucide-react';
-import { useState } from 'react';
-import { fn } from '@storybook/test';
 
 const meta = {
   title: 'UI/Switch',

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { XIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { XIcon } from 'lucide-react';
 
 const labelVariants = cva(
   'flex w-fit select-none items-center overflow-hidden rounded border px-1.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2  focus:ring-ring focus:ring-offset-2',

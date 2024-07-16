@@ -1,10 +1,12 @@
 'use client';
 
-import { usePostListQuery } from '@/hooks/queries/usePostListQuery';
-import { PlusIcon } from 'lucide-react';
-import PostListItem from './PostListItem';
 import Link from 'next/link';
+import { PlusIcon } from 'lucide-react';
+
+import { usePostListQuery } from '@/hooks/queries/usePostListQuery';
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
+
+import PostListItem from './PostListItem';
 
 interface PostListProps {
   groupId?: string;

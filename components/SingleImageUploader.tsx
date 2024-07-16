@@ -4,7 +4,9 @@ import React from 'react';
 import { ImagePlusIcon } from 'lucide-react';
 import { useDropzone, type DropzoneOptions } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
+
 import { cn } from '@/lib/utils';
+
 import ImageUploadPreview from './ImageUploadPreview';
 
 const variants = {
@@ -132,7 +134,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className="relative h-full w-full">
+      <div className="relative size-full">
         {imageUrl ? (
           <ImageUploadPreview
             src={imageUrl}
@@ -156,7 +158,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
             {/* Main File Input */}
             <div className="flex flex-col items-center justify-center text-sm text-foreground">
               <input ref={ref} {...getInputProps()} />
-              <ImagePlusIcon className="h-6 w-6" strokeWidth={2} />
+              <ImagePlusIcon className="size-6" strokeWidth={2} />
             </div>
             {/* Remove Image Icon */}
           </div>

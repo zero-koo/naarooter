@@ -1,5 +1,7 @@
-import { youtubeLinkRegex } from '@/lib/regex';
 import { EditorState, LexicalNode, RootNode } from 'lexical';
+
+import { youtubeLinkRegex } from '@/lib/regex';
+
 import { $isImagesNode, ImagesNode } from '../nodes/ImagesNode';
 
 export function getYoutubeVideoIdFromLink(link: string): string | null {

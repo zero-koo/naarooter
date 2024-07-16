@@ -1,10 +1,12 @@
+import { trpc } from '@/client/trpcClient';
+
 import {
   usePostCommentsQuery,
   useUpdatePostCommentsQuery,
 } from '@/hooks/queries/usePostComentsQuery';
-import CommentListView from './CommentListView';
-import { trpc } from '@/client/trpcClient';
+
 import GrayBox from '../ui/GrayBox';
+import CommentListView from './CommentListView';
 
 const CommentList = ({ postId }: { postId: string }) => {
   const [postComments, { fetchNextPage, hasNextPage }] = usePostCommentsQuery({

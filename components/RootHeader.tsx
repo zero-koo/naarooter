@@ -1,8 +1,9 @@
 'use client';
 
-import SearchBox from './SearchBox';
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
+
 import RootHeaderContainer from './RootHeaderContainer';
+import SearchBox from './SearchBox';
 
 const RootHeader = () => {
   const { setSearchParams } = useURLSearchParams();

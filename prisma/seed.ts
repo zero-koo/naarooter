@@ -1,5 +1,6 @@
-import { randomInteger } from '../lib/utils';
 import { PrismaClient } from '@prisma/client';
+
+import { randomInteger } from '../lib/utils';
 
 const prisma = new PrismaClient();
 

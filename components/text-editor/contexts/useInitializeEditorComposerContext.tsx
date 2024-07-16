@@ -1,19 +1,19 @@
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import {
   InitialConfigType,
   InitialEditorStateType,
 } from '@lexical/react/LexicalComposer';
 import {
-  LexicalComposerContextType,
   createLexicalComposerContext,
+  LexicalComposerContextType,
 } from '@lexical/react/LexicalComposerContext';
 import {
   $createParagraphNode,
   $getRoot,
   $getSelection,
-  LexicalEditor,
   createEditor,
+  LexicalEditor,
 } from 'lexical';
-import { useEffect, useLayoutEffect, useMemo } from 'react';
 
 export const useInitializeEditorComposerContext = (
   initialConfig: InitialConfigType

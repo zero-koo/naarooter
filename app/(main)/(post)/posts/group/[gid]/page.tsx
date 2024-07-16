@@ -1,10 +1,11 @@
-import RootHeader from '@/components/RootHeader';
+import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
+
+import { COMMUNITY_GROUP_MAP, CommunityGroupId } from '@/lib/constants';
 import CommunityHeader from '@/components/community/CommunityHeader';
 import PostList from '@/components/post/PostList';
+import RootHeader from '@/components/RootHeader';
 import PostListSkeleton from '@/components/skeletons/PostListSkeleton';
-import { COMMUNITY_GROUP_MAP, CommunityGroupId } from '@/lib/constants';
-import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
 
 const PostListByGroupPage = ({
   params: { gid },

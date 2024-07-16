@@ -1,13 +1,14 @@
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { SharedHistoryContext } from '../contexts/SharedHistoryContext';
 import { forwardRef, useImperativeHandle } from 'react';
-import { useInitializeEditorComposerContext } from '../contexts/useInitializeEditorComposerContext';
-
 import { InitialConfigType } from '@lexical/react/LexicalComposer';
 import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+
 import { cn } from '@/lib/utils';
+
+import { SharedHistoryContext } from '../contexts/SharedHistoryContext';
+import { useInitializeEditorComposerContext } from '../contexts/useInitializeEditorComposerContext';
 
 type TextEditorProps = {
   className?: string;
@@ -42,18 +43,14 @@ const PlainTextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
     });
     const [editor] = composerContext;
 
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          async getSerializedState() {
-            const serialized = editor._editorState.toJSON();
-            return JSON.stringify(serialized);
-          },
-        };
-      },
-      [editor]
-    );
+    useImperativeHandle(ref, () => {
+      return {
+        async getSerializedState() {
+          const serialized = editor._editorState.toJSON();
+          return JSON.stringify(serialized);
+        },
+      };
+    }, [editor]);
 
     return (
       <LexicalComposerContext.Provider value={composerContext}>

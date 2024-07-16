@@ -1,6 +1,7 @@
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+
+import { cn } from '@/lib/utils';
 
 type CommunityLabelProps = {
   label: string;
@@ -18,9 +19,9 @@ const CommunityLabel = ({ label, href, size = 'sm' }: CommunityLabelProps) => {
     <Wrapper>
       <Tag
         className={cn(
-          'flex w-fit items-center rounded-lg bg-base-content/20 py-0.5 px-2 text-sm font-semibold',
+          'flex w-fit items-center rounded-lg bg-base-content/20 px-2 py-0.5 text-sm font-semibold',
           {
-            'text-md px-3 py-1 rounded-xl': size === 'md',
+            'text-md rounded-xl px-3 py-1': size === 'md',
           }
         )}
       >

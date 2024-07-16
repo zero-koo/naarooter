@@ -1,4 +1,5 @@
 import { signOut } from '@/auth';
+
 import { Button } from '../ui/Button';
 
 function SignOut() {

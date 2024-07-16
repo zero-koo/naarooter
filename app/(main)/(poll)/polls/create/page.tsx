@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { trpc } from '@/client/trpcClient';
+import { PollInput } from '@/types/poll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ArrowLeftIcon,
@@ -19,12 +21,10 @@ import {
 } from 'react-hook-form';
 import z from 'zod';
 
-import { PollInput } from '@/types/poll';
-import { useToast } from '@/hooks/useToast';
-import { Button } from '@/components/Button';
-import { Toggle } from '@/components/Toggle';
-import { SingleImageUploader } from '@/components/SingleImageUploader';
 import { cn, uploadImages } from '@/lib/utils';
+import { useImageUpload } from '@/hooks/useImageUpload';
+import { useToast } from '@/hooks/useToast';
+import { IconButton } from '@/components/ui/IconButton';
 import {
   Sheet,
   SheetClose,
@@ -33,15 +33,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/Sheet';
-import PollSubmitPreview from '@/components/poll/PollSubmitPreview';
-import DefaultItemHeader from '@/components/DefaultItemHeader';
 import TextInput from '@/components/ui/TextInput';
-import PlainTextEditor from '@/components/text-editor/PlainTextEditor';
-import { useState } from 'react';
-import { IconButton } from '@/components/ui/IconButton';
-import ImageCarousel from '@/components/ImageCarousel';
 import ActionMenu from '@/components/ActionMenu';
-import { useImageUpload } from '@/hooks/useImageUpload';
+import { Button } from '@/components/Button';
+import DefaultItemHeader from '@/components/DefaultItemHeader';
+import ImageCarousel from '@/components/ImageCarousel';
+import PollSubmitPreview from '@/components/poll/PollSubmitPreview';
+import { SingleImageUploader } from '@/components/SingleImageUploader';
+import PlainTextEditor from '@/components/text-editor/PlainTextEditor';
+import { Toggle } from '@/components/Toggle';
 
 export default function CreatePollPage() {
   return <PollForm />;
@@ -194,7 +194,7 @@ function PollForm() {
                 완료
               </Button>
             </SheetTrigger>
-            <SheetContent className="h-full w-full">
+            <SheetContent className="size-full">
               <SheetHeader className="p-3">
                 <SheetClose disabled={isLoading}>
                   <ArrowLeftIcon size={20} className="opacity-70" />
@@ -225,7 +225,7 @@ function PollForm() {
                 <div className="alert alert-warning flex items-start gap-2 rounded-lg bg-warning/80 p-2 text-start text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 shrink-0 stroke-current"
+                    className="size-6 shrink-0 stroke-current"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
@@ -321,7 +321,7 @@ function PollForm() {
           />
           <div
             className={cn(
-              'absolute bottom-0 left-0 right-0 flex w-full gap-1 border-b border-base-content/40 p-1 pointer-events-none'
+              'pointer-events-none absolute bottom-0 left-0 right-0 flex w-full gap-1 border-b border-base-content/40 p-1'
             )}
           >
             <IconButton
@@ -361,7 +361,7 @@ function PollForm() {
               className="relative flex items-center overflow-hidden rounded-lg border border-neutral pr-3 focus-within:border-primary-focus focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
             >
               {useImage && (
-                <div className="flex h-16 w-16 items-center justify-center border-r border-neutral">
+                <div className="flex size-16 items-center justify-center border-r border-neutral">
                   <Controller
                     control={control}
                     name={`choices.${index}.image`}

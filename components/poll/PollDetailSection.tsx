@@ -1,5 +1,6 @@
 import { usePollDetailQuery } from '@/hooks/queries/usePollDetailQuery';
 import { usePollQuery } from '@/hooks/queries/usePollQuery';
+
 import PollDetailChart from '../charts/PollDetailChart';
 
 const PollDetailSection = ({ id }: { id: string }) => {

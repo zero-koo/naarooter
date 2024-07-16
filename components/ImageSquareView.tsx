@@ -1,18 +1,19 @@
-import { cn } from '@/lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
-import Image from 'next/image';
 import { useState } from 'react';
+import Image from 'next/image';
+import { cva, VariantProps } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
 
 const imageSquareViewVariants = cva(
   'relative max-h-[320px] max-w-[320px] shrink-0 overflow-hidden rounded text-sm',
   {
     variants: {
       size: {
-        xs: 'h-24 w-24 rounded-sm text-xs',
-        sm: 'h-32 w-32',
-        md: 'h-48 w-48',
-        lg: 'h-64 w-64',
-        xl: 'h-80 w-80',
+        xs: 'size-24 rounded-sm text-xs',
+        sm: 'size-32',
+        md: 'size-48',
+        lg: 'size-64',
+        xl: 'size-80',
       },
     },
     defaultVariants: {
@@ -69,7 +70,7 @@ export default function ImageSquareView({
           />
         </>
       ) : (
-        <div className="flex-center h-full w-full rounded bg-base-content/10">
+        <div className="flex-center size-full rounded bg-base-content/10">
           No Image
         </div>
       )}

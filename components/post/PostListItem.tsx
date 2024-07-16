@@ -1,8 +1,9 @@
-import { formatTimeAgo } from '@/lib/utils';
+import { ComponentProps } from 'react';
+import Link from 'next/link';
 import { PostType } from '@prisma/client';
 import { MessageCircleIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
-import Link from 'next/link';
-import { ComponentProps } from 'react';
+
+import { formatTimeAgo } from '@/lib/utils';
 
 interface PostListItemProps {
   id: string;

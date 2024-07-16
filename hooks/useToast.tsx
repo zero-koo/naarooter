@@ -40,7 +40,7 @@ export function ToastContainer() {
   return (
     <div
       className={twMerge(
-        'fixed -bottom-10 left-0 right-0 flex justify-center scale-75 transition-all duration-150',
+        'fixed -bottom-10 left-0 right-0 flex scale-75 justify-center transition-all duration-150',
         visible && 'bottom-10 scale-100',
         updated && 'scale-95'
       )}

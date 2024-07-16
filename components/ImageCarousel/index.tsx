@@ -1,6 +1,7 @@
+import React from 'react';
+
 import ImageSquareView from '@/components/ImageSquareView';
 import { ImageUploadable } from '@/components/ImageUploadable';
-import React from 'react';
 
 type ImageCarouselProps = {
   images: Array<{

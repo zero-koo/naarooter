@@ -6,8 +6,9 @@ import { prisma } from '@/server/prisma';
 import { MBTI, Prisma } from '@prisma/client';
 import { z } from 'zod';
 
-import { privateProcedure, router } from '../trpc';
 import { mbtis } from '@/lib/constants';
+
+import { privateProcedure, router } from '../trpc';
 
 const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,

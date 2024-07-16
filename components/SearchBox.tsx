@@ -1,11 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { DeleteIcon, SearchIcon, Undo2Icon, XIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
 import { useOutsideClick } from '@/hooks/useClickOutside';
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
-import { cn } from '@/lib/utils';
-import { DeleteIcon, SearchIcon, Undo2Icon, XIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 type SearchBoxProps = {
   className?: string;
@@ -87,18 +88,18 @@ function SearchBoxInput({
     <form ref={elementRef} className={cn('flex h-8 flex-1', className)}>
       <div
         className={cn(
-          'h-full flex flex-1 pl-4 pr-2 text-sm gap-1.5 items-center'
+          'flex h-full flex-1 items-center gap-1.5 pl-4 pr-2 text-sm'
         )}
       >
         <input
           {...register('value')}
-          className={'h-full w-full'}
+          className={'size-full'}
           placeholder="검색"
           autoComplete={'off'}
         />
         {submittedValue || watch('value') ? (
           <button
-            className="flex-center h-fit w-fit rounded-full bg-neutral-100/20 p-0.5"
+            className="flex-center size-fit rounded-full bg-neutral-100/20 p-0.5"
             type="button"
             onClick={() => {
               setValue('value', '');

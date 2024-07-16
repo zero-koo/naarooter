@@ -1,6 +1,8 @@
 import { createContext, useContext, useMemo } from 'react';
-import { MAX_IMAGE_COUNT_PER_CAROUSEL } from '../constants';
+
 import { uploadImages } from '@/lib/utils';
+
+import { MAX_IMAGE_COUNT_PER_CAROUSEL } from '../constants';
 
 type ImageActionMenuContextType = {
   imageCount: number;

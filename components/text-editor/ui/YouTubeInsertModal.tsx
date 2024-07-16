@@ -1,4 +1,8 @@
-import TextInput from '@/components/TextInput';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { youtubeLinkRegex } from '@/lib/regex';
 import { Button } from '@/components/ui/Button';
 import {
   Dialog,
@@ -7,11 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/Dialog';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import TextInput from '@/components/TextInput';
+
 import YoutubeEmbed from './YoutubeEmbed';
-import { youtubeLinkRegex } from '@/lib/regex';
 
 export default function YouTubeInputDialog({
   initialLink,

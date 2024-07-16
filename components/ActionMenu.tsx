@@ -1,12 +1,14 @@
+import { MoreVerticalIcon } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
-import { IconButton } from './ui/IconButton';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { MoreVerticalIcon } from 'lucide-react';
+import { IconButton } from './ui/IconButton';
 
 type ActionMenuItem = {
   name: string;
@@ -43,9 +45,9 @@ export default function ActionMenu({ items, size = 20 }: ActionMenuProps) {
           <DropdownMenuItem
             key={name}
             className={cn(
-              'flex select-none items-center justify-between gap-3 p-1.5 cursor-pointer',
+              'flex cursor-pointer select-none items-center justify-between gap-3 p-1.5',
               {
-                'pointer-events-none opacity-40 cursor-default': disabled,
+                'pointer-events-none cursor-default opacity-40': disabled,
               }
             )}
             onClick={onClick}

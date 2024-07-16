@@ -1,12 +1,14 @@
 'use client';
 
-import { usePostQuery } from '@/hooks/queries/usePostQuery';
-import PostShowComponent from './PostShow.component';
-import { useUser } from '@/hooks/useUser';
-import { trpc } from '@/client/trpcClient';
 import { useEffect, useState } from 'react';
-import CommentList from '../comment/CommentList';
+import { trpc } from '@/client/trpcClient';
 import { PostContextProvider } from '@/contexts/PostContext';
+
+import { usePostQuery } from '@/hooks/queries/usePostQuery';
+import { useUser } from '@/hooks/useUser';
+
+import CommentList from '../comment/CommentList';
+import PostShowComponent from './PostShow.component';
 
 interface PostShowProps {
   id: string;

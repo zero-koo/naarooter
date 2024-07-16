@@ -1,8 +1,10 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { cn } from '@/lib/utils';
+
 import { NavMenuIcon } from './NavMenuIcon';
 
 export function NavMenu({
@@ -21,7 +23,7 @@ export function NavMenu({
     <Link href={link}>
       <button
         className={cn(
-          'flex items-center rounded-lg h-10 my-0.5 px-2.5 w-full text-left font-normal text-sm hover:bg-primary/20',
+          'my-0.5 flex h-10 w-full items-center rounded-lg px-2.5 text-left text-sm font-normal hover:bg-primary/20',
           {
             'bg-primary/20 font-bold': isActive,
           }

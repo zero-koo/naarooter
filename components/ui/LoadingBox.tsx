@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+
 import Loading from './Loading';
 
 const LoadingBox = ({
@@ -6,7 +7,7 @@ const LoadingBox = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={cn('w-full py-20 flex-center', className)} {...props}>
+    <div className={cn('flex-center w-full py-20', className)} {...props}>
       <Loading />
     </div>
   );

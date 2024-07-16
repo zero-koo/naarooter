@@ -1,10 +1,12 @@
-import { CommentContent, TComment } from '@/types/shared';
-import CommentView from './CommentView';
-import { useReaction } from '@/hooks/useReaction';
 import { useState } from 'react';
 import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
+import { CommentContent, TComment } from '@/types/shared';
+
+import { useReaction } from '@/hooks/useReaction';
 import { useUser } from '@/hooks/useUser';
+
+import CommentView from './CommentView';
 
 type CommentReplyProps = {
   postId: string;

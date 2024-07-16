@@ -1,26 +1,27 @@
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import YouTubePlugin from '../plugins/YouTubePlugin';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import ToolbarPlugin, { ToolbarItem } from '../plugins/ToolbarPlugin';
+import { forwardRef, useCallback, useImperativeHandle } from 'react';
+import { InitialConfigType } from '@lexical/react/LexicalComposer';
+import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+
+import { RootEditorContextProvider } from '../contexts/RootEditorContext';
 import {
   SharedHistoryContext,
   useSharedHistoryContext,
 } from '../contexts/SharedHistoryContext';
-import DragDropPastePlugin from '../plugins/DragDropPastePlugin';
-import ImagesPlugin from '../plugins/ImagesPlugin';
-import { RootEditorContextProvider } from '../contexts/RootEditorContext';
-import { forwardRef, useCallback, useImperativeHandle } from 'react';
 import { useInitializeEditorComposerContext } from '../contexts/useInitializeEditorComposerContext';
 import {
   ImagesNode,
-  SerializedImagesNode,
   imageUploadPromiseCache,
+  SerializedImagesNode,
 } from '../nodes/ImagesNode';
-import { InitialConfigType } from '@lexical/react/LexicalComposer';
 import { YouTubeNode } from '../nodes/YouTubeNode';
-import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import DragDropPastePlugin from '../plugins/DragDropPastePlugin';
+import ImagesPlugin from '../plugins/ImagesPlugin';
+import ToolbarPlugin, { ToolbarItem } from '../plugins/ToolbarPlugin';
+import YouTubePlugin from '../plugins/YouTubePlugin';
 import { getImageNodes } from '../utils';
 
 type TextEditorProps = {
@@ -70,51 +71,47 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
       );
     }, [editor]);
 
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          async getSerializedState() {
-            const serialized = editor._editorState.toJSON();
+    useImperativeHandle(ref, () => {
+      return {
+        async getSerializedState() {
+          const serialized = editor._editorState.toJSON();
 
-            Object.assign(serialized.root, {
-              children: await Promise.all(
-                serialized.root.children.map(async (child) => {
-                  if (child.type !== 'images') return child;
+          Object.assign(serialized.root, {
+            children: await Promise.all(
+              serialized.root.children.map(async (child) => {
+                if (child.type !== 'images') return child;
 
-                  return {
-                    ...child,
-                    images: await Promise.all(
-                      (child as SerializedImagesNode).images.map(
-                        async (image) => ({
-                          blobURL: undefined,
-                          srcURL: await (image.srcURL ??
-                            (image.blobURL
-                              ? imageUploadPromiseCache.get(image.blobURL)
-                              : undefined)),
-                        })
-                      )
-                    ),
-                  };
-                })
-              ),
-            });
+                return {
+                  ...child,
+                  images: await Promise.all(
+                    (child as SerializedImagesNode).images.map(
+                      async (image) => ({
+                        blobURL: undefined,
+                        srcURL: await (image.srcURL ??
+                          (image.blobURL
+                            ? imageUploadPromiseCache.get(image.blobURL)
+                            : undefined)),
+                      })
+                    )
+                  ),
+                };
+              })
+            ),
+          });
 
-            return JSON.stringify(serialized);
-          },
-          async getThumbnailImageURL() {
-            await waitForImagesUpload();
-            const firstImage = getImageNodes(editor._editorState)
-              .at(0)
-              ?.__images.at(0);
+          return JSON.stringify(serialized);
+        },
+        async getThumbnailImageURL() {
+          await waitForImagesUpload();
+          const firstImage = getImageNodes(editor._editorState)
+            .at(0)
+            ?.__images.at(0);
 
-            return firstImage?.srcURL ?? firstImage?.uploadPromise;
-          },
-          waitForImagesUpload,
-        };
-      },
-      [editor, waitForImagesUpload]
-    );
+          return firstImage?.srcURL ?? firstImage?.uploadPromise;
+        },
+        waitForImagesUpload,
+      };
+    }, [editor, waitForImagesUpload]);
 
     return (
       <RootEditorContextProvider onAddImage={onAddImage}>

@@ -1,7 +1,8 @@
-import { cn } from '@/lib/utils';
-import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
+import { CheckCircle2 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+
+import { cn } from '@/lib/utils';
 
 export interface PollChoiceItemComponentProps {
   mainText: string;
@@ -23,9 +24,9 @@ export default function PollChoiceItem({
   return (
     <button
       className={cn(
-        'group flex items-center rounded-lg border border-neutral-content text-start relative overflow-hidden hover:bg-neutral/40 transition-all',
+        'group relative flex items-center overflow-hidden rounded-lg border border-neutral-content text-start transition-all hover:bg-neutral/40',
         {
-          'border-primary outline outline-2 outline-primary outline-offset-1':
+          'border-primary outline outline-2 outline-offset-1 outline-primary':
             isSelected,
           'h-14': imageUrl,
         }
@@ -42,7 +43,7 @@ export default function PollChoiceItem({
             height={60}
             src={imageUrl}
             alt={mainText}
-            className="h-full w-full object-cover"
+            className="size-full object-cover"
           />
         </div>
       ) : null}

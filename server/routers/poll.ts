@@ -7,9 +7,10 @@ import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { privateProcedure, publicProcedure, router } from '../trpc';
-import { PollTable } from '../models/PollTable';
 import { countReactions } from '@/lib/utils';
+
+import { PollTable } from '../models/PollTable';
+import { privateProcedure, publicProcedure, router } from '../trpc';
 
 /**
  * Default selector for Post.

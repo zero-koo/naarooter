@@ -1,8 +1,10 @@
-import { cn } from '@/lib/utils';
-import style from './PollDetailChart.module.css';
-import ChartCellPopover from './ChartCellPopover';
-import { MBTI } from '@/types/shared';
 import { useEffect, useState } from 'react';
+import { MBTI } from '@/types/shared';
+
+import { cn } from '@/lib/utils';
+
+import ChartCellPopover from './ChartCellPopover';
+import style from './PollDetailChart.module.css';
 
 type HorizontalBarChartProps = {
   data: Array<{
@@ -45,7 +47,7 @@ const HorizontalBarChart = ({
       {rows.map(({ count, countRatio, text }, index) => (
         <div
           key={index}
-          className={cn(style.row, 'flex items-center w-full h-full')}
+          className={cn(style.row, 'flex h-full w-full items-center')}
         >
           <ChartCellPopover
             className="h-2/3 rounded bg-primary/70 transition-all"

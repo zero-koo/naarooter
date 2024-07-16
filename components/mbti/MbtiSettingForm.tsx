@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '@/components/Button';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { z } from 'zod';
+
+import { Button } from '@/components/Button';
 
 const mbtiFormSchema = z.object({
   ei: z.enum(['E', 'I']),
@@ -129,8 +130,8 @@ const MBTIToggle = ({
         htmlFor={leftValue}
         className="z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-start gap-2.5 rounded p-1 text-primary-content/95"
       >
-        <div className="justfiy-start flex h-full w-full items-center gap-2.5 rounded-lg bg-white/10 px-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-content/90 text-2xl font-bold text-primary">
+        <div className="justfiy-start flex size-full items-center gap-2.5 rounded-lg bg-white/10 px-2">
+          <div className="flex size-8 items-center justify-center rounded-xl bg-primary-content/90 text-2xl font-bold text-primary">
             {leftValue}
           </div>
           <div className="text-sm font-bold tracking-wide opacity-70">
@@ -150,11 +151,11 @@ const MBTIToggle = ({
         htmlFor={rightValue}
         className="z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-end gap-2.5 rounded p-1 text-primary-content/95"
       >
-        <div className="flex h-full w-full items-center justify-end gap-2.5 rounded-lg bg-white/10 px-2">
+        <div className="flex size-full items-center justify-end gap-2.5 rounded-lg bg-white/10 px-2">
           <div className="text-sm font-bold tracking-wide opacity-70">
             {rightText}
           </div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-content/90 text-2xl font-bold text-primary">
+          <div className="flex size-8 items-center justify-center rounded-xl bg-primary-content/90 text-2xl font-bold text-primary">
             {rightValue}
           </div>
         </div>
@@ -168,7 +169,7 @@ const MBTIToggle = ({
         className="peer/right appearance-none"
       />
       <div className="absolute z-0 h-[52px] w-1/2 translate-x-1/2 p-1 opacity-0 transition-transform peer-checked/left:translate-x-0 peer-checked/right:translate-x-full peer-checked/left:opacity-100 peer-checked/right:opacity-100">
-        <div className="h-full w-full rounded-lg bg-white/100"></div>
+        <div className="size-full rounded-lg bg-white/100"></div>
       </div>
     </div>
   );

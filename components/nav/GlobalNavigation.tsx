@@ -1,6 +1,7 @@
 'use client';
 
 import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
+
 import GlobalNavigationContainer from './GlobalNavigationContainer';
 import { NavMenu } from './NavMenu';
 import NavSubtitle from './NavSubtitle';

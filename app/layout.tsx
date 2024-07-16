@@ -1,15 +1,14 @@
 import './globals.css';
 
 import { Inter } from 'next/font/google';
+import { auth } from '@/auth';
 import { ClientProvider } from '@/client/trpcClient';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SessionProvider } from 'next-auth/react';
 import { twMerge } from 'tailwind-merge';
 
-import { ToastContainer } from '@/hooks/useToast';
-
 import { EdgeStoreProvider } from '@/lib/edgestore';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { auth } from '@/auth';
-import { SessionProvider } from 'next-auth/react';
+import { ToastContainer } from '@/hooks/useToast';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { Black_Han_Sans } from 'next/font/google';
 import Link from 'next/link';
+
+import { cn } from '@/lib/utils';
 
 const blackHanSans = Black_Han_Sans({
   weight: '400',

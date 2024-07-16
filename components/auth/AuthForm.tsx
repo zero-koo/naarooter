@@ -1,12 +1,13 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import OAuthButton from './OAuthButton';
-import { socialLogin } from '@/actions/sign-in';
 import Image from 'next/image';
-import NaverLogoSvg from '@/public/naver-logo.svg';
-import KakaoLogoSvg from '@/public/kakao-square-logo.svg';
+import { useSearchParams } from 'next/navigation';
+import { socialLogin } from '@/actions/sign-in';
 import GoogleLogoSvg from '@/public/google-logo.svg';
+import KakaoLogoSvg from '@/public/kakao-square-logo.svg';
+import NaverLogoSvg from '@/public/naver-logo.svg';
+
+import OAuthButton from './OAuthButton';
 
 type AuthFormParams = {
   title: string;

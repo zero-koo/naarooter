@@ -1,5 +1,6 @@
-import Comment from './Comment';
 import { TComment } from '@/types/shared';
+
+import Comment from './Comment';
 import CommentInput from './CommentInput';
 
 const CommentListView = ({

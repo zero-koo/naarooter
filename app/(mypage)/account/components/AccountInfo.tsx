@@ -1,11 +1,14 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { signOut } from '@/auth';
 import { trpc } from '@/client/trpcClient';
-import TextInput from '@/components/TextInput';
-import MbtiSettingForm, {
-  MbtiFormInput,
-} from '@/components/mbti/MbtiSettingForm';
+import { MBTI } from '@/types/shared';
+import { useForm } from 'react-hook-form';
+
+import { useUserQuery } from '@/hooks/queries/useUserQuery';
+import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/Button';
 import {
   Dialog,
@@ -14,12 +17,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/Dialog';
-import { useUserQuery } from '@/hooks/queries/useUserQuery';
-import { useToast } from '@/hooks/useToast';
-import { MBTI } from '@/types/shared';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import MbtiSettingForm, {
+  MbtiFormInput,
+} from '@/components/mbti/MbtiSettingForm';
+import TextInput from '@/components/TextInput';
 
 function AccountInfo() {
   const { data } = useUserQuery();

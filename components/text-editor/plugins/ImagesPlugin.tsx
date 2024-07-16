@@ -1,18 +1,18 @@
+import { useEffect } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $insertNodeToNearestRoot } from '@lexical/utils';
 import {
   COMMAND_PRIORITY_EDITOR,
   createCommand,
   LexicalCommand,
 } from 'lexical';
-import { useEffect } from 'react';
 
+import { useRootEditorContext } from '../contexts/RootEditorContext';
 import {
   $createImagesNode,
   ImagesNode,
   imageUploadPromiseCache,
 } from '../nodes/ImagesNode';
-import { $insertNodeToNearestRoot } from '@lexical/utils';
-import { useRootEditorContext } from '../contexts/RootEditorContext';
 import { getImageNodes } from '../utils';
 
 export const INSERT_IMAGES_COMMAND: LexicalCommand<File[]> = createCommand(

@@ -1,8 +1,9 @@
-import RootHeader from '@/components/RootHeader';
+import { Suspense } from 'react';
+
+import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeader from '@/components/community/CommunityHeader';
 import PostList from '@/components/post/PostList';
-import LoadingBox from '@/components/ui/LoadingBox';
-import { Suspense } from 'react';
+import RootHeader from '@/components/RootHeader';
 
 const PostListPage = () => {
   return (

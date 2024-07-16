@@ -1,12 +1,13 @@
 'use client';
 
 import { trpc } from '@/client/trpcClient';
-import MBTISettingForm from '@/components/mbti/MbtiSettingForm';
+
 import {
   useMbtiQuery,
   useUpdateMbtiQueryData,
 } from '@/hooks/queries/useMbtiQuery';
 import { useToast } from '@/hooks/useToast';
+import MBTISettingForm from '@/components/mbti/MbtiSettingForm';
 
 const MBTISettingPage = () => {
   const { toast } = useToast();

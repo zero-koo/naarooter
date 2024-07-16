@@ -1,17 +1,19 @@
-import { CommentContent, TComment } from '@/types/shared';
-import CommentView from './CommentView';
 import { useEffect, useState } from 'react';
-import { useReaction } from '@/hooks/useReaction';
 import { trpc } from '@/client/trpcClient';
-import CommentReply from './CommentReply';
+import { usePostContext } from '@/contexts/PostContext';
+import { CommentContent, TComment } from '@/types/shared';
+import { CornerDownRightIcon } from 'lucide-react';
+
 import {
   usePostCommentsQuery,
   useUpdatePostCommentsQuery,
 } from '@/hooks/queries/usePostComentsQuery';
-import { Button } from '../ui/Button';
-import { CornerDownRightIcon } from 'lucide-react';
-import { usePostContext } from '@/contexts/PostContext';
+import { useReaction } from '@/hooks/useReaction';
 import { useUser } from '@/hooks/useUser';
+
+import { Button } from '../ui/Button';
+import CommentReply from './CommentReply';
+import CommentView from './CommentView';
 
 type CommentProps = {
   initialData: TComment;

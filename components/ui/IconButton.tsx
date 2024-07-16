@@ -1,6 +1,7 @@
-import { cn } from '@/lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
 import React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
 
 const iconButtonVariants = cva(
   'not:disabled:hover:text-base-content/80 pointer-events-auto flex items-center justify-center p-0 text-base-content/60',
@@ -17,9 +18,9 @@ const iconButtonVariants = cva(
         ghost: 'not:disabled:hover:bg-base-content/10',
       },
       size: {
-        default: 'h-10 w-10 rounded',
-        xs: 'h-7 w-7 rounded text-xs',
-        sm: 'h-9 w-9 rounded-sm',
+        default: 'size-10 rounded',
+        xs: 'size-7 rounded text-xs',
+        sm: 'size-9 rounded-sm',
         lg: 'h-11 rounded-lg',
       },
       shape: {

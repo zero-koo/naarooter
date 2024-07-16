@@ -7,8 +7,9 @@ import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { privateProcedure, publicProcedure, router } from '../trpc';
 import { countReactions } from '@/lib/utils';
+
+import { privateProcedure, publicProcedure, router } from '../trpc';
 
 const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   id: true,

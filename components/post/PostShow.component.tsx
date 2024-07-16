@@ -1,11 +1,8 @@
-import { formatTimeAgo } from '@/lib/utils';
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { trpc } from '@/client/trpcClient';
 import { MBTI } from '@prisma/client';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
 import {
   MoreVerticalIcon,
   PencilIcon,
@@ -13,6 +10,11 @@ import {
   ThumbsUpIcon,
   Trash2Icon,
 } from 'lucide-react';
+
+import { formatTimeAgo } from '@/lib/utils';
+import { useToast } from '@/hooks/useToast';
+
+import TextViewer from '../text-editor/TextViewer';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,12 +26,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/AlertDialog';
-import Link from 'next/link';
-import { trpc } from '@/client/trpcClient';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/hooks/useToast';
-import React from 'react';
-import TextViewer from '../text-editor/TextViewer';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
 import GrayBox from '../ui/GrayBox';
 
 interface PostShowComponentProps {

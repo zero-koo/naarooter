@@ -5,13 +5,10 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
-    "prettier",
-    "plugin:storybook/recommended"
-  ],
-  "plugins": [
-    "@typescript-eslint",
+    "plugin:storybook/recommended",
     "prettier"
   ],
+  "plugins": ["@typescript-eslint", "prettier"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "parser": "@typescript-eslint/parser",

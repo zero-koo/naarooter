@@ -27,7 +27,10 @@ type PollTableRow = {
 };
 
 export class PollTable {
-  constructor(private rows: PollTableRow[], private choices: string[]) {}
+  constructor(
+    private rows: PollTableRow[],
+    private choices: string[]
+  ) {}
 
   get countByChoiceToMBTI() {
     return d3.rollup(

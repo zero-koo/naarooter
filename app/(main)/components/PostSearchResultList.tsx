@@ -1,6 +1,7 @@
 'use client';
 
 import { trpc } from '@/client/trpcClient';
+
 import PostListItem from '@/components/post/PostListItem';
 
 function PostSearchResultList({ searchKeyword }: { searchKeyword: string }) {

@@ -1,11 +1,12 @@
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { useInitializeEditorComposerContext } from '../contexts/useInitializeEditorComposerContext';
-import { InitialConfigType } from '@lexical/react/LexicalComposer';
-import { YouTubeNode } from '../nodes/YouTubeNode';
-import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
-import { ReadonlyImagesNode } from '../nodes/ReadonlyImagesNode';
 import { useCallback } from 'react';
+import { InitialConfigType } from '@lexical/react/LexicalComposer';
+import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+
+import { useInitializeEditorComposerContext } from '../contexts/useInitializeEditorComposerContext';
+import { ReadonlyImagesNode } from '../nodes/ReadonlyImagesNode';
+import { YouTubeNode } from '../nodes/YouTubeNode';
 
 type TextEditorProps = {
   initialValue: string;

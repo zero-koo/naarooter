@@ -1,5 +1,5 @@
-import { Reaction, UserReaction } from '@/types/shared';
 import { useState } from 'react';
+import { Reaction, UserReaction } from '@/types/shared';
 
 export const useReaction = ({
   initialValue,

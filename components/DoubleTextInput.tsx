@@ -1,7 +1,8 @@
-import clsx from 'clsx';
 import { ForwardedRef, forwardRef } from 'react';
-import style from './DoubleTextInput.module.css';
+import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+import style from './DoubleTextInput.module.css';
 
 type DoubleTextInputProps = {
   main: React.ReactNode;

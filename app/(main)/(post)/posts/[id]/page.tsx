@@ -1,7 +1,8 @@
+import { Suspense } from 'react';
+
 import DefaultItemHeader from '@/components/DefaultItemHeader';
 import PostShow from '@/components/post/PostShow';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
-import { Suspense } from 'react';
 
 const PostPage = ({
   params,

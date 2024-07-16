@@ -1,5 +1,7 @@
-import DefaultListHeader from '@/components/DefaultListHeader';
 import { NextPage } from '@/types/shared';
+
+import DefaultListHeader from '@/components/DefaultListHeader';
+
 import AccountInfo from './components/AccountInfo';
 
 const MyPage: NextPage = () => {

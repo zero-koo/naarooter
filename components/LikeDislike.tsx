@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import { UserReaction } from '@/types/shared';
 import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
 
 const LikeDislike = ({
   like,

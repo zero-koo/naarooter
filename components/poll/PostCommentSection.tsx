@@ -1,8 +1,10 @@
-import { usePostCommentsQuery } from '@/hooks/queries/usePostComentsQuery';
-import PostCommentSectionComponent from './PollCommentSection.component';
-import { useToast } from '@/hooks/useToast';
 import { trpc } from '@/client/trpcClient';
+
+import { usePostCommentsQuery } from '@/hooks/queries/usePostComentsQuery';
+import { useToast } from '@/hooks/useToast';
 import { useUser } from '@/hooks/useUser';
+
+import PostCommentSectionComponent from './PollCommentSection.component';
 
 interface PostCommentSectionProps {
   postId: string;

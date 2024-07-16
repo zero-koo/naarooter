@@ -1,7 +1,9 @@
-import { cn } from '@/lib/utils';
-import style from './PollDetailChart.module.css';
-import ChartCellPopover from './ChartCellPopover';
 import { useEffect, useState } from 'react';
+
+import { cn } from '@/lib/utils';
+
+import ChartCellPopover from './ChartCellPopover';
+import style from './PollDetailChart.module.css';
 
 type HorizontalBarChartProps = {
   data: Array<{

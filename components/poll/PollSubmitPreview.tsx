@@ -1,6 +1,8 @@
-import { randomInteger } from '@/lib/utils';
-import PollSubmitFormComponent from './PollSubmitForm/PollSubmitForm.component';
 import { useRef, useState } from 'react';
+
+import { randomInteger } from '@/lib/utils';
+
+import PollSubmitFormComponent from './PollSubmitForm/PollSubmitForm.component';
 
 interface PollSubmitPreviewProps {
   title: string;

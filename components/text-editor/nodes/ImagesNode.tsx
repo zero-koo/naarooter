@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
@@ -10,11 +11,12 @@ import {
   NodeKey,
   Spread,
 } from 'lexical';
-import { ImagesBlock } from '../ui/ImagesBlock';
+
 import { cn } from '@/lib/utils';
+
 import { ImageActionMenuContextProvider } from '../contexts/ImageActionMenuContext';
 import { useRootEditorContext } from '../contexts/RootEditorContext';
-import { useState } from 'react';
+import { ImagesBlock } from '../ui/ImagesBlock';
 
 export type SerializedImagesNode = Spread<
   {
@@ -81,7 +83,7 @@ export class ImagesNode extends DecoratorBlockNode {
           ({
             blobURL: image.blobURL,
             srcURL: image.srcURL,
-          } as ImageItem)
+          }) as ImageItem
       ),
       caption: this.__caption,
       index: this.__index,

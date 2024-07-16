@@ -1,6 +1,7 @@
-import { cn } from '@/lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
 import React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
 
 const switchVariants = cva(
   'flex gap-0.5 rounded border border-base-content/30 p-0.5',

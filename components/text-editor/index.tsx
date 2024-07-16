@@ -1,24 +1,24 @@
 'use client';
 
 import {
+  InitialConfigType,
+  LexicalComposer,
+} from '@lexical/react/LexicalComposer';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+import {
   $getRoot,
   $parseSerializedNode,
   EditorState,
   SerializedEditorState,
 } from 'lexical';
 
-import {
-  InitialConfigType,
-  LexicalComposer,
-} from '@lexical/react/LexicalComposer';
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { cn } from '@/lib/utils';
 
 import style from './style.module.css';
-import { cn } from '@/lib/utils';
 
 interface TextEditorProps {
   initialContents?: SerializedEditorState;
@@ -62,7 +62,7 @@ export function TextEditor({
       <div
         className={cn(
           style.container,
-          'textarea relative overflow-auto p-0 rounded-none',
+          'textarea relative overflow-auto rounded-none p-0',
           containerClass
         )}
       >

@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+
+import { Button } from '@/components/ui/Button';
 
 import YouTubeInsertModal from './YouTubeInsertModal';
-import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { fn } from '@storybook/test';
 
 const meta = {
   title: 'Editor/YouTubeInsertModal',

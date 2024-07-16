@@ -1,9 +1,10 @@
-import { ElementFormatType, NodeKey } from 'lexical';
-import { ImageItem } from '../nodes/ImagesNode';
 import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
+import { ElementFormatType, NodeKey } from 'lexical';
+
+import { ImageItem } from '../nodes/ImagesNode';
+import { ImageCaption } from './ImageCaption';
 import { ImageCarousel } from './ImageCarousel';
 import ImageSingleView from './ImageSingleView';
-import { ImageCaption } from './ImageCaption';
 
 export function ImagesBlock({
   images,

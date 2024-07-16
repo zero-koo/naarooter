@@ -1,4 +1,5 @@
 import { LoaderCircleIcon } from 'lucide-react';
+
 import { usePromise } from '@/hooks/usePromise';
 
 export const imageUploadPromiseMap = new Map<string, Promise<string>>();

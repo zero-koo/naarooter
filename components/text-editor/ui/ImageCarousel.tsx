@@ -1,7 +1,8 @@
 import ImageSquareView from '@/components/ImageSquareView';
 import { ImageUploadable } from '@/components/ImageUploadable';
-import { ImageIndexLabel } from './ImageIndexLabel';
+
 import ImageActionMenu from './ImageActionMenu';
+import { ImageIndexLabel } from './ImageIndexLabel';
 
 type ImageCarouselProps = {
   images: Array<{

@@ -1,11 +1,3 @@
-import { IconButton } from '@/components/ui/IconButton';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
 import {
   Captions,
   CaptionsOff,
@@ -13,8 +5,18 @@ import {
   MoreVerticalIcon,
   Trash2,
 } from 'lucide-react';
-import { useImageActionMenuContext } from '../contexts/ImageActionMenuContext';
+
+import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { IconButton } from '@/components/ui/IconButton';
+
 import { MAX_IMAGE_COUNT_PER_CAROUSEL } from '../constants';
+import { useImageActionMenuContext } from '../contexts/ImageActionMenuContext';
 
 const ImageActionMenu = ({ subIndex = 0 }: { subIndex?: number }) => {
   const { imageCount, hasCaption, onClickAdd, onClickRemove, onClickCaption } =
@@ -40,9 +42,9 @@ const ImageActionMenu = ({ subIndex = 0 }: { subIndex?: number }) => {
         >
           <DropdownMenuItem
             className={cn(
-              'flex select-none items-center justify-between gap-3 p-1.5 cursor-pointer',
+              'flex cursor-pointer select-none items-center justify-between gap-3 p-1.5',
               {
-                'pointer-events-none opacity-40 cursor-default':
+                'pointer-events-none cursor-default opacity-40':
                   imageCount >= MAX_IMAGE_COUNT_PER_CAROUSEL,
               }
             )}

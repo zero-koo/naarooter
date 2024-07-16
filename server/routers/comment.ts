@@ -1,9 +1,9 @@
+import { createCommentDto, defaultCommentSelector } from '@/dtos/comment.dto';
 import { prisma } from '@/server/prisma';
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { privateProcedure, publicProcedure, router } from '../trpc';
-import { TRPCError } from '@trpc/server';
-import { createCommentDto, defaultCommentSelector } from '@/dtos/comment.dto';
 
 export const commentRouter = router({
   list: publicProcedure

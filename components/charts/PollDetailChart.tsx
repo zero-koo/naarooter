@@ -1,16 +1,18 @@
-import * as d3 from 'd3';
-import style from './PollDetailChart.module.css';
-import { MBTI } from '@/types/shared';
-import { mbtis } from '@/lib/constants';
-import ChartCell, { ChartCellShape } from './ChartCell';
-import { Roboto_Mono } from 'next/font/google';
-import HorizontalBarChart from './HorizontalBarChart';
 import { CSSProperties, useState } from 'react';
-import VerticalBarChart from './VerticalBarChart';
-import { cn } from '@/lib/utils';
-import ChartCellPopover from './ChartCellPopover';
-import Switch from '../ui/Switch';
+import { Roboto_Mono } from 'next/font/google';
+import { MBTI } from '@/types/shared';
+import * as d3 from 'd3';
 import { GridIcon, ShellIcon } from 'lucide-react';
+
+import { mbtis } from '@/lib/constants';
+import { cn } from '@/lib/utils';
+
+import Switch from '../ui/Switch';
+import ChartCell, { ChartCellShape } from './ChartCell';
+import ChartCellPopover from './ChartCellPopover';
+import HorizontalBarChart from './HorizontalBarChart';
+import style from './PollDetailChart.module.css';
+import VerticalBarChart from './VerticalBarChart';
 
 type PollDetailChartProps = {
   choices: Array<{
@@ -165,9 +167,9 @@ function YAxis({
           key={choice.id}
           className={cn(
             style.y,
-            'rounded-e bg-base-content/50 border-4 border-s-0 border-base-200',
+            'rounded-e border-4 border-s-0 border-base-200 bg-base-content/50',
             {
-              'bg-secondary/80 border-2 border-s-0': choice.isSelected,
+              'border-2 border-s-0 bg-secondary/80': choice.isSelected,
             }
           )}
           onClick={() => onSelect(choice.id)}
@@ -192,7 +194,7 @@ function XAxis({
           className={cn(
             style.x,
             roboto.className,
-            '!text-vertical flex-1 text-[10px] flex items-center opacity-70'
+            '!text-vertical flex flex-1 items-center text-[10px] opacity-70'
           )}
         >
           <button

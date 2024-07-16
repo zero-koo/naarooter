@@ -1,8 +1,9 @@
-import RootHeader from '@/components/RootHeader';
+import { Suspense } from 'react';
+
+import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeader from '@/components/community/CommunityHeader';
 import PollList from '@/components/poll/PollList';
-import LoadingBox from '@/components/ui/LoadingBox';
-import { Suspense } from 'react';
+import RootHeader from '@/components/RootHeader';
 
 export default function PollsPage({
   searchParams,

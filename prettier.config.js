@@ -11,8 +11,6 @@ module.exports = {
     '<THIRD_PARTY_MODULES>',
     '',
     '^types$',
-    '^@/types/(.*)$',
-    '^@/config/(.*)$',
     '^@/lib/(.*)$',
     '^@/hooks/(.*)$',
     '^@/components/ui/(.*)$',
@@ -22,5 +20,12 @@ module.exports = {
     '',
     '^[./]',
   ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
+  ],
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
+  importOrderTypeScriptVersion: '5.0.0',
 };

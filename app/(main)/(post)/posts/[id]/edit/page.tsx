@@ -1,6 +1,7 @@
-import { PostEditForm } from '@/components/post/PostEditForm';
-import LoadingBox from '@/components/ui/LoadingBox';
 import { Suspense } from 'react';
+
+import LoadingBox from '@/components/ui/LoadingBox';
+import { PostEditForm } from '@/components/post/PostEditForm';
 
 const PostEditPage = ({ params }: { params: { id: string } }) => {
   return (

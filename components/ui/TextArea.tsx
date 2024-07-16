@@ -9,7 +9,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <textarea
         className={cn(
-          'flex w-full p-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-base-content/50 bg-base-300',
+          'flex w-full bg-base-300 p-2 text-sm placeholder:text-base-content/50 disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
         placeholder={placeholder ?? '입력하세요..'}

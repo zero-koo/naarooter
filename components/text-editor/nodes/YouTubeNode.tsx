@@ -1,3 +1,15 @@
+import { useState } from 'react';
+import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
+import {
+  DecoratorBlockNode,
+  SerializedDecoratorBlockNode,
+} from '@lexical/react/LexicalDecoratorBlockNode';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu';
 import type {
   EditorConfig,
   ElementFormatType,
@@ -6,25 +18,14 @@ import type {
   NodeKey,
   Spread,
 } from 'lexical';
+import { Edit, MoreVerticalIcon, Trash2 } from 'lucide-react';
 
-import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
-import {
-  DecoratorBlockNode,
-  SerializedDecoratorBlockNode,
-} from '@lexical/react/LexicalDecoratorBlockNode';
+import { cn } from '@/lib/utils';
+import { IconButton } from '@/components/ui/IconButton';
+
 import YoutubeEmbed from '../ui/YoutubeEmbed';
 import YouTubeInputDialog from '../ui/YouTubeInsertModal';
-import { Edit, MoreVerticalIcon, Trash2 } from 'lucide-react';
-import { useState } from 'react';
 import { getYoutubeVideoIdFromLink } from '../utils';
-import { IconButton } from '@/components/ui/IconButton';
-import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@radix-ui/react-dropdown-menu';
 
 type YouTubeNodeBlockProps = Readonly<{
   className: Readonly<{
@@ -78,7 +79,7 @@ function YouTubeNodeBlock({
                 >
                   <DropdownMenuItem
                     className={cn(
-                      'flex select-none items-center justify-between gap-3 p-1.5 cursor-pointer'
+                      'flex cursor-pointer select-none items-center justify-between gap-3 p-1.5'
                     )}
                     onClick={() => setOpen(true)}
                   >

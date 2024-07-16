@@ -1,6 +1,7 @@
-import RootHeader from '@/components/RootHeader';
-import styles from '../layout.module.css';
 import GlobalNavigation from '@/components/nav/GlobalNavigation';
+import RootHeader from '@/components/RootHeader';
+
+import styles from '../layout.module.css';
 
 export default function MainLayout({
   children,

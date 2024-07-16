@@ -1,6 +1,6 @@
+import { ForwardedRef, forwardRef } from 'react';
 import { Size, Theme } from '@/types/style';
 import clsx from 'clsx';
-import { ForwardedRef, forwardRef } from 'react';
 
 interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   theme?: Theme;

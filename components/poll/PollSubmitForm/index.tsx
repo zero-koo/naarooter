@@ -1,4 +1,5 @@
 import { trpc } from '@/client/trpcClient';
+import { UserReaction } from '@/types/shared';
 
 import {
   usePollQuery,
@@ -7,7 +8,6 @@ import {
 import { useToast } from '@/hooks/useToast';
 
 import PollSubmitFormComponent from './PollSubmitForm.component';
-import { UserReaction } from '@/types/shared';
 
 type PollSubmitFormProps = {
   id: string;
@@ -63,8 +63,8 @@ function PollSubmitForm({
             pollChoiceId === choice.id
               ? choice.voteCount + 1
               : choice.selected
-              ? choice.voteCount - 1
-              : choice.voteCount,
+                ? choice.voteCount - 1
+                : choice.voteCount,
         })),
       });
     },

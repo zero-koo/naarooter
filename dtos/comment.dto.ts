@@ -1,6 +1,7 @@
-import { countReactions } from '@/lib/utils';
 import { TComment } from '@/types/shared';
 import { Prisma } from '@prisma/client';
+
+import { countReactions } from '@/lib/utils';
 
 export const defaultCommentSelector = Prisma.validator<Prisma.CommentSelect>()({
   id: true,

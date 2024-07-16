@@ -1,7 +1,9 @@
-import { ImageUploadable } from '@/components/ImageUploadable';
-import { ImageIndexLabel } from './ImageIndexLabel';
-import ImageActionMenu from './ImageActionMenu';
 import Image from 'next/image';
+
+import { ImageUploadable } from '@/components/ImageUploadable';
+
+import ImageActionMenu from './ImageActionMenu';
+import { ImageIndexLabel } from './ImageIndexLabel';
 
 export default function ImageSingleView({
   src,

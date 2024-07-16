@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
 import PollChoiceItem from './PollChoiceItem.component';
-import { useState } from 'react';
 
 const meta = {
   title: 'Example/PollChoiceItem',

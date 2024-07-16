@@ -1,6 +1,6 @@
 import React, { ForwardedRef, forwardRef } from 'react';
-import clsx from 'clsx';
 import { Size, Theme } from '@/types/style';
+import clsx from 'clsx';
 
 interface RadioProps extends React.HTMLAttributes<HTMLInputElement> {
   theme?: Theme;

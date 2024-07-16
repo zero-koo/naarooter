@@ -1,4 +1,17 @@
+import { useState } from 'react';
+import { trpc } from '@/client/trpcClient';
+import { UserReaction } from '@/types/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { MBTI } from '@prisma/client';
+import { MoreVerticalIcon, PencilIcon, Trash2Icon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { cn, formatTimeAgo } from '@/lib/utils';
+import { useToast } from '@/hooks/useToast';
+
+import { Button } from '../Button';
+import LikeDislike from '../LikeDislike';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,18 +29,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { MoreVerticalIcon, PencilIcon, Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
-import { MBTI } from '@prisma/client';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import TextArea from '../ui/TextArea';
-import { Button } from '../Button';
-import { trpc } from '@/client/trpcClient';
-import { useToast } from '@/hooks/useToast';
-import LikeDislike from '../LikeDislike';
-import { UserReaction } from '@/types/shared';
 
 interface PostCommentSectionComponentProps {
   comments: Comment[];
@@ -226,7 +228,7 @@ const PostCommentShow = ({
 }) => {
   return (
     <div className="relative flex flex-col gap-1">
-      <div className="flex text-xs opacity-70 ">
+      <div className="flex text-xs opacity-70">
         {isAuthor && <div className="dot-between text-primary">{'글쓴이'}</div>}
         {authorName && <div className="dot-between">{authorName}</div>}
         {authorMbti && <div className="dot-between">{authorMbti}</div>}
@@ -323,7 +325,7 @@ const PostCommentEdit = ({
         {...register('text')}
         rows={Math.min(watch('text').split('\n').length, 4)}
         className={cn(
-          'w-full border-b border-base-content/60 bg-transparent py-1 px-0 focus-visible:border-base-content'
+          'w-full border-b border-base-content/60 bg-transparent px-0 py-1 focus-visible:border-base-content'
         )}
         placeholder="댓글 남기기"
         onFocus={() => setShowButtons(true)}

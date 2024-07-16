@@ -1,11 +1,5 @@
-import { cn, formatTimeAgo } from '@/lib/utils';
+import { useState } from 'react';
 import { CommentContent, TComment } from '@/types/shared';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
 import {
   CornerDownRightIcon,
   MessageCircleIcon,
@@ -13,6 +7,11 @@ import {
   PencilIcon,
   Trash2Icon,
 } from 'lucide-react';
+
+import { cn, formatTimeAgo } from '@/lib/utils';
+
+import { Button } from '../Button';
+import LikeDislikeV1 from '../LikeDislikeV1';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,9 +22,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../ui/AlertDialog';
-import { Button } from '../Button';
-import LikeDislikeV1 from '../LikeDislikeV1';
-import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
 import CommentInput from './CommentInput';
 import CommentTargetUserTag from './CommentTargetUserTag';
 
@@ -144,7 +146,7 @@ const CommentView = ({
           </div>
           <div
             className={cn('whitespace-pre-wrap text-sm', {
-              'opacity-50 italic': isDeleted,
+              'italic opacity-50': isDeleted,
             })}
           >
             {isDeleted ? (

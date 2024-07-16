@@ -1,8 +1,9 @@
+import { useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import TextEditor, { TextEditorHandle } from '.';
-import { useRef } from 'react';
 import { Button } from '@/components/ui/Button';
+
+import TextEditor, { TextEditorHandle } from '.';
 
 const meta = {
   title: 'Editor/TextEditor',

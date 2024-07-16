@@ -1,11 +1,12 @@
 import { MenuIcon } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from './ui/Sheet';
+
 import GlobalNavigation from './nav/GlobalNavigation';
+import { Sheet, SheetContent, SheetTrigger } from './ui/Sheet';
 
 const SideNavToggle = () => {
   return (
     <Sheet>
-      <SheetTrigger className="flex h-8 w-8 items-center justify-center md:hidden">
+      <SheetTrigger className="flex size-8 items-center justify-center md:hidden">
         <MenuIcon />
       </SheetTrigger>
       <SheetContent side={'left'} className="w-[250px]">

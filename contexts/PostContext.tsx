@@ -1,6 +1,7 @@
-import { RouterOutputs } from '@/client/trpcClient';
-import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { createContext, useContext } from 'react';
+import { RouterOutputs } from '@/client/trpcClient';
+
+import { usePostQuery } from '@/hooks/queries/usePostQuery';
 
 const PostContext = createContext<RouterOutputs['post']['byId'] | null>(null);
 

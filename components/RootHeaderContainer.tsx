@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import UserButton from './UserButton';
-import SignIn from './auth/SignIn';
+
 import { useUser } from '@/hooks/useUser';
+
+import SignIn from './auth/SignIn';
 import SideNavToggle from './SideNavToggle';
+import UserButton from './UserButton';
 
 const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
   const { user } = useUser();

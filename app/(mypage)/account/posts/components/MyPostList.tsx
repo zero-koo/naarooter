@@ -1,6 +1,7 @@
 'use client';
 
 import { trpc } from '@/client/trpcClient';
+
 import PostListItem from '@/components/post/PostListItem';
 
 const MyPostList = () => {

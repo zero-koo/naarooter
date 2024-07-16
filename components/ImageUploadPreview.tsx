@@ -1,20 +1,21 @@
-import { cn } from '@/lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
-import { LoaderCircleIcon, X } from 'lucide-react';
-import Image from 'next/image';
 import { useState } from 'react';
+import Image from 'next/image';
+import { cva, VariantProps } from 'class-variance-authority';
+import { LoaderCircleIcon, X } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 
 const imageUploadPreviewVariants = cva(
   'relative shrink-0 overflow-hidden rounded text-sm shadow',
   {
     variants: {
       size: {
-        xs: 'h-24 w-24 rounded-sm text-xs',
-        sm: 'h-32 w-32',
-        md: 'h-48 w-48',
-        lg: 'h-64 w-64',
-        xl: 'h-80 w-80',
-        full: 'h-full w-full',
+        xs: 'size-24 rounded-sm text-xs',
+        sm: 'size-32',
+        md: 'size-48',
+        lg: 'size-64',
+        xl: 'size-80',
+        full: 'size-full',
       },
     },
     defaultVariants: {
@@ -76,14 +77,14 @@ export default function ImageUploadPreview({
                 onRemove?.();
               }}
             >
-              <div className="flex h-4 w-4 items-center justify-center rounded-full bg-neutral shadow transition-all duration-300 hover:scale-110">
+              <div className="flex size-4 items-center justify-center rounded-full bg-neutral shadow transition-all duration-300 hover:scale-110">
                 <X className="text-neutral-content" width={12} height={12} />
               </div>
             </button>
           )}
         </>
       ) : (
-        <div className="flex-center h-full w-full rounded bg-base-content/10">
+        <div className="flex-center size-full rounded bg-base-content/10">
           No Image
         </div>
       )}

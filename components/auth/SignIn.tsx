@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '../ui/Button';
 import { usePathname } from 'next/navigation';
+
+import { Button } from '../ui/Button';
 
 const SignIn = () => {
   const pathname = usePathname();
