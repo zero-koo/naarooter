@@ -30,6 +30,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import React from 'react';
 import TextViewer from '../text-editor/TextViewer';
+import GrayBox from '../ui/GrayBox';
 
 interface PostShowComponentProps {
   groupId: string | null;
@@ -72,7 +73,7 @@ const PostShowComponent = ({
 }: PostShowComponentProps) => {
   return (
     <div className="pb-2">
-      <div className="bg-base-100 px-3 py-2 md:rounded-lg">
+      <GrayBox className="px-3 py-2">
         <div className="flex items-start py-1">
           <div className="text-lg font-semibold">{title}</div>
           {isAuthor && <PostShowUserMenu postId={id} postGroupId={groupId} />}
@@ -91,7 +92,7 @@ const PostShowComponent = ({
             <div>{`조회 ${viewCount.toLocaleString()}`}</div>
           </div>
         </div>
-      </div>
+      </GrayBox>
       <div className="flex min-h-[100px] text-sm">
         <TextViewer initialValue={description} />
       </div>

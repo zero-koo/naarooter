@@ -4,6 +4,7 @@ import {
 } from '@/hooks/queries/usePostComentsQuery';
 import CommentListView from './CommentListView';
 import { trpc } from '@/client/trpcClient';
+import GrayBox from '../ui/GrayBox';
 
 const CommentList = ({ postId }: { postId: string }) => {
   const [postComments, { fetchNextPage, hasNextPage }] = usePostCommentsQuery({
@@ -80,7 +81,7 @@ const CommentList = ({ postId }: { postId: string }) => {
   }
 
   return (
-    <div className="bg-base-100 px-2 py-3 md:rounded-lg md:px-3 md:py-4">
+    <GrayBox className="px-2 py-3 md:px-3 md:py-4">
       <CommentListView
         postId={postId}
         commentsChunks={postComments.pages}
@@ -98,7 +99,7 @@ const CommentList = ({ postId }: { postId: string }) => {
           더보기
         </button>
       )}
-    </div>
+    </GrayBox>
   );
 };
 

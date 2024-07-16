@@ -19,9 +19,9 @@ export default function PollsPage({
       ) : (
         <Suspense fallback={<LoadingBox className="h-full" />}>
           <div className="mt-2 flex-1 overflow-auto">
-            <CommunityHeader title="인기 설문조사" />
+            <CommunityHeader title="인기 설문조사" href="/polls" />
             <PollList />
-            <CommunityHeader title="인기 포스트" />
+            <CommunityHeader title="인기 포스트" href="/posts" />
             <PostList />
           </div>
         </Suspense>

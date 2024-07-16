@@ -5,6 +5,7 @@ import { UserReaction } from '@/types/shared';
 import TextViewer from '@/components/text-editor/TextViewer';
 import ImageCarousel from '@/components/ImageCarousel';
 import CollapsibleContainer from '@/components/CollapsibleContainer';
+import GrayBox from '@/components/ui/GrayBox';
 
 interface PollSubmitFormProps {
   id: string;
@@ -44,10 +45,7 @@ export const PollSubmitFormComponent = ({
   onUpdateReaction,
 }: PollSubmitFormProps) => {
   return (
-    <div
-      className={'bg-base-100 py-3 md:rounded-lg md:px-1 md:py-4'}
-      onClick={onClick}
-    >
+    <GrayBox className={'py-3 md:px-1 md:py-4'} onClick={onClick}>
       <div className={'mb-2 px-3 text-lg font-semibold'}>{title}</div>
       {images.length ? (
         <div className="px-2">
@@ -91,7 +89,7 @@ export const PollSubmitFormComponent = ({
           onUpdate={onUpdateReaction}
         />
       </div>
-    </div>
+    </GrayBox>
   );
 };
 

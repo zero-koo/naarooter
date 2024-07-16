@@ -56,7 +56,7 @@ const PostListItem = ({
     <Link href={getLink({ postType, id, listGroupId })} className="group">
       <div
         className={
-          'flex flex-col gap-1 border-b border-neutral-content/10 bg-base-100 px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'
+          'flex flex-col gap-1 border-b border-neutral-content/10 bg-base-200 px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'
         }
       >
         <div className="flex items-center font-semibold">
