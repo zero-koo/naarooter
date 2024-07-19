@@ -21,7 +21,7 @@ model User {
   sessions      Session[]
 
   mbti   MBTI?
-  status UserStatus @default(DELETED)
+  status UserStatus @default(DEFAULT)
 
   posts            Post[]
   votes            Vote[]
