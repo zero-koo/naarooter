@@ -32,19 +32,19 @@ export default function PollPage({ id }: PollPageProps) {
         }
       />
       {poll ? (
-        <PostContextProvider key={poll.id} postId={poll.postId}>
+        <PostContextProvider key={poll.id} postId={poll.id}>
           <PollSubmitForm
             id={poll.id}
             onUpdateReaction={(reaction) =>
               mutateAsync({
                 type: reaction ?? 'cancel',
-                postId: poll.postId,
+                postId: poll.id,
               })
             }
           />
           <PollDetailSection id={poll.id} />
           <div className="mt-2">
-            <CommentList postId={poll.postId} />
+            <CommentList postId={poll.id} />
           </div>
         </PostContextProvider>
       ) : (

@@ -116,8 +116,8 @@ export const pollRouter = router({
 
       return {
         items: items.map((item) => ({
-          id: item!.id,
-          postId: item.post.id,
+          id: item!.post.id,
+          pollId: item.id,
           authorId: item.post.authorId,
           title: item.post.title,
           description: item.post.description,
@@ -195,8 +195,8 @@ export const pollRouter = router({
 
       return {
         items: items.map((item) => ({
-          id: item!.id,
-          postId: item.post.id,
+          id: item!.post.id,
+          pollId: item.id,
           authorId: item.post.authorId,
           title: item.post.title,
           description: item.post.description,
@@ -228,7 +228,7 @@ export const pollRouter = router({
     .query(async ({ input, ctx }) => {
       const { id } = input;
       const poll = await prisma.poll.findUnique({
-        where: { id },
+        where: { postId: id },
         select: defaultPollSelect(ctx.auth?.user?.id ?? ''),
       });
       if (!poll) {
@@ -238,8 +238,8 @@ export const pollRouter = router({
         });
       }
       return {
-        id: poll.id,
-        postId: poll.post.id,
+        id: poll.post.id,
+        pollId: poll.id,
         authorId: poll.post.authorId,
         title: poll.post.title,
         description: poll.post.description,
@@ -295,8 +295,8 @@ export const pollRouter = router({
         select: defaultPollSelect(ctx.auth?.user?.id ?? undefined),
       });
       return {
-        id: poll.id,
-        postId: poll.post.id,
+        id: poll.post.id,
+        pollId: poll.id,
         title: poll.post.title,
         description: poll.post.description,
         choices: poll.choices,
@@ -311,7 +311,7 @@ export const pollRouter = router({
     .query(async ({ input }) => {
       const poll = await prisma.poll.findUnique({
         where: {
-          id: input.id,
+          postId: input.id,
         },
         select: {
           postId: true,
