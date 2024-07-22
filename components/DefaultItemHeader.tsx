@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 type DefaultItemHeaderProps = {
-  title?: string;
+  title?: ReactNode;
   backLink?: ComponentProps<typeof Link>['href'];
   left?: ReactNode;
   right?: ReactNode;

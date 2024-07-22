@@ -24,6 +24,7 @@ import z from 'zod';
 import { cn, uploadImages } from '@/lib/utils';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useToast } from '@/hooks/useToast';
+import GrayBox from '@/components/ui/GrayBox';
 import { IconButton } from '@/components/ui/IconButton';
 import {
   Sheet,
@@ -36,6 +37,7 @@ import {
 import TextInput from '@/components/ui/TextInput';
 import ActionMenu from '@/components/ActionMenu';
 import { Button } from '@/components/Button';
+import CommunitySelector from '@/components/CommunitySelector';
 import DefaultItemHeader from '@/components/DefaultItemHeader';
 import ImageCarousel from '@/components/ImageCarousel';
 import PollSubmitPreview from '@/components/poll/PollSubmitPreview';
@@ -60,6 +62,7 @@ const pollFormSchema = z
       .string()
       .min(1, { message: '제목을 입력하세요.' })
       .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
+    communityId: z.string(),
     description: z.string().optional(),
     useImage: z.boolean(),
     choices: z.array(
@@ -159,6 +162,7 @@ function PollForm() {
 
     createPoll({
       ...data,
+      communityId: data.communityId ?? undefined,
       description: data.description ?? '',
       images: imageUrls,
       choices: data.choices.map((choice, index) => ({
@@ -251,13 +255,24 @@ function PollForm() {
         autoComplete="off"
       >
         <div className="relative">
-          <TextInput
-            size="lg"
-            placeholder="제목을 입력하세요"
-            error={!!formState.errors.title?.message}
-            maxLength={MAX_POLL_TITLE_LENGTH}
-            {...register('title')}
-          />
+          <GrayBox className="px-4 py-2 md:px-3">
+            <div className="mb-3">
+              <Controller
+                control={control}
+                name={'communityId'}
+                render={({ field: { value, onChange } }) => (
+                  <CommunitySelector value={value} onChange={onChange} />
+                )}
+              ></Controller>
+            </div>
+            <TextInput
+              size="lg"
+              className="p-0"
+              placeholder="제목을 입력하세요"
+              error={!!formState.errors.title?.message}
+              {...register('title')}
+            />
+          </GrayBox>
           {imagesPromise.length ? (
             <div className="px-2">
               <ImageCarousel

@@ -6,7 +6,7 @@ export type GrayBoxProps = React.HTMLAttributes<HTMLDivElement>;
 
 const GrayBox = ({ className, ...props }: GrayBoxProps) => {
   return (
-    <div className={cn('bg-base-200 md:rounded-lg', className)} {...props} />
+    <div className={cn('bg-base-100 md:rounded-lg', className)} {...props} />
   );
 };
 

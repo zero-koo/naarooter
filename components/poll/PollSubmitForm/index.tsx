@@ -91,7 +91,7 @@ function PollSubmitForm({
       onClick={onClick}
       onSelectChoice={(choiceId) =>
         createVote({
-          pollId: id,
+          pollId: data.pollId,
           choiceId,
         })
       }

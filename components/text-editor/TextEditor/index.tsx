@@ -117,17 +117,13 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
       <RootEditorContextProvider onAddImage={onAddImage}>
         <LexicalComposerContext.Provider value={composerContext}>
           <SharedHistoryContext>
-            <div
-              className={
-                'relative -mr-12 flex h-full flex-col overflow-auto pr-12'
-              }
-            >
+            <div className={'relative flex h-full flex-col overflow-auto'}>
               <HistoryPlugin externalHistoryState={historyState} />
               {!disableDragDrop && <DragDropPastePlugin />}
               <RichTextPlugin
                 contentEditable={
                   <div className="-z-1 relative w-full flex-1 overflow-auto text-sm">
-                    <ContentEditable className="min-h-full w-full px-3 pb-14 pt-2 md:h-auto" />
+                    <ContentEditable className="min-h-full w-full px-3 py-2 md:h-auto" />
                   </div>
                 }
                 placeholder={() => (

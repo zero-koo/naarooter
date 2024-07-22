@@ -3,6 +3,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { ImageIcon, ImagesIcon, YoutubeIcon } from 'lucide-react';
 
 import { cn, uploadImages } from '@/lib/utils';
+import GrayBox from '@/components/ui/GrayBox';
 import { IconButton } from '@/components/ui/IconButton';
 
 import YouTubeInputDialog from '../ui/YouTubeInsertModal';
@@ -19,16 +20,11 @@ function ToolbarPlugin({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        'flex w-full gap-1 border-t-4 border-base-content/40 p-1 md:absolute md:right-11 md:top-0 md:w-auto md:translate-x-full md:flex-col md:border-b-4 md:px-0',
-        className
-      )}
-    >
+    <GrayBox className={cn('flex w-full gap-1 p-1 px-3', className)}>
       {(!items || items.includes('Image')) && <ImageInsertButton />}
       {(!items || items.includes('Images')) && <ImagesInsertButton />}
       {(!items || items.includes('Youtube')) && <YouTubeInsertButton />}
-    </div>
+    </GrayBox>
   );
 }
 

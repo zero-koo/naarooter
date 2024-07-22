@@ -264,6 +264,7 @@ export const pollRouter = router({
       z.object({
         id: z.string().uuid().optional(),
         title: z.string().min(1, 'Required').max(32),
+        communityId: z.string().optional(),
         description: z.string(),
         images: z.array(z.string()).optional(),
         choices: z.array(
@@ -282,6 +283,7 @@ export const pollRouter = router({
           post: {
             create: {
               title: input.title,
+              groupId: input.communityId,
               description: input.description,
               images: input.images ?? [],
               type: 'POLL',

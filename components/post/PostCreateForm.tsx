@@ -35,7 +35,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
       onSubmit={(data) => {
         mutate({
           title: data.title,
-          groupId: listGroupId!, // TODO: Remove '!' after implementing group selector
+          groupId: data.communityId!,
           description: data.contents,
         });
       }}

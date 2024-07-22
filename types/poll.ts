@@ -1,5 +1,6 @@
 export type PollInput = {
   title: string;
+  communityId?: string;
   description?: string;
   choices: PollChoiceInput[];
 };

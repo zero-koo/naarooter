@@ -65,7 +65,6 @@ export const postRouter = router({
         // get an extra item to know if there's a next page
         take: input.limit + 1,
         where: {
-          type: 'POST',
           groupId: input.groupId,
           AND: input.search?.split(' ').map((keyword) => ({
             title: {
