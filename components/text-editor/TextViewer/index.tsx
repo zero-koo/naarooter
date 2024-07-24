@@ -44,7 +44,10 @@ const TextViewer = ({ initialValue }: TextEditorProps) => {
           contentEditable={
             <div className="relative flex overflow-auto border-base-content/60 text-sm">
               <div className="-z-1 relative w-full flex-auto overflow-hidden">
-                <div ref={ref} className="w-full overflow-hidden px-3 py-2" />
+                <div
+                  ref={ref}
+                  className="w-full overflow-hidden px-3 py-2 pt-3"
+                />
               </div>
             </div>
           }

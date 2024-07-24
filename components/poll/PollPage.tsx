@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { trpc } from '@/client/trpcClient';
 import { PostContextProvider } from '@/contexts/PostContext';
 import { RotateCcw } from 'lucide-react';
 
@@ -10,16 +9,14 @@ import { usePollQuery } from '@/hooks/queries/usePollQuery';
 import CommentList from '../comment/CommentList';
 import DefaultItemHeader from '../DefaultItemHeader';
 import PollDetailSection from './PollDetailSection';
-import PollSubmitForm from './PollSubmitForm';
+import PollShow from './PollShow';
 
 interface PollPageProps {
   id: string;
 }
 
 export default function PollPage({ id }: PollPageProps) {
-  const { data: poll, refetch } = usePollQuery(id);
-
-  const { mutateAsync } = trpc.post.reaction.useMutation();
+  const [, { refetch }] = usePollQuery(id);
 
   return (
     <div className="h-full">
@@ -31,25 +28,13 @@ export default function PollPage({ id }: PollPageProps) {
           </button>
         }
       />
-      {poll ? (
-        <PostContextProvider key={poll.id} postId={poll.id}>
-          <PollSubmitForm
-            id={poll.id}
-            onUpdateReaction={(reaction) =>
-              mutateAsync({
-                type: reaction ?? 'cancel',
-                postId: poll.id,
-              })
-            }
-          />
-          <PollDetailSection id={poll.id} />
-          <div className="mt-2">
-            <CommentList postId={poll.id} />
-          </div>
-        </PostContextProvider>
-      ) : (
-        <div>loading</div>
-      )}
+      <PostContextProvider postId={id}>
+        <PollShow />
+        <PollDetailSection />
+        <div className="mt-2">
+          <CommentList />
+        </div>
+      </PostContextProvider>
     </div>
   );
 }

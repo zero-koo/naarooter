@@ -30,7 +30,7 @@ const PollSubmitPreview = ({
         choice.image instanceof File
           ? URL.createObjectURL(choice.image)
           : choice.image,
-      selected: selectedIndex.current === index,
+      voted: selectedIndex.current === index,
       voteCount: randomInteger(100, 1),
     }))
   );
@@ -45,18 +45,14 @@ const PollSubmitPreview = ({
         if (choice.id !== id)
           return {
             ...choice,
-            selected: false,
-            voteCount: choice.selected
-              ? choice.voteCount - 1
-              : choice.voteCount,
+            voted: false,
+            voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
           };
 
         return {
           ...choice,
-          selected: !choice.selected,
-          voteCount: choice.selected
-            ? choice.voteCount - 1
-            : choice.voteCount + 1,
+          voted: !choice.voted,
+          voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount + 1,
         };
       })
     );
@@ -69,9 +65,6 @@ const PollSubmitPreview = ({
       images={images}
       description={description}
       choices={choices}
-      like={0}
-      dislike={0}
-      userReaction={null}
       showResult
       totalVoteCount={totalVoteCount}
       onSelectChoice={handleSelectChoice}

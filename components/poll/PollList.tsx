@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { PostContextProvider } from '@/contexts/PostContext';
 import { PlusIcon } from 'lucide-react';
 
 import { usePollListQuery } from '@/hooks/queries/usePollListQuery';
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
 
-import PollSubmitForm from './PollSubmitForm';
+import PollListItem from './PollListItem';
 
 const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
   const { getSearchParams } = useURLSearchParams();
@@ -16,7 +16,6 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
   const [polls] = usePollListQuery({
     search,
   });
-  const router = useRouter();
 
   return (
     <div className="flex flex-1 flex-col gap-2 overflow-auto pb-5">
@@ -24,11 +23,9 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
         <div className="flex-center bg-base-100 py-20 text-sm opacity-80">{`'${search}' 에 대한 검색 결과가 없습니다.`}</div>
       ) : null}
       {polls.items.map((poll) => (
-        <PollSubmitForm
-          key={poll.id}
-          id={poll.id}
-          onClick={() => router.push(`/polls/${poll.id}`)}
-        />
+        <PostContextProvider key={poll.id} postId={poll.id}>
+          <PollListItem />
+        </PostContextProvider>
       ))}
       <Link
         className="fixed bottom-5 right-5 rounded-full bg-primary p-2"

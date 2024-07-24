@@ -1,4 +1,5 @@
 import { trpc } from '@/client/trpcClient';
+import { usePostContext } from '@/contexts/PostContext';
 
 import {
   usePostCommentsQuery,
@@ -8,7 +9,8 @@ import {
 import GrayBox from '../ui/GrayBox';
 import CommentListView from './CommentListView';
 
-const CommentList = ({ postId }: { postId: string }) => {
+const CommentList = () => {
+  const { id: postId } = usePostContext();
   const [postComments, { fetchNextPage, hasNextPage }] = usePostCommentsQuery({
     postId,
   });
@@ -60,7 +62,9 @@ const CommentList = ({ postId }: { postId: string }) => {
     });
   }
 
-  const { updatePostCommentsQuery } = useUpdatePostCommentsQuery({ postId });
+  const { updatePostCommentsQuery } = useUpdatePostCommentsQuery({
+    postId,
+  });
 
   function onIncreaseCommentsCount() {
     if (!postComments) return;

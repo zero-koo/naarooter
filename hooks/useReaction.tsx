@@ -7,7 +7,10 @@ export const useReaction = ({
 }: {
   initialValue?: Reaction;
   onUpdate?: (value: UserReaction) => void;
-} = {}) => {
+} = {}): Reaction & {
+  onClickLike: () => void;
+  onClickDislike: () => void;
+} => {
   const [likeCount, setLikeCount] = useState(initialValue?.likeCount ?? 0);
   const [dislikeCount, setDislikeCount] = useState(
     initialValue?.dislikeCount ?? 0

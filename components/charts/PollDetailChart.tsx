@@ -19,7 +19,7 @@ type PollDetailChartProps = {
     id: string;
     text: string;
   }>;
-  counts: d3.InternMap<string, d3.InternMap<MBTI, number>>;
+  counts?: d3.InternMap<string, d3.InternMap<MBTI, number>>;
   maxCount: number;
 };
 
@@ -39,7 +39,7 @@ const PollDetailChart = ({
     return {
       id: choice.id,
       text: choice.text,
-      count: selectedMbti ? counts.get(choice.id)?.get(selectedMbti!) ?? 0 : 0,
+      count: selectedMbti ? counts?.get(choice.id)?.get(selectedMbti!) ?? 0 : 0,
     };
   });
 
@@ -48,7 +48,7 @@ const PollDetailChart = ({
     return {
       text: mbti,
       count: selectedChoiceId
-        ? counts.get(selectedChoiceId)?.get(mbti) ?? 0
+        ? counts?.get(selectedChoiceId)?.get(mbti) ?? 0
         : 0,
     };
   });
@@ -91,7 +91,7 @@ const PollDetailChart = ({
           {choices.map((choice, index) => (
             <div className={style.bubbleRow} key={index}>
               {mbtis.map((mbti) => {
-                const count = counts.get(choice.id)?.get(mbti) ?? 0;
+                const count = counts?.get(choice.id)?.get(mbti) ?? 0;
                 return (
                   <ChartCellPopover
                     key={mbti}

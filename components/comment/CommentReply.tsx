@@ -3,6 +3,7 @@ import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
 import { CommentContent, TComment } from '@/types/shared';
 
+import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useReaction } from '@/hooks/useReaction';
 import { useUser } from '@/hooks/useUser';
 
@@ -24,7 +25,9 @@ const CommentReply = ({
   onDelete,
 }: CommentReplyProps) => {
   const { user } = useUser();
-  const post = usePostContext();
+
+  const { id } = usePostContext();
+  const [post] = usePostQuery(id);
 
   const [content, setContent] = useState<CommentContent>(reply.content);
   const [updatedAt, setUpdatedAt] = useState<Date>(reply.updatedAt);
@@ -71,7 +74,7 @@ const CommentReply = ({
       content={content}
       updatedAt={updatedAt}
       isAuthor={reply.authorId === user?.id}
-      isPostAuthor={reply.authorId === post.authorId}
+      isPostAuthor={reply.authorId === post.author.id}
       likeCount={likeCount}
       dislikeCount={dislikeCount}
       userReaction={userReaction}

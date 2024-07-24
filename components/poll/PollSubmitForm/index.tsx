@@ -1,30 +1,20 @@
 import { trpc } from '@/client/trpcClient';
-import { UserReaction } from '@/types/shared';
+import { usePostContext } from '@/contexts/PostContext';
 
 import {
   usePollQuery,
   useUpdatePollQueryData,
 } from '@/hooks/queries/usePollQuery';
+import { usePostReaction } from '@/hooks/usePostReaction';
 import { useToast } from '@/hooks/useToast';
+import ReactionButton from '@/components/ReactionButton';
 
 import PollSubmitFormComponent from './PollSubmitForm.component';
 
-type PollSubmitFormProps = {
-  id: string;
-  initialData?: any;
-  showLink?: boolean;
-  onClick?: () => void;
-  onUpdateReaction?: (value: UserReaction) => Promise<void>;
-};
-
-function PollSubmitForm({
-  id,
-  initialData,
-  onClick,
-  onUpdateReaction,
-}: PollSubmitFormProps) {
-  const { data } = usePollQuery(id, initialData);
-  const { title, description, images, choices, voted, postReaction } = data;
+function PollSubmitForm() {
+  const { id } = usePostContext();
+  const [poll] = usePollQuery(id);
+  const { title, description, images, choices, voted } = poll;
   const totalVoteCount = choices.reduce(
     (count, item) => count + item.voteCount,
     0
@@ -39,14 +29,12 @@ function PollSubmitForm({
       // Delete
       if (!voteData) {
         updatePoll({
-          ...data,
+          ...poll,
           voted: false,
           choices: choices.map((choice) => ({
             ...choice,
-            selected: false,
-            voteCount: choice.selected
-              ? choice.voteCount - 1
-              : choice.voteCount,
+            voted: false,
+            voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
           })),
         });
         return;
@@ -54,15 +42,15 @@ function PollSubmitForm({
 
       const { pollChoiceId } = voteData;
       updatePoll({
-        ...data,
+        ...poll,
         voted: true,
         choices: choices.map((choice) => ({
           ...choice,
-          selected: pollChoiceId === choice.id,
+          voted: pollChoiceId === choice.id,
           voteCount:
             pollChoiceId === choice.id
               ? choice.voteCount + 1
-              : choice.selected
+              : choice.voted
                 ? choice.voteCount - 1
                 : choice.voteCount,
         })),
@@ -76,6 +64,8 @@ function PollSubmitForm({
     },
   });
 
+  const postReaction = usePostReaction(id);
+
   return (
     <PollSubmitFormComponent
       id={id}
@@ -84,18 +74,14 @@ function PollSubmitForm({
       images={images}
       choices={choices}
       totalVoteCount={totalVoteCount}
-      like={postReaction.likeCount}
-      dislike={postReaction.dislikeCount}
-      userReaction={postReaction.userReaction}
       showResult={voted}
-      onClick={onClick}
       onSelectChoice={(choiceId) =>
         createVote({
-          pollId: data.pollId,
+          pollId: poll.pollId,
           choiceId,
         })
       }
-      onUpdateReaction={onUpdateReaction}
+      footerRight={<ReactionButton {...postReaction} />}
     />
   );
 }

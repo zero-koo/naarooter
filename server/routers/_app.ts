@@ -5,6 +5,7 @@ import { router } from '../trpc';
 import { commentRouter } from './comment';
 import { pollRouter } from './poll';
 import { postRouter } from './post';
+import { postReactionRouter } from './post-reaction';
 import { userRouter } from './user';
 import { voteRouter } from './vote';
 
@@ -13,6 +14,7 @@ export const appRouter = router({
   post: postRouter,
   poll: pollRouter,
   vote: voteRouter,
+  postReaction: postReactionRouter,
   comment: commentRouter,
 });
 

@@ -3,6 +3,7 @@
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
 import { prisma } from '@/server/prisma';
+import { Post } from '@/types/post';
 import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -166,7 +167,7 @@ export const postRouter = router({
         id: z.string(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input, ctx }): Promise<Post> => {
       const { id } = input;
       const post = await prisma.post.findUnique({
         where: { id },
@@ -185,9 +186,21 @@ export const postRouter = router({
       );
 
       return {
-        ...post,
-        postReaction: countReactions(post.postReaction, ctx.auth?.user?.id),
+        id: post.id,
+        author: {
+          id: post.author.id,
+          name: post.author.name,
+          mbti: post.author.mbti,
+          isMe: post.author.id === ctx.auth?.user?.id,
+        },
+        communityId: post.groupId!, // TODO: Remove type assertion
+        title: post.title,
+        description: post.description,
+        type: post.type,
+        images: [], // TODO: Add images property.
+        reaction: countReactions(post.postReaction, ctx.auth?.user?.id),
         viewCount: updatedViewCount ?? post.viewCount,
+        createdAt: post.createdAt,
       };
     }),
   add: privateProcedure

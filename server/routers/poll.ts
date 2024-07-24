@@ -3,6 +3,7 @@
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
 import { prisma } from '@/server/prisma';
+import { Poll } from '@/types/poll';
 import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -25,15 +26,18 @@ const defaultPollSelect = (userId: string) =>
       select: {
         id: true,
         title: true,
+        groupId: true,
         description: true,
         images: true,
-        authorId: true,
+        author: true,
+        viewCount: true,
         postReaction: {
           select: {
             authorId: true,
             reactionType: true,
           },
         },
+        createdAt: true,
       },
     },
     choices: {
@@ -69,77 +73,91 @@ export const pollRouter = router({
         initialCursor: z.string().nullish(),
       })
     )
-    .query(async ({ input, ctx }) => {
-      /**
-       * For pagination docs you can have a look here
-       * @see https://trpc.io/docs/useInfiniteQuery
-       * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
-       */
+    .query(
+      async ({
+        input,
+        ctx,
+      }): Promise<{
+        items: Poll[];
+        nextCursor: string | undefined;
+      }> => {
+        /**
+         * For pagination docs you can have a look here
+         * @see https://trpc.io/docs/useInfiniteQuery
+         * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
+         */
 
-      const cursor = input.cursor ?? input.initialCursor;
+        const cursor = input.cursor ?? input.initialCursor;
 
-      const items = await prisma.poll.findMany({
-        select: defaultPollSelect(ctx.auth?.user?.id ?? ''),
-        // get an extra item to know if there's a next page
-        take: input.limit + 1,
-        where: {
-          AND: input.search?.split(' ').map((keyword) => ({
-            post: {
-              title: {
-                contains: keyword,
-                mode: 'insensitive',
+        const items = await prisma.poll.findMany({
+          select: defaultPollSelect(ctx.auth?.user?.id ?? ''),
+          // get an extra item to know if there's a next page
+          take: input.limit + 1,
+          where: {
+            AND: input.search?.split(' ').map((keyword) => ({
+              post: {
+                title: {
+                  contains: keyword,
+                  mode: 'insensitive',
+                },
               },
-            },
-          })),
-        },
-        cursor: cursor
-          ? {
-              id: cursor,
-            }
-          : undefined,
-        orderBy: {
-          post: {
-            createdAt: 'desc',
+            })),
           },
-        },
-      });
+          cursor: cursor
+            ? {
+                id: cursor,
+              }
+            : undefined,
+          orderBy: {
+            post: {
+              createdAt: 'desc',
+            },
+          },
+        });
 
-      let nextCursor: string | undefined = undefined;
+        let nextCursor: string | undefined = undefined;
 
-      if (items.length > input.limit) {
-        // Remove the last item and use it as next cursor
+        if (items.length > input.limit) {
+          // Remove the last item and use it as next cursor
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const lastItem = items.pop()!;
-        nextCursor = lastItem.id;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const lastItem = items.pop()!;
+          nextCursor = lastItem.id;
+        }
+
+        return {
+          items: items.map((item) => ({
+            id: item!.post.id,
+            pollId: item.id,
+            author: {
+              ...item.post.author,
+              isMe: item.post.author.id === ctx.auth?.user?.id,
+            },
+            communityId: item.post.groupId!, // TODO: remove type assersion
+            type: 'POLL',
+            title: item.post.title,
+            description: item.post.description,
+            images: item.post.images,
+            choices:
+              item.choices.map((choice) => ({
+                id: choice.id,
+                main: choice.main,
+                imageUrl: choice.imageUrl,
+                index: choice.index,
+                voteCount: choice._count.votes,
+                voted: item.votes[0]?.pollChoiceId === choice.id,
+              })) ?? [],
+            voted: item.votes.length > 0,
+            reaction: countReactions(
+              item.post.postReaction,
+              ctx.auth?.user?.id
+            ),
+            createdAt: item.post.createdAt,
+          })),
+          nextCursor,
+        };
       }
-
-      return {
-        items: items.map((item) => ({
-          id: item!.post.id,
-          pollId: item.id,
-          authorId: item.post.authorId,
-          title: item.post.title,
-          description: item.post.description,
-          images: item.post.images,
-          choices:
-            item.choices.map((choice) => ({
-              id: choice.id,
-              main: choice.main,
-              imageUrl: choice.imageUrl,
-              index: choice.index,
-              voteCount: choice._count.votes,
-              selected: item.votes[0]?.pollChoiceId === choice.id,
-            })) ?? [],
-          voted: item.votes.length > 0,
-          postReaction: countReactions(
-            item.post.postReaction,
-            ctx.auth?.user?.id
-          ),
-        })),
-        nextCursor,
-      };
-    }),
+    ),
   myList: privateProcedure
     .input(
       z.object({
@@ -149,83 +167,95 @@ export const pollRouter = router({
         initialCursor: z.string().nullish(),
       })
     )
-    .query(async ({ input, ctx }) => {
-      const cursor = input.cursor ?? input.initialCursor;
+    .query(
+      async ({
+        input,
+        ctx,
+      }): Promise<{ items: Poll[]; nextCursor: string | undefined }> => {
+        const cursor = input.cursor ?? input.initialCursor;
 
-      const items = await prisma.poll.findMany({
-        select: defaultPollSelect(ctx.auth?.user?.id),
-        // get an extra item to know if there's a next page
-        take: input.limit + 1,
-        where: {
-          votes: {
-            some: {
-              authorId: ctx.auth?.user?.id,
-            },
-          },
-          AND: input.search?.split(' ').map((keyword) => ({
-            post: {
-              title: {
-                contains: keyword,
-                mode: 'insensitive',
+        const items = await prisma.poll.findMany({
+          select: defaultPollSelect(ctx.auth?.user?.id),
+          // get an extra item to know if there's a next page
+          take: input.limit + 1,
+          where: {
+            votes: {
+              some: {
+                authorId: ctx.auth?.user?.id,
               },
             },
-          })),
-        },
-        cursor: cursor
-          ? {
-              id: cursor,
-            }
-          : undefined,
-        orderBy: {
-          post: {
-            createdAt: 'desc',
+            AND: input.search?.split(' ').map((keyword) => ({
+              post: {
+                title: {
+                  contains: keyword,
+                  mode: 'insensitive',
+                },
+              },
+            })),
           },
-        },
-      });
+          cursor: cursor
+            ? {
+                id: cursor,
+              }
+            : undefined,
+          orderBy: {
+            post: {
+              createdAt: 'desc',
+            },
+          },
+        });
 
-      let nextCursor: string | undefined = undefined;
+        let nextCursor: string | undefined = undefined;
 
-      if (items.length > input.limit) {
-        // Remove the last item and use it as next cursor
+        if (items.length > input.limit) {
+          // Remove the last item and use it as next cursor
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const lastItem = items.pop()!;
-        nextCursor = lastItem.id;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const lastItem = items.pop()!;
+          nextCursor = lastItem.id;
+        }
+
+        return {
+          items: items.map((item) => ({
+            id: item!.post.id,
+            pollId: item.id,
+            communityId: item.post.groupId!, // TODO: Remove type assertion,
+            type: 'POLL',
+            author: {
+              ...item.post.author,
+              isMe: item.post.author.id === ctx.auth?.user?.id,
+            },
+            title: item.post.title,
+            description: item.post.description,
+            images: item.post.images,
+            choices:
+              item.choices.map((choice) => ({
+                id: choice.id,
+                main: choice.main,
+                imageUrl: choice.imageUrl,
+                index: choice.index,
+                voteCount: choice._count.votes,
+                voted: item.votes[0]?.pollChoiceId === choice.id,
+              })) ?? [],
+            voted: item.votes.length > 0,
+            reaction: countReactions(
+              item.post.postReaction,
+              ctx.auth?.user?.id
+            ),
+            viewCount: item.post.viewCount,
+            createdAt: item.post.createdAt,
+          })),
+          nextCursor,
+        };
       }
-
-      return {
-        items: items.map((item) => ({
-          id: item!.post.id,
-          pollId: item.id,
-          authorId: item.post.authorId,
-          title: item.post.title,
-          description: item.post.description,
-          images: item.post.images,
-          choices:
-            item.choices.map((choice) => ({
-              id: choice.id,
-              main: choice.main,
-              imageUrl: choice.imageUrl,
-              index: choice.index,
-              voteCount: choice._count.votes,
-              selected: item.votes[0]?.pollChoiceId === choice.id,
-            })) ?? [],
-          voted: item.votes.length > 0,
-          postReaction: countReactions(
-            item.post.postReaction,
-            ctx.auth?.user?.id
-          ),
-        })),
-        nextCursor,
-      };
-    }),
+    ),
   byId: publicProcedure
     .input(
       z.object({
         id: z.string(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input, ctx }): Promise<Poll> => {
       const { id } = input;
       const poll = await prisma.poll.findUnique({
         where: { postId: id },
@@ -240,7 +270,12 @@ export const pollRouter = router({
       return {
         id: poll.post.id,
         pollId: poll.id,
-        authorId: poll.post.authorId,
+        type: 'POLL',
+        communityId: poll.post.groupId!, // TODO: Remove type assertion
+        author: {
+          ...poll.post.author,
+          isMe: poll.post.author.id === ctx.auth?.user?.id,
+        },
         title: poll.post.title,
         description: poll.post.description,
         images: poll.post.images,
@@ -250,13 +285,12 @@ export const pollRouter = router({
           imageUrl: choice.imageUrl,
           index: choice.index,
           voteCount: choice._count.votes,
-          selected: poll.votes[0]?.pollChoiceId === choice.id,
+          voted: poll.votes[0]?.pollChoiceId === choice.id,
         })),
         voted: poll.votes.length > 0,
-        postReaction: countReactions(
-          poll.post.postReaction,
-          ctx.auth?.user?.id
-        ),
+        reaction: countReactions(poll.post.postReaction, ctx.auth?.user?.id),
+        viewCount: poll.post.viewCount,
+        createdAt: poll.post.createdAt,
       };
     }),
   add: privateProcedure

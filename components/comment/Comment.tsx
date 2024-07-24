@@ -8,6 +8,7 @@ import {
   usePostCommentsQuery,
   useUpdatePostCommentsQuery,
 } from '@/hooks/queries/usePostComentsQuery';
+import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useReaction } from '@/hooks/useReaction';
 import { useUser } from '@/hooks/useUser';
 
@@ -31,7 +32,8 @@ const Comment = ({
   onDelete,
   ...restProps
 }: CommentProps) => {
-  const post = usePostContext();
+  const { id } = usePostContext();
+  const [post] = usePostQuery(id);
   const { user } = useUser();
 
   const [comment, setComment] = useState<TComment>(initialData);
@@ -155,7 +157,7 @@ const Comment = ({
         {...restProps}
         {...comment}
         isAuthor={comment.authorId === user?.id}
-        isPostAuthor={comment.authorId === post.authorId}
+        isPostAuthor={comment.authorId === post.author.id}
         likeCount={likeCount}
         dislikeCount={dislikeCount}
         userReaction={userReaction}

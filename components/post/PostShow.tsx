@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { trpc } from '@/client/trpcClient';
 import { PostContextProvider } from '@/contexts/PostContext';
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
+import { usePostReaction } from '@/hooks/usePostReaction';
 import { useUser } from '@/hooks/useUser';
 
 import CommentList from '../comment/CommentList';
+import ReactionButton from '../ReactionButton';
 import PostShowComponent from './PostShow.component';
 
 interface PostShowProps {
@@ -18,87 +18,26 @@ const PostShow = ({ id }: PostShowProps) => {
   const [post] = usePostQuery(id);
   const { user } = useUser();
 
-  const [like, setLike] = useState<{
-    count: number;
-    selected: boolean;
-  }>({
-    count: 0,
-    selected: false,
-  });
-
-  const [dislike, setDislike] = useState<{
-    count: number;
-    selected: boolean;
-  }>({
-    count: 0,
-    selected: false,
-  });
-
-  useEffect(() => {
-    if (!post) return;
-    setLike({
-      count: post.postReaction.likeCount,
-      selected: post.postReaction.userReaction === 'like',
-    });
-    setDislike({
-      count: post.postReaction.dislikeCount,
-      selected: post.postReaction.userReaction === 'dislike',
-    });
-  }, [post]);
-
-  const { mutate } = trpc.post.reaction.useMutation();
+  const postReaction = usePostReaction(id);
 
   return (
-    <PostContextProvider postId={id}>
+    <PostContextProvider postId={post.id}>
       <PostShowComponent
-        groupId={post.groupId}
+        groupId={post.communityId}
         id={id}
         title={post.title}
-        description={post.description as string}
+        description={post.description as string} // TODO: Remove assertion
         author={post.author}
-        isAuthor={post.authorId === user?.id}
+        isAuthor={post.author.id === user?.id}
         createdAt={post.createdAt}
-        viewCount={post.viewCount}
-        like={like}
-        dislike={dislike}
-        onClickLike={({ isCancel }) => {
-          mutate({
-            postId: id,
-            type: isCancel ? 'cancel' : 'like',
-          });
-          setLike((like) => ({
-            count: isCancel ? like.count - 1 : like.count + 1,
-            selected: !isCancel,
-          }));
-          setDislike((dislike) =>
-            dislike.selected
-              ? {
-                  count: dislike.count - 1,
-                  selected: false,
-                }
-              : { ...dislike }
-          );
-        }}
-        onClickDislike={({ isCancel }) => {
-          mutate({
-            postId: id,
-            type: isCancel ? 'cancel' : 'dislike',
-          });
-          setDislike((dislike) => ({
-            count: isCancel ? dislike.count - 1 : dislike.count + 1,
-            selected: !isCancel,
-          }));
-          setLike((like) =>
-            like.selected
-              ? {
-                  count: like.count - 1,
-                  selected: false,
-                }
-              : { ...like }
-          );
-        }}
+        viewCount={post.viewCount ?? 0}
+        footer={
+          <div className="flex px-3 py-1">
+            <ReactionButton {...postReaction} />
+          </div>
+        }
       />
-      <CommentList postId={id} />
+      <CommentList />
     </PostContextProvider>
   );
 };

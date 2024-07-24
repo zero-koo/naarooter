@@ -76,7 +76,7 @@ const PostListItem = ({
             <div className={'mx-0.5'}>·</div>
             <div>{`조회 ${viewCount.toLocaleString()}`}</div>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <div className="flex items-center gap-1">
               {likeCount >= 0 ? (
                 <ThumbsUpIcon size={12} />
