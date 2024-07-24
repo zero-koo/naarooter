@@ -45,7 +45,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
       backLink={`/posts/${id}`}
       initialValues={{
         title: post.title,
-        communityId: post.groupId ?? undefined,
+        communityId: post.communityId ?? undefined,
         contents: post.description,
       }}
       communityUpdateDisabled

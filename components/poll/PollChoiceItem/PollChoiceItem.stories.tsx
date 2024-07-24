@@ -5,7 +5,7 @@ import { fn } from '@storybook/test';
 import PollChoiceItem from './PollChoiceItem.component';
 
 const meta = {
-  title: 'Example/PollChoiceItem',
+  title: 'Poll/PollChoiceItem',
   component: PollChoiceItem,
   parameters: {
     layout: 'centered',
