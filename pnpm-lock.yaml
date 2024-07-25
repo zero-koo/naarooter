@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@auth/prisma-adapter':
     specifier: ^2.4.1
-    version: 2.4.1(@prisma/client@5.16.0)
+    version: 2.4.1(@prisma/client@5.3.1)
   '@edgestore/react':
     specifier: ^0.1.4
     version: 0.1.4(@edgestore/server@0.1.4)(next@14.2.4)(react-dom@18.2.0)(react@18.2.0)(zod@3.21.4)
@@ -27,8 +27,8 @@ dependencies:
     specifier: ^0.14.5
     version: 0.14.5
   '@prisma/client':
-    specifier: 5.16.0
-    version: 5.16.0(prisma@5.16.0)
+    specifier: 5.3.1
+    version: 5.3.1(prisma@5.16.0)
   '@radix-ui/react-alert-dialog':
     specifier: ^1.0.5
     version: 1.0.5(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
@@ -292,13 +292,13 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/prisma-adapter@2.4.1(@prisma/client@5.16.0):
+  /@auth/prisma-adapter@2.4.1(@prisma/client@5.3.1):
     resolution: {integrity: sha512-VF5IOTHEWHX6WHUxIbsbc12m34cp5T82fzJfi7DmzwBZb89UsoROejV8l0B1dCTZ+pDIS0d4zN9dSa2gIKywNQ==}
     peerDependencies:
       '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5'
     dependencies:
       '@auth/core': 0.34.1
-      '@prisma/client': 5.16.0(prisma@5.16.0)
+      '@prisma/client': 5.3.1(prisma@5.16.0)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
       - '@simplewebauthn/server'
@@ -3334,8 +3334,8 @@ packages:
       webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
-  /@prisma/client@5.16.0(prisma@5.16.0):
-    resolution: {integrity: sha512-8NOQSzgrSgpU2YcNm4MsPR4/vNvZdUBPuyX89PwWlClSKZeDjPSZ8+eds/ffu1Ttrjnm8V8D0hjgqpyc6wyqDg==}
+  /@prisma/client@5.3.1(prisma@5.16.0):
+    resolution: {integrity: sha512-ArOKjHwdFZIe1cGU56oIfy7wRuTn0FfZjGuU/AjgEBOQh+4rDkB6nF+AGHP8KaVpkBIiHGPQh3IpwQ3xDMdO0Q==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -3344,6 +3344,7 @@ packages:
       prisma:
         optional: true
     dependencies:
+      '@prisma/engines-version': 5.3.1-2.61e140623197a131c2a6189271ffee05a7aa9a59
       prisma: 5.16.0
     dev: false
 
@@ -3352,6 +3353,10 @@ packages:
 
   /@prisma/engines-version@5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303:
     resolution: {integrity: sha512-HkT2WbfmFZ9WUPyuJHhkiADxazHg8Y4gByrTSVeb3OikP6tjQ7txtSUGu9OBOBH0C13dPKN2qqH12xKtHu/Hiw==}
+
+  /@prisma/engines-version@5.3.1-2.61e140623197a131c2a6189271ffee05a7aa9a59:
+    resolution: {integrity: sha512-y5qbUi3ql2Xg7XraqcXEdMHh0MocBfnBzDn5GbV1xk23S3Mq8MGs+VjacTNiBh3dtEdUERCrUUG7Z3QaJ+h79w==}
+    dev: false
 
   /@prisma/engines@5.16.0:
     resolution: {integrity: sha512-OGvi/GvLX3XwTWQ+k/57kLyHGidQ8rC8zB+Zq9nEE7gegjazyzgLYN9qzfdcCfyI8ilc6IMxOyX4sspwkv98hg==}
