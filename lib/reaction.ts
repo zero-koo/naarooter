@@ -6,44 +6,44 @@ export const updateReaction = (
 ): Reaction => {
   switch (newReaction) {
     case 'like': {
-      if (prevState.userReaction === 'like') {
+      if (prevState.selectedReaction === 'like') {
         return {
           ...prevState,
-          userReaction: null,
+          selectedReaction: null,
           likeCount: prevState.likeCount - 1,
         };
       }
-      if (prevState.userReaction === 'dislike') {
+      if (prevState.selectedReaction === 'dislike') {
         return {
-          userReaction: 'like',
+          selectedReaction: 'like',
           likeCount: prevState.likeCount + 1,
           dislikeCount: prevState.dislikeCount - 1,
         };
       }
       return {
         ...prevState,
-        userReaction: 'like',
+        selectedReaction: 'like',
         likeCount: prevState.likeCount + 1,
       };
     }
     case 'dislike': {
-      if (prevState.userReaction === 'like') {
+      if (prevState.selectedReaction === 'like') {
         return {
-          userReaction: 'dislike',
+          selectedReaction: 'dislike',
           likeCount: prevState.likeCount - 1,
           dislikeCount: prevState.dislikeCount + 1,
         };
       }
-      if (prevState.userReaction === 'dislike') {
+      if (prevState.selectedReaction === 'dislike') {
         return {
           ...prevState,
-          userReaction: null,
+          selectedReaction: null,
           dislikeCount: prevState.dislikeCount - 1,
         };
       }
       return {
         ...prevState,
-        userReaction: 'dislike',
+        selectedReaction: 'dislike',
         dislikeCount: prevState.likeCount + 1,
       };
     }

@@ -94,7 +94,7 @@ export function countReactions(
   reactions: Array<{ authorId: string; reactionType: 'like' | 'dislike' }>,
   userId: string | null | undefined
 ): {
-  userReaction: 'like' | 'dislike' | null | undefined;
+  selectedReaction: 'like' | 'dislike' | null | undefined;
   likeCount: number;
   dislikeCount: number;
 } {
@@ -102,7 +102,8 @@ export function countReactions(
     (accum, { authorId, reactionType }) => {
       return {
         ...accum,
-        userReaction: authorId === userId ? reactionType : accum.userReaction,
+        selectedReaction:
+          authorId === userId ? reactionType : accum.selectedReaction,
         likeCount:
           reactionType === 'like' ? accum.likeCount + 1 : accum.likeCount,
         dislikeCount:
@@ -112,7 +113,7 @@ export function countReactions(
       };
     },
     {
-      userReaction: null as 'like' | 'dislike' | null,
+      selectedReaction: null as 'like' | 'dislike' | null,
       likeCount: 0,
       dislikeCount: 0,
     }

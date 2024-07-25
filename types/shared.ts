@@ -28,7 +28,7 @@ export type TComment = {
   commentsCount: number;
   likeCount: number;
   dislikeCount: number;
-  userReaction: UserReaction | undefined;
+  selectedReaction: UserReaction | undefined;
   status: COMMENT_STATUS;
   targetUserId?: string;
   targetUserName?: string | null;
@@ -45,5 +45,5 @@ export type UserReaction = 'like' | 'dislike' | null | undefined;
 export type Reaction = {
   likeCount: number;
   dislikeCount: number;
-  userReaction: UserReaction;
+  selectedReaction: UserReaction;
 };

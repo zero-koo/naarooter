@@ -50,7 +50,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           updatedAt: comment.updatedAt,
           like: comment.likeCount,
           dislike: comment.dislikeCount,
-          reaction: comment.userReaction,
+          reaction: comment.selectedReaction,
         }))}
       totalCount={postComments.pages[0].totalCount}
       userId={user?.id}

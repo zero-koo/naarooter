@@ -15,8 +15,8 @@ export const useReaction = ({
   const [dislikeCount, setDislikeCount] = useState(
     initialValue?.dislikeCount ?? 0
   );
-  const [userReaction, setUserReaction] = useState<UserReaction>(
-    initialValue?.userReaction ?? null
+  const [selectedReaction, setUserReaction] = useState<UserReaction>(
+    initialValue?.selectedReaction ?? null
   );
 
   const onClickLike = () => {
@@ -24,12 +24,12 @@ export const useReaction = ({
 
     onUpdate('like');
 
-    if (userReaction === 'like') {
+    if (selectedReaction === 'like') {
       setLikeCount((count) => count - 1);
       setUserReaction(null);
       return;
     }
-    if (userReaction === 'dislike') {
+    if (selectedReaction === 'dislike') {
       setDislikeCount((count) => count - 1);
     }
     setLikeCount((count) => count + 1);
@@ -41,12 +41,12 @@ export const useReaction = ({
 
     onUpdate('dislike');
 
-    if (userReaction === 'dislike') {
+    if (selectedReaction === 'dislike') {
       setDislikeCount((count) => count - 1);
       setUserReaction(null);
       return;
     }
-    if (userReaction === 'like') {
+    if (selectedReaction === 'like') {
       setLikeCount((count) => count - 1);
     }
     setDislikeCount((count) => count + 1);
@@ -56,7 +56,7 @@ export const useReaction = ({
   return {
     likeCount,
     dislikeCount,
-    userReaction,
+    selectedReaction,
     onClickLike,
     onClickDislike,
   };

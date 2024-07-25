@@ -18,7 +18,7 @@ export const usePostReaction = (postId: string) => {
     });
     mutatePostReaction({
       postId,
-      type: updatedReaction.userReaction ?? 'cancel',
+      type: updatedReaction.selectedReaction ?? 'cancel',
     });
   }
 
@@ -30,13 +30,13 @@ export const usePostReaction = (postId: string) => {
     });
     mutatePostReaction({
       postId,
-      type: updatedReaction.userReaction ?? 'cancel',
+      type: updatedReaction.selectedReaction ?? 'cancel',
     });
   }
 
+
   return {
     ...post.reaction,
-    selectedReaction: post.reaction.userReaction,
     onClickLike,
     onClickDislike,
   };

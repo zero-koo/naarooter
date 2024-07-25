@@ -140,16 +140,21 @@ const Comment = ({
   }
 
   const { mutateAsync: reactComment } = trpc.comment.reaction.useMutation();
-  const { likeCount, dislikeCount, userReaction, onClickLike, onClickDislike } =
-    useReaction({
-      initialValue: comment,
-      onUpdate(value) {
-        reactComment({
-          commentId: comment.id,
-          type: value ?? 'cancel',
-        });
-      },
-    });
+  const {
+    likeCount,
+    dislikeCount,
+    selectedReaction,
+    onClickLike,
+    onClickDislike,
+  } = useReaction({
+    initialValue: comment,
+    onUpdate(value) {
+      reactComment({
+        commentId: comment.id,
+        type: value ?? 'cancel',
+      });
+    },
+  });
 
   return (
     <div>
@@ -160,7 +165,7 @@ const Comment = ({
         isPostAuthor={comment.authorId === post.author.id}
         likeCount={likeCount}
         dislikeCount={dislikeCount}
-        userReaction={userReaction}
+        selectedReaction={selectedReaction}
         commentsCount={commentsCount}
         onAddReply={handleAddComment}
         onUpdate={handleUpdateComment}

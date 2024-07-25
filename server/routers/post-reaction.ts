@@ -24,7 +24,7 @@ export const postReactionRouter = router({
       })
     )
     .query(async ({ input, ctx }): Promise<Reaction> => {
-      const [likeCount, dislikeCount, userReaction] = await Promise.all([
+      const [likeCount, dislikeCount, selectedReaction] = await Promise.all([
         prisma.postReaction.count({
           where: {
             postId: input.postId,
@@ -55,7 +55,7 @@ export const postReactionRouter = router({
       return {
         likeCount,
         dislikeCount,
-        userReaction: userReaction?.reactionType,
+        selectedReaction: selectedReaction?.reactionType,
       };
     }),
   update: privateProcedure

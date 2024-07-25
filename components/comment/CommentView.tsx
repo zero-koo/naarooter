@@ -53,7 +53,7 @@ const CommentView = ({
   updatedAt,
   likeCount,
   dislikeCount,
-  userReaction,
+  selectedReaction,
   commentsCount,
   status,
   targetUserName,
@@ -167,7 +167,7 @@ const CommentView = ({
             <LikeDislikeV1
               likeCount={likeCount}
               dislikeCount={dislikeCount}
-              userSelect={userReaction}
+              userSelect={selectedReaction}
               onClickLike={onClickLike}
               onClickDislike={onClickDislike}
             />
