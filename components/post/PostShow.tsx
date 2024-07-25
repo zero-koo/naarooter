@@ -33,7 +33,7 @@ const PostShow = ({ id }: PostShowProps) => {
         viewCount={post.viewCount ?? 0}
         footer={
           <div className="flex px-3 py-1">
-            <ReactionButton {...postReaction} />
+            <ReactionButton {...postReaction} className="ml-auto" />
           </div>
         }
       />
