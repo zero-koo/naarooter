@@ -152,7 +152,13 @@ function MBTIRow(props: { mbti: MBTI | null }) {
     <>
       <Row
         title={'MBTI'}
-        content={mbti}
+        content={
+          mbti ? (
+            mbti
+          ) : (
+            <div className="text-base-content/50">설정되지 않음</div>
+          )
+        }
         onClickEdit={() => setIsModalOpen(true)}
       />
       {isModalOpen && (

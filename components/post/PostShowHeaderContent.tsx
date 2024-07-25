@@ -18,9 +18,13 @@ const PostShowHeaderContent = (props: React.HTMLAttributes<HTMLDivElement>) => {
       <div className="flex items-center justify-between text-xs opacity-70">
         {author && (
           <div className="flex py-1">
-            <div>{author.mbti ?? 'UNKNOWN'}</div>
-            <div className={'mx-0.5'}>·</div>
             <div>{author.name ?? '익명'}</div>
+            {author.mbti && (
+              <>
+                <div className={'mx-0.5'}>·</div>
+                <div>{author.mbti}</div>
+              </>
+            )}
           </div>
         )}
         <div className="ml-auto flex">
