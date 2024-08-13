@@ -4,7 +4,6 @@ import { PostContextProvider } from '@/contexts/PostContext';
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { usePostReaction } from '@/hooks/usePostReaction';
-import { useUser } from '@/hooks/useUser';
 
 import CommentList from '../comment/CommentList';
 import ReactionButton from '../ReactionButton';
@@ -16,8 +15,6 @@ interface PostShowProps {
 
 const PostShow = ({ id }: PostShowProps) => {
   const [post] = usePostQuery(id);
-  const { user } = useUser();
-
   const postReaction = usePostReaction(id);
 
   return (
@@ -28,7 +25,7 @@ const PostShow = ({ id }: PostShowProps) => {
         title={post.title}
         description={post.description as string} // TODO: Remove assertion
         author={post.author}
-        isAuthor={post.author.id === user?.id}
+        isAuthor={post.author.isMe}
         createdAt={post.createdAt}
         viewCount={post.viewCount ?? 0}
         footer={

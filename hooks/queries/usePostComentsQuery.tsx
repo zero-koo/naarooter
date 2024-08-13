@@ -1,4 +1,4 @@
-import { RouterOutputs, trpc } from '@/client/trpcClient';
+import { api, RouterOutputs } from '@/trpc/react';
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 
@@ -12,13 +12,16 @@ export const usePostCommentsQuery = (
     parentCommentId?: number;
     direction?: 'asc' | 'desc';
   },
-  options: Parameters<typeof trpc.comment.list.useSuspenseInfiniteQuery>[1] = {}
+  options: Omit<
+    Parameters<typeof api.comment.list.useSuspenseInfiniteQuery>[1],
+    'getNextPageParam'
+  > = {}
 ) => {
-  return trpc.comment.list.useSuspenseInfiniteQuery(
+  return api.comment.list.useSuspenseInfiniteQuery(
     {
       postId,
       parentCommentId,
-      direction,
+      order: direction,
     },
     {
       ...options,
@@ -52,11 +55,11 @@ export const useUpdatePostCommentsQuery = ({
   }: Partial<InfiniteData<RouterOutputs['comment']['list']>>) {
     queryClient.setQueryData<InfiniteData<RouterOutputs['comment']['list']>>(
       getQueryKey(
-        trpc.comment.list,
+        api.comment.list,
         {
           postId,
           parentCommentId,
-          direction,
+          order: direction,
         },
         'infinite'
       ),

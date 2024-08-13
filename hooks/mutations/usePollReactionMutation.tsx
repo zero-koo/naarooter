@@ -1,6 +1,6 @@
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 export const usePostReactionMutation = () => {
-  const { mutate: mutatePostReaction } = trpc.postReaction.update.useMutation();
+  const { mutate: mutatePostReaction } = api.postReaction.update.useMutation();
   return mutatePostReaction;
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
+import { api } from '@/trpc/react';
 import { MoreVerticalIcon, PencilIcon, Trash2 } from 'lucide-react';
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
@@ -32,7 +32,7 @@ const PostShowActionMenu = React.memo(() => {
   const { id } = usePostContext();
   const [{ communityId }] = usePostQuery(id);
 
-  const { mutate: deletePost } = trpc.post.delete.useMutation({
+  const { mutate: deletePost } = api.post.delete.useMutation({
     onSuccess() {
       router.replace(`/posts/group/${communityId}`);
     },

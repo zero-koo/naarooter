@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { mbtis } from '@/lib/constants';
 
-import { privateProcedure, router } from '../trpc';
+import { createTRPCRouter, privateProcedure } from '../trpc';
 
 const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,
@@ -16,7 +16,7 @@ const defaultMBTISelect = Prisma.validator<Prisma.UserSelect>()({
   updatedAt: true,
 });
 
-export const userRouter = router({
+export const userRouter = createTRPCRouter({
   me: privateProcedure.query(async ({ ctx }) => {
     return await prisma.user.findUnique({
       select: {

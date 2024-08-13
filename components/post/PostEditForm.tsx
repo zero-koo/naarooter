@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 
@@ -17,17 +17,19 @@ export const PostEditForm = ({ id }: { id: string }) => {
 
   const [post] = usePostQuery(id);
 
-  const { mutate } = trpc.post.update.useMutation({
+  const { mutate } = api.post.update.useMutation({
     onSuccess(data) {
       toast.update({
         message: '글이 수정되었습니다.',
         theme: 'success',
       });
 
-      queryClient.invalidateQueries([
-        getQueryKey(trpc.post.byId, { id }),
-        getQueryKey(trpc.post.list),
-      ]);
+      queryClient.invalidateQueries({
+        queryKey: [
+          getQueryKey(api.post.byId, { id }),
+          getQueryKey(api.post.list),
+        ],
+      });
 
       router.push(`/posts/${data.id}`);
     },

@@ -1,11 +1,14 @@
 import { createCommentDto, defaultCommentSelector } from '@/dtos/comment.dto';
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
 import { prisma } from '@/server/prisma';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { privateProcedure, publicProcedure, router } from '../trpc';
-
-export const commentRouter = router({
+export const commentRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({
@@ -13,7 +16,7 @@ export const commentRouter = router({
         parentCommentId: z.number().optional(),
         initialCursor: z.number().nullish(),
         limit: z.number().min(1).max(100).default(5),
-        direction: z.enum(['asc', 'desc']).default('desc'),
+        order: z.enum(['asc', 'desc']).default('desc'),
         cursor: z.number().nullish(),
       })
     )
@@ -34,7 +37,7 @@ export const commentRouter = router({
               }
             : undefined,
           orderBy: {
-            createdAt: input.direction,
+            createdAt: input.order,
           },
         }),
         prisma.comment.count({ where: { postId: input.postId } }),

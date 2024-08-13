@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 import { useToast } from '@/hooks/useToast';
 
@@ -11,7 +11,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { mutate } = trpc.post.add.useMutation({
+  const { mutate } = api.post.add.useMutation({
     onSuccess(data) {
       toast.update({
         message: '글이 생성되었습니다.',

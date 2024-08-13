@@ -1,23 +1,21 @@
-import { trpc } from '@/client/trpcClient';
+import { api, ReactQueryOptions } from '@/trpc/react';
 import { Post } from '@/types/post';
-import { useQueryClient } from '@tanstack/react-query';
-import { getQueryKey } from '@trpc/react-query';
 
-export const usePostQuery = (id: string) => {
-  return trpc.post.byId.useSuspenseQuery(
+export const usePostQuery = (
+  id: string,
+  options?: ReactQueryOptions['post']['byId']
+) => {
+  return api.post.byId.useSuspenseQuery(
     { id },
     {
-      refetchOnWindowFocus: false,
+      ...options,
+      refetchOnWindowFocus: true,
     }
   );
 };
 
 export const useUpdatePostQueryData = (id: string) => {
-  const queryClient = useQueryClient();
+  const utils = api.useUtils();
 
-  return (post: Post) =>
-    queryClient.setQueryData<Post>(
-      getQueryKey(trpc.post.byId, { id }, 'query'),
-      post
-    );
+  return (post: Post) => utils.post.byId.setData({ id }, post);
 };

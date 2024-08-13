@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 import { PollInput } from '@/types/poll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -135,7 +135,7 @@ function PollForm() {
     });
   };
 
-  const { mutate: createPoll, isLoading } = trpc.poll.add.useMutation({
+  const { mutate: createPoll, isPending } = api.poll.add.useMutation({
     onSuccess(data) {
       toast.update({
         message: '투표가 생성되었습니다.',
@@ -200,7 +200,7 @@ function PollForm() {
             </SheetTrigger>
             <SheetContent className="size-full">
               <SheetHeader className="p-3">
-                <SheetClose disabled={isLoading}>
+                <SheetClose disabled={isPending}>
                   <ArrowLeftIcon size={20} className="opacity-70" />
                 </SheetClose>
               </SheetHeader>
@@ -210,7 +210,7 @@ function PollForm() {
                   <Button
                     className="ml-auto"
                     theme="primary"
-                    disabled={isLoading}
+                    disabled={isPending}
                     onClick={handleSubmit(onSubmit, onInvalid)}
                   >
                     생성하기

@@ -1,11 +1,14 @@
 import { Suspense } from 'react';
+import { api } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeader from '@/components/community/CommunityHeader';
 import PostList from '@/components/post/PostList';
 import RootHeader from '@/components/RootHeader';
 
-const PostListPage = () => {
+const PostListPage = async () => {
+  void api.post.list.prefetch({});
+
   return (
     <>
       <RootHeader />

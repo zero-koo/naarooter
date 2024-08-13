@@ -10,8 +10,8 @@ import { z } from 'zod';
 
 import { countReactions } from '@/lib/utils';
 
-import { PollTable } from '../models/PollTable';
-import { privateProcedure, publicProcedure, router } from '../trpc';
+import { PollTable } from '../../models/PollTable';
+import { createTRPCRouter, privateProcedure, publicProcedure } from '../trpc';
 
 /**
  * Default selector for Post.
@@ -63,7 +63,7 @@ const defaultPollSelect = (userId: string) =>
     },
   });
 
-export const pollRouter = router({
+export const pollRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({

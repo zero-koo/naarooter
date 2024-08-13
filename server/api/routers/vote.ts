@@ -1,9 +1,9 @@
 import z from 'zod';
 
-import { prisma } from '../prisma';
-import { privateProcedure, router } from '../trpc';
+import { prisma } from '../../prisma';
+import { createTRPCRouter, privateProcedure } from '../trpc';
 
-export const voteRouter = router({
+export const voteRouter = createTRPCRouter({
   vote: privateProcedure
     .input(
       z.object({

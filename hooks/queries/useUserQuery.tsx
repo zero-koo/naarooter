@@ -1,11 +1,11 @@
-import { RouterOutputs, trpc } from '@/client/trpcClient';
+import { api, RouterOutputs } from '@/trpc/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 
 export const useUserQuery = () => {
-  return trpc.user.me.useQuery(undefined, {
+  return api.user.me.useQuery(undefined, {
     staleTime: Infinity,
-    cacheTime: Infinity,
+    gcTime: Infinity,
     refetchOnWindowFocus: false,
   });
 };
@@ -15,7 +15,7 @@ export const useUpdateUserQueryData = () => {
 
   return (user: RouterOutputs['user']['me']) =>
     queryClient.setQueryData<RouterOutputs['user']['me']>(
-      getQueryKey(trpc.user.me, undefined, 'query'),
+      getQueryKey(api.user.me, undefined, 'query'),
       user
     );
 };

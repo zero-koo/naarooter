@@ -2,7 +2,7 @@ import './globals.css';
 
 import { Inter } from 'next/font/google';
 import { auth } from '@/auth';
-import { ClientProvider } from '@/client/trpcClient';
+import { TRPCReactProvider } from '@/trpc/react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SessionProvider } from 'next-auth/react';
 import { twMerge } from 'tailwind-merge';
@@ -28,10 +28,10 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={twMerge(inter.className, 'flex justify-center')}>
-          <ClientProvider>
+          <TRPCReactProvider>
             <EdgeStoreProvider>{children}</EdgeStoreProvider>
             {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </ClientProvider>
+          </TRPCReactProvider>
           <ToastContainer />
         </body>
       </html>

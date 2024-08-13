@@ -1,13 +1,22 @@
 'use client';
 
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 import PostListItem from '@/components/post/PostListItem';
 
 function PostSearchResultList({ searchKeyword }: { searchKeyword: string }) {
-  const { data } = trpc.post.myList.useInfiniteQuery({
-    search: searchKeyword,
-  });
+  const { data } = api.post.myList.useInfiniteQuery(
+    {
+      search: searchKeyword,
+    },
+    // TODO!
+    // Fix getNextPageParam
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage.nextCursor;
+      },
+    }
+  );
   return (
     <div className="flex flex-col gap-2 pb-5">
       <div className="px-3 py-1">

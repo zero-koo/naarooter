@@ -2,6 +2,11 @@
  *
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
 import { prisma } from '@/server/prisma';
 import { Post } from '@/types/post';
 import { Prisma } from '@prisma/client';
@@ -9,8 +14,6 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { countReactions } from '@/lib/utils';
-
-import { privateProcedure, publicProcedure, router } from '../trpc';
 
 const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   id: true,
@@ -41,7 +44,7 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   viewCount: true,
 });
 
-export const postRouter = router({
+export const postRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({
@@ -169,6 +172,7 @@ export const postRouter = router({
     )
     .query(async ({ input, ctx }): Promise<Post> => {
       const { id } = input;
+      console.log(ctx.auth?.user);
       const post = await prisma.post.findUnique({
         where: { id },
         select: defaultPostSelect,
@@ -180,10 +184,10 @@ export const postRouter = router({
         });
       }
 
-      const updatedViewCount = await updateViewCount(
-        id,
-        String(ctx.req.headers['x-forwarded-for'])
-      );
+      // const updatedViewCount = await updateViewCount(
+      //   id,
+      //   String(ctx.req.headers['x-forwarded-for'])
+      // );
 
       return {
         id: post.id,
@@ -199,7 +203,7 @@ export const postRouter = router({
         type: post.type,
         images: [], // TODO: Add images property.
         reaction: countReactions(post.postReaction, ctx.auth?.user?.id),
-        viewCount: updatedViewCount ?? post.viewCount,
+        viewCount: post.viewCount,
         createdAt: post.createdAt,
       };
     }),

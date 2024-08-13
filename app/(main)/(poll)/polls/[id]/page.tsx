@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { api, HydrateClient } from '@/trpc/server';
 
 import DefaultItemHeader from '@/components/DefaultItemHeader';
 import PollPage from '@/components/poll/PollPage';
@@ -11,8 +12,19 @@ interface PollPageProps {
 }
 
 export default function Poll({ params }: PollPageProps) {
+  void api.post.byId.prefetch({
+    id: params.id,
+  });
+  void api.poll.byId.prefetch({
+    id: params.id,
+  });
+  void api.comment.list.prefetchInfinite({
+    postId: params.id,
+    order: 'desc',
+  });
+
   return (
-    <>
+    <HydrateClient>
       <Suspense
         fallback={
           <>
@@ -23,6 +35,6 @@ export default function Poll({ params }: PollPageProps) {
       >
         <PollPage id={params.id} />
       </Suspense>
-    </>
+    </HydrateClient>
   );
 }

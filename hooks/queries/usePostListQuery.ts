@@ -1,4 +1,4 @@
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 export const usePostListQuery = ({
   groupId,
@@ -9,12 +9,10 @@ export const usePostListQuery = ({
   search?: string;
   limit?: number;
 }) => {
-  return trpc.post.list.useSuspenseQuery(
+  return api.post.list.useSuspenseQuery(
     { groupId, search, limit },
     {
-      keepPreviousData: true,
-      // staleTime: Infinity,
-      cacheTime: 300 * 1000,
+      gcTime: 300 * 1000,
       refetchOnWindowFocus: false,
     }
   );

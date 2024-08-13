@@ -1,5 +1,5 @@
-import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
+import { api } from '@/trpc/react';
 
 import {
   usePostCommentsQuery,
@@ -15,7 +15,7 @@ const CommentList = () => {
     postId,
   });
 
-  const { mutateAsync: addComment } = trpc.comment.add.useMutation();
+  const { mutateAsync: addComment } = api.comment.add.useMutation();
   async function onAddComment(content: string) {
     const newComment = await addComment({
       postId,

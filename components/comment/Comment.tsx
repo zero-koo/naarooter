@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
+import { api } from '@/trpc/react';
 import { CommentContent, TComment } from '@/types/shared';
 import { CornerDownRightIcon } from 'lucide-react';
 
@@ -83,7 +83,7 @@ const Comment = ({
     );
   }, [replies]);
 
-  const { mutateAsync: createComment } = trpc.comment.add.useMutation();
+  const { mutateAsync: createComment } = api.comment.add.useMutation();
   async function handleAddComment(content: CommentContent) {
     const reply = await createComment({
       content,
@@ -99,13 +99,13 @@ const Comment = ({
     onIncreaseCommentsCount();
   }
 
-  const { mutateAsync: updateComment } = trpc.comment.update.useMutation();
+  const { mutateAsync: updateComment } = api.comment.update.useMutation();
   async function handleUpdateComment(content: CommentContent) {
     const updatedComment = await updateComment({ id: comment.id, content });
     setComment(updatedComment);
   }
 
-  const { mutateAsync: deleteComment } = trpc.comment.delete.useMutation();
+  const { mutateAsync: deleteComment } = api.comment.delete.useMutation();
   async function handleDeleteComment() {
     const deletedComment = await deleteComment({ id: comment.id });
 
@@ -139,7 +139,7 @@ const Comment = ({
     onDecreaseCommentsCount();
   }
 
-  const { mutateAsync: reactComment } = trpc.comment.reaction.useMutation();
+  const { mutateAsync: reactComment } = api.comment.reaction.useMutation();
   const {
     likeCount,
     dislikeCount,

@@ -1,6 +1,6 @@
 'use client';
 
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 import {
   useMbtiQuery,
@@ -15,7 +15,7 @@ const MBTISettingPage = () => {
 
   const updateMbtiQuery = useUpdateMbtiQueryData();
 
-  const { mutate: savePoll, isLoading } = trpc.user.updateMbti.useMutation({
+  const { mutate: savePoll, isPending } = api.user.updateMbti.useMutation({
     onSuccess(data) {
       updateMbtiQuery(data);
       toast.update({
@@ -46,7 +46,7 @@ const MBTISettingPage = () => {
               : undefined
           }
           onSave={savePoll}
-          isSaving={isLoading}
+          isSaving={isPending}
         />
       ) : null}
     </>

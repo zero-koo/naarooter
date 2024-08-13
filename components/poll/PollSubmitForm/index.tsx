@@ -1,5 +1,5 @@
-import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
+import { api } from '@/trpc/react';
 
 import {
   usePollQuery,
@@ -24,7 +24,7 @@ function PollSubmitForm() {
 
   const { toast } = useToast();
 
-  const { mutate: createVote } = trpc.vote.vote.useMutation({
+  const { mutate: createVote } = api.vote.vote.useMutation({
     onSuccess(voteData) {
       // Delete
       if (!voteData) {

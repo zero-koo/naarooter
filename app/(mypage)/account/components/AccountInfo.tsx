@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signOut } from '@/auth';
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 import { MBTI } from '@/types/shared';
 import { useForm } from 'react-hook-form';
 
@@ -104,7 +104,7 @@ function UsernameEditModal({
     setFocus('name');
   }, [setFocus]);
 
-  const { mutateAsync: updateUser, isLoading } = trpc.user.update.useMutation();
+  const { mutateAsync: updateUser, isPending } = api.user.update.useMutation();
   return (
     <Dialog
       open
@@ -126,7 +126,7 @@ function UsernameEditModal({
           <Button
             variant={'primary'}
             size={'sm'}
-            disabled={isLoading}
+            disabled={isPending}
             onClick={handleSubmit(async ({ name }) => {
               if (name !== username) {
                 await updateUser({ name });
@@ -184,7 +184,7 @@ function MBTIEditModal({
   onChange: (mbti: MBTI) => void;
   onClose: () => void;
 }) {
-  const { mutateAsync: updateUser, isLoading } = trpc.user.update.useMutation();
+  const { mutateAsync: updateUser, isPending } = api.user.update.useMutation();
   return (
     <Dialog
       open
@@ -208,7 +208,7 @@ function MBTIEditModal({
                   } as MbtiFormInput)
                 : undefined
             }
-            isSaving={isLoading}
+            isSaving={isPending}
             onSave={async (mbti) => {
               await updateUser({
                 mbti: `${mbti.ei}${mbti.sn}${mbti.ft}${mbti.jp}`,
@@ -228,7 +228,7 @@ function WithDrawalRow() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { mutateAsync: withdraw } = trpc.user.withdraw.useMutation({
+  const { mutateAsync: withdraw } = api.user.withdraw.useMutation({
     onSuccess() {
       toast.update({
         message: '회원탈퇴되었습니다.',

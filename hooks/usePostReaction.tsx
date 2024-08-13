@@ -1,4 +1,4 @@
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 import { updateReaction } from '@/lib/reaction';
 
@@ -8,7 +8,7 @@ export const usePostReaction = (postId: string) => {
   const [post] = usePostQuery(postId);
 
   const updatePostQuery = useUpdatePostQueryData(postId);
-  const { mutate: mutatePostReaction } = trpc.postReaction.update.useMutation();
+  const { mutate: mutatePostReaction } = api.postReaction.update.useMutation();
 
   function onClickLike() {
     const updatedReaction = updateReaction(post.reaction, 'like');
@@ -33,7 +33,6 @@ export const usePostReaction = (postId: string) => {
       type: updatedReaction.selectedReaction ?? 'cancel',
     });
   }
-
 
   return {
     ...post.reaction,

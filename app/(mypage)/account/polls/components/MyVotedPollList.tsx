@@ -1,15 +1,24 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { trpc } from '@/client/trpcClient';
 import { PostContextProvider } from '@/contexts/PostContext';
+import { api } from '@/trpc/react';
 
 import GrayBox from '@/components/ui/GrayBox';
 import PollSubmitForm from '@/components/poll/PollSubmitForm';
 
 const MyVotedPollList = () => {
   const router = useRouter();
-  const { data } = trpc.poll.myList.useInfiniteQuery({});
+  const { data } = api.poll.myList.useInfiniteQuery(
+    {},
+    // TODO
+    // Fix getNextPageParam
+    {
+      getNextPageParam(lastPage) {
+        return lastPage.nextCursor;
+      },
+    }
+  );
 
   return (
     <div className="flex flex-col gap-2 pb-5">

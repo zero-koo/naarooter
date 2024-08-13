@@ -1,10 +1,10 @@
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 import { Reaction } from '@/types/shared';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 
 export const usePostReactionQuery = (postId: string) => {
-  return trpc.postReaction.byId.useSuspenseQuery({ postId });
+  return api.postReaction.byId.useSuspenseQuery({ postId });
 };
 
 export const useUpdatePostReactionQuery = (postId: string) => {
@@ -12,7 +12,7 @@ export const useUpdatePostReactionQuery = (postId: string) => {
 
   return (reaction: Reaction) =>
     queryClient.setQueryData<Reaction>(
-      getQueryKey(trpc.postReaction.byId, { postId }, 'query'),
+      getQueryKey(api.postReaction.byId, { postId }, 'query'),
       reaction
     );
 };

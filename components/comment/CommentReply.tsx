@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { trpc } from '@/client/trpcClient';
 import { usePostContext } from '@/contexts/PostContext';
+import { api } from '@/trpc/react';
 import { CommentContent, TComment } from '@/types/shared';
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
@@ -32,7 +32,7 @@ const CommentReply = ({
   const [content, setContent] = useState<CommentContent>(reply.content);
   const [updatedAt, setUpdatedAt] = useState<Date>(reply.updatedAt);
 
-  const { mutateAsync: createComment } = trpc.comment.add.useMutation();
+  const { mutateAsync: createComment } = api.comment.add.useMutation();
   async function handleAddReply(content: CommentContent) {
     const comment = await createComment({
       postId,
@@ -43,20 +43,20 @@ const CommentReply = ({
     onAddReply(comment);
   }
 
-  const { mutateAsync: updateComment } = trpc.comment.update.useMutation();
+  const { mutateAsync: updateComment } = api.comment.update.useMutation();
   async function handleUpdateComment(content: CommentContent) {
     const updatedComment = await updateComment({ id: reply.id, content });
     setContent(updatedComment.content);
     setUpdatedAt(updatedComment.updatedAt);
   }
 
-  const { mutateAsync: deleteComment } = trpc.comment.delete.useMutation();
+  const { mutateAsync: deleteComment } = api.comment.delete.useMutation();
   async function handleDeleteComment() {
     await deleteComment({ id: reply.id });
     onDelete();
   }
 
-  const { mutateAsync: reactComment } = trpc.comment.reaction.useMutation();
+  const { mutateAsync: reactComment } = api.comment.reaction.useMutation();
   const {
     likeCount,
     dislikeCount,

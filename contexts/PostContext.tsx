@@ -1,5 +1,4 @@
 import { createContext, useContext } from 'react';
-import { trpc } from '@/client/trpcClient';
 import { Post } from '@/types/post';
 
 import { updateReaction } from '@/lib/reaction';

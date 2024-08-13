@@ -1,4 +1,4 @@
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 
 import { usePostCommentsQuery } from '@/hooks/queries/usePostComentsQuery';
 import { useToast } from '@/hooks/useToast';
@@ -17,7 +17,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
 
   const [postComments] = usePostCommentsQuery({ postId });
 
-  const { mutateAsync: addComment } = trpc.comment.add.useMutation({
+  const { mutateAsync: addComment } = api.comment.add.useMutation({
     onError() {
       toast.update({
         theme: 'error',
@@ -25,7 +25,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
       });
     },
   });
-  const { mutateAsync: deleteComment } = trpc.comment.delete.useMutation({
+  const { mutateAsync: deleteComment } = api.comment.delete.useMutation({
     onError() {
       toast.update({
         theme: 'error',

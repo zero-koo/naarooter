@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { trpc } from '@/client/trpcClient';
+import { api } from '@/trpc/react';
 import { UserReaction } from '@/types/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MBTI } from '@prisma/client';
@@ -145,7 +145,7 @@ const PollComment = ({
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const { mutateAsync: updateComment } = trpc.comment.update.useMutation({
+  const { mutateAsync: updateComment } = api.comment.update.useMutation({
     onError() {
       toast.update({
         theme: 'error',
@@ -154,7 +154,7 @@ const PollComment = ({
     },
   });
 
-  const { mutateAsync: updateReaction } = trpc.comment.reaction.useMutation();
+  const { mutateAsync: updateReaction } = api.comment.reaction.useMutation();
 
   return (
     <div className="flex flex-col gap-1 border-t border-neutral-content/20 py-3 first:border-t-0">

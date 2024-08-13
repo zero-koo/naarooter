@@ -7,7 +7,7 @@ import { Reaction } from '@/types/shared';
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
-import { privateProcedure, publicProcedure, router } from '../trpc';
+import { createTRPCRouter, privateProcedure, publicProcedure } from '../trpc';
 
 const defaultPostReactionSelect = Prisma.validator<Prisma.PostReactionSelect>()(
   {
@@ -16,7 +16,7 @@ const defaultPostReactionSelect = Prisma.validator<Prisma.PostReactionSelect>()(
   }
 );
 
-export const postReactionRouter = router({
+export const postReactionRouter = createTRPCRouter({
   byId: publicProcedure
     .input(
       z.object({
