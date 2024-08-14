@@ -4,7 +4,7 @@ import { commentRouter } from './routers/comment';
 import { pollRouter } from './routers/poll';
 import { postRouter } from './routers/post';
 import { postReactionRouter } from './routers/post-reaction';
-import { userRouter } from './routers/user';
+import { userRouter } from './routers/user/user.router';
 import { voteRouter } from './routers/vote';
 
 /**
