@@ -53,9 +53,10 @@ export const PostEditForm = ({ id }: { id: string }) => {
       communityUpdateDisabled
       onSubmit={(data) =>
         mutate({
-          id,
+          postId: id,
           title: data.title,
           description: data.contents,
+          images: [], // TODO:
         })
       }
     />

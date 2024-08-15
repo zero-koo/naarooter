@@ -3,9 +3,9 @@ import { Post } from '@/types/post';
 
 export const usePostQuery = (
   id: string,
-  options?: ReactQueryOptions['post']['byId']
+  options?: ReactQueryOptions['postV0']['byId']
 ) => {
-  return api.post.byId.useSuspenseQuery(
+  return api.postV0.byId.useSuspenseQuery(
     { id },
     {
       ...options,
@@ -17,5 +17,5 @@ export const usePostQuery = (
 export const useUpdatePostQueryData = (id: string) => {
   const utils = api.useUtils();
 
-  return (post: Post) => utils.post.byId.setData({ id }, post);
+  return (post: Post) => utils.postV0.byId.setData({ id }, post);
 };

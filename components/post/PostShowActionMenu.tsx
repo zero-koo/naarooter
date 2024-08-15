@@ -81,7 +81,7 @@ const PostShowActionMenu = React.memo(() => {
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 variant={'destructive'}
-                onClick={() => deletePost({ id })}
+                onClick={() => deletePost({ postId: id })}
               >
                 삭제
               </AlertDialogAction>

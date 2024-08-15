@@ -11,7 +11,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { mutate } = api.post.add.useMutation({
+  const { mutate } = api.postV0.add.useMutation({
     onSuccess(data) {
       toast.update({
         message: '글이 생성되었습니다.',

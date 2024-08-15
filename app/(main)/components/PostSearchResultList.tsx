@@ -5,7 +5,7 @@ import { api } from '@/trpc/react';
 import PostListItem from '@/components/post/PostListItem';
 
 function PostSearchResultList({ searchKeyword }: { searchKeyword: string }) {
-  const { data } = api.post.myList.useInfiniteQuery(
+  const { data } = api.postV0.myList.useInfiniteQuery(
     {
       search: searchKeyword,
     },

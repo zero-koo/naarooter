@@ -31,6 +31,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
     db,
     auth,
+    userId: auth?.user?.id ?? null,
     ...opts,
   };
 };
@@ -101,12 +102,13 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 });
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-  if (!ctx.auth?.user || !ctx.auth.user.id) {
+  if (!ctx.userId || !ctx.auth?.user || !ctx.auth.user.id) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   return next({
     ctx: {
+      userId: ctx.userId,
       auth: {
         userId: ctx.auth.user.id,
         user: {

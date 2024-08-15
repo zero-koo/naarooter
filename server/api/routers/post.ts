@@ -172,7 +172,6 @@ export const postRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }): Promise<Post> => {
       const { id } = input;
-      console.log(ctx.auth?.user);
       const post = await prisma.post.findUnique({
         where: { id },
         select: defaultPostSelect,
