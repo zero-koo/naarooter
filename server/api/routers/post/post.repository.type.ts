@@ -20,17 +20,8 @@ export const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   _count: {
     select: {
       comment: true,
-      postReaction: {
-        where: {
-          reactionType: 'like',
-        },
-      },
-    },
-  },
-  postReaction: {
-    select: {
-      authorId: true,
-      reactionType: true,
+      postLike: true,
+      postDislike: true,
     },
   },
   createdAt: true,
@@ -56,6 +47,7 @@ export type PostRepositoryPayload = {
   images: string[];
   commentCount: number;
   likeCount: number;
+  dislikeCount: number;
   viewCount: number;
   createdAt: Date;
   updatedAt: Date;

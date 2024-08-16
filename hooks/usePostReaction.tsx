@@ -8,7 +8,7 @@ export const usePostReaction = (postId: string) => {
   const [post] = usePostQuery(postId);
 
   const updatePostQuery = useUpdatePostQueryData(postId);
-  const { mutate: mutatePostReaction } = api.postReaction.update.useMutation();
+  const { mutate: mutatePostReaction } = api.postReaction.upsert.useMutation();
 
   function onClickLike() {
     const updatedReaction = updateReaction(post.reaction, 'like');
@@ -18,7 +18,7 @@ export const usePostReaction = (postId: string) => {
     });
     mutatePostReaction({
       postId,
-      type: updatedReaction.selectedReaction ?? 'cancel',
+      type: updatedReaction.selectedReaction ?? null,
     });
   }
 
@@ -30,7 +30,7 @@ export const usePostReaction = (postId: string) => {
     });
     mutatePostReaction({
       postId,
-      type: updatedReaction.selectedReaction ?? 'cancel',
+      type: updatedReaction.selectedReaction ?? null,
     });
   }
 

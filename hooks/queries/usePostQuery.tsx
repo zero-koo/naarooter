@@ -1,11 +1,11 @@
+import { Post } from '@/server/api/routers/post/post.type';
 import { api, ReactQueryOptions } from '@/trpc/react';
-import { Post } from '@/types/post';
 
 export const usePostQuery = (
   id: string,
-  options?: ReactQueryOptions['postV0']['byId']
+  options?: ReactQueryOptions['post']['byId']
 ) => {
-  return api.postV0.byId.useSuspenseQuery(
+  return api.post.byId.useSuspenseQuery(
     { id },
     {
       ...options,
@@ -15,7 +15,7 @@ export const usePostQuery = (
 };
 
 export const useUpdatePostQueryData = (id: string) => {
-  const utils = api.useUtils();
+  const apiUtils = api.useUtils();
 
-  return (post: Post) => utils.postV0.byId.setData({ id }, post);
+  return (post: Post) => apiUtils.post.byId.setData({ id }, post);
 };

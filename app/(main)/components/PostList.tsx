@@ -18,10 +18,8 @@ const PostList = () => {
           postType={post.type}
           createdAt={post.createdAt}
           viewCount={post.viewCount}
-          likeCount={
-            post.postReaction.likeCount - post.postReaction.dislikeCount
-          }
-          commentCount={post._count.comment}
+          likeCount={post.reaction.likeCount - post.reaction.dislikeCount}
+          commentCount={post.commentCount}
         />
       ))}
     </div>

@@ -27,7 +27,8 @@ model User {
   votes            Vote[]
   comments         Comment[]         @relation("AuthorRelation")
   targetedComments Comment[]         @relation("TargetUserRelation")
-  postReaction     PostReaction[]
+  postLike         PostLike[]
+  postDislike      PostDislike[]
   commentReaction  CommentReaction[]
 
   createdAt DateTime @default(now())
@@ -115,8 +116,10 @@ model Post {
 
   poll Poll?
 
-  viewCount    Int            @default(0)
-  postReaction PostReaction[]
+  viewCount Int @default(0)
+
+  postLike    PostLike[]
+  postDislike PostDislike[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -205,7 +208,7 @@ enum COMMENT_STATUS {
   deleted
 }
 
-model PostReaction {
+model PostLike {
   id Int @id @default(autoincrement())
 
   authorId String
@@ -214,7 +217,19 @@ model PostReaction {
   postId String
   post   Post   @relation(fields: [postId], references: [id])
 
-  reactionType REACTION_TYPE
+  createdAt DateTime @default(now())
+
+  @@unique([postId, authorId])
+}
+
+model PostDislike {
+  id Int @id @default(autoincrement())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id])
 
   createdAt DateTime @default(now())
 

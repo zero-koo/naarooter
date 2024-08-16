@@ -5,7 +5,7 @@ import { api } from '@/trpc/react';
 import PostListItem from '@/components/post/PostListItem';
 
 const MyPostList = () => {
-  const { data } = api.postV0.myList.useInfiniteQuery(
+  const { data } = api.post.myList.useInfiniteQuery(
     {},
     // TODO!
     // Fix getNextPageParam
@@ -28,11 +28,9 @@ const MyPostList = () => {
               authorName={post.author.name ?? '익명'}
               createdAt={post.createdAt}
               viewCount={post.viewCount}
-              likeCount={
-                post.postReaction.likeCount - post.postReaction.dislikeCount
-              }
+              likeCount={post.reaction.likeCount - post.reaction.dislikeCount}
               postType={post.type}
-              commentCount={post._count.comment}
+              commentCount={post.commentCount}
             />
           ))
         )}

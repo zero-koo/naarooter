@@ -9,7 +9,7 @@ export const usePostListQuery = ({
   search?: string;
   limit?: number;
 }) => {
-  return api.postV0.list.useSuspenseQuery(
+  return api.post.list.useSuspenseQuery(
     { groupId, search, limit },
     {
       gcTime: 300 * 1000,

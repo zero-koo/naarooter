@@ -8,8 +8,6 @@ import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { countReactions } from '@/lib/utils';
-
 import { PollTable } from '../../models/PollTable';
 import { createTRPCRouter, privateProcedure, publicProcedure } from '../trpc';
 
@@ -31,12 +29,7 @@ const defaultPollSelect = (userId: string) =>
         images: true,
         author: true,
         viewCount: true,
-        postReaction: {
-          select: {
-            authorId: true,
-            reactionType: true,
-          },
-        },
+
         createdAt: true,
       },
     },
@@ -148,10 +141,11 @@ export const pollRouter = createTRPCRouter({
                 voted: item.votes[0]?.pollChoiceId === choice.id,
               })) ?? [],
             voted: item.votes.length > 0,
-            reaction: countReactions(
-              item.post.postReaction,
-              ctx.auth?.user?.id
-            ),
+            reaction: {
+              likeCount: 0,
+              dislikeCount: 0,
+              selectedReaction: null,
+            },
             createdAt: item.post.createdAt,
           })),
           nextCursor,
@@ -238,10 +232,11 @@ export const pollRouter = createTRPCRouter({
                 voted: item.votes[0]?.pollChoiceId === choice.id,
               })) ?? [],
             voted: item.votes.length > 0,
-            reaction: countReactions(
-              item.post.postReaction,
-              ctx.auth?.user?.id
-            ),
+            reaction: {
+              likeCount: 0,
+              dislikeCount: 0,
+              selectedReaction: null,
+            },
             viewCount: item.post.viewCount,
             createdAt: item.post.createdAt,
           })),
@@ -288,7 +283,11 @@ export const pollRouter = createTRPCRouter({
           voted: poll.votes[0]?.pollChoiceId === choice.id,
         })),
         voted: poll.votes.length > 0,
-        reaction: countReactions(poll.post.postReaction, ctx.auth?.user?.id),
+        reaction: {
+          likeCount: 0,
+          dislikeCount: 0,
+          selectedReaction: null,
+        },
         viewCount: poll.post.viewCount,
         createdAt: poll.post.createdAt,
       };

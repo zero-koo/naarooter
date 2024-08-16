@@ -1,5 +1,9 @@
 import { TRPCError } from '@trpc/server';
 
+import {
+  IPostReactionRepository,
+  postReactionRepository,
+} from '../post-reaction/post-reaction.repository';
 import { User } from '../user/user.repository.type';
 import { IPostRepository, postRepository } from './post.repository';
 import { PostRepositoryPayload } from './post.repository.type';
@@ -25,25 +29,44 @@ export interface IPostService {
 }
 
 class PostService implements IPostService {
-  constructor(private _postRepository: IPostRepository) {}
+  constructor(
+    private postRepository: IPostRepository,
+    private postReactionRepository: IPostReactionRepository
+  ) {}
 
-  private checkAuthor(
+  private async refinePostWithUser(
     postPayload: PostRepositoryPayload,
     userId: User['id'] | null
-  ): Post {
-    const { author, ...rest } = postPayload;
+  ): Promise<Post> {
+    const { author, likeCount, dislikeCount, ...rest } = postPayload;
+    const selectedReaction = userId
+      ? (
+          await this.postReactionRepository.getById({
+            postId: postPayload.id,
+            userId,
+          })
+        )?.type
+      : null;
+
     return {
       ...rest,
       author: {
         ...author,
         isMe: author.id === userId,
       },
+      reaction: {
+        likeCount,
+        dislikeCount,
+        selectedReaction,
+      },
     };
   }
 
   public async list({ userId, ...params }: PostListParams): Promise<Post[]> {
-    const posts = await this._postRepository.list(params);
-    return posts.map((post) => this.checkAuthor(post, userId));
+    const posts = await this.postRepository.list(params);
+    return Promise.all(
+      posts.map((post) => this.refinePostWithUser(post, userId))
+    );
   }
 
   public async byId({
@@ -53,11 +76,11 @@ class PostService implements IPostService {
     postId: Post['id'];
     userId: User['id'] | null;
   }): Promise<Post> {
-    const post = await this._postRepository.byId(postId);
+    const post = await this.postRepository.byId(postId);
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: `No post with id '${userId}'`,
+        message: `No post with id '${postId}'`,
       });
     }
 
@@ -69,19 +92,19 @@ class PostService implements IPostService {
     //   String(ctx.req.headers['x-forwarded-for'])
     // );
 
-    return this.checkAuthor(post, userId);
+    return this.refinePostWithUser(post, userId);
   }
 
   public async create({ input, userId }: PostCreateParams): Promise<Post> {
-    const post = await this._postRepository.create({
+    const post = await this.postRepository.create({
       ...input,
       authorId: userId,
     });
-    return this.checkAuthor(post, userId);
+    return this.refinePostWithUser(post, userId);
   }
 
   async update({ input, userId }: PostUpdateParams): Promise<Post> {
-    const post = await this._postRepository.byId(input.postId);
+    const post = await this.postRepository.byId(input.postId);
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -93,8 +116,8 @@ class PostService implements IPostService {
         code: 'UNAUTHORIZED',
       });
     }
-    const postPayload = await this._postRepository.update(input);
-    return this.checkAuthor(postPayload, userId);
+    const postPayload = await this.postRepository.update(input);
+    return this.refinePostWithUser(postPayload, userId);
   }
 
   public async delete({
@@ -104,7 +127,7 @@ class PostService implements IPostService {
     postId: Post['id'];
     userId: User['id'] | null;
   }): Promise<void> {
-    const post = await this._postRepository.byId(postId);
+    const post = await this.postRepository.byId(postId);
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -116,14 +139,15 @@ class PostService implements IPostService {
         code: 'UNAUTHORIZED',
       });
     }
-    await this._postRepository.delete(postId);
+    await this.postRepository.delete(postId);
     return;
   }
 }
 
-export const postService = new PostService(postRepository);
-
-
+export const postService = new PostService(
+  postRepository,
+  postReactionRepository
+);
 
 // TODO: Replace in-memory cache
 // const viewCountCache = new Set<string>();

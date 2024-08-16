@@ -5,7 +5,7 @@ import { api } from '@/trpc/react';
 import PostListItem from '@/components/post/PostListItem';
 
 function PostSearchResultList({ searchKeyword }: { searchKeyword: string }) {
-  const { data } = api.postV0.myList.useInfiniteQuery(
+  const { data } = api.post.myList.useInfiniteQuery(
     {
       search: searchKeyword,
     },
@@ -30,11 +30,9 @@ function PostSearchResultList({ searchKeyword }: { searchKeyword: string }) {
               authorName={post.author.name ?? '익명'}
               createdAt={post.createdAt}
               viewCount={post.viewCount}
-              likeCount={
-                post.postReaction.likeCount - post.postReaction.dislikeCount
-              }
+              likeCount={post.reaction.likeCount - post.reaction.dislikeCount}
               postType={post.type}
-              commentCount={post._count.comment}
+              commentCount={post.commentCount}
             />
           ))
         )}

@@ -19,7 +19,7 @@ export interface IPostRepository {
 }
 
 class PostRepository implements IPostRepository {
-  constructor(private _db: PrismaClient) {}
+  constructor(private db: PrismaClient) {}
 
   private _payloadToPost(
     postPayload: PostPrismaPayload
@@ -46,7 +46,8 @@ class PostRepository implements IPostRepository {
       description,
       images,
       commentCount: _count.comment,
-      likeCount: _count.postReaction,
+      likeCount: _count.postLike,
+      dislikeCount: _count.postDislike,
       viewCount,
       createdAt,
       updatedAt,
@@ -60,7 +61,7 @@ class PostRepository implements IPostRepository {
     limit = 20,
     sortOrder = 'desc',
   }: PostListParams) {
-    const postPayload = await this._db.post.findMany({
+    const postPayload = await this.db.post.findMany({
       select: defaultPostSelect,
       take: limit + 1,
       where: {
@@ -88,7 +89,7 @@ class PostRepository implements IPostRepository {
   public async byId(
     id: PostRepositoryPayload['id']
   ): Promise<PostRepositoryPayload | null> {
-    const postPayload = await this._db.post.findUnique({
+    const postPayload = await this.db.post.findUnique({
       select: defaultPostSelect,
       where: {
         id,
@@ -104,7 +105,7 @@ class PostRepository implements IPostRepository {
     description,
     images,
   }: PostCreateParams): Promise<PostRepositoryPayload> {
-    const postPayload = await this._db.post.create({
+    const postPayload = await this.db.post.create({
       select: defaultPostSelect,
       data: {
         authorId: authorId,
@@ -124,7 +125,7 @@ class PostRepository implements IPostRepository {
     description,
     images,
   }: PostUpdateParams): Promise<PostRepositoryPayload> {
-    const postPayload = await this._db.post.update({
+    const postPayload = await this.db.post.update({
       select: defaultPostSelect,
       where: {
         id: postId,
@@ -139,7 +140,7 @@ class PostRepository implements IPostRepository {
   }
 
   async delete(id: PostRepositoryPayload['id']): Promise<void> {
-    await this._db.post.delete({
+    await this.db.post.delete({
       where: {
         id,
       },
