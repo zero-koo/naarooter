@@ -1,4 +1,5 @@
 import { prisma } from '@/server/prisma';
+import { PrismaClient } from '@prisma/client';
 
 import {
   defaultUserSelect,
@@ -13,8 +14,10 @@ interface IUserRepository {
 }
 
 class UserRepository implements IUserRepository {
+  constructor(private db: PrismaClient) {}
+
   async getById(id: User['id']): Promise<User> {
-    return await prisma.user.findUniqueOrThrow({
+    return await this.db.user.findUniqueOrThrow({
       select: defaultUserSelect,
       where: {
         id,
@@ -24,7 +27,7 @@ class UserRepository implements IUserRepository {
 
   async updateUserById(params: UpdateUserParams): Promise<User> {
     const { userId, ...data } = params;
-    return await prisma.user.update({
+    return await this.db.user.update({
       select: defaultUserSelect,
       where: {
         id: userId,
@@ -34,7 +37,7 @@ class UserRepository implements IUserRepository {
   }
 
   async withdraw(id: User['id']): Promise<User> {
-    return prisma.user.update({
+    return this.db.user.update({
       select: defaultUserSelect,
       where: {
         id,
@@ -48,4 +51,4 @@ class UserRepository implements IUserRepository {
   }
 }
 
-export const userRepository = new UserRepository();
+export const userRepository = new UserRepository(prisma);
