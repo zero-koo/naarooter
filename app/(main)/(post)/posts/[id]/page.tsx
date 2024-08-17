@@ -16,7 +16,7 @@ const PostPage = async ({
   void api.post.byId.prefetch({
     id: params.id,
   });
-  void api.comment.list.prefetchInfinite({
+  void api.comment.listByPostId.prefetchInfinite({
     postId: params.id,
     order: 'desc',
   });

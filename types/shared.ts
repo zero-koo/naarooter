@@ -23,7 +23,7 @@ export type TComment = {
   authorMBTI: MBTI | null;
   createdAt: Date;
   updatedAt: Date;
-  parentCommentId: number | undefined;
+  parentCommentId: number | null;
   comments: TComment[] | undefined;
   commentsCount: number;
   likeCount: number;

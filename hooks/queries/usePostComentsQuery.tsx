@@ -13,11 +13,11 @@ export const usePostCommentsQuery = (
     direction?: 'asc' | 'desc';
   },
   options: Omit<
-    Parameters<typeof api.comment.list.useSuspenseInfiniteQuery>[1],
+    Parameters<typeof api.comment.listByPostId.useSuspenseInfiniteQuery>[1],
     'getNextPageParam'
   > = {}
 ) => {
-  return api.comment.list.useSuspenseInfiniteQuery(
+  return api.comment.listByPostId.useSuspenseInfiniteQuery(
     {
       postId,
       parentCommentId,
@@ -29,6 +29,7 @@ export const usePostCommentsQuery = (
         if (!lastPage.hasNextPage) return undefined;
         return lastPage.comments.at(-1)?.id;
       },
+      refetchOnWindowFocus: false,
     }
   );
 };
@@ -52,10 +53,12 @@ export const useUpdatePostCommentsQuery = ({
   function updatePostCommentsQuery({
     pages,
     pageParams,
-  }: Partial<InfiniteData<RouterOutputs['comment']['list']>>) {
-    queryClient.setQueryData<InfiniteData<RouterOutputs['comment']['list']>>(
+  }: Partial<InfiniteData<RouterOutputs['comment']['listByPostId']>>) {
+    queryClient.setQueryData<
+      InfiniteData<RouterOutputs['comment']['listByPostId']>
+    >(
       getQueryKey(
-        api.comment.list,
+        api.comment.listByPostId,
         {
           postId,
           parentCommentId,

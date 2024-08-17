@@ -1,4 +1,4 @@
-import { TComment } from '@/types/shared';
+import type { Comment as TComment } from '@/server/api/routers/comment/comment.type';
 
 import Comment from './Comment';
 import CommentInput from './CommentInput';

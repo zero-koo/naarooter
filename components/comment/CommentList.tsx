@@ -15,7 +15,7 @@ const CommentList = () => {
     postId,
   });
 
-  const { mutateAsync: addComment } = api.comment.add.useMutation();
+  const { mutateAsync: addComment } = api.comment.create.useMutation();
   async function onAddComment(content: string) {
     const newComment = await addComment({
       postId,
@@ -28,7 +28,7 @@ const CommentList = () => {
         pages: [
           {
             comments: [newComment],
-            totalCount: 1,
+            count: 1,
             hasNextPage: false,
           },
         ],
@@ -40,7 +40,7 @@ const CommentList = () => {
     pages[0] = {
       ...postComments.pages[0],
       comments: [newComment, ...postComments.pages[0].comments],
-      totalCount: postComments.pages[0].totalCount + 1,
+      count: postComments.pages[0].count + 1,
     };
     updatePostCommentsQuery({
       pages,
@@ -54,7 +54,7 @@ const CommentList = () => {
       comments: postComments.pages[page].comments.filter(
         (comment) => comment.id !== id
       ),
-      totalCount: postComments.pages[0].totalCount - 1,
+      count: postComments.pages[0].count - 1,
       hasNextPage: postComments.pages[0].hasNextPage,
     };
     updatePostCommentsQuery({
@@ -71,7 +71,7 @@ const CommentList = () => {
     updatePostCommentsQuery({
       pages: postComments.pages.map((page) => ({
         ...page,
-        totalCount: (postComments?.pages[0].totalCount ?? 0) + 1,
+        totalCount: (postComments?.pages[0].count ?? 0) + 1,
       })),
     });
   }
@@ -81,7 +81,7 @@ const CommentList = () => {
     updatePostCommentsQuery({
       pages: postComments.pages.map((page) => ({
         ...page,
-        totalCount: (postComments?.pages[0].totalCount ?? 0) - 1,
+        count: (postComments?.pages[0].count ?? 0) - 1,
       })),
     });
   }
@@ -91,7 +91,7 @@ const CommentList = () => {
       <CommentListView
         postId={postId}
         commentsChunks={postComments.pages}
-        commentsCount={postComments.pages[0].totalCount}
+        commentsCount={postComments.pages[0].count}
         onAddComment={onAddComment}
         onDelete={onDeleteComment}
         onIncreaseCommentsCount={onIncreaseCommentsCount}

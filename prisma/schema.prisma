@@ -25,11 +25,12 @@ model User {
 
   posts            Post[]
   votes            Vote[]
-  comments         Comment[]         @relation("AuthorRelation")
-  targetedComments Comment[]         @relation("TargetUserRelation")
+  comments         Comment[]        @relation("AuthorRelation")
+  targetedComments Comment[]        @relation("TargetUserRelation")
   postLike         PostLike[]
   postDislike      PostDislike[]
-  commentReaction  CommentReaction[]
+  commentLike      CommentLike[]
+  commentDislike   CommentDislike[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -192,7 +193,8 @@ model Comment {
   parentCommentId Int?
   parentComment   Comment? @relation("ChildComments", fields: [parentCommentId], references: [id])
 
-  commentReaction CommentReaction[]
+  commentLike    CommentLike[]
+  commentDislike CommentDislike[]
 
   targetUserId String?
   targetUser   User?   @relation("TargetUserRelation", fields: [targetUserId], references: [id])
@@ -236,7 +238,7 @@ model PostDislike {
   @@unique([postId, authorId])
 }
 
-model CommentReaction {
+model CommentLike {
   id Int @id @default(autoincrement())
 
   authorId String
@@ -245,7 +247,19 @@ model CommentReaction {
   commentId Int
   comment   Comment @relation(fields: [commentId], references: [id])
 
-  reactionType REACTION_TYPE
+  createdAt DateTime @default(now())
+
+  @@unique([commentId, authorId])
+}
+
+model CommentDislike {
+  id Int @id @default(autoincrement())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  commentId Int
+  comment   Comment @relation(fields: [commentId], references: [id])
 
   createdAt DateTime @default(now())
 

@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { UserReaction } from '@/types/shared';
 import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 
@@ -19,6 +20,9 @@ const LikeDislikeV1 = ({
       <div className="mr-3 flex items-center gap-1 text-xs">
         <ThumbsUpIcon
           size={12}
+          className={cn({
+            'text-primary': userSelect === 'like',
+          })}
           fill={userSelect === 'like' ? 'currentColor' : 'transparent'}
           onClick={onClickLike}
         />
@@ -27,6 +31,9 @@ const LikeDislikeV1 = ({
       <div className="flex items-center gap-1 text-xs">
         <ThumbsDownIcon
           size={12}
+          className={cn({
+            'text-primary': userSelect === 'dislike',
+          })}
           fill={userSelect === 'dislike' ? 'currentColor' : 'transparent'}
           onClick={onClickDislike}
         />

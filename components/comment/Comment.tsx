@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { usePostContext } from '@/contexts/PostContext';
+import type { Comment } from '@/server/api/routers/comment/comment.type';
 import { api } from '@/trpc/react';
-import { CommentContent, TComment } from '@/types/shared';
+import { CommentContent } from '@/types/shared';
 import { CornerDownRightIcon } from 'lucide-react';
 
 import {
@@ -17,7 +18,7 @@ import CommentReply from './CommentReply';
 import CommentView from './CommentView';
 
 type CommentProps = {
-  initialData: TComment;
+  initialData: Comment;
   postId: string;
   onIncreaseCommentsCount: () => void;
   onDecreaseCommentsCount: () => void;
@@ -36,9 +37,11 @@ const Comment = ({
   const [post] = usePostQuery(id);
   const { user } = useUser();
 
-  const [comment, setComment] = useState<TComment>(initialData);
+  const [comment, setComment] = useState<Comment>(initialData);
 
-  const [showReplies, setShowReplies] = useState(!!comment.comments?.length);
+  const [showReplies, setShowReplies] = useState(
+    !!comment.childComments?.length
+  );
   const [replies, { hasNextPage, fetchNextPage }] = usePostCommentsQuery(
     {
       postId,
@@ -50,11 +53,11 @@ const Comment = ({
         return {
           pages: [
             {
-              comments: comment.comments ?? [],
-              hasNextPage: comment.comments
-                ? comment.comments.length >= 5
+              comments: comment.childComments ?? [],
+              hasNextPage: comment.childComments
+                ? comment.childComments.length >= 5
                 : false,
-              totalCount: comment.comments?.length ?? 0,
+              count: comment.childComments?.length ?? 0,
             },
           ],
           pageParams: [],
@@ -68,9 +71,9 @@ const Comment = ({
     direction: 'asc',
   });
 
-  const [newReplies, setNewReplies] = useState<TComment[]>([]);
+  const [newReplies, setNewReplies] = useState<Comment[]>([]);
   const [commentsCount, setCommentsCount] = useState<number>(
-    comment.commentsCount
+    comment.childCommentCount
   );
 
   useEffect(() => {
@@ -83,17 +86,17 @@ const Comment = ({
     );
   }, [replies]);
 
-  const { mutateAsync: createComment } = api.comment.add.useMutation();
+  const { mutateAsync: createComment } = api.comment.create.useMutation();
   async function handleAddComment(content: CommentContent) {
     const reply = await createComment({
       content,
       postId,
-      parentId: comment.id,
+      parentCommentId: comment.id,
     });
     onAddReply(reply);
     setShowReplies(true);
   }
-  function onAddReply(reply: TComment) {
+  function onAddReply(reply: Comment) {
     setNewReplies((replies) => [...replies, reply]);
     setCommentsCount((count) => count + 1);
     onIncreaseCommentsCount();
@@ -124,7 +127,7 @@ const Comment = ({
       comments: replies.pages[pageIndex].comments.filter(
         (comment) => comment.id !== id
       ),
-      totalCount: replies.pages[pageIndex].totalCount - 1,
+      count: replies.pages[pageIndex].count - 1,
       hasNextPage: replies.pages[pageIndex].hasNextPage,
     };
     updatePostCommentsQuery({
@@ -139,7 +142,9 @@ const Comment = ({
     onDecreaseCommentsCount();
   }
 
-  const { mutateAsync: reactComment } = api.comment.reaction.useMutation();
+  const { mutateAsync: reactComment } =
+    api.commentReaction.upsert.useMutation();
+
   const {
     likeCount,
     dislikeCount,
@@ -147,11 +152,11 @@ const Comment = ({
     onClickLike,
     onClickDislike,
   } = useReaction({
-    initialValue: comment,
+    initialValue: comment.reaction,
     onUpdate(value) {
       reactComment({
         commentId: comment.id,
-        type: value ?? 'cancel',
+        type: value ?? null,
       });
     },
   });
@@ -161,8 +166,12 @@ const Comment = ({
       <CommentView
         {...restProps}
         {...comment}
-        isAuthor={comment.authorId === user?.id}
-        isPostAuthor={comment.authorId === post.author.id}
+        isAuthor={comment.author.id === user?.id}
+        isPostAuthor={comment.author.id === post.author.id}
+        authorId={comment.author.id}
+        authorName={comment.author.name}
+        authorMBTI={comment.author.mbti}
+        comments={[]}
         likeCount={likeCount}
         dislikeCount={dislikeCount}
         selectedReaction={selectedReaction}

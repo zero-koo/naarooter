@@ -18,7 +18,7 @@ export default function Poll({ params }: PollPageProps) {
   void api.poll.byId.prefetch({
     id: params.id,
   });
-  void api.comment.list.prefetchInfinite({
+  void api.comment.listByPostId.prefetchInfinite({
     postId: params.id,
     order: 'desc',
   });

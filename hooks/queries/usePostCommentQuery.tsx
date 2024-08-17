@@ -16,8 +16,8 @@ export const usePostCommentQuery = ({
     {
       initialData: () => {
         const comments = queryClient.getQueryData<{
-          pages: Array<RouterOutputs['comment']['list']>;
-        }>(getQueryKey(api.comment.list, { postId }, 'infinite'));
+          pages: Array<RouterOutputs['comment']['listByPostId']>;
+        }>(getQueryKey(api.comment.listByPostId, { postId }, 'infinite'));
         return comments?.pages
           .flatMap(({ comments }) => comments)
           .find((comment) => comment.id === id);

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { usePostContext } from '@/contexts/PostContext';
+import type { Comment } from '@/server/api/routers/comment/comment.type';
 import { api } from '@/trpc/react';
-import { CommentContent, TComment } from '@/types/shared';
+import { CommentContent } from '@/types/shared';
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useReaction } from '@/hooks/useReaction';
@@ -12,8 +13,8 @@ import CommentView from './CommentView';
 type CommentReplyProps = {
   postId: string;
   parentCommentId: number;
-  reply: TComment;
-  onAddReply: (reply: TComment) => void;
+  reply: Comment;
+  onAddReply: (reply: Comment) => void;
   onDelete: () => void;
 };
 
@@ -32,13 +33,13 @@ const CommentReply = ({
   const [content, setContent] = useState<CommentContent>(reply.content);
   const [updatedAt, setUpdatedAt] = useState<Date>(reply.updatedAt);
 
-  const { mutateAsync: createComment } = api.comment.add.useMutation();
+  const { mutateAsync: createComment } = api.comment.create.useMutation();
   async function handleAddReply(content: CommentContent) {
     const comment = await createComment({
       postId,
-      parentId: parentCommentId,
+      parentCommentId,
       content,
-      targetUserId: reply.authorId,
+      targetUserId: reply.author.id,
     });
     onAddReply(comment);
   }
@@ -56,7 +57,8 @@ const CommentReply = ({
     onDelete();
   }
 
-  const { mutateAsync: reactComment } = api.comment.reaction.useMutation();
+  const { mutateAsync: reactComment } =
+    api.commentReaction.upsert.useMutation();
   const {
     likeCount,
     dislikeCount,
@@ -64,11 +66,11 @@ const CommentReply = ({
     onClickLike,
     onClickDislike,
   } = useReaction({
-    initialValue: reply,
+    initialValue: reply.reaction,
     onUpdate(value) {
       reactComment({
         commentId: reply.id,
-        type: value ?? 'cancel',
+        type: value ?? null,
       });
     },
   });
@@ -78,8 +80,13 @@ const CommentReply = ({
       {...reply}
       content={content}
       updatedAt={updatedAt}
-      isAuthor={reply.authorId === user?.id}
-      isPostAuthor={reply.authorId === post.author.id}
+      isAuthor={reply.author.id === user?.id}
+      isPostAuthor={reply.author.id === post.author.id}
+      authorId={reply.author.id}
+      authorName={reply.author.name}
+      authorMBTI={reply.author.mbti}
+      comments={[]}
+      commentsCount={0}
       likeCount={likeCount}
       dislikeCount={dislikeCount}
       selectedReaction={selectedReaction}

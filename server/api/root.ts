@@ -1,6 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
 
-import { commentRouter } from './routers/comment';
+import { commentReactionRouter } from './routers/comment-reaction/comment-reaction.router';
+import { commentRouter } from './routers/comment/comment.router';
 import { pollRouter } from './routers/poll';
 import { postReactionRouter } from './routers/post-reaction/post-reaction.router';
 import { postRouter } from './routers/post/post.router';
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
   vote: voteRouter,
   postReaction: postReactionRouter,
   comment: commentRouter,
+  commentReaction: commentReactionRouter,
 });
 
 // export type definition of API

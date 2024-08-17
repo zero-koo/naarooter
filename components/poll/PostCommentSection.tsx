@@ -17,7 +17,7 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
 
   const [postComments] = usePostCommentsQuery({ postId });
 
-  const { mutateAsync: addComment } = api.comment.add.useMutation({
+  const { mutateAsync: addComment } = api.comment.create.useMutation({
     onError() {
       toast.update({
         theme: 'error',
@@ -42,17 +42,17 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
           id: comment.id,
           text: comment.content as string,
           author: {
-            id: comment.authorId,
-            name: comment.authorName ?? null,
-            mbti: comment.authorMBTI,
+            id: comment.author.id,
+            name: comment.author.name ?? null,
+            mbti: comment.author.mbti,
           },
           children: [],
           updatedAt: comment.updatedAt,
-          like: comment.likeCount,
-          dislike: comment.dislikeCount,
-          reaction: comment.selectedReaction,
+          like: comment.reaction.likeCount,
+          dislike: comment.reaction.dislikeCount,
+          reaction: comment.reaction.selectedReaction,
         }))}
-      totalCount={postComments.pages[0].totalCount}
+      totalCount={postComments.pages[0].count}
       userId={user?.id}
       postAuthorId={authorId}
       onAdd={async ({ text }) => {
@@ -64,9 +64,9 @@ const PostCommentSection = ({ postId, authorId }: PostCommentSectionProps) => {
         return {
           id: data.id,
           author: {
-            id: data.authorId,
-            name: data.authorName,
-            mbti: data.authorMBTI,
+            id: data.author.id,
+            name: data.author.name,
+            mbti: data.author.mbti,
           },
           text: data.content as string,
           updatedAt: data.updatedAt,

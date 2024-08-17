@@ -154,7 +154,8 @@ const PollComment = ({
     },
   });
 
-  const { mutateAsync: updateReaction } = api.comment.reaction.useMutation();
+  const { mutateAsync: updateReaction } =
+    api.commentReaction.upsert.useMutation();
 
   return (
     <div className="flex flex-col gap-1 border-t border-neutral-content/20 py-3 first:border-t-0">
@@ -171,15 +172,12 @@ const PollComment = ({
           reaction={reaction}
           onClickEdit={() => setIsEdit(true)}
           onClickDelete={onDelete}
-          onReact={(reaction) =>
-            updateReaction({
+          onReact={async (reaction) => {
+            await updateReaction({
               commentId: id,
-              type:
-                reaction === null || reaction === undefined
-                  ? 'cancel'
-                  : reaction,
-            })
-          }
+              type: reaction ?? null,
+            });
+          }}
         />
       ) : (
         <PostCommentEdit
