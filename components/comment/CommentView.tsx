@@ -163,7 +163,7 @@ const CommentView = ({
               </>
             )}
           </div>
-          <div className="mt-2 flex">
+          <div className="mt-2 flex items-center">
             <ReactionButton 
               likeCount={likeCount}
               dislikeCount={dislikeCount}
