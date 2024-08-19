@@ -16,6 +16,7 @@ import { useUser } from '@/hooks/useUser';
 import { Button } from '../ui/Button';
 import CommentReply from './CommentReply';
 import CommentView from './CommentView';
+import { updateReaction } from '@/lib/reaction';
 
 type CommentProps = {
   initialData: Comment;
@@ -142,24 +143,32 @@ const Comment = ({
     onDecreaseCommentsCount();
   }
 
-  const { mutateAsync: reactComment } =
+  const { mutateAsync: mutateCommentReaction } =
     api.commentReaction.upsert.useMutation();
 
-  const {
-    likeCount,
-    dislikeCount,
-    selectedReaction,
-    onClickLike,
-    onClickDislike,
-  } = useReaction({
-    initialValue: comment.reaction,
-    onUpdate(value) {
-      reactComment({
-        commentId: comment.id,
-        type: value ?? null,
-      });
-    },
-  });
+  const onClickLike = () => {
+    const updatedReaction = updateReaction(comment.reaction, 'like')
+    mutateCommentReaction({
+      type: updatedReaction.selectedReaction ?? null,
+      commentId: comment.id
+    })
+    setComment(comment => ({
+      ...comment,
+      reaction: updatedReaction
+    }))
+  }
+
+  const onClickDislike = () => {
+    const updatedReaction = updateReaction(comment.reaction, 'dislike')
+    mutateCommentReaction({
+      type: updatedReaction.selectedReaction ?? null,
+      commentId: comment.id
+    })
+    setComment(comment => ({
+      ...comment,
+      reaction: updatedReaction
+    }))
+  }
 
   return (
     <div>
@@ -172,9 +181,9 @@ const Comment = ({
         authorName={comment.author.name}
         authorMBTI={comment.author.mbti}
         comments={[]}
-        likeCount={likeCount}
-        dislikeCount={dislikeCount}
-        selectedReaction={selectedReaction}
+        likeCount={comment.reaction.likeCount}
+        dislikeCount={comment.reaction.dislikeCount}
+        selectedReaction={comment.reaction.selectedReaction}
         commentsCount={commentsCount}
         onAddReply={handleAddComment}
         onUpdate={handleUpdateComment}

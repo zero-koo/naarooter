@@ -11,7 +11,6 @@ import {
 import { cn, formatTimeAgo } from '@/lib/utils';
 
 import { Button } from '../Button';
-import LikeDislikeV1 from '../LikeDislikeV1';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +29,7 @@ import {
 } from '../ui/dropdown-menu';
 import CommentInput from './CommentInput';
 import CommentTargetUserTag from './CommentTargetUserTag';
+import ReactionButton from '../ReactionButton';
 
 export type CommentProps = TComment & {
   isAuthor: boolean;
@@ -164,10 +164,10 @@ const CommentView = ({
             )}
           </div>
           <div className="mt-2 flex">
-            <LikeDislikeV1
+            <ReactionButton 
               likeCount={likeCount}
               dislikeCount={dislikeCount}
-              userSelect={selectedReaction}
+              selectedReaction={selectedReaction}
               onClickLike={onClickLike}
               onClickDislike={onClickDislike}
             />
