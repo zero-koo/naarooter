@@ -34,17 +34,9 @@ class VoteRepository implements IVoteRepository {
     const data = await this.db.vote.findMany({
       select: {
         pollChoiceId: true,
-        poll: {
+        author: {
           select: {
-            post: {
-              select: {
-                author: {
-                  select: {
-                    mbti: true,
-                  },
-                },
-              },
-            },
+            mbti: true,
           },
         },
       },
@@ -55,7 +47,7 @@ class VoteRepository implements IVoteRepository {
 
     return data.map((d) => ({
       choiceId: d.pollChoiceId,
-      userMBTI: d.poll.post.author.mbti,
+      userMBTI: d.author.mbti,
     }));
   }
 
