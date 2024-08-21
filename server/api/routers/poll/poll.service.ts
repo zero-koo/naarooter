@@ -37,10 +37,10 @@ class PollService implements IPollService {
     private voteRepository: IVoteRepository
   ) {}
 
-  public static repositoryPayloadToPoll(payload: PollRepositoryPayload): TPoll {
+  public static repositoryPayloadToPoll(payload: PollRepositoryPayload, userId: UserID | null): TPoll {
     return {
       ...payload,
-      post: PostService.repositoryPayloadToPost(payload.post),
+      post: PostService.repositoryPayloadToPost(payload.post, userId),
     };
   }
 
@@ -61,12 +61,12 @@ class PollService implements IPollService {
         message: `No post with id '${postId}'`,
       });
     }
-    return PollService.repositoryPayloadToPoll(pollPayload);
+    return PollService.repositoryPayloadToPoll(pollPayload, userId);
   }
 
   public async list(params: PollListParams): Promise<TPoll[]> {
     const pollsPayload = await this.pollRepository.list(params);
-    return pollsPayload.map(PollService.repositoryPayloadToPoll);
+    return pollsPayload.map(payload => PollService.repositoryPayloadToPoll(payload, params.userId));
   }
 
   public async getDetailByPollId({
@@ -107,7 +107,7 @@ class PollService implements IPollService {
 
   public async create(params: PollCreateParams): Promise<TPoll> {
     const pollPayload = await this.pollRepository.create(params.input);
-    return PollService.repositoryPayloadToPoll(pollPayload);
+    return PollService.repositoryPayloadToPoll(pollPayload, params.userId);
   }
 
   public async update({ input, userId }: PollUpdateParams): Promise<TPoll> {
@@ -127,7 +127,7 @@ class PollService implements IPollService {
       });
     }
     const pollPayload = await this.pollRepository.update({ ...input, userId });
-    return PollService.repositoryPayloadToPoll(pollPayload);
+    return PollService.repositoryPayloadToPoll(pollPayload, userId);
   }
 
   public async delete({

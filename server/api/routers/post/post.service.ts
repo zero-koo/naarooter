@@ -1,87 +1,45 @@
 import { TRPCError } from '@trpc/server';
 
-import {
-  IPostReactionRepository,
-  postReactionRepository,
-} from '../post-reaction/post-reaction.repository';
-import { User } from '../user/user.repository.type';
+import { UserID } from '../user/user.type';
 import { IPostRepository, postRepository } from './post.repository';
 import { PostRepositoryPayload } from './post.repository.type';
 import {
   Post,
   PostCreateParams,
+  PostID,
   PostListParams,
   PostUpdateParams,
 } from './post.type';
 
 export interface IPostService {
   list(params: PostListParams): Promise<Post[]>;
-  byId(parmas: {
-    postId: Post['id'];
-    userId: User['id'] | null;
-  }): Promise<Post>;
+  byId(parmas: { postId: PostID; userId: UserID | null }): Promise<Post>;
   create(params: PostCreateParams): Promise<Post>;
   update(params: PostUpdateParams): Promise<Post>;
-  delete(params: {
-    postId: Post['id'];
-    userId: User['id'] | null;
-  }): Promise<void>;
+  delete(params: { postId: PostID; userId: UserID | null }): Promise<void>;
 }
 
 export class PostService implements IPostService {
-  constructor(
-    private postRepository: IPostRepository,
-    private postReactionRepository: IPostReactionRepository
-  ) {}
+  constructor(private postRepository: IPostRepository) {}
 
-  public static repositoryPayloadToPost(payload: PostRepositoryPayload): Post {
-    const { author, likeCount, dislikeCount, ...rest } = payload;
-    return {
-      ...rest,
-      author: {
-        ...author,
-        isMe: false,
-      },
-      reaction: {
-        likeCount,
-        dislikeCount,
-        selectedReaction: null,
-      },
-    };
-  }
-
-  private async refinePostWithUser(
-    postPayload: PostRepositoryPayload,
-    userId: User['id'] | null
-  ): Promise<Post> {
-    const { author, likeCount, dislikeCount, ...rest } = postPayload;
-    const selectedReaction = userId
-      ? (
-          await this.postReactionRepository.getById({
-            postId: postPayload.id,
-            userId,
-          })
-        )?.type
-      : null;
-
+  public static repositoryPayloadToPost(
+    payload: PostRepositoryPayload,
+    userId: UserID | null
+  ): Post {
+    const { author, ...rest } = payload;
     return {
       ...rest,
       author: {
         ...author,
         isMe: author.id === userId,
       },
-      reaction: {
-        likeCount,
-        dislikeCount,
-        selectedReaction,
-      },
     };
   }
 
-  public async list({ userId, ...params }: PostListParams): Promise<Post[]> {
+  public async list(params: PostListParams): Promise<Post[]> {
     const posts = await this.postRepository.list(params);
-    return Promise.all(
-      posts.map((post) => this.refinePostWithUser(post, userId))
+    return posts.map((post) =>
+      PostService.repositoryPayloadToPost(post, params.userId)
     );
   }
 
@@ -89,10 +47,13 @@ export class PostService implements IPostService {
     postId,
     userId,
   }: {
-    postId: Post['id'];
-    userId: User['id'] | null;
+    postId: PostID;
+    userId: UserID | null;
   }): Promise<Post> {
-    const post = await this.postRepository.byId(postId);
+    const post = await this.postRepository.byId({
+      id: postId,
+      userId,
+    });
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -108,7 +69,7 @@ export class PostService implements IPostService {
     //   String(ctx.req.headers['x-forwarded-for'])
     // );
 
-    return this.refinePostWithUser(post, userId);
+    return PostService.repositoryPayloadToPost(post, userId);
   }
 
   public async create({ input, userId }: PostCreateParams): Promise<Post> {
@@ -116,11 +77,14 @@ export class PostService implements IPostService {
       ...input,
       authorId: userId,
     });
-    return this.refinePostWithUser(post, userId);
+    return PostService.repositoryPayloadToPost(post, userId);
   }
 
   async update({ input, userId }: PostUpdateParams): Promise<Post> {
-    const post = await this.postRepository.byId(input.postId);
+    const post = await this.postRepository.byId({
+      id: input.postId,
+      userId,
+    });
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -132,18 +96,24 @@ export class PostService implements IPostService {
         code: 'UNAUTHORIZED',
       });
     }
-    const postPayload = await this.postRepository.update(input);
-    return this.refinePostWithUser(postPayload, userId);
+    const postPayload = await this.postRepository.update({
+      ...input,
+      userId,
+    });
+    return PostService.repositoryPayloadToPost(postPayload, userId);
   }
 
   public async delete({
     postId,
     userId,
   }: {
-    postId: Post['id'];
-    userId: User['id'] | null;
+    postId: PostID;
+    userId: UserID | null;
   }): Promise<void> {
-    const post = await this.postRepository.byId(postId);
+    const post = await this.postRepository.byId({
+      id: postId,
+      userId,
+    });
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -160,10 +130,7 @@ export class PostService implements IPostService {
   }
 }
 
-export const postService = new PostService(
-  postRepository,
-  postReactionRepository
-);
+export const postService = new PostService(postRepository);
 
 // TODO: Replace in-memory cache
 // const viewCountCache = new Set<string>();

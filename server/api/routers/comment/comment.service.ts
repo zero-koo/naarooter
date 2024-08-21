@@ -15,7 +15,7 @@ export interface ICommentService {
   listByPostId(parmas: {
     postId: Post['id'];
     userId?: User['id'] | null;
-    parentCommentId?: CommentID | null
+    parentCommentId?: CommentID | null;
     cursorId?: CommentID | null;
     limit?: number;
     order?: 'asc' | 'desc';
@@ -53,7 +53,9 @@ class CommentService implements ICommentService {
   ) {}
 
   private async checkPostExist(postId: Post['id']): Promise<void> {
-    const post = await this.postRepository.byId(postId);
+    const post = await this.postRepository.byId({
+      id: postId,
+    });
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -64,7 +66,7 @@ class CommentService implements ICommentService {
 
   public async listByPostId(params: {
     postId: Post['id'];
-    parentCommentId: CommentID | null
+    parentCommentId: CommentID | null;
     userId?: User['id'] | null;
     cursorId?: CommentID | null;
     limit?: number;

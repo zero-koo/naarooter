@@ -1,8 +1,9 @@
 import { prisma } from '@/server/prisma';
 import { PrismaClient } from '@prisma/client';
 
+import { UserID } from '../user/user.type';
 import {
-  defaultPostSelect,
+  getDefaultPostSelect,
   PostCreateParams,
   PostListParams,
   PostPrismaPayload,
@@ -12,7 +13,13 @@ import {
 
 export interface IPostRepository {
   list(params: PostListParams): Promise<PostRepositoryPayload[]>;
-  byId(id: PostRepositoryPayload['id']): Promise<PostRepositoryPayload | null>;
+  byId({
+    id,
+    userId,
+  }: {
+    id: PostRepositoryPayload['id'];
+    userId?: UserID | null;
+  }): Promise<PostRepositoryPayload | null>;
   create(params: PostCreateParams): Promise<PostRepositoryPayload>;
   update(params: PostUpdateParams): Promise<PostRepositoryPayload>;
   delete(id: PostRepositoryPayload['id']): Promise<void>;
@@ -22,7 +29,8 @@ export class PostRepository implements IPostRepository {
   constructor(private db: PrismaClient) {}
 
   public static payloadToPost(
-    postPayload: PostPrismaPayload
+    postPayload: PostPrismaPayload,
+    userId: UserID | null
   ): PostRepositoryPayload {
     const {
       id,
@@ -34,20 +42,32 @@ export class PostRepository implements IPostRepository {
       images,
       type,
       _count,
+      postLike,
+      postDislike,
       updatedAt,
       viewCount,
     } = postPayload;
     return {
       id,
-      author,
+      author: {
+        ...author,
+        isMe: author.id === userId,
+      },
       title,
       communityId,
       type,
       description,
       images,
       commentCount: _count.comment,
-      likeCount: _count.postLike,
-      dislikeCount: _count.postDislike,
+      reaction: {
+        likeCount: _count.postLike,
+        dislikeCount: _count.postDislike,
+        selectedReaction: postLike.length
+          ? 'like'
+          : postDislike.length
+            ? 'dislike'
+            : null,
+      },
       viewCount,
       createdAt,
       updatedAt,
@@ -55,6 +75,8 @@ export class PostRepository implements IPostRepository {
   }
 
   public async list({
+    userId,
+    authorId,
     communityId,
     search,
     lastId,
@@ -62,10 +84,11 @@ export class PostRepository implements IPostRepository {
     sortOrder = 'desc',
   }: PostListParams) {
     const postPayload = await this.db.post.findMany({
-      select: defaultPostSelect,
+      select: getDefaultPostSelect(userId),
       take: limit + 1,
       where: {
         groupId: communityId,
+        authorId,
         AND: search?.split(' ').map((keyword) => ({
           title: {
             contains: keyword,
@@ -83,19 +106,25 @@ export class PostRepository implements IPostRepository {
       },
     });
 
-    return postPayload.map(PostRepository.payloadToPost);
+    return postPayload.map((payload) =>
+      PostRepository.payloadToPost(payload, userId)
+    );
   }
 
-  public async byId(
-    id: PostRepositoryPayload['id']
-  ): Promise<PostRepositoryPayload | null> {
+  public async byId({
+    id,
+    userId,
+  }: {
+    id: PostRepositoryPayload['id'];
+    userId: UserID | null;
+  }): Promise<PostRepositoryPayload | null> {
     const postPayload = await this.db.post.findUnique({
-      select: defaultPostSelect,
+      select: getDefaultPostSelect(userId),
       where: {
         id,
       },
     });
-    return postPayload && PostRepository.payloadToPost(postPayload);
+    return postPayload && PostRepository.payloadToPost(postPayload, userId);
   }
 
   async create({
@@ -106,7 +135,7 @@ export class PostRepository implements IPostRepository {
     images,
   }: PostCreateParams): Promise<PostRepositoryPayload> {
     const postPayload = await this.db.post.create({
-      select: defaultPostSelect,
+      select: getDefaultPostSelect(authorId),
       data: {
         authorId: authorId,
         groupId: communityId,
@@ -116,17 +145,18 @@ export class PostRepository implements IPostRepository {
         images,
       },
     });
-    return PostRepository.payloadToPost(postPayload);
+    return PostRepository.payloadToPost(postPayload, authorId);
   }
 
   async update({
+    userId,
     postId,
     title,
     description,
     images,
   }: PostUpdateParams): Promise<PostRepositoryPayload> {
     const postPayload = await this.db.post.update({
-      select: defaultPostSelect,
+      select: getDefaultPostSelect(userId),
       where: {
         id: postId,
       },
@@ -136,7 +166,7 @@ export class PostRepository implements IPostRepository {
         images,
       },
     });
-    return PostRepository.payloadToPost(postPayload);
+    return PostRepository.payloadToPost(postPayload, userId);
   }
 
   async delete(id: PostRepositoryPayload['id']): Promise<void> {

@@ -2,8 +2,8 @@ import { Reaction, UserReaction } from '@/types/shared';
 import { TRPCError } from '@trpc/server';
 
 import { IPostRepository, postRepository } from '../post/post.repository';
-import { Post } from '../post/post.type';
-import { User } from '../user/user.repository.type';
+import { PostID } from '../post/post.type';
+import { UserID } from '../user/user.type';
 import {
   IPostReactionRepository,
   postReactionRepository,
@@ -11,12 +11,12 @@ import {
 
 export interface IPostReactionService {
   countById(params: {
-    postId: Post['id'];
-    userId: User['id'] | null;
+    postId: PostID;
+    userId: UserID | null;
   }): Promise<Reaction>;
   upsert(params: {
-    postId: Post['id'];
-    userId: User['id'];
+    postId: PostID;
+    userId: UserID;
     type: UserReaction;
   }): Promise<Reaction>;
 }
@@ -28,19 +28,25 @@ class PostReactionService implements IPostReactionService {
   ) {}
 
   public async countById(params: {
-    postId: Post['id'];
-    userId: User['id'] | null;
+    postId: PostID;
+    userId: UserID | null;
   }): Promise<Reaction> {
     return this.postReactionRepository.countById(params);
   }
 
-  public async upsert(params: {
-    postId: Post['id'];
-    userId: User['id'];
+  public async upsert({
+    postId,
+    userId,
+    type,
+  }: {
+    postId: PostID;
+    userId: UserID;
     type: UserReaction;
   }): Promise<Reaction> {
-    const { postId } = params;
-    const post = await this.postRepository.byId(postId);
+    const post = await this.postRepository.byId({
+      id: postId,
+      userId,
+    });
     if (!post) {
       throw new TRPCError({
         code: 'NOT_FOUND',
@@ -48,7 +54,11 @@ class PostReactionService implements IPostReactionService {
       });
     }
 
-    return await this.postReactionRepository.upsert(params);
+    return await this.postReactionRepository.upsert({
+      postId,
+      userId,
+      type,
+    });
   }
 }
 

@@ -36,12 +36,15 @@ export interface IPollRepository {
 class PollRepository implements IPollRepository {
   constructor(private db: PrismaClient) {}
 
-  static payloadToPoll(payload: PollPrismaPayload): PollRepositoryPayload {
+  static payloadToPoll(
+    payload: PollPrismaPayload,
+    userId: UserID | null
+  ): PollRepositoryPayload {
     const { id, post, choices, votes } = payload;
 
     return {
       id,
-      post: PostRepository.payloadToPost(post),
+      post: PostRepository.payloadToPost(post, userId),
       choices: choices.map((choice) => {
         return {
           id: choice.id,
@@ -69,7 +72,7 @@ class PollRepository implements IPollRepository {
       },
     });
 
-    return pollPayload && PollRepository.payloadToPoll(pollPayload);
+    return pollPayload && PollRepository.payloadToPoll(pollPayload, userId);
   }
 
   public async getByPollId({
@@ -86,7 +89,7 @@ class PollRepository implements IPollRepository {
       },
     });
 
-    return pollPayload && PollRepository.payloadToPoll(pollPayload);
+    return pollPayload && PollRepository.payloadToPoll(pollPayload, userId);
   }
 
   public async getSelectedChoice({
@@ -141,7 +144,9 @@ class PollRepository implements IPollRepository {
         },
       },
     });
-    return pollsPayload.map(PollRepository.payloadToPoll);
+    return pollsPayload.map((payload) =>
+      PollRepository.payloadToPoll(payload, userId)
+    );
   }
 
   public async create({
@@ -171,7 +176,7 @@ class PollRepository implements IPollRepository {
       },
     });
 
-    return PollRepository.payloadToPoll(pollPayload);
+    return PollRepository.payloadToPoll(pollPayload, userId);
   }
 
   public async update({
@@ -198,7 +203,7 @@ class PollRepository implements IPollRepository {
         },
       },
     });
-    return PollRepository.payloadToPoll(pollPayload);
+    return PollRepository.payloadToPoll(pollPayload, userId);
   }
 
   public async delete(postId: PostID): Promise<void> {

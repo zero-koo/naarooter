@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 import {
-  defaultPostSelect,
+  getDefaultPostSelect,
   PostCreateParams,
   PostRepositoryPayload,
   PostUpdateParams,
@@ -13,7 +13,7 @@ export const getDefaultPollSelect = (userId?: UserID) =>
   Prisma.validator<Prisma.PollSelect>()({
     id: true,
     post: {
-      select: defaultPostSelect,
+      select: getDefaultPostSelect(userId),
     },
     choices: {
       select: {

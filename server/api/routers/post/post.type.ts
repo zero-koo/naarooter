@@ -1,6 +1,6 @@
 import { Reaction } from '@/types/shared';
 
-import { User } from '../user/user.repository.type';
+import { UserID } from '../user/user.type';
 import { PostRepositoryPayload } from './post.repository.type';
 
 export type Post = Omit<
@@ -18,12 +18,12 @@ export type PostID = Post['id'];
 export type PostType = 'POST' | 'POLL';
 
 export type PostListParams = {
-  userId: User['id'] | null;
-  authorId?: User['id'];
+  userId: UserID | null;
+  authorId?: UserID;
   communityId?: string;
   search?: string;
   limit?: number;
-  lastId?: Post['id'];
+  lastId?: PostID;
   sortOrder?: 'asc' | 'desc';
 };
 
@@ -36,7 +36,7 @@ export type PostCreateParams = {
 };
 
 export type PostUpdateParams = {
-  input: { postId: Post['id'] } & Pick<
+  input: { postId: PostID } & Pick<
     PostRepositoryPayload,
     'title' | 'description' | 'images'
   >;
