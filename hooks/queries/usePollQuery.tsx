@@ -1,12 +1,16 @@
-import { api, RouterOutputs } from '@/trpc/react';
+import { api, ReactQueryOptions, RouterOutputs } from '@/trpc/react';
 
-export const usePollQuery = (postId: string) => {
+export const usePollQuery = (
+  postId: string,
+  options?: ReactQueryOptions['poll']['getByPostId']
+) => {
   return api.poll.getByPostId.useSuspenseQuery(
     { postId },
     {
       staleTime: Infinity,
       gcTime: 300 * 1000,
       refetchOnWindowFocus: false,
+      ...options,
     }
   );
 };

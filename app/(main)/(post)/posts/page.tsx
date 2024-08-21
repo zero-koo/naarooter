@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { api } from '@/trpc/server';
+import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeader from '@/components/community/CommunityHeader';
@@ -10,13 +10,13 @@ const PostListPage = async () => {
   void api.post.list.prefetch({});
 
   return (
-    <>
+    <HydrateClient>
       <RootHeader />
       <CommunityHeader title={'전체 포스트'} />
       <Suspense fallback={<LoadingBox className="h-full" />}>
         <PostList />
       </Suspense>
-    </>
+    </HydrateClient>
   );
 };
 

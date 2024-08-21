@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeader from '@/components/community/CommunityHeader';
@@ -13,8 +14,15 @@ export default function PollsPage({
 }: {
   searchParams?: { [key: string]: string | undefined };
 }) {
+  void api.poll.list.prefetch({
+    limit: 2,
+  });
+  void api.post.list.prefetch({
+    limit: 10,
+  });
+
   return (
-    <>
+    <HydrateClient>
       <RootHeader />
       {searchParams?.search ? (
         <PostSearchResultList searchKeyword={searchParams.search} />
@@ -28,6 +36,6 @@ export default function PollsPage({
           </div>
         </Suspense>
       )}
-    </>
+    </HydrateClient>
   );
 }

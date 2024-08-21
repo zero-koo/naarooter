@@ -5,7 +5,7 @@ import { api } from '@/trpc/react';
 import PostListItem from '@/components/post/PostListItem';
 
 const MyPostList = () => {
-  const { data } = api.post.myList.useInfiniteQuery(
+  const [data] = api.post.myList.useSuspenseInfiniteQuery(
     {},
     // TODO!
     // Fix getNextPageParam
@@ -15,6 +15,7 @@ const MyPostList = () => {
       },
     }
   );
+
   return (
     <div className="flex flex-col gap-2 pb-5">
       <div className="px-3 py-1">

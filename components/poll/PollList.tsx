@@ -24,7 +24,7 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
       ) : null}
       {polls.polls.map((poll) => (
         <PostContextProvider key={poll.post.id} postId={poll.post.id}>
-          <PollListItem />
+          <PollListItem initialData={poll} />
         </PostContextProvider>
       ))}
       <Link

@@ -1,11 +1,12 @@
 import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
+import { api, HydrateClient } from '@/trpc/server';
 
 import { COMMUNITY_GROUP_MAP, CommunityGroupId } from '@/lib/constants';
+import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeader from '@/components/community/CommunityHeader';
 import PostList from '@/components/post/PostList';
 import RootHeader from '@/components/RootHeader';
-import PostListSkeleton from '@/components/skeletons/PostListSkeleton';
 
 const PostListByGroupPage = ({
   params: { gid },
@@ -20,14 +21,19 @@ const PostListByGroupPage = ({
     redirect('/not-found');
   }
 
+  void api.post.list.prefetch({
+    groupId: gid,
+    search: searchParams?.search,
+  });
+
   return (
-    <>
+    <HydrateClient>
       <RootHeader />
       <CommunityHeader title={COMMUNITY_GROUP_MAP[gid].title} />
-      <Suspense fallback={<PostListSkeleton count={20} />}>
+      <Suspense fallback={<LoadingBox className="h-full" />}>
         <PostList groupId={gid} searchKeyword={searchParams?.search} />
       </Suspense>
-    </>
+    </HydrateClient>
   );
 };
 

@@ -6,7 +6,7 @@ import { api } from '@/trpc/react';
 import PollListItem from '@/components/poll/PollListItem';
 
 const MyVotedPollList = () => {
-  const { data } = api.poll.myList.useInfiniteQuery(
+  const [polls] = api.poll.myList.useSuspenseInfiniteQuery(
     {},
     // TODO
     // Fix getNextPageParam
@@ -19,10 +19,10 @@ const MyVotedPollList = () => {
 
   return (
     <div className="flex flex-col gap-2 pb-5">
-      {data?.pages.map(({ polls }) =>
+      {polls.pages.map(({ polls }) =>
         polls.map((poll) => (
           <PostContextProvider key={poll.post.id} postId={poll.post.id}>
-            <PollListItem />
+            <PollListItem initialData={poll} />
           </PostContextProvider>
         ))
       )}
