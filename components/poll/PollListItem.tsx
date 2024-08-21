@@ -13,7 +13,10 @@ const PollListItem = () => {
   const [poll] = usePollQuery(id);
 
   return (
-    <GrayBox className="py-2" onClick={() => router.push(`/polls/${poll.id}`)}>
+    <GrayBox
+      className="py-2"
+      onClick={() => router.push(`/polls/${poll.post.id}`)}
+    >
       <PostShowHeaderContent className="px-3" />
       <PollSubmitForm />
     </GrayBox>

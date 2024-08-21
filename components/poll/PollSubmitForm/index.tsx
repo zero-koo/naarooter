@@ -14,7 +14,11 @@ import PollSubmitFormComponent from './PollSubmitForm.component';
 function PollSubmitForm() {
   const { id } = usePostContext();
   const [poll] = usePollQuery(id);
-  const { title, description, images, choices, voted } = poll;
+  const {
+    post: { title, description, images },
+    choices,
+  } = poll;
+  const isVoted = choices.some((choice) => choice.isVoted);
   const totalVoteCount = choices.reduce(
     (count, item) => count + item.voteCount,
     0
@@ -30,11 +34,10 @@ function PollSubmitForm() {
       if (!voteData) {
         updatePoll({
           ...poll,
-          voted: false,
           choices: choices.map((choice) => ({
             ...choice,
-            voted: false,
-            voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
+            isVoted: false,
+            voteCount: choice.isVoted ? choice.voteCount - 1 : choice.voteCount,
           })),
         });
         return;
@@ -43,14 +46,13 @@ function PollSubmitForm() {
       const { pollChoiceId } = voteData;
       updatePoll({
         ...poll,
-        voted: true,
         choices: choices.map((choice) => ({
           ...choice,
-          voted: pollChoiceId === choice.id,
+          isVoted: pollChoiceId === choice.id,
           voteCount:
             pollChoiceId === choice.id
               ? choice.voteCount + 1
-              : choice.voted
+              : choice.isVoted
                 ? choice.voteCount - 1
                 : choice.voteCount,
         })),
@@ -74,10 +76,10 @@ function PollSubmitForm() {
       images={images}
       choices={choices}
       totalVoteCount={totalVoteCount}
-      showResult={voted}
+      showResult={isVoted}
       onSelectChoice={(choiceId) =>
         createVote({
-          pollId: poll.pollId,
+          pollId: poll.id,
           choiceId,
         })
       }

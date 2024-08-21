@@ -51,9 +51,6 @@ export default function CreatePollPage() {
 
 const MIN_CHOICE_COUNT = 2;
 const MAX_CHOICE_COUNT = 20;
-
-const MAX_POLL_TITLE_LENGTH = 100;
-const MAX_POLL_DESCRIPTION_LENGTH = 200;
 const MAX_CHOICE_TITLE_LENGTH = 100;
 
 const pollFormSchema = z
@@ -135,7 +132,7 @@ function PollForm() {
     });
   };
 
-  const { mutate: createPoll, isPending } = api.poll.add.useMutation({
+  const { mutate: createPoll, isPending } = api.poll.create.useMutation({
     onSuccess(data) {
       toast.update({
         message: '투표가 생성되었습니다.',
@@ -162,7 +159,7 @@ function PollForm() {
 
     createPoll({
       ...data,
-      communityId: data.communityId ?? undefined,
+      communityId: data.communityId ?? null,
       description: data.description ?? '',
       images: imageUrls,
       choices: data.choices.map((choice, index) => ({

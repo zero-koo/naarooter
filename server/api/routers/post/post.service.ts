@@ -28,11 +28,27 @@ export interface IPostService {
   }): Promise<void>;
 }
 
-class PostService implements IPostService {
+export class PostService implements IPostService {
   constructor(
     private postRepository: IPostRepository,
     private postReactionRepository: IPostReactionRepository
   ) {}
+
+  public static repositoryPayloadToPost(payload: PostRepositoryPayload): Post {
+    const { author, likeCount, dislikeCount, ...rest } = payload;
+    return {
+      ...rest,
+      author: {
+        ...author,
+        isMe: false,
+      },
+      reaction: {
+        likeCount,
+        dislikeCount,
+        selectedReaction: null,
+      },
+    };
+  }
 
   private async refinePostWithUser(
     postPayload: PostRepositoryPayload,

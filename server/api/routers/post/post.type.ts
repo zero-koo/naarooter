@@ -13,6 +13,8 @@ export type Post = Omit<
   reaction: Reaction;
 };
 
+export type PostID = Post['id'];
+
 export type PostType = 'POST' | 'POLL';
 
 export type PostListParams = {

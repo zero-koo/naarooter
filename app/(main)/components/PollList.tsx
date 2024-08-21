@@ -12,8 +12,8 @@ const PollList = () => {
 
   return (
     <div className="flex flex-col gap-2 pb-5">
-      {polls.items.map((poll) => (
-        <PostContextProvider key={poll.id} postId={poll.id}>
+      {polls.polls.map((poll) => (
+        <PostContextProvider key={poll.post.id} postId={poll.post.id}>
           <PollListItem />
         </PostContextProvider>
       ))}

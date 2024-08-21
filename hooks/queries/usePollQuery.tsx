@@ -1,10 +1,8 @@
 import { api, RouterOutputs } from '@/trpc/react';
-import { useQueryClient } from '@tanstack/react-query';
-import { getQueryKey } from '@trpc/react-query';
 
-export const usePollQuery = (id: string) => {
-  return api.poll.byId.useSuspenseQuery(
-    { id },
+export const usePollQuery = (postId: string) => {
+  return api.poll.getByPostId.useSuspenseQuery(
+    { postId },
     {
       staleTime: Infinity,
       gcTime: 300 * 1000,
@@ -13,12 +11,14 @@ export const usePollQuery = (id: string) => {
   );
 };
 
-export const useUpdatePollQueryData = (id: string) => {
-  const queryClient = useQueryClient();
+export const useUpdatePollQueryData = (postId: string) => {
+  const apiUtils = api.useUtils();
 
-  return (poll: RouterOutputs['poll']['byId']) =>
-    queryClient.setQueryData<RouterOutputs['poll']['byId']>(
-      getQueryKey(api.poll.byId, { id }, 'query'),
+  return (poll: RouterOutputs['poll']['getByPostId']) =>
+    apiUtils.poll.getByPostId.setData(
+      {
+        postId,
+      },
       poll
     );
 };

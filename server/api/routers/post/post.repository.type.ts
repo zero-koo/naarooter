@@ -71,7 +71,7 @@ export type PostUpdateParams = Pick<
 
 export type PostListParams = {
   communityId?: string;
-  authorId?: string;
+  authorId?: string; // TODO: Need to change to 'userId'
   search?: string;
   limit?: number;
   lastId?: PostRepositoryPayload['id'];

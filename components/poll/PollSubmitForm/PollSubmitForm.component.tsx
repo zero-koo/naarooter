@@ -1,3 +1,4 @@
+import { TPollChoice } from '@/server/api/routers/poll/poll.type';
 import { numberFormat } from '@/utils/format';
 
 import CollapsibleContainer from '@/components/CollapsibleContainer';
@@ -11,17 +12,10 @@ interface PollSubmitFormProps {
   title: string;
   description?: string;
   images?: string[];
-  choices: Array<{
-    id: string;
-    main: string;
-    imageUrl?: string | null;
-    index: number;
-    voteCount: number;
-    voted: boolean;
-  }>;
+  choices: Array<TPollChoice>;
   totalVoteCount: number;
   showResult?: boolean;
-  onSelectChoice: (choiceId: string) => void;
+  onSelectChoice: (choiceId: string | null) => void;
   footerRight?: React.ReactNode;
 }
 
@@ -51,16 +45,16 @@ export const PollSubmitFormComponent = ({
           {choices
             .sort((prev, curr) => (prev.index < curr.index ? -1 : 1))
             .map(
-              ({ id: choiceId, main, imageUrl, voted, voteCount }, index) => (
+              ({ id: choiceId, main, imageUrl, isVoted, voteCount }, index) => (
                 <PollChoiceItem
                   id={index}
                   key={index}
                   mainText={main}
                   imageUrl={imageUrl ?? undefined}
-                  isSelected={voted}
+                  isSelected={isVoted}
                   showResult={showResult}
                   voteCountRate={(voteCount / totalVoteCount) * 100}
-                  onClick={() => onSelectChoice(choiceId)}
+                  onClick={() => onSelectChoice(isVoted ? null : choiceId)}
                 />
               )
             )}

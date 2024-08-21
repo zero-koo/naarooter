@@ -19,11 +19,11 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
 
   return (
     <div className="flex flex-1 flex-col gap-2 overflow-auto pb-5">
-      {!polls.items.length ? (
+      {!polls.polls.length ? (
         <div className="flex-center bg-base-100 py-20 text-sm opacity-80">{`'${search}' 에 대한 검색 결과가 없습니다.`}</div>
       ) : null}
-      {polls.items.map((poll) => (
-        <PostContextProvider key={poll.id} postId={poll.id}>
+      {polls.polls.map((poll) => (
+        <PostContextProvider key={poll.post.id} postId={poll.post.id}>
           <PollListItem />
         </PostContextProvider>
       ))}

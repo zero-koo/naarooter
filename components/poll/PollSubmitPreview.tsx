@@ -29,8 +29,8 @@ const PollSubmitPreview = ({
       imageUrl:
         choice.image instanceof File
           ? URL.createObjectURL(choice.image)
-          : choice.image,
-      voted: selectedIndex.current === index,
+          : choice.image ?? null,
+      isVoted: selectedIndex.current === index,
       voteCount: randomInteger(100, 1),
     }))
   );
@@ -39,20 +39,22 @@ const PollSubmitPreview = ({
     0
   );
 
-  const handleSelectChoice = (id: string) => {
+  const handleSelectChoice = (id: string | null) => {
     setChoices((choices) =>
       choices.map((choice) => {
         if (choice.id !== id)
           return {
             ...choice,
-            voted: false,
-            voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount,
+            isVoted: false,
+            voteCount: choice.isVoted ? choice.voteCount - 1 : choice.voteCount,
           };
 
         return {
           ...choice,
-          voted: !choice.voted,
-          voteCount: choice.voted ? choice.voteCount - 1 : choice.voteCount + 1,
+          isVoted: !choice.isVoted,
+          voteCount: choice.isVoted
+            ? choice.voteCount - 1
+            : choice.voteCount + 1,
         };
       })
     );

@@ -18,10 +18,10 @@ export interface IPostRepository {
   delete(id: PostRepositoryPayload['id']): Promise<void>;
 }
 
-class PostRepository implements IPostRepository {
+export class PostRepository implements IPostRepository {
   constructor(private db: PrismaClient) {}
 
-  private _payloadToPost(
+  public static payloadToPost(
     postPayload: PostPrismaPayload
   ): PostRepositoryPayload {
     const {
@@ -83,7 +83,7 @@ class PostRepository implements IPostRepository {
       },
     });
 
-    return postPayload.map(this._payloadToPost);
+    return postPayload.map(PostRepository.payloadToPost);
   }
 
   public async byId(
@@ -95,7 +95,7 @@ class PostRepository implements IPostRepository {
         id,
       },
     });
-    return postPayload && this._payloadToPost(postPayload);
+    return postPayload && PostRepository.payloadToPost(postPayload);
   }
 
   async create({
@@ -116,7 +116,7 @@ class PostRepository implements IPostRepository {
         images,
       },
     });
-    return this._payloadToPost(postPayload);
+    return PostRepository.payloadToPost(postPayload);
   }
 
   async update({
@@ -136,7 +136,7 @@ class PostRepository implements IPostRepository {
         images,
       },
     });
-    return this._payloadToPost(postPayload);
+    return PostRepository.payloadToPost(postPayload);
   }
 
   async delete(id: PostRepositoryPayload['id']): Promise<void> {

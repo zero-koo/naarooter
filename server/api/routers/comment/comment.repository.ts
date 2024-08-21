@@ -17,7 +17,7 @@ export interface ICommentRepository {
   listByPostId(parmas: {
     postId: Post['id'];
     userId?: User['id'] | null;
-    parentCommentId?: CommentID | null
+    parentCommentId?: CommentID | null;
     cursorId?: CommentID | null;
     limit?: number;
     order?: 'asc' | 'desc';
@@ -133,7 +133,7 @@ class CommentRepository implements ICommentRepository {
   }: {
     postId: Post['id'];
     userId?: User['id'] | null;
-    parentCommentId?: CommentID | null
+    parentCommentId?: CommentID | null;
     cursorId?: CommentID;
     limit?: number;
     order?: 'asc' | 'desc';

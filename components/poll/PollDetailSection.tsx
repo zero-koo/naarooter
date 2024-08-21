@@ -9,7 +9,7 @@ import LoadingBox from '../ui/LoadingBox';
 const PollDetailSection = () => {
   const post = usePostContext();
   const [poll] = usePollQuery(post.id);
-  const { data: pollDetail, isLoading } = usePollDetailQuery(post.id);
+  const { data: pollDetail, isLoading } = usePollDetailQuery(poll.id);
 
   return (
     <section className="relative mt-2 p-2 py-3 pl-0">
@@ -18,7 +18,7 @@ const PollDetailSection = () => {
           id: choice.id,
           text: choice.main,
         }))}
-        counts={pollDetail?.counts}
+        counts={pollDetail?.choices}
         maxCount={pollDetail?.maxCount ?? 0}
       />
       {isLoading && (
