@@ -24,6 +24,7 @@ export const postRouter = createTRPCRouter({
 
       const posts = await postService.list({
         ...input,
+        communityId: input.groupId,
         lastId,
         userId: ctx.auth?.user?.id ?? null,
       });
