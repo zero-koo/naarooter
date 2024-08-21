@@ -47,7 +47,6 @@ const PostListItem = ({
   title,
   authorName,
   postType,
-  viewCount,
   likeCount,
   commentCount,
   createdAt,
@@ -73,8 +72,6 @@ const PostListItem = ({
             <div>{authorName}</div>
             <div className={'mx-0.5'}>·</div>
             <div>{formatTimeAgo(createdAt)}</div>
-            <div className={'mx-0.5'}>·</div>
-            <div>{`조회 ${viewCount.toLocaleString()}`}</div>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1">

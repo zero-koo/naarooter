@@ -7,7 +7,7 @@ import PostShowActionMenu from './PostShowActionMenu';
 
 const PostShowHeaderContent = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const { id } = usePostContext();
-  const [{ title, author, createdAt, viewCount }] = usePostQuery(id);
+  const [{ title, author, createdAt }] = usePostQuery(id);
 
   return (
     <div {...props}>
@@ -29,10 +29,6 @@ const PostShowHeaderContent = (props: React.HTMLAttributes<HTMLDivElement>) => {
         )}
         <div className="ml-auto flex">
           <div>{formatTimeAgo(createdAt)}</div>
-          <div className={'mx-0.5'}>·</div>
-          {viewCount !== undefined && (
-            <div>{`조회 ${viewCount.toLocaleString()}`}</div>
-          )}
         </div>
       </div>
     </div>

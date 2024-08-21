@@ -29,7 +29,6 @@ const PostShowComponent = ({
   author,
   isAuthor,
   createdAt,
-  viewCount,
   footer,
 }: PostShowComponentProps) => {
   return (
@@ -53,8 +52,6 @@ const PostShowComponent = ({
           )}
           <div className="ml-auto flex">
             <div>{formatTimeAgo(createdAt)}</div>
-            <div className={'mx-0.5'}>·</div>
-            <div>{`조회 ${viewCount.toLocaleString()}`}</div>
           </div>
         </div>
       </GrayBox>
