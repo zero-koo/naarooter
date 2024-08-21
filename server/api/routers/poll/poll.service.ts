@@ -37,7 +37,10 @@ class PollService implements IPollService {
     private voteRepository: IVoteRepository
   ) {}
 
-  public static repositoryPayloadToPoll(payload: PollRepositoryPayload, userId: UserID | null): TPoll {
+  public static repositoryPayloadToPoll(
+    payload: PollRepositoryPayload,
+    userId: UserID | null
+  ): TPoll {
     return {
       ...payload,
       post: PostService.repositoryPayloadToPost(payload.post, userId),
@@ -66,7 +69,9 @@ class PollService implements IPollService {
 
   public async list(params: PollListParams): Promise<TPoll[]> {
     const pollsPayload = await this.pollRepository.list(params);
-    return pollsPayload.map(payload => PollService.repositoryPayloadToPoll(payload, params.userId));
+    return pollsPayload.map((payload) =>
+      PollService.repositoryPayloadToPoll(payload, params.userId)
+    );
   }
 
   public async getDetailByPollId({
@@ -89,6 +94,7 @@ class PollService implements IPollService {
     }
 
     const votes = await this.voteRepository.listByPollId(pollId);
+    console.log({ votes });
 
     const pollTable = new PollTable(
       votes
@@ -100,8 +106,8 @@ class PollService implements IPollService {
     return {
       id: poll.post.id,
       choices: pollTable.countByChoiceToMBTI,
-      totalCount: pollTable.maxCountByChoiceToMBTI,
-      maxCount: votes.length,
+      maxCount: pollTable.maxCountByChoiceToMBTI,
+      totalCount: votes.length,
     };
   }
 

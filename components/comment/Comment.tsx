@@ -5,6 +5,7 @@ import { api } from '@/trpc/react';
 import { CommentContent } from '@/types/shared';
 import { CornerDownRightIcon } from 'lucide-react';
 
+import { updateReaction } from '@/lib/reaction';
 import {
   usePostCommentsQuery,
   useUpdatePostCommentsQuery,
@@ -16,7 +17,6 @@ import { useUser } from '@/hooks/useUser';
 import { Button } from '../ui/Button';
 import CommentReply from './CommentReply';
 import CommentView from './CommentView';
-import { updateReaction } from '@/lib/reaction';
 
 type CommentProps = {
   initialData: Comment;
@@ -147,28 +147,28 @@ const Comment = ({
     api.commentReaction.upsert.useMutation();
 
   const onClickLike = () => {
-    const updatedReaction = updateReaction(comment.reaction, 'like')
+    const updatedReaction = updateReaction(comment.reaction, 'like');
     mutateCommentReaction({
       type: updatedReaction.selectedReaction ?? null,
-      commentId: comment.id
-    })
-    setComment(comment => ({
+      commentId: comment.id,
+    });
+    setComment((comment) => ({
       ...comment,
-      reaction: updatedReaction
-    }))
-  }
+      reaction: updatedReaction,
+    }));
+  };
 
   const onClickDislike = () => {
-    const updatedReaction = updateReaction(comment.reaction, 'dislike')
+    const updatedReaction = updateReaction(comment.reaction, 'dislike');
     mutateCommentReaction({
       type: updatedReaction.selectedReaction ?? null,
-      commentId: comment.id
-    })
-    setComment(comment => ({
+      commentId: comment.id,
+    });
+    setComment((comment) => ({
       ...comment,
-      reaction: updatedReaction
-    }))
-  }
+      reaction: updatedReaction,
+    }));
+  };
 
   return (
     <div>
