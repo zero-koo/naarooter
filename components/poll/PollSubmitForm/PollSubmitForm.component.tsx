@@ -35,7 +35,7 @@ export const PollSubmitFormComponent = ({
           <ImageCarousel images={images.map((src) => ({ src }))} />
         </div>
       ) : null}
-      {description && <TextViewer initialValue={description} />}
+      {description && <TextViewer value={description} />}
       <CollapsibleContainer
         maxAllowableHeight={250}
         collapsedHeight={220}

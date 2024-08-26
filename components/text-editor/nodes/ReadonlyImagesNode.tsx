@@ -92,21 +92,12 @@ export class ReadonlyImagesNode extends DecoratorBlockNode {
     return false;
   }
 
-  decorate(editor: LexicalEditor, config: EditorConfig): JSX.Element {
-    const embedBlockTheme = config.theme.embedBlock || {};
-    const className = {
-      base: cn('my-1 -mx-1', embedBlockTheme.base || ''),
-      focus: embedBlockTheme.focus || '',
-    };
-
+  decorate(): JSX.Element {
     return (
       <ImagesNodeReadonlyBlock
-        className={className}
         images={this.__images}
         index={this.__index}
         caption={this.__caption}
-        format={this.__format}
-        nodeKey={this.getKey()}
       />
     );
   }
@@ -130,14 +121,8 @@ export function $isImagesNode(
   return node instanceof ReadonlyImagesNode;
 }
 
-const ImagesNodeReadonlyBlock = (props: {
+export const ImagesNodeReadonlyBlock = (props: {
   images: Array<ImageItem>;
   index: number | null;
   caption: string;
-  className: Readonly<{
-    base: string;
-    focus: string;
-  }>;
-  format: ElementFormatType | null;
-  nodeKey: NodeKey;
 }) => <ImagesBlock {...props} readonly hasCaption={!!props.caption.trim()} />;

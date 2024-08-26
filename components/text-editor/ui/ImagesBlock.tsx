@@ -1,6 +1,3 @@
-import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
-import { ElementFormatType, NodeKey } from 'lexical';
-
 import { ImageItem } from '../nodes/ImagesNode';
 import { ImageCaption } from './ImageCaption';
 import { ImageCarousel } from './ImageCarousel';
@@ -11,10 +8,7 @@ export function ImagesBlock({
   index,
   hasCaption,
   caption,
-  className,
   readonly,
-  format,
-  nodeKey,
   onChangeCaption,
   onRemoveCaption,
 }: {
@@ -22,22 +16,12 @@ export function ImagesBlock({
   index: number | null;
   hasCaption: boolean;
   caption: string;
-  className: Readonly<{
-    base: string;
-    focus: string;
-  }>;
   readonly?: boolean;
-  format: ElementFormatType | null;
-  nodeKey: NodeKey;
   onChangeCaption?: (caption: string) => void;
   onRemoveCaption?: () => void;
 }) {
   return (
-    <BlockWithAlignableContents
-      className={className}
-      format={format}
-      nodeKey={nodeKey}
-    >
+    <div>
       {images.length > 1 ? (
         <ImageCarousel
           images={images.map((image) => ({
@@ -62,6 +46,6 @@ export function ImagesBlock({
         onChangeCaption={onChangeCaption}
         onRemoveCaption={onRemoveCaption}
       />
-    </BlockWithAlignableContents>
+    </div>
   );
 }

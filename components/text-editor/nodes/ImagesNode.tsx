@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
 import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
@@ -274,17 +275,20 @@ export function ImagesNodeBlock({
       onRemoveImage={onRemoveItem}
       onToggleCaption={handleToggleCaption}
     >
-      <ImagesBlock
-        images={images}
-        index={index}
-        hasCaption={hasCaption}
-        caption={caption}
+      <BlockWithAlignableContents
         className={className}
         format={format}
         nodeKey={nodeKey}
-        onChangeCaption={onChangeCaption}
-        onRemoveCaption={() => setHasCaption(false)}
-      />
+      >
+        <ImagesBlock
+          images={images}
+          index={index}
+          hasCaption={hasCaption}
+          caption={caption}
+          onChangeCaption={onChangeCaption}
+          onRemoveCaption={() => setHasCaption(false)}
+        />
+      </BlockWithAlignableContents>
     </ImageActionMenuContextProvider>
   );
 }

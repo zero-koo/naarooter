@@ -56,7 +56,7 @@ const PostShowComponent = ({
         </div>
       </GrayBox>
       <div className="flex min-h-[100px] text-sm">
-        <TextViewer initialValue={description} />
+        <TextViewer value={description} />
       </div>
       {footer}
     </div>
