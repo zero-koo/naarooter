@@ -20,7 +20,7 @@ const PostShow = ({ id }: PostShowProps) => {
   return (
     <PostContextProvider postId={post.id}>
       <PostShowComponent
-        groupId={post.communityId}
+        communityId={post.communityId}
         id={id}
         title={post.title}
         description={post.description as string} // TODO: Remove assertion

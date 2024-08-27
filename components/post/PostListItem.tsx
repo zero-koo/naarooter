@@ -31,7 +31,7 @@ const getLink = ({
     case 'POST': {
       return {
         pathname: `/posts/${id}`,
-        ...(listGroupId && { query: { groupId: listGroupId } }),
+        ...(listGroupId && { query: { communityId: listGroupId } }),
       };
     }
     case 'POLL': {

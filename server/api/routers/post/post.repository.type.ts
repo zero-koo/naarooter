@@ -10,7 +10,7 @@ export const getDefaultPostSelect = (userId?: UserID | null) =>
     title: true,
     description: true,
     type: true,
-    groupId: true,
+    communityId: true,
     author: {
       select: {
         id: true,

@@ -181,29 +181,29 @@ const polls: Readonly<Record<string, Poll>> = {
 };
 
 type PostSeed = {
-  groupId: string;
+  communityId: string;
   title: string;
   description: string;
 };
 
 const posts: PostSeed[] = [
   {
-    groupId: 'i',
+    communityId: 'i',
     title: 'INTP 모여라!',
     description: '손?!',
   },
   {
-    groupId: 'i',
+    communityId: 'i',
     title: 'ISFJ 모여라!',
     description: '우리 존재 화이팅!',
   },
   {
-    groupId: 'i',
+    communityId: 'i',
     title: 'INFP 모여라!',
     description: '손?!',
   },
   {
-    groupId: 'e',
+    communityId: 'e',
     title: 'ESTJ 모여라!',
     description: '손?!',
   },

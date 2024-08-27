@@ -1,16 +1,16 @@
 import { api } from '@/trpc/react';
 
 export const usePostListQuery = ({
-  groupId,
+  communityId,
   search,
   limit,
 }: {
-  groupId?: string;
+  communityId?: string;
   search?: string;
   limit?: number;
 }) => {
   return api.post.list.useSuspenseQuery(
-    { groupId, search, limit },
+    { communityId, search, limit },
     {
       gcTime: 300 * 1000,
       refetchOnWindowFocus: false,

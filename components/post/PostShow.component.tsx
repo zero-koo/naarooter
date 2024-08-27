@@ -8,7 +8,7 @@ import GrayBox from '../ui/GrayBox';
 import PostShowActionMenu from './PostShowActionMenu';
 
 interface PostShowComponentProps {
-  groupId: string | null;
+  communityId: string | null;
   id: string;
   title: string;
   description: string;

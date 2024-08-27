@@ -12,7 +12,7 @@ export const postRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({
-        groupId: z.string().optional(),
+        communityId: z.string().optional(),
         search: z.string().optional(),
         limit: z.number().min(1).max(100).default(20),
         cursor: z.string().optional(),
@@ -24,7 +24,7 @@ export const postRouter = createTRPCRouter({
 
       const posts = await postService.list({
         ...input,
-        communityId: input.groupId,
+        communityId: input.communityId,
         lastId,
         userId: ctx.auth?.user?.id ?? null,
       });

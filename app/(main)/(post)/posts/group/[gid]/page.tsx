@@ -22,7 +22,7 @@ const PostListByGroupPage = ({
   }
 
   void api.post.list.prefetch({
-    groupId: gid,
+    communityId: gid,
     search: searchParams?.search,
   });
 
@@ -31,7 +31,7 @@ const PostListByGroupPage = ({
       <RootHeader />
       <CommunityHeader title={COMMUNITY_GROUP_MAP[gid].title} />
       <Suspense fallback={<LoadingBox className="h-full" />}>
-        <PostList groupId={gid} searchKeyword={searchParams?.search} />
+        <PostList communityId={gid} searchKeyword={searchParams?.search} />
       </Suspense>
     </HydrateClient>
   );

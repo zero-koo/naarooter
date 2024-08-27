@@ -3,9 +3,9 @@ import { PostCreateForm } from '@/components/post/PostCreateForm';
 const PostCreatePage = ({
   searchParams,
 }: {
-  searchParams?: { groupId?: string };
+  searchParams?: { communityId?: string };
 }) => {
-  return <PostCreateForm listGroupId={searchParams?.groupId} />;
+  return <PostCreateForm listGroupId={searchParams?.communityId} />;
 };
 
 export default PostCreatePage;

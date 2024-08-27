@@ -124,7 +124,7 @@ class PollRepository implements IPollRepository {
       take: limit + 1,
       where: {
         post: {
-          groupId: communityId,
+          communityId: communityId,
           AND: search?.split(' ').map((keyword) => ({
             title: {
               contains: keyword,
@@ -163,7 +163,7 @@ class PollRepository implements IPollRepository {
         post: {
           create: {
             title,
-            groupId: communityId,
+            communityId: communityId,
             description,
             images,
             type: 'POLL',

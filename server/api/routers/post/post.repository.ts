@@ -37,7 +37,7 @@ export class PostRepository implements IPostRepository {
       author,
       title,
       description,
-      groupId: communityId,
+      communityId: communityId,
       createdAt,
       images,
       type,
@@ -87,7 +87,7 @@ export class PostRepository implements IPostRepository {
       select: getDefaultPostSelect(userId),
       take: limit + 1,
       where: {
-        groupId: communityId,
+        communityId: communityId,
         authorId,
         AND: search?.split(' ').map((keyword) => ({
           title: {
@@ -138,7 +138,7 @@ export class PostRepository implements IPostRepository {
       select: getDefaultPostSelect(authorId),
       data: {
         authorId: authorId,
-        groupId: communityId,
+        communityId: communityId,
         title,
         description,
         type: 'POST',

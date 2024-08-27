@@ -112,8 +112,8 @@ model Post {
 
   type PostType
 
-  groupId String?
-  group   PostGroup? @relation(fields: [groupId], references: [id])
+  communityId String?
+  group   PostGroup? @relation(fields: [communityId], references: [id])
 
   poll Poll?
 

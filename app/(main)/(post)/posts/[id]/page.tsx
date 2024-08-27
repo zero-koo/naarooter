@@ -10,9 +10,9 @@ const PostPage = async ({
   searchParams,
 }: {
   params: { id: string };
-  searchParams?: { groupId?: string };
+  searchParams?: { communityId?: string };
 }) => {
-  const listGroupId = searchParams?.groupId;
+  const listGroupId = searchParams?.communityId;
   void api.post.byId.prefetch({
     id: params.id,
   });
