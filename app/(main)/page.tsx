@@ -14,10 +14,10 @@ export default function PollsPage({
 }: {
   searchParams?: { [key: string]: string | undefined };
 }) {
-  void api.poll.list.prefetch({
+  void api.poll.list.prefetchInfinite({
     limit: 2,
   });
-  void api.post.list.prefetch({
+  void api.post.list.prefetchInfinite({
     limit: 10,
   });
 

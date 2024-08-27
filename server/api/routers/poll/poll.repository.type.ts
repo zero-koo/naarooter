@@ -72,7 +72,7 @@ export type PollListGetParams = {
   authorId?: string;
   search?: string;
   limit?: number;
-  lastId?: PostID;
+  cursorId?: PostID;
   sortOrder?: 'asc' | 'desc';
 };
 

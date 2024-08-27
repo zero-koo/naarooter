@@ -11,7 +11,7 @@ export default function PollsPage({
 }: {
   searchParams?: { [key: string]: string | undefined };
 }) {
-  void api.poll.list.prefetch({
+  void api.poll.list.prefetchInfinite({
     search: searchParams?.search,
   });
 

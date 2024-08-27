@@ -114,7 +114,7 @@ class PollRepository implements IPollRepository {
   public async list({
     userId,
     communityId,
-    lastId,
+    cursorId,
     limit = 10,
     search,
     sortOrder,
@@ -133,9 +133,9 @@ class PollRepository implements IPollRepository {
           })),
         },
       },
-      cursor: lastId
+      cursor: cursorId
         ? {
-            postId: lastId,
+            postId: cursorId,
           }
         : undefined,
       orderBy: {

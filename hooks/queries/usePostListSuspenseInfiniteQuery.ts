@@ -1,6 +1,6 @@
 import { api } from '@/trpc/react';
 
-export const usePostListQuery = ({
+export const usePostListSuspenseInfiniteQuery = ({
   communityId,
   search,
   limit,
@@ -9,11 +9,15 @@ export const usePostListQuery = ({
   search?: string;
   limit?: number;
 }) => {
-  return api.post.list.useSuspenseQuery(
+  return api.post.list.useSuspenseInfiniteQuery(
     { communityId, search, limit },
     {
-      gcTime: 300 * 1000,
+      staleTime: 60_000,
+      gcTime: 300_000,
       refetchOnWindowFocus: false,
+      getNextPageParam({ nextCursor }) {
+        return nextCursor;
+      },
     }
   );
 };

@@ -7,7 +7,7 @@ import PostList from '@/components/post/PostList';
 import RootHeader from '@/components/RootHeader';
 
 const PostListPage = async () => {
-  void api.post.list.prefetch({});
+  void api.post.list.prefetchInfinite({});
 
   return (
     <HydrateClient>

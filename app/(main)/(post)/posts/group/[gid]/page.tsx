@@ -21,7 +21,7 @@ const PostListByGroupPage = ({
     redirect('/not-found');
   }
 
-  void api.post.list.prefetch({
+  void api.post.list.prefetchInfinite({
     communityId: gid,
     search: searchParams?.search,
   });

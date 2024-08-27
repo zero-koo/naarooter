@@ -4,28 +4,31 @@ import { PostContextProvider } from '@/contexts/PostContext';
 import { api } from '@/trpc/react';
 
 import PollListItem from '@/components/poll/PollListItem';
+import { InfiniteScrollTrigger } from '@/components/utils/InfiniteScrollTrigger';
 
 const MyVotedPollList = () => {
-  const [polls] = api.poll.myList.useSuspenseInfiniteQuery(
-    {},
-    // TODO
-    // Fix getNextPageParam
-    {
-      getNextPageParam(lastPage) {
-        return lastPage.nextCursor;
-      },
-    }
-  );
+  const [myVotedPollsInfiniteQueryData, myVotedPollsInfiniteQueryResult] =
+    api.poll.myList.useSuspenseInfiniteQuery(
+      {},
+      {
+        getNextPageParam(lastPage) {
+          return lastPage.nextCursor;
+        },
+      }
+    );
 
   return (
-    <div className="flex flex-col gap-2 pb-5">
-      {polls.pages.map(({ polls }) =>
-        polls.map((poll) => (
-          <PostContextProvider key={poll.post.id} postId={poll.post.id}>
-            <PollListItem initialData={poll} />
-          </PostContextProvider>
-        ))
-      )}
+    <div className="pb-5">
+      <div className="flex flex-col gap-2">
+        {myVotedPollsInfiniteQueryData.pages.map(({ polls }) =>
+          polls.map((poll) => (
+            <PostContextProvider key={poll.post.id} postId={poll.post.id}>
+              <PollListItem initialData={poll} />
+            </PostContextProvider>
+          ))
+        )}
+      </div>
+      <InfiniteScrollTrigger {...myVotedPollsInfiniteQueryResult} />
     </div>
   );
 };

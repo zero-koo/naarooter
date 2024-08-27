@@ -1,0 +1,16 @@
+.loader {
+  width: 40px;
+  animation: l7 1s infinite linear;
+  aspect-ratio: 4;
+  background: var(--g) 0%   50%,
+    var(--g) 50%  50%,
+    var(--g) 100% 50%;
+  background-size: calc(100%/3) 100%;
+
+  --g: no-repeat radial-gradient(circle closest-side, hsl(var(--p)) 90%, #0000);
+}
+@keyframes l7 {
+  33% {background-size: calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
+  50% {background-size: calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
+  66% {background-size: calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
+}

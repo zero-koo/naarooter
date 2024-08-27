@@ -11,7 +11,7 @@ export const pollRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       z.object({
-        limit: z.number().min(1).max(100).default(20),
+        limit: z.number().min(1).max(100).default(10),
         search: z.string().optional(),
         cursor: z.string().optional(),
         initialCursor: z.string().optional(),
@@ -31,7 +31,7 @@ export const pollRouter = createTRPCRouter({
 
       if (polls.length > input.limit) {
         const lastItem = polls.pop()!;
-        nextCursor = lastItem.id;
+        nextCursor = lastItem.post.id;
       }
 
       return {

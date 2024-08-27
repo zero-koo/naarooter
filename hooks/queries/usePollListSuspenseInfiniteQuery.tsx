@@ -1,18 +1,21 @@
 import { api } from '@/trpc/react';
 
-export const usePollListQuery = ({
+export const usePollListSuspenseInfiniteQuery = ({
   search,
   limit,
 }: { search?: string; limit?: number } = {}) => {
-  return api.poll.list.useSuspenseQuery(
+  return api.poll.list.useSuspenseInfiniteQuery(
     {
       search,
       limit,
     },
     {
-      staleTime: Infinity,
+      staleTime: 60_000,
       gcTime: 300 * 1000,
       refetchOnWindowFocus: false,
+      getNextPageParam(lastPage) {
+        return lastPage.nextCursor;
+      },
     }
   );
 };
