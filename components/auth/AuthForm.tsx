@@ -16,7 +16,7 @@ type AuthFormParams = {
 
 const AuthForm = ({ title, redirect = true }: AuthFormParams) => {
   const searchParams = useSearchParams();
-  const redirectTo = searchParams?.get('redirectTo');
+  const redirectTo = searchParams?.get('redirect');
 
   const login = (site: 'google' | 'naver' | 'kakao') =>
     socialLogin(site, { redirect, redirectTo: redirectTo ?? undefined });

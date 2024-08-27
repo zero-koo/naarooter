@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { PlusIcon } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 import { usePostListQuery } from '@/hooks/queries/usePostListQuery';
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
@@ -14,6 +15,7 @@ interface PostListProps {
 }
 
 const PostList = ({ communityId, searchKeyword }: PostListProps) => {
+  const session = useSession();
   const { getSearchParams } = useURLSearchParams();
 
   const search = getSearchParams('search') ?? searchKeyword;
@@ -49,7 +51,11 @@ const PostList = ({ communityId, searchKeyword }: PostListProps) => {
       )}
       <Link
         className="fixed bottom-5 right-5 rounded-full bg-primary p-2"
-        href={`/posts/create?communityId=${communityId}`}
+        href={
+          session.data?.user
+            ? `/posts/create?communityId=${communityId}`
+            : `/signin?redirect=${encodeURIComponent(`/posts/create?communityId=${communityId}`)}`
+        }
       >
         <PlusIcon />
       </Link>

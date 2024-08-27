@@ -3,7 +3,11 @@
  * These routes do not require authentication
  * @type {string[]}
  */
-export const publicRoutes = ['/', '/public'];
+export const publicRoutes = [
+  '^/$',
+  '^/(posts|polls)(/[0-9a-fA-F-]{36})?$',
+  '^/posts/group/[a-z]+$',
+];
 
 /**
  * An array of routes that are used for authentication
