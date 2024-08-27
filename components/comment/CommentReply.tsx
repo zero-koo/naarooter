@@ -85,6 +85,7 @@ const CommentReply = ({
       authorId={reply.author.id}
       authorName={reply.author.name}
       authorMBTI={reply.author.mbti}
+      targetUserName={reply.targetUser?.name}
       comments={[]}
       commentsCount={0}
       likeCount={likeCount}

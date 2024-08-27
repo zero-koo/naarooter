@@ -184,6 +184,7 @@ const Comment = ({
         likeCount={comment.reaction.likeCount}
         dislikeCount={comment.reaction.dislikeCount}
         selectedReaction={comment.reaction.selectedReaction}
+        targetUserName={comment.targetUser?.name}
         commentsCount={commentsCount}
         onAddReply={handleAddComment}
         onUpdate={handleUpdateComment}
