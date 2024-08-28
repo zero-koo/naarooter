@@ -9,7 +9,7 @@ import { updateReaction } from '@/lib/reaction';
 import {
   usePostCommentsQuery,
   useUpdatePostCommentsQuery,
-} from '@/hooks/queries/usePostComentsQuery';
+} from '@/hooks/queries/usePostCommentsQuery';
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useReaction } from '@/hooks/useReaction';
 import { useUser } from '@/hooks/useUser';

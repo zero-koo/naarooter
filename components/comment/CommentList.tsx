@@ -4,7 +4,7 @@ import { api } from '@/trpc/react';
 import {
   usePostCommentsQuery,
   useUpdatePostCommentsQuery,
-} from '@/hooks/queries/usePostComentsQuery';
+} from '@/hooks/queries/usePostCommentsQuery';
 
 import GrayBox from '../ui/GrayBox';
 import CommentListView from './CommentListView';

@@ -1,6 +1,6 @@
 import { api } from '@/trpc/react';
 
-import { usePostCommentsQuery } from '@/hooks/queries/usePostComentsQuery';
+import { usePostCommentsQuery } from '@/hooks/queries/usePostCommentsQuery';
 import { useToast } from '@/hooks/useToast';
 import { useUser } from '@/hooks/useUser';
 
