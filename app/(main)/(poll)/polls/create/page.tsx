@@ -139,7 +139,7 @@ function PollForm() {
         theme: 'success',
       });
 
-      router.push(`/polls/${data.id}`);
+      router.push(`/polls/${data.post.id}`);
     },
   });
   const onSubmit = async (data: PollInput) => {
