@@ -98,7 +98,7 @@ function nodeToJSX(node: SerializedEditorNode, key?: string | number) {
         );
       }
       default: {
-        return node.children.map(nodeToJSX);
+        return node.children?.map(nodeToJSX);
       }
     }
   })();
