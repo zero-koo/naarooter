@@ -28,7 +28,7 @@ export default function PollsPage({
         <PostSearchResultList searchKeyword={searchParams.search} />
       ) : (
         <Suspense fallback={<LoadingBox className="h-full" />}>
-          <div className="mt-2 flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto">
             <CommunityHeader title="인기 설문조사" href="/polls" />
             <PollList />
             <CommunityHeader title="인기 포스트" href="/posts" />

@@ -36,7 +36,7 @@ const PollSubmitFormComponent = ({
   return (
     <>
       {images.length ? (
-        <div className="px-2 py-1">
+        <div className="px-2 pt-3">
           <ImageCarousel images={imageSrcs} />
         </div>
       ) : null}
