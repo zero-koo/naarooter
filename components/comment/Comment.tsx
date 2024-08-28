@@ -11,7 +11,6 @@ import {
   useUpdatePostCommentsQuery,
 } from '@/hooks/queries/usePostCommentsQuery';
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
-import { useReaction } from '@/hooks/useReaction';
 import { useUser } from '@/hooks/useUser';
 
 import { Button } from '../ui/Button';
