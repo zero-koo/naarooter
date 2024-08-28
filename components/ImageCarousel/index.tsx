@@ -11,7 +11,7 @@ type ImageCarouselProps = {
   chilrenPerItem?: React.FC<{ index: number }>;
 };
 
-export default function ImageCarousel({
+function ImageCarousel({
   images,
   chilrenPerItem: ChildPerItem,
 }: React.PropsWithChildren<ImageCarouselProps>) {
@@ -32,3 +32,5 @@ export default function ImageCarousel({
     </div>
   );
 }
+
+export default React.memo(ImageCarousel);

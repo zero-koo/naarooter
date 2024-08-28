@@ -1,6 +1,6 @@
 import { ImageItem } from '../nodes/ImagesNode';
 import { ImageCaption } from './ImageCaption';
-import { ImageCarousel } from './ImageCarousel';
+import ImageCarousel from './ImageCarousel';
 import ImageSingleView from './ImageSingleView';
 
 export function ImagesBlock({

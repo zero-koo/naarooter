@@ -1,3 +1,4 @@
+import React, { useMemo } from 'react';
 import { TPollChoice } from '@/server/api/routers/poll/poll.type';
 import { numberFormat } from '@/utils/format';
 
@@ -19,7 +20,7 @@ interface PollSubmitFormProps {
   footerRight?: React.ReactNode;
 }
 
-export const PollSubmitFormComponent = ({
+const PollSubmitFormComponent = ({
   description,
   images = [],
   choices,
@@ -28,11 +29,15 @@ export const PollSubmitFormComponent = ({
   onSelectChoice,
   footerRight,
 }: PollSubmitFormProps) => {
+  const imageSrcs = useMemo(() => {
+    return images.map((src) => ({ src }));
+  }, [images]);
+
   return (
     <>
       {images.length ? (
         <div className="px-2 py-1">
-          <ImageCarousel images={images.map((src) => ({ src }))} />
+          <ImageCarousel images={imageSrcs} />
         </div>
       ) : null}
       {description && <TextViewer value={description} />}

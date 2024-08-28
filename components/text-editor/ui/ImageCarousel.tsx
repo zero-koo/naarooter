@@ -1,3 +1,5 @@
+import React from 'react';
+
 import ImageSquareView from '@/components/ImageSquareView';
 import { ImageUploadable } from '@/components/ImageUploadable';
 
@@ -13,7 +15,7 @@ type ImageCarouselProps = {
   readonly?: boolean;
 };
 
-export function ImageCarousel({ images, index, readonly }: ImageCarouselProps) {
+function ImageCarousel({ images, index, readonly }: ImageCarouselProps) {
   return (
     <div className="carousel flex w-full gap-2 py-0">
       {images.map(({ src, uploadPromise }, subIndex) => (
@@ -34,3 +36,5 @@ export function ImageCarousel({ images, index, readonly }: ImageCarouselProps) {
     </div>
   );
 }
+
+export default React.memo(ImageCarousel);
