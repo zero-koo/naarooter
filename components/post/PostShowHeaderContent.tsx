@@ -7,13 +7,13 @@ import PostShowActionMenu from './PostShowActionMenu';
 
 const PostShowHeaderContent = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const { id } = usePostContext();
-  const [{ title, author, createdAt }] = usePostQuery(id);
+  const [{ title, author, createdAt, type }] = usePostQuery(id);
 
   return (
     <div {...props}>
       <div className="flex items-start py-1">
         <div className="text-lg font-semibold">{title}</div>
-        {author.isMe && <PostShowActionMenu />}
+        {type === 'POST' && author.isMe && <PostShowActionMenu />}
       </div>
       <div className="flex items-center justify-between text-xs opacity-70">
         {author && (
