@@ -271,7 +271,7 @@ function PollForm() {
             />
           </GrayBox>
           {imagesPromise.length ? (
-            <div className="px-2">
+            <div className="px-2 pt-3">
               <ImageCarousel
                 images={imagesPromise.map(({ image, promise }) => ({
                   src: image,
@@ -289,18 +289,15 @@ function PollForm() {
                               maxCount: 1,
                             });
                             setImagesPromise((images) => [
-                              ...images.slice(0, index),
+                              ...images.slice(0, index + 1),
                               {
                                 image: newImage,
                                 promise: uploadImage({
                                   file: newImage,
                                 }).then((image) => image.url),
                               },
-                              ...images.slice(index),
+                              ...images.slice(index + 1),
                             ]);
-                            setImagesPromise((images) =>
-                              images.filter((_, idx) => index !== idx)
-                            );
                           },
                         },
                         {
