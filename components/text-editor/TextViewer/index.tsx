@@ -43,7 +43,8 @@ export type TagType =
 function getTagNode(node: SerializedEditorNode): TagType {
   switch (node.type) {
     case 'paragraph':
-      return 'p';
+    case 'text':
+      return 'div';
     default:
       return React.Fragment;
   }
