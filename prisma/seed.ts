@@ -265,11 +265,11 @@ async function seedDefaultData() {
   });
 
   await prisma.user.upsert({
-    where: { email: 'berksmile@gmail.com' },
+    where: { email: 'dev_account@gmail.com' },
     update: {},
     create: {
       id: 'clydwekn1000008la5qsv5l0t',
-      email: 'berksmile@gmail.com',
+      email: 'dev_account@gmail.com',
       name: '질문봇',
       mbti: 'INTP',
       posts: {
@@ -295,11 +295,11 @@ async function seedDefaultData() {
     },
   });
   await prisma.user.upsert({
-    where: { email: 'inzerokoo@gmail.com' },
+    where: { email: 'dev_account+0@gmail.com' },
     update: {},
     create: {
       id: 'clydwfjqi000108la110h1bqe',
-      email: 'inzerokoo@gmail.com',
+      email: 'dev_account+0@gmail.com',
       name: '운영자',
       mbti: 'ESFJ',
       posts: {

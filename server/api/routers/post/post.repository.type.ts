@@ -48,7 +48,7 @@ export type PostPrismaPayload = Prisma.PostGetPayload<{
 export type PostRepositoryPayload = {
   id: string;
   title: string;
-  communityId: string | null;
+  communityId: string;
   author: {
     id: string;
     name: string | null;
