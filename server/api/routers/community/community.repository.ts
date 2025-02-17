@@ -20,6 +20,11 @@ export interface ICommunityRepository {
   }: {
     id: CommunityRepositoryPayload['id'];
   }): Promise<CommunityRepositoryPayload | null>;
+  byName({
+    name,
+  }: {
+    name: string;
+  }): Promise<CommunityRepositoryPayload | null>;
   create(
     params: CommunityRepositoryCreateParams
   ): Promise<CommunityRepositoryPayload>;
@@ -32,7 +37,6 @@ export interface ICommunityRepository {
 
 export class CommunityRepository implements ICommunityRepository {
   constructor(private db: PrismaClient) {}
-
   static payloadToCommunity({
     id,
     name,
@@ -79,6 +83,20 @@ export class CommunityRepository implements ICommunityRepository {
       select: getDefaultCommunitySelect(),
       where: {
         id,
+      },
+    });
+    if (!communityPayload) return null;
+    return CommunityRepository.payloadToCommunity(communityPayload);
+  }
+  async byName({
+    name,
+  }: {
+    name: string;
+  }): Promise<CommunityRepositoryPayload | null> {
+    const communityPayload = await this.db.community.findUnique({
+      select: getDefaultCommunitySelect(),
+      where: {
+        name,
       },
     });
     if (!communityPayload) return null;

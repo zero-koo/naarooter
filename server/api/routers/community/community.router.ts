@@ -108,7 +108,7 @@ export const communityRouter = createTRPCRouter({
             'You are not authorized to delete this community. Only the owner can perform this action.',
         });
       }
-      await communityService.delete(input.id);
+      return await communityService.delete(input.id);
     }),
   join: privateProcedure
     .input(
@@ -117,9 +117,20 @@ export const communityRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      await communityService.join({
+      return await communityService.join({
         communityId: input.communityId,
         userId: ctx.userId,
+      });
+    }),
+  checkName: privateProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      return await communityService.checkName({
+        name: input.name,
       });
     }),
 });

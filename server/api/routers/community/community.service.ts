@@ -18,6 +18,7 @@ export interface ICommunityService {
   update(params: CommunityUpdateParams): Promise<Community>;
   delete(id: CommunityID): Promise<void>;
   join(params: { communityId: CommunityID; userId: UserID }): Promise<void>;
+  checkName({ name }: { name: string }): Promise<{ exist: boolean }>;
 }
 
 export class CommunityService implements ICommunityService {
@@ -40,6 +41,12 @@ export class CommunityService implements ICommunityService {
   }
   join(params: { communityId: CommunityID; userId: UserID }): Promise<void> {
     return this.communityRepository.join(params);
+  }
+  async checkName({ name }: { name: string }): Promise<{ exist: boolean }> {
+    const community = await this.communityRepository.byName({ name });
+    return {
+      exist: !!community,
+    };
   }
 }
 
