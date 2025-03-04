@@ -81,7 +81,7 @@ export function Button({
       {...rest}
     >
       {LeftIcon && <LeftIcon size={iconSizeMap[size]} />}
-      <span>{children}</span>
+      {children}
       {RightIcon && <RightIcon size={iconSizeMap[size]} />}
     </button>
   );

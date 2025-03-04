@@ -28,6 +28,7 @@ type CommunityID = CommunityRepositoryPayload['id'];
 export type CommunityRepositoryListParams = {
   topicId?: number;
   limit?: number;
+  userId?: UserID;
   lastId?: CommunityID;
 };
 

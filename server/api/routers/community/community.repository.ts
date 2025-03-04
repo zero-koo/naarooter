@@ -54,6 +54,7 @@ export class CommunityRepository implements ICommunityRepository {
   }
   async list({
     topicId,
+    userId,
     limit = 50,
     lastId,
   }: CommunityRepositoryListParams): Promise<CommunityRepositoryPayload[]> {
@@ -62,6 +63,11 @@ export class CommunityRepository implements ICommunityRepository {
       take: limit + 1,
       where: {
         topicId,
+        users: {
+          some: {
+            id: userId,
+          },
+        },
       },
       cursor: lastId
         ? {

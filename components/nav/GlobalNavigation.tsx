@@ -1,14 +1,14 @@
-'use client';
-
+import { auth } from '@/auth';
 import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 
+import CommunityList from './CommunityList';
 import GlobalNavigationContainer from './GlobalNavigationContainer';
 import { NavMenu } from './NavMenu';
 import NavSubtitle from './NavSubtitle';
 
-const GlobalNavigation = () => {
-  const { status } = useSession();
+const GlobalNavigation = async () => {
+  const session = await auth();
+
   return (
     <GlobalNavigationContainer>
       <NavMenu link={'/'} icon={<HomeIcon size={16} strokeWidth={2.5} />}>
@@ -49,8 +49,10 @@ const GlobalNavigation = () => {
         즉흥방
       </NavMenu>
 
-      {status === 'authenticated' ? (
+      {session?.user ? (
         <>
+          <NavSubtitle>커뮤니티</NavSubtitle>
+          <CommunityList />
           <NavSubtitle>나</NavSubtitle>
           <NavMenu
             link={'/account/posts'}
