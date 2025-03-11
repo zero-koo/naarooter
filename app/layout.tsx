@@ -3,7 +3,6 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { auth } from '@/auth';
 import { TRPCReactProvider } from '@/trpc/react';
-import { api } from '@/trpc/server';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SessionProvider } from 'next-auth/react';
 import { twMerge } from 'tailwind-merge';
@@ -24,10 +23,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-
-  if (session?.user) {
-    void api.community.myList.prefetch({});
-  }
 
   return (
     <SessionProvider session={session}>
