@@ -1,6 +1,7 @@
 import { prisma } from '@/server/prisma';
 import { PrismaClient } from '@prisma/client';
 
+import { UserID } from '../user/user.type';
 import {
   CommunityPrismaPayload,
   CommunityRepositoryCreateParams,
@@ -10,6 +11,7 @@ import {
   CommunityRepositoryUpdateParams,
   getDefaultCommunitySelect,
 } from './community.repository.type';
+import { CommunityID } from './communty.type';
 
 export interface ICommunityRepository {
   list(
@@ -65,7 +67,7 @@ export class CommunityRepository implements ICommunityRepository {
         topicId,
         users: {
           some: {
-            id: userId,
+            userId,
           },
         },
       },
@@ -161,10 +163,33 @@ export class CommunityRepository implements ICommunityRepository {
       where: { id: communityId },
       data: {
         users: {
-          connect: { id: userId },
+          connect: {
+            userId_communityId: {
+              communityId,
+              userId,
+            },
+          },
         },
       },
     });
+  }
+  async hasUser({
+    communityId,
+    userId,
+  }: {
+    communityId: CommunityID;
+    userId: UserID;
+  }): Promise<boolean> {
+    const userCommunity = await this.db.userCommunity.findUnique({
+      where: {
+        userId_communityId: {
+          userId,
+          communityId,
+        },
+      },
+    });
+
+    return !!userCommunity;
   }
 }
 

@@ -61,9 +61,18 @@ export const communityRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      return await communityService.byId({
+      const community = await communityService.byId({
         id: input.id,
       });
+
+      if (!community) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No community with id '${input.id}'`,
+        });
+      }
+
+      return community;
     }),
   create: privateProcedure
     .input(

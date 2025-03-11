@@ -23,7 +23,8 @@ model User {
   mbti   MBTI?
   status UserStatus @default(DEFAULT)
 
-  communities      Community[]      @relation("UserCommunity")
+  communities      UserCommunity[]
+  ownCommunity     Community[]
   posts            Post[]
   votes            Vote[]
   comments         Comment[]        @relation("AuthorRelation")
@@ -33,9 +34,8 @@ model User {
   commentLike      CommentLike[]
   commentDislike   CommentDislike[]
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt
-  Community Community[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Account {
@@ -109,10 +109,19 @@ model Community {
   topic       CommunityTopic @relation(fields: [topicId], references: [id])
 
   ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id])
-  users   User[] @relation("UserCommunity")
+  owner   User            @relation(fields: [ownerId], references: [id])
+  users   UserCommunity[]
 
   posts Post[]
+}
+
+model UserCommunity {
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId String
+
+  @@id([userId, communityId])
 }
 
 model CommunityTopic {
