@@ -60,10 +60,18 @@ export const communityRouter = createTRPCRouter({
         id: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const community = await communityService.byId({
         id: input.id,
       });
+
+      const isJoined =
+        ctx.userId === null
+          ? false
+          : await communityService.hasUser({
+              communityId: input.id,
+              userId: ctx.userId,
+            });
 
       if (!community) {
         throw new TRPCError({
@@ -72,7 +80,10 @@ export const communityRouter = createTRPCRouter({
         });
       }
 
-      return community;
+      return {
+        ...community,
+        isJoined,
+      };
     }),
   create: privateProcedure
     .input(
@@ -127,6 +138,18 @@ export const communityRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       return await communityService.join({
+        communityId: input.communityId,
+        userId: ctx.userId,
+      });
+    }),
+  withdraw: privateProcedure
+    .input(
+      z.object({
+        communityId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await communityService.withdraw({
         communityId: input.communityId,
         userId: ctx.userId,
       });

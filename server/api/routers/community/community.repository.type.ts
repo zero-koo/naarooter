@@ -47,3 +47,8 @@ export type CommunityRepositoryJoinParams = {
   communityId: CommunityID;
   userId: UserID;
 };
+
+export type CommunityRepositoryWithdrawParams = {
+  communityId: CommunityID;
+  userId: UserID;
+};

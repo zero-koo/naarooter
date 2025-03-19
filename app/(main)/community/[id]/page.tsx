@@ -21,12 +21,12 @@ export default async function CommunityPage({
     communityId: params.id,
     search: searchParams?.search,
   });
-  const community = await api.community.byId({ id: params.id });
+  void api.community.byId.prefetch({ id: params.id });
 
   return (
     <HydrateClient>
       <RootHeader />
-      <CommunityHeader title={community.name} communityId={params.id} />
+      <CommunityHeader communityId={params.id} />
       <Suspense fallback={<LoadingBox className="h-full" />}>
         <PostList communityId={params.id} />
       </Suspense>

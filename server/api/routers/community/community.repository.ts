@@ -1,3 +1,4 @@
+import { connect } from 'http2';
 import { prisma } from '@/server/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -9,6 +10,7 @@ import {
   CommunityRepositoryListParams,
   CommunityRepositoryPayload,
   CommunityRepositoryUpdateParams,
+  CommunityRepositoryWithdrawParams,
   getDefaultCommunitySelect,
 } from './community.repository.type';
 import { CommunityID } from './communty.type';
@@ -35,6 +37,11 @@ export interface ICommunityRepository {
   ): Promise<CommunityRepositoryPayload>;
   delete(id: CommunityRepositoryPayload['id']): Promise<void>;
   join(params: CommunityRepositoryJoinParams): Promise<void>;
+  withdraw(params: CommunityRepositoryWithdrawParams): Promise<void>;
+  hasUser(params: {
+    communityId: CommunityID;
+    userId: UserID;
+  }): Promise<boolean>;
 }
 
 export class CommunityRepository implements ICommunityRepository {
@@ -159,16 +166,22 @@ export class CommunityRepository implements ICommunityRepository {
     communityId,
     userId,
   }: CommunityRepositoryJoinParams): Promise<void> {
-    await this.db.community.update({
-      where: { id: communityId },
+    await this.db.userCommunity.create({
       data: {
-        users: {
-          connect: {
-            userId_communityId: {
-              communityId,
-              userId,
-            },
-          },
+        user: { connect: { id: userId } },
+        community: { connect: { id: communityId } },
+      },
+    });
+  }
+  async withdraw({
+    communityId,
+    userId,
+  }: CommunityRepositoryWithdrawParams): Promise<void> {
+    await this.db.userCommunity.delete({
+      where: {
+        userId_communityId: {
+          userId,
+          communityId,
         },
       },
     });
