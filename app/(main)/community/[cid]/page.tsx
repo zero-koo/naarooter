@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
-import CommnunityDescription from '@/components/community/CommunityDescription';
 import CommunityHeader from '@/components/community/CommunityHeader';
+import CommnunitySidebar from '@/components/community/CommunitySidebar';
 import MainLayout from '@/components/layouts/MainLayout';
 import PostList from '@/components/post/PostList';
 import RootHeader from '@/components/RootHeader';
@@ -37,7 +37,7 @@ export default async function CommunityPage({
         }
         aside={
           <Suspense>
-            <CommnunityDescription communityId={params.cid} />
+            <CommnunitySidebar communityId={params.cid} />
           </Suspense>
         }
       />

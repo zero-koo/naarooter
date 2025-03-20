@@ -1,7 +1,9 @@
 import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
+import CommunitySidebar from '@/components/community/CommunitySidebar';
 import DefaultItemHeader from '@/components/DefaultItemHeader';
+import MainLayout from '@/components/layouts/MainLayout';
 import PostShow from '@/components/post/PostShow';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
 
@@ -25,10 +27,19 @@ export default async function CommunityPostPage({
 
   return (
     <HydrateClient>
-      <DefaultItemHeader backLink={`/community/${params.cid}`} />
-      <Suspense fallback={<PostSkeleton />}>
-        <PostShow id={params.pid} />
-      </Suspense>
+      <MainLayout
+        header={<DefaultItemHeader backLink={`/community/${params.cid}`} />}
+        body={
+          <Suspense fallback={<PostSkeleton />}>
+            <PostShow id={params.pid} />
+          </Suspense>
+        }
+        aside={
+          <Suspense>
+            <CommunitySidebar communityId={params.cid} />
+          </Suspense>
+        }
+      />
     </HydrateClient>
   );
 }
