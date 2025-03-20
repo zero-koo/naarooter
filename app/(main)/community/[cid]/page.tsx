@@ -2,7 +2,9 @@ import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
+import CommnunityDescription from '@/components/community/CommunityDescription';
 import CommunityHeader from '@/components/community/CommunityHeader';
+import MainLayout from '@/components/layouts/MainLayout';
 import PostList from '@/components/post/PostList';
 import RootHeader from '@/components/RootHeader';
 
@@ -26,10 +28,19 @@ export default async function CommunityPage({
   return (
     <HydrateClient>
       <RootHeader />
-      <CommunityHeader communityId={params.cid} />
-      <Suspense fallback={<LoadingBox className="h-full" />}>
-        <PostList communityId={params.cid} />
-      </Suspense>
+      <MainLayout
+        header={<CommunityHeader communityId={params.cid} />}
+        body={
+          <Suspense fallback={<LoadingBox className="h-full" />}>
+            <PostList communityId={params.cid} />
+          </Suspense>
+        }
+        aside={
+          <Suspense>
+            <CommnunityDescription communityId={params.cid} />
+          </Suspense>
+        }
+      />
     </HydrateClient>
   );
 }
