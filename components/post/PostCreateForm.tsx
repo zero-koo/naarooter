@@ -18,7 +18,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
         theme: 'success',
       });
 
-      router.push(`/posts/${data.id}`);
+      router.push(`/community/${listGroupId}/post/${data.id}`);
     },
     onError() {
       toast.update({
@@ -31,7 +31,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   return (
     <BaseTitleDescriptionForm
       title={'글 쓰기'}
-      backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
+      backLink={listGroupId ? `/community/${listGroupId}` : '/posts'}
       onSubmit={(data) => {
         mutate({
           title: data.title,

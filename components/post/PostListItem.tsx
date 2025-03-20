@@ -15,31 +15,19 @@ interface PostListItemProps {
   likeCount: number;
   commentCount: number;
   createdAt: Date;
-  listGroupId?: string;
+  communityId?: string;
 }
 
 const getLink = ({
-  postType,
   id,
-  listGroupId,
+  communityId,
 }: {
-  postType: PostType;
   id: string;
-  listGroupId?: string;
+  communityId?: string;
 }): ComponentProps<typeof Link>['href'] => {
-  switch (postType) {
-    case 'POST': {
-      return {
-        pathname: `/posts/${id}`,
-        ...(listGroupId && { query: { communityId: listGroupId } }),
-      };
-    }
-    case 'POLL': {
-      return {
-        pathname: `/polls/${id}`,
-      };
-    }
-  }
+  return {
+    pathname: `/community/${communityId}/post/${id}`,
+  };
 };
 
 const PostListItem = ({
@@ -50,10 +38,10 @@ const PostListItem = ({
   likeCount,
   commentCount,
   createdAt,
-  listGroupId,
+  communityId,
 }: PostListItemProps) => {
   return (
-    <Link href={getLink({ postType, id, listGroupId })} className="group">
+    <Link href={getLink({ id, communityId })} className="group">
       <div
         className={
           'flex flex-col gap-1 border-b border-neutral-content/10 bg-base-100 px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'

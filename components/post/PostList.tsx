@@ -50,7 +50,7 @@ const PostList = ({ communityId, searchKeyword }: PostListProps) => {
                 viewCount={post.viewCount}
                 likeCount={post.reaction.likeCount - post.reaction.dislikeCount}
                 commentCount={post.commentCount}
-                listGroupId={communityId}
+                communityId={communityId}
               />
             ))
           )}
