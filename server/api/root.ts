@@ -2,6 +2,7 @@ import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
 
 import { commentReactionRouter } from './routers/comment-reaction/comment-reaction.router';
 import { commentRouter } from './routers/comment/comment.router';
+import { communityRouter } from './routers/community/community.router';
 import { pollRouter } from './routers/poll/poll.router';
 import { postReactionRouter } from './routers/post-reaction/post-reaction.router';
 import { postRouter } from './routers/post/post.router';
@@ -15,6 +16,7 @@ import { voteRouter } from './routers/vote/vote.router';
  */
 export const appRouter = createTRPCRouter({
   user: userRouter,
+  community: communityRouter,
   post: postRouter,
   poll: pollRouter,
   vote: voteRouter,

@@ -21,18 +21,9 @@ function UserButton() {
       {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {user.image ? (
-              <Image
-                src={user.image}
-                alt="profile image"
-                width={32}
-                height={32}
-              />
-            ) : (
-              <div className="flex-center size-full bg-base-100">
-                <UserRound strokeWidth={1.5} />
-              </div>
-            )}
+            <div className="flex-center size-full bg-base-100">
+              <UserRound strokeWidth={1.5} />
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-24 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"

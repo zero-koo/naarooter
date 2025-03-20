@@ -138,7 +138,7 @@ export class PostRepository implements IPostRepository {
       select: getDefaultPostSelect(authorId),
       data: {
         authorId: authorId,
-        communityId: communityId,
+        communityId: communityId ?? undefined,
         title,
         description,
         type: 'POST',

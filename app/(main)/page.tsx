@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
-import CommunityHeader from '@/components/community/CommunityHeader';
+import CommunityHeaderView from '@/components/community/CommunityHeaderView';
 import RootHeader from '@/components/RootHeader';
 
 import PollList from './components/PollList';
@@ -29,9 +29,9 @@ export default function PollsPage({
       ) : (
         <Suspense fallback={<LoadingBox className="h-full" />}>
           <div className="flex-1 overflow-auto">
-            <CommunityHeader title="인기 설문조사" href="/polls" />
+            <CommunityHeaderView title={'설문조사'} href="/polls" />
             <PollList />
-            <CommunityHeader title="인기 포스트" href="/posts" />
+            <CommunityHeaderView title="인기 포스트" href="/posts" />
             <PostList />
           </div>
         </Suspense>

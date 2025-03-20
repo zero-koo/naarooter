@@ -43,12 +43,25 @@ type Comment = {
   content: string;
 };
 
-type PostGroup = {
-  id: string;
+type CommunityTopic = {
+  id: number;
   name: string;
+  communityIds: string[];
 };
 
-const postGroups: PostGroup[] = [
+const communityTopics: CommunityTopic[] = ['취미', 'MBTI'].map((name, id) => ({
+  id,
+  name,
+  communityIds: [],
+}));
+
+type Community = {
+  id: string;
+  name: string;
+  topicId: number;
+};
+
+const communities: Community[] = [
   {
     id: 'x',
     name: '자유방',
@@ -85,7 +98,7 @@ const postGroups: PostGroup[] = [
     id: 'p',
     name: '즉흥방',
   },
-];
+].map((c) => ({ ...c, topicId: 1 }));
 
 const polls: Readonly<Record<string, Poll>> = {
   'c84d8367-460a-4772-b2dd-42170110d774': {
@@ -216,8 +229,28 @@ const createVotes = () =>
   }));
 
 async function seedDefaultData() {
-  postGroups.forEach(async ({ id, name }) => {
-    await prisma.postGroup.upsert({
+  await Promise.all(
+    communityTopics.map(async ({ id, name }) => {
+      return prisma.communityTopic.create({
+        data: {
+          id,
+          name,
+        },
+      });
+    })
+  );
+
+  await prisma.user.create({
+    data: {
+      id: 'clydwekn1000008la5qsv5l01',
+      email: 'sample@gmail.com',
+      name: 'DEV_ACCOUNT',
+      mbti: 'INTP',
+    },
+  });
+
+  communities.forEach(async ({ id, name }) => {
+    await prisma.community.upsert({
       where: {
         id,
       },
@@ -225,16 +258,18 @@ async function seedDefaultData() {
       create: {
         id,
         name,
+        ownerId: 'clydwekn1000008la5qsv5l01',
+        topicId: 1,
       },
     });
   });
 
   await prisma.user.upsert({
-    where: { email: 'berksmile@gmail.com' },
+    where: { email: 'dev_account@gmail.com' },
     update: {},
     create: {
       id: 'clydwekn1000008la5qsv5l0t',
-      email: 'berksmile@gmail.com',
+      email: 'dev_account@gmail.com',
       name: '질문봇',
       mbti: 'INTP',
       posts: {
@@ -243,6 +278,7 @@ async function seedDefaultData() {
             id: poll.postId,
             title: poll.title,
             description: poll.contents,
+            communityId: 'x',
             type: 'POLL',
             poll: {
               create: {
@@ -259,11 +295,11 @@ async function seedDefaultData() {
     },
   });
   await prisma.user.upsert({
-    where: { email: 'inzerokoo@gmail.com' },
+    where: { email: 'dev_account+0@gmail.com' },
     update: {},
     create: {
       id: 'clydwfjqi000108la110h1bqe',
-      email: 'inzerokoo@gmail.com',
+      email: 'dev_account+0@gmail.com',
       name: '운영자',
       mbti: 'ESFJ',
       posts: {

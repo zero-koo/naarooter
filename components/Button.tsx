@@ -2,6 +2,8 @@ import React from 'react';
 import { Size, Theme } from '@/types/style';
 import clsx from 'clsx';
 
+import Loading from './ui/Loading';
+
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   theme?: Theme;
@@ -17,6 +19,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   circle?: boolean;
   square?: boolean;
   active?: boolean;
+  loading?: boolean;
   disabled?: boolean;
 }
 
@@ -34,6 +37,7 @@ export function Button({
   circle = false,
   square = false,
   active = false,
+  loading = false,
   disabled = false,
   className,
   children,
@@ -43,7 +47,7 @@ export function Button({
     <button
       type="button"
       className={clsx(
-        'btn flex',
+        'btn relative flex',
         {
           'btn-neutral': theme === 'neutral',
           'btn-primary': theme === 'primary',
@@ -65,7 +69,7 @@ export function Button({
           'btn-square': square,
           'btn-circle': circle,
           'btn-active': active,
-          'btn-disabled': disabled,
+          'btn-disabled': disabled || loading,
           'pl-4': !!LeftIcon && size === 'lg',
           'pl-3': !!LeftIcon && size === 'md',
           'pl-2': !!LeftIcon && size === 'sm',
@@ -80,9 +84,20 @@ export function Button({
       )}
       {...rest}
     >
-      {LeftIcon && <LeftIcon size={iconSizeMap[size]} />}
-      <span>{children}</span>
-      {RightIcon && <RightIcon size={iconSizeMap[size]} />}
+      <div
+        className={clsx('flex items-center gap-1', {
+          'opacity-0': loading,
+        })}
+      >
+        {LeftIcon && <LeftIcon size={iconSizeMap[size]} />}
+        {children}
+        {RightIcon && <RightIcon size={iconSizeMap[size]} />}
+      </div>
+      {loading && (
+        <div className="absolute-center">
+          <Loading size="sm" />
+        </div>
+      )}
     </button>
   );
 }
