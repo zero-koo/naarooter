@@ -4,6 +4,7 @@ import { NextPage } from '@/types/shared';
 
 import LoadingBox from '@/components/ui/LoadingBox';
 import DefaultListHeader from '@/components/DefaultListHeader';
+import MainLayout from '@/components/layouts/MainLayout';
 
 import MyVotedPollList from './components/MyVotedPollList';
 
@@ -12,10 +13,14 @@ const MyPolls: NextPage = () => {
 
   return (
     <HydrateClient>
-      <DefaultListHeader title={'내가 참여한 투표'} />
-      <Suspense fallback={<LoadingBox className="h-full" />}>
-        <MyVotedPollList />
-      </Suspense>
+      <MainLayout
+        header={<DefaultListHeader title={'내가 참여한 투표'} />}
+        body={
+          <Suspense fallback={<LoadingBox className="h-full" />}>
+            <MyVotedPollList />
+          </Suspense>
+        }
+      />
     </HydrateClient>
   );
 };

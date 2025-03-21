@@ -8,6 +8,7 @@ import { usePollQuery } from '@/hooks/queries/usePollQuery';
 
 import CommentList from '../comment/CommentList';
 import DefaultItemHeader from '../DefaultItemHeader';
+import MainLayout from '../layouts/MainLayout';
 import PollDetailSection from './PollDetailSection';
 import PollShow from './PollShow';
 
@@ -19,22 +20,29 @@ export default function PollPage({ id }: PollPageProps) {
   const [, { refetch }] = usePollQuery(id);
 
   return (
-    <div className="h-full">
-      <DefaultItemHeader
-        backLink={'/'}
-        right={
-          <button className="ml-auto p-1 opacity-50" onClick={() => refetch()}>
-            <RotateCcw size={18} />
-          </button>
-        }
-      />
-      <PostContextProvider postId={id}>
-        <PollShow />
-        <PollDetailSection />
-        <div className="mt-2">
-          <CommentList />
-        </div>
-      </PostContextProvider>
-    </div>
+    <MainLayout
+      header={
+        <DefaultItemHeader
+          backLink={'/'}
+          right={
+            <button
+              className="ml-auto p-1 opacity-50"
+              onClick={() => refetch()}
+            >
+              <RotateCcw size={18} />
+            </button>
+          }
+        />
+      }
+      body={
+        <PostContextProvider postId={id}>
+          <PollShow />
+          <PollDetailSection />
+          <div className="mt-2">
+            <CommentList />
+          </div>
+        </PostContextProvider>
+      }
+    />
   );
 }

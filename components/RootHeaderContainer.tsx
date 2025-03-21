@@ -12,7 +12,7 @@ const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
   const { user } = useUser();
 
   return (
-    <header className={'flex items-center gap-2 p-2'}>
+    <header className={'flex w-full items-center gap-2 p-2'}>
       <SideNavToggle />
       <Link
         className="text-l mr-auto rounded-lg bg-primary px-1.5 py-0.5 font-extrabold text-white"

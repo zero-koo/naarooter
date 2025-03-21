@@ -34,7 +34,7 @@ const PostShowActionMenu = React.memo(() => {
 
   const { mutate: deletePost } = api.post.delete.useMutation({
     onSuccess() {
-      router.replace(`/posts/group/${communityId}`);
+      router.replace(`/community/${communityId}`);
     },
     onError() {
       toast.update({
@@ -58,7 +58,7 @@ const PostShowActionMenu = React.memo(() => {
       >
         <DropdownMenuItem className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70">
           <PencilIcon size={14} />
-          <Link href={`/posts/${id}/edit`}>수정</Link>
+          <Link href={`/post/${id}/edit`}>수정</Link>
         </DropdownMenuItem>
         <AlertDialog>
           <AlertDialogTrigger asChild>

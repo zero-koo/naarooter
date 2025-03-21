@@ -4,6 +4,7 @@ import { NextPage } from '@/types/shared';
 
 import LoadingBox from '@/components/ui/LoadingBox';
 import DefaultListHeader from '@/components/DefaultListHeader';
+import MainLayout from '@/components/layouts/MainLayout';
 
 import MyPostList from './components/MyPostList';
 
@@ -12,10 +13,14 @@ const MyPosts: NextPage = () => {
 
   return (
     <HydrateClient>
-      <DefaultListHeader title={'나의 포스트'} />
-      <Suspense fallback={<LoadingBox className="h-full" />}>
-        <MyPostList />
-      </Suspense>
+      <MainLayout
+        header={<DefaultListHeader title={'나의 포스트'} />}
+        body={
+          <Suspense fallback={<LoadingBox className="h-full" />}>
+            <MyPostList />
+          </Suspense>
+        }
+      />
     </HydrateClient>
   );
 };

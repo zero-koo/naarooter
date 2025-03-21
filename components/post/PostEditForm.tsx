@@ -31,7 +31,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
         ],
       });
 
-      router.push(`/posts/${data.id}`);
+      router.push(`/post/${data.id}`);
     },
     onError() {
       toast.update({
@@ -44,7 +44,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
   return (
     <BaseTitleDescriptionForm
       title={'글 수정하기'}
-      backLink={`/posts/${id}`}
+      backLink={`/post/${id}`}
       initialValues={{
         title: post.title,
         communityId: post.communityId ?? undefined,

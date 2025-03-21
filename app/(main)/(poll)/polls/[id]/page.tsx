@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
 import DefaultItemHeader from '@/components/DefaultItemHeader';
+import MainLayout from '@/components/layouts/MainLayout';
 import PollPage from '@/components/poll/PollPage';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
 
@@ -27,10 +28,10 @@ export default function Poll({ params }: PollPageProps) {
     <HydrateClient>
       <Suspense
         fallback={
-          <>
-            <DefaultItemHeader backLink={'/polls'} />
-            <PostSkeleton />
-          </>
+          <MainLayout
+            header={<DefaultItemHeader backLink={'/polls'} />}
+            body={<PostSkeleton />}
+          />
         }
       >
         <PollPage id={params.id} />

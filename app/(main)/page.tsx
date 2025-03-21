@@ -3,6 +3,7 @@ import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityHeaderView from '@/components/community/CommunityHeaderView';
+import MainLayout from '@/components/layouts/MainLayout';
 import RootHeader from '@/components/RootHeader';
 
 import PollList from './components/PollList';
@@ -24,18 +25,22 @@ export default function PollsPage({
   return (
     <HydrateClient>
       <RootHeader />
-      {searchParams?.search ? (
-        <PostSearchResultList searchKeyword={searchParams.search} />
-      ) : (
-        <Suspense fallback={<LoadingBox className="h-full" />}>
-          <div className="flex-1 overflow-auto">
-            <CommunityHeaderView title={'설문조사'} href="/polls" />
-            <PollList />
-            <CommunityHeaderView title="인기 포스트" href="/posts" />
-            <PostList />
-          </div>
-        </Suspense>
-      )}
+      <MainLayout
+        body={
+          searchParams?.search ? (
+            <PostSearchResultList searchKeyword={searchParams.search} />
+          ) : (
+            <Suspense fallback={<LoadingBox className="h-full" />}>
+              <div className="flex-1 overflow-auto">
+                <CommunityHeaderView title={'설문조사'} href="/polls" />
+                <PollList />
+                <CommunityHeaderView title="인기 포스트" href="/posts" />
+                <PostList />
+              </div>
+            </Suspense>
+          )
+        }
+      />
     </HydrateClient>
   );
 }

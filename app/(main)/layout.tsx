@@ -12,7 +12,7 @@ export default function MainLayout({
       <aside className="mr-3 hidden w-40 py-3 md:block">
         <GlobalNavigation />
       </aside>
-      <div>{children}</div>
+      <div className={styles.inner}>{children}</div>
     </div>
   );
 }

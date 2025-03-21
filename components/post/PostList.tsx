@@ -61,8 +61,8 @@ const PostList = ({ communityId, searchKeyword }: PostListProps) => {
         className="fixed bottom-5 right-5 rounded-full bg-primary p-2"
         href={
           session.data?.user
-            ? `/posts/create?communityId=${communityId}`
-            : `/signin?redirect=${encodeURIComponent(`/posts/create?communityId=${communityId}`)}`
+            ? `/post/create?communityId=${communityId}`
+            : `/signin?redirect=${encodeURIComponent(`/post/create?communityId=${communityId}`)}`
         }
       >
         <PlusIcon />

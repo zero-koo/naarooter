@@ -26,7 +26,7 @@ const getLink = ({
   communityId?: string;
 }): ComponentProps<typeof Link>['href'] => {
   return {
-    pathname: `/community/${communityId}/post/${id}`,
+    pathname: `${communityId ? `/community/${communityId}` : ''}/post/${id}`,
   };
 };
 

@@ -5,8 +5,7 @@
  */
 export const publicRoutes = [
   '^/$',
-  '^/(posts|polls)(/[0-9a-fA-F-]{36})?$',
-  '^/posts/group/[a-z]+$',
+  '^/(community|post|polls)(/[0-9a-fA-F-]{36})?$',
 ];
 
 /**

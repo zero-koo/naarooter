@@ -2,17 +2,11 @@ import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
 import DefaultItemHeader from '@/components/DefaultItemHeader';
+import MainLayout from '@/components/layouts/MainLayout';
 import PostShow from '@/components/post/PostShow';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
 
-const PostPage = async ({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams?: { communityId?: string };
-}) => {
-  const listGroupId = searchParams?.communityId;
+const PostPage = async ({ params }: { params: { id: string } }) => {
   void api.post.byId.prefetch({
     id: params.id,
   });
@@ -23,12 +17,14 @@ const PostPage = async ({
 
   return (
     <HydrateClient>
-      <DefaultItemHeader
-        backLink={listGroupId ? `/posts/group/${listGroupId}` : '/posts'}
+      <MainLayout
+        header={<DefaultItemHeader backLink={'/post'} />}
+        body={
+          <Suspense fallback={<PostSkeleton />}>
+            <PostShow id={params.id} />
+          </Suspense>
+        }
       />
-      <Suspense fallback={<PostSkeleton />}>
-        <PostShow id={params.id} />
-      </Suspense>
     </HydrateClient>
   );
 };
