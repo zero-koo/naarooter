@@ -1,13 +1,15 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
+import CommunityBannerImage from '@/public/community_banner_1.png';
 import { api, RouterOutputs } from '@/trpc/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import { PlusIcon } from 'lucide-react';
 
 import { Button } from '../Button';
-import CommunityHeaderView from './CommunityHeaderView';
+import CommunityLabel from './CommunityLabel';
 
 type CommunityHeaderProps = {
   communityId: string;
@@ -39,10 +41,15 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
     });
 
   return (
-    <CommunityHeaderView
-      title={community.name}
-      right={
-        <div className={'flex gap-2'}>
+    <div>
+      <Image
+        src={CommunityBannerImage}
+        alt="banner"
+        className="mb-2 aspect-[7/1] object-cover md:rounded-lg"
+      />
+      <div className="flex items-center p-2 md:px-0">
+        <h1 className="px-2 text-2xl font-bold">{community.name}</h1>
+        <div className={'ml-auto flex gap-2'}>
           <Link href={`/community/${communityId}/create`}>
             <Button outline LeftIcon={PlusIcon}>
               글쓰기
@@ -75,8 +82,8 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
               </Button>
             ))}
         </div>
-      }
-    />
+      </div>
+    </div>
   );
 };
 
