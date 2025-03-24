@@ -8,10 +8,12 @@ const MainLayout = ({
   aside?: React.ReactNode;
 }) => {
   return (
-    <div className="h-full">
+    <div className="flex h-full flex-col">
       {header && <header className="mb-1 w-full">{header}</header>}
-      <div className="flex gap-2">
-        <div className="w-screen max-w-[540px] flex-1">{body}</div>
+      <div className="flex flex-1 gap-2">
+        <div className="flex w-screen max-w-[540px] flex-1 flex-col">
+          {body}
+        </div>
         {aside && <aside className="hidden w-[200px] lg:block">{aside}</aside>}
       </div>
     </div>
