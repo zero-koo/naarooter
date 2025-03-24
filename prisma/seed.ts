@@ -259,7 +259,9 @@ async function seedDefaultData() {
         id,
         name,
         ownerId: 'clydwekn1000008la5qsv5l01',
-        topicId: 1,
+        topics: {
+          connect: { id: 1 },
+        },
       },
     });
   });
