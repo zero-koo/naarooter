@@ -1,4 +1,3 @@
-import { connect } from 'http2';
 import { prisma } from '@/server/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -51,14 +50,16 @@ export class CommunityRepository implements ICommunityRepository {
     name,
     description,
     ownerId,
-    topicId,
+    _count: { users: numUsers },
+    topics,
   }: CommunityPrismaPayload): CommunityRepositoryPayload {
     return {
       id,
       name,
+      numUsers,
       description: description ?? '',
       ownerId,
-      topicId,
+      topics,
     };
   }
   async list({
@@ -71,7 +72,11 @@ export class CommunityRepository implements ICommunityRepository {
       select: getDefaultCommunitySelect(),
       take: limit + 1,
       where: {
-        topicId,
+        topics: {
+          some: {
+            id: topicId,
+          },
+        },
         users: {
           some: {
             userId,
@@ -119,7 +124,7 @@ export class CommunityRepository implements ICommunityRepository {
   }
   async create({
     ownerId,
-    topicId,
+    topicIds,
     name,
     description,
   }: CommunityRepositoryCreateParams): Promise<CommunityRepositoryPayload> {
@@ -127,7 +132,11 @@ export class CommunityRepository implements ICommunityRepository {
       select: getDefaultCommunitySelect(),
       data: {
         ownerId,
-        topicId,
+        topics: {
+          connect: topicIds.map((id) => ({
+            id,
+          })),
+        },
         name,
         description,
       },
@@ -137,7 +146,7 @@ export class CommunityRepository implements ICommunityRepository {
   async update({
     id,
     ownerId,
-    topicId,
+    topicIds,
     name,
     description,
   }: CommunityRepositoryUpdateParams): Promise<CommunityRepositoryPayload> {
@@ -148,7 +157,11 @@ export class CommunityRepository implements ICommunityRepository {
       },
       data: {
         ownerId,
-        topicId,
+        topics: {
+          connect: (topicIds ?? []).map((id) => ({
+            id,
+          })),
+        },
         name,
         description,
       },

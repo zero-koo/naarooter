@@ -5,7 +5,7 @@ export type CommunityID = CommunityRepositoryPayload['id'];
 
 export type Community = Pick<
   CommunityRepositoryPayload,
-  'id' | 'name' | 'description' | 'topicId' | 'ownerId'
+  'id' | 'name' | 'description' | 'topics' | 'ownerId' | 'numUsers'
 >;
 
 export type CommunityListParams = {
@@ -19,7 +19,7 @@ export type CommunityCreateParams = {
   name: string;
   description: string;
   ownerId: UserID;
-  topicId: number;
+  topicIds: number[];
 };
 
 export type CommunityUpdateParams = {
@@ -27,5 +27,5 @@ export type CommunityUpdateParams = {
   name?: string;
   description?: string;
   ownerId?: UserID;
-  topicId?: number;
+  topicIds?: number[];
 };

@@ -7,7 +7,17 @@ export const getDefaultCommunitySelect = () =>
     id: true,
     name: true,
     description: true,
-    topicId: true,
+    _count: {
+      select: {
+        users: true,
+      },
+    },
+    topics: {
+      select: {
+        id: true,
+        name: true,
+      },
+    },
     ownerId: true,
   });
 
@@ -20,7 +30,8 @@ export type CommunityRepositoryPayload = {
   name: string;
   description: string;
   ownerId: string;
-  topicId: number;
+  numUsers: number;
+  topics: Array<{ id: number; name: string }>;
 };
 
 type CommunityID = CommunityRepositoryPayload['id'];
@@ -34,8 +45,10 @@ export type CommunityRepositoryListParams = {
 
 export type CommunityRepositoryCreateParams = Pick<
   CommunityRepositoryPayload,
-  'name' | 'description' | 'ownerId' | 'topicId'
->;
+  'name' | 'description' | 'ownerId'
+> & {
+  topicIds: number[];
+};
 
 export type CommunityRepositoryUpdateParams = Pick<
   CommunityRepositoryPayload,
