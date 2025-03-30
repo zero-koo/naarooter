@@ -22,7 +22,7 @@ const CommunityList = () => {
           </NavMenu>
         ))
       ) : (
-        <div className="py-2">
+        <div className="px-3 py-2">
           <div className="mb-1 text-xs opacity-70">
             가입한 커뮤니티가 없습니다
           </div>

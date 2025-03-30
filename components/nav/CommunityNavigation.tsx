@@ -14,8 +14,10 @@ import CommunityList from './CommunityList';
 
 const CommunityNavigation = () => {
   return (
-    <div className="flex flex-col px-3">
-      <CommunityCreateButton />
+    <div className="flex flex-col">
+      <div className="flex flex-col px-2">
+        <CommunityCreateButton />
+      </div>
       <CommunityList />
     </div>
   );

@@ -23,9 +23,9 @@ export function NavMenu({
     <Link href={link}>
       <button
         className={cn(
-          'my-0.5 flex h-10 w-full items-center rounded-lg px-2.5 text-left text-sm font-normal hover:bg-primary/20',
+          'flex h-10 w-full items-center rounded-lg px-2.5 text-left text-sm font-normal hover:bg-primary/10',
           {
-            'bg-primary/20 font-bold': isActive,
+            '!bg-primary/20 font-bold': isActive,
           }
         )}
       >
