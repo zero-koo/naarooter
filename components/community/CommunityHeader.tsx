@@ -9,7 +9,6 @@ import { getQueryKey } from '@trpc/react-query';
 import { PlusIcon } from 'lucide-react';
 
 import { Button } from '../Button';
-import CommunityLabel from './CommunityLabel';
 
 type CommunityHeaderProps = {
   communityId: string;
@@ -56,6 +55,7 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
             </Button>
           </Link>
           {community &&
+            !community.isOwner &&
             (!community.isJoined ? (
               <Button
                 outline

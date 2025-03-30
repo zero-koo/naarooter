@@ -41,6 +41,7 @@ export interface ICommunityRepository {
     communityId: CommunityID;
     userId: UserID;
   }): Promise<boolean>;
+  topics(): Promise<{ topics: Array<{ id: string; name: string }> }>;
 }
 
 export class CommunityRepository implements ICommunityRepository {
@@ -123,7 +124,7 @@ export class CommunityRepository implements ICommunityRepository {
     return CommunityRepository.payloadToCommunity(communityPayload);
   }
   async create({
-    ownerId,
+    userId,
     topicIds,
     name,
     description,
@@ -131,7 +132,7 @@ export class CommunityRepository implements ICommunityRepository {
     const communityPayload = await this.db.community.create({
       select: getDefaultCommunitySelect(),
       data: {
-        ownerId,
+        ownerId: userId,
         topics: {
           connect: topicIds.map((id) => ({
             id,
@@ -145,7 +146,6 @@ export class CommunityRepository implements ICommunityRepository {
   }
   async update({
     id,
-    ownerId,
     topicIds,
     name,
     description,
@@ -156,7 +156,6 @@ export class CommunityRepository implements ICommunityRepository {
         id,
       },
       data: {
-        ownerId,
         topics: {
           connect: (topicIds ?? []).map((id) => ({
             id,
@@ -216,6 +215,15 @@ export class CommunityRepository implements ICommunityRepository {
     });
 
     return !!userCommunity;
+  }
+  async topics(): Promise<{ topics: Array<{ id: string; name: string }> }> {
+    const topics = await this.db.communityTopic.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    return { topics };
   }
 }
 

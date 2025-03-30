@@ -31,13 +31,13 @@ export type CommunityRepositoryPayload = {
   description: string;
   ownerId: string;
   numUsers: number;
-  topics: Array<{ id: number; name: string }>;
+  topics: Array<{ id: string; name: string }>;
 };
 
 type CommunityID = CommunityRepositoryPayload['id'];
 
 export type CommunityRepositoryListParams = {
-  topicId?: number;
+  topicId?: string;
   limit?: number;
   userId?: UserID;
   lastId?: CommunityID;
@@ -45,9 +45,10 @@ export type CommunityRepositoryListParams = {
 
 export type CommunityRepositoryCreateParams = Pick<
   CommunityRepositoryPayload,
-  'name' | 'description' | 'ownerId'
+  'name' | 'description'
 > & {
-  topicIds: number[];
+  userId: UserID;
+  topicIds: string[];
 };
 
 export type CommunityRepositoryUpdateParams = Pick<

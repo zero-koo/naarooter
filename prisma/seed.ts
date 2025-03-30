@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
+import { communityTopicsFixture } from '../fixtures';
 import { randomInteger } from '../lib/utils';
 
 const prisma = new PrismaClient();
@@ -44,21 +45,23 @@ type Comment = {
 };
 
 type CommunityTopic = {
-  id: number;
+  id: string;
   name: string;
   communityIds: string[];
 };
 
-const communityTopics: CommunityTopic[] = ['취미', 'MBTI'].map((name, id) => ({
-  id,
-  name,
-  communityIds: [],
-}));
+const communityTopics: CommunityTopic[] = communityTopicsFixture.map(
+  ({ id, name }) => ({
+    id,
+    name,
+    communityIds: [],
+  })
+);
 
 type Community = {
   id: string;
   name: string;
-  topicId: number;
+  topicId: string;
 };
 
 const communities: Community[] = [
@@ -98,7 +101,7 @@ const communities: Community[] = [
     id: 'p',
     name: '즉흥방',
   },
-].map((c) => ({ ...c, topicId: 1 }));
+].map((c) => ({ ...c, topicId: 'mbti' }));
 
 const polls: Readonly<Record<string, Poll>> = {
   'c84d8367-460a-4772-b2dd-42170110d774': {
@@ -260,7 +263,7 @@ async function seedDefaultData() {
         name,
         ownerId: 'clydwekn1000008la5qsv5l01',
         topics: {
-          connect: { id: 1 },
+          connect: { id: 'mbti' },
         },
       },
     });

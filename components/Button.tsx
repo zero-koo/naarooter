@@ -47,7 +47,7 @@ export function Button({
     <button
       type="button"
       className={clsx(
-        'btn relative flex',
+        'btn relative flex font-medium',
         {
           'btn-neutral': theme === 'neutral',
           'btn-primary': theme === 'primary',
@@ -64,7 +64,7 @@ export function Button({
           'btn-block': block,
           'btn-ghost': ghost,
           'btn-link': link,
-          'btn-outline': outline,
+          'btn-outline border-primary-content/20': outline,
           'btn-wide': wide,
           'btn-square': square,
           'btn-circle': circle,

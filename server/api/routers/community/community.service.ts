@@ -3,6 +3,7 @@ import {
   communityRepository,
   ICommunityRepository,
 } from './community.repository';
+import { CommunityRepositoryPayload } from './community.repository.type';
 import {
   Community,
   CommunityCreateParams,
@@ -24,22 +25,47 @@ export interface ICommunityService {
     userId: UserID;
   }): Promise<boolean>;
   checkName({ name }: { name: string }): Promise<{ exist: boolean }>;
+  topics(): Promise<{ topics: Array<{ id: string; name: string }> }>;
 }
 
 export class CommunityService implements ICommunityService {
   constructor(private communityRepository: ICommunityRepository) {}
 
-  list(params: CommunityListParams): Promise<Community[]> {
-    return this.communityRepository.list(params);
+  public static repositoryPayloadToPost(
+    payload: CommunityRepositoryPayload,
+    userId?: UserID | null
+  ): Community {
+    const { ownerId, ...rest } = payload;
+    return {
+      ...rest,
+      isOwner: ownerId === userId,
+    };
   }
-  byId({ id }: { id: CommunityID }): Promise<Community | null> {
-    return this.communityRepository.byId({ id });
+
+  async list(params: CommunityListParams): Promise<Community[]> {
+    const communities = await this.communityRepository.list(params);
+    return communities.map((community) =>
+      CommunityService.repositoryPayloadToPost(community, params.userId)
+    );
   }
-  create(params: CommunityCreateParams): Promise<Community> {
-    return this.communityRepository.create(params);
+  async byId({
+    id,
+    userId,
+  }: {
+    id: CommunityID;
+    userId?: UserID | null;
+  }): Promise<Community | null> {
+    const community = await this.communityRepository.byId({ id });
+    if (!community) return null;
+    return CommunityService.repositoryPayloadToPost(community, userId);
   }
-  update(params: CommunityUpdateParams): Promise<Community> {
-    return this.communityRepository.update(params);
+  async create(params: CommunityCreateParams): Promise<Community> {
+    const community = await this.communityRepository.create(params);
+    return CommunityService.repositoryPayloadToPost(community, params.userId);
+  }
+  async update(params: CommunityUpdateParams): Promise<Community> {
+    const community = await this.communityRepository.update(params);
+    return CommunityService.repositoryPayloadToPost(community, params.userId);
   }
   delete(id: CommunityID): Promise<void> {
     return this.communityRepository.delete(id);
@@ -61,6 +87,9 @@ export class CommunityService implements ICommunityService {
     return {
       exist: !!community,
     };
+  }
+  topics(): Promise<{ topics: Array<{ id: string; name: string }> }> {
+    return this.communityRepository.topics();
   }
 }
 

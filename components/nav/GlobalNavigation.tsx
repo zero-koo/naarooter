@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
 
-import CommunityList from './CommunityList';
+import CommunityNavigation from './CommunityNavigation';
 import GlobalNavigationContainer from './GlobalNavigationContainer';
 import { NavMenu } from './NavMenu';
 import NavSubtitle from './NavSubtitle';
@@ -21,7 +21,7 @@ const GlobalNavigation = async () => {
       {session?.user ? (
         <>
           <NavSubtitle>커뮤니티</NavSubtitle>
-          <CommunityList />
+          <CommunityNavigation />
           <NavSubtitle>나</NavSubtitle>
           <NavMenu
             link={'/account/posts'}

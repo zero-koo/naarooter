@@ -124,7 +124,7 @@ model UserCommunity {
 }
 
 model CommunityTopic {
-  id          Int         @id
+  id          String      @id
   name        String      @unique
   communities Community[] @relation("CommunityTopics")
 }
