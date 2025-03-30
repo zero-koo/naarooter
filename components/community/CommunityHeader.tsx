@@ -26,6 +26,9 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
           getQueryKey(api.community.byId, { id: communityId }, 'query'),
           { ...community, isJoined: true }
         );
+        queryClient.invalidateQueries({
+          queryKey: getQueryKey(api.community.myList),
+        });
       },
     });
   const { mutate: withdrawCommunity, isPending: isWithdrawingCommunity } =
@@ -36,6 +39,9 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
           getQueryKey(api.community.byId, { id: communityId }, 'query'),
           { ...community, isJoined: false }
         );
+        queryClient.invalidateQueries({
+          queryKey: getQueryKey(api.community.myList),
+        });
       },
     });
 

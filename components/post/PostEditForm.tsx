@@ -44,10 +44,10 @@ export const PostEditForm = ({ id }: { id: string }) => {
   return (
     <BaseTitleDescriptionForm
       title={'글 수정하기'}
+      communityId={post.communityId}
       backLink={`/post/${id}`}
       initialValues={{
         title: post.title,
-        communityId: post.communityId ?? undefined,
         contents: post.description,
       }}
       communityUpdateDisabled

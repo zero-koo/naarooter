@@ -1,8 +1,9 @@
 'use client';
 
 import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useImageUpload } from '@/hooks/useImageUpload';
@@ -33,11 +34,11 @@ const baseFromSchema = z.object({
 
 type BaseTitleDescriptionFormProps = {
   title: React.ReactNode;
+  communityId?: string;
   backLink: string;
   initialValues?: {
     title: string;
-    communityId?: string;
-    contents: string;
+    contents?: string;
   };
   communityUpdateDisabled?: boolean;
   toolbarItems?: ToolbarItem[];
@@ -49,6 +50,7 @@ type BaseTitleDescriptionFormProps = {
 
 export default function BaseTitleDescriptionForm({
   title,
+  communityId,
   backLink,
   initialValues,
   toolbarItems,
@@ -58,11 +60,18 @@ export default function BaseTitleDescriptionForm({
   submitButtonName,
   onSubmit,
 }: BaseTitleDescriptionFormProps) {
-  const { register, control, setValue, handleSubmit, formState } =
-    useForm<BaseForm>({
-      resolver: zodResolver(baseFromSchema),
-      defaultValues: initialValues,
-    });
+  const router = useRouter();
+  const { register, setValue, handleSubmit, formState } = useForm<BaseForm>({
+    resolver: zodResolver(baseFromSchema),
+    defaultValues: initialValues
+      ? {
+          ...initialValues,
+          communityId,
+        }
+      : {
+          communityId,
+        },
+  });
 
   const editor = useRef<TextEditorHandle>(null);
   const { uploadImage } = useImageUpload();
@@ -97,17 +106,13 @@ export default function BaseTitleDescriptionForm({
           <>
             <GrayBox className="px-4 py-2 md:px-3">
               <div className="mb-3">
-                <Controller
-                  control={control}
-                  name={'communityId'}
-                  render={({ field: { value, onChange } }) => (
-                    <CommunitySelector
-                      value={value}
-                      disabled={communityUpdateDisabled}
-                      onChange={onChange}
-                    />
-                  )}
-                ></Controller>
+                <CommunitySelector
+                  value={communityId}
+                  disabled={communityUpdateDisabled}
+                  onChange={(id) => {
+                    router.push(`/community/${id}/create`);
+                  }}
+                />
               </div>
               <TextInput
                 size="lg"

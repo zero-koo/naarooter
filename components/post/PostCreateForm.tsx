@@ -31,11 +31,16 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
   return (
     <BaseTitleDescriptionForm
       title={'글 쓰기'}
+      communityId={communityId}
+      initialValues={{
+        title: '',
+      }}
       backLink={communityId ? `/community/${communityId}` : '/posts'}
       onSubmit={(data) => {
+        if (!communityId) return;
         mutate({
           title: data.title,
-          communityId: data.communityId,
+          communityId,
           description: data.contents,
           images: [], // TODO: Check!
         });
