@@ -142,6 +142,12 @@ export class CommunityRepository implements ICommunityRepository {
         description,
       },
     });
+    await this.db.userCommunity.create({
+      data: {
+        communityId: communityPayload.id,
+        userId,
+      },
+    });
     return CommunityRepository.payloadToCommunity(communityPayload);
   }
   async update({
