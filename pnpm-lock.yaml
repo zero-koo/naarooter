@@ -41,18 +41,18 @@ importers:
       '@radix-ui/react-alert-dialog':
         specifier: ^1.0.5
         version: 1.1.6(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@radix-ui/react-checkbox':
+        specifier: ^1.1.4
+        version: 1.1.4(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-dialog':
         specifier: ^1.0.5
         version: 1.1.6(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.0.6
         version: 2.1.6(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-<<<<<<< Updated upstream
-=======
       '@radix-ui/react-label':
         specifier: ^2.1.2
         version: 2.1.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
->>>>>>> Stashed changes
       '@radix-ui/react-popover':
         specifier: ^1.0.7
         version: 1.1.6(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -140,15 +140,6 @@ importers:
         version: 4.4.1(prettier@3.5.1)
       '@storybook/addon-essentials':
         specifier: ^8.2.1
-<<<<<<< Updated upstream
-        version: 8.5.6(@types/react@18.2.14)(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-interactions':
-        specifier: ^8.2.1
-        version: 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-links':
-        specifier: ^8.2.1
-        version: 8.5.6(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))
-=======
         version: 8.5.6(@types/react@18.2.14)(storybook@8.6.11(prettier@3.5.1))
       '@storybook/addon-interactions':
         specifier: ^8.2.1
@@ -156,35 +147,21 @@ importers:
       '@storybook/addon-links':
         specifier: ^8.2.1
         version: 8.5.6(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
       '@storybook/addon-onboarding':
         specifier: ^1.0.8
         version: 1.0.11(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@storybook/blocks':
         specifier: ^8.2.1
-<<<<<<< Updated upstream
-        version: 8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/nextjs':
-        specifier: ^8.2.1
-        version: 8.5.6(esbuild@0.24.2)(next@14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)(storybook@8.5.6(prettier@3.5.1))(type-fest@2.19.0)(typescript@5.1.6)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.24.2))
-      '@storybook/react':
-        specifier: ^8.2.1
-        version: 8.5.6(@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/test':
-        specifier: ^8.2.1
-        version: 8.5.6(storybook@8.5.6(prettier@3.5.1))
-=======
         version: 8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))
       '@storybook/nextjs':
         specifier: ^8.2.1
-        version: 8.5.6(esbuild@0.18.20)(next@14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)(storybook@8.6.11(prettier@3.5.1))(type-fest@2.19.0)(typescript@5.1.6)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.18.20))
+        version: 8.5.6(esbuild@0.24.2)(next@14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)(storybook@8.6.11(prettier@3.5.1))(type-fest@2.19.0)(typescript@5.1.6)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.24.2))
       '@storybook/react':
         specifier: ^8.2.1
         version: 8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
       '@storybook/test':
         specifier: ^8.2.1
         version: 8.5.6(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
       '@types/d3':
         specifier: ^7.4.2
         version: 7.4.3
@@ -249,13 +226,8 @@ importers:
         specifier: ^1.63.6
         version: 1.85.0
       storybook:
-<<<<<<< Updated upstream
-        specifier: ^8.2.1
-        version: 8.5.6(prettier@3.5.1)
-=======
         specifier: ^8.6.11
         version: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       stylelint:
         specifier: ^14.16.1
         version: 14.16.1
@@ -1899,8 +1871,6 @@ packages:
 
   '@radix-ui/react-alert-dialog@1.1.6':
     resolution: {integrity: sha512-p4XnPqgej8sZAAReCAKgz1REYZEBLR8hU9Pg27wFnCWIMc8g1ccCs0FjBcy05V15VTu8pAePw/VDYeOm/uZ6yQ==}
-<<<<<<< Updated upstream
-=======
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -1914,6 +1884,19 @@ packages:
 
   '@radix-ui/react-arrow@1.1.2':
     resolution: {integrity: sha512-G+KcpzXHq24iH0uGG/pF8LyzpFJYGD4RfLjCIBfGdSLXvjLHST31RUiRVrupIBMvIppMgSzQ6l66iAxl03tdlg==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-checkbox@1.1.4':
+    resolution: {integrity: sha512-wP0CPAHq+P5I4INKe3hJrIa1WoNqqrejzW+zoU0rOvo1b9gDEJJFl2rYfO1PYJUQCc2H1WZxIJmyv9BS8i5fLw==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -2037,7 +2020,6 @@ packages:
 
   '@radix-ui/react-label@2.1.2':
     resolution: {integrity: sha512-zo1uGMTaNlHehDyFQcDZXRJhUPDuukcnHz0/jnrup0JA6qL+AFpAnty+7VKa9esuU5xTblAZzTGYJKSKaBxBhw==}
->>>>>>> Stashed changes
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -2047,155 +2029,6 @@ packages:
       '@types/react':
         optional: true
       '@types/react-dom':
-        optional: true
-
-<<<<<<< Updated upstream
-  '@radix-ui/react-arrow@1.1.2':
-    resolution: {integrity: sha512-G+KcpzXHq24iH0uGG/pF8LyzpFJYGD4RfLjCIBfGdSLXvjLHST31RUiRVrupIBMvIppMgSzQ6l66iAxl03tdlg==}
-=======
-  '@radix-ui/react-menu@2.1.6':
-    resolution: {integrity: sha512-tBBb5CXDJW3t2mo9WlO7r6GTmWV0F0uzHZVFmlRmYpiSK1CDU5IKojP1pm7oknpBOrFZx/YgBRW9oorPO2S/Lg==}
->>>>>>> Stashed changes
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-<<<<<<< Updated upstream
-  '@radix-ui/react-collection@1.1.2':
-    resolution: {integrity: sha512-9z54IEKRxIa9VityapoEYMuByaG42iSy1ZXlY2KcuLSEtq8x4987/N6m15ppoMffgZX72gER2uHe1D9Y6Unlcw==}
-=======
-  '@radix-ui/react-popover@1.1.6':
-    resolution: {integrity: sha512-NQouW0x4/GnkFJ/pRqsIS3rM/k97VzKnVb2jB7Gq7VEGPy5g7uNV1ykySFt7eWSp3i2uSGFwaJcvIRJBAHmmFg==}
->>>>>>> Stashed changes
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-<<<<<<< Updated upstream
-  '@radix-ui/react-compose-refs@1.1.1':
-    resolution: {integrity: sha512-Y9VzoRDSJtgFMUCoiZBDVo084VQ5hfpXxVE+NgkdNsjiDBByiImMZKKhxMwCbdHvhlENG6a833CbFkOQvTricw==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@radix-ui/react-context@1.1.1':
-    resolution: {integrity: sha512-UASk9zi+crv9WteK/NU4PLvOoL3OuE6BWVKNF6hPRBtYBDXQ2u5iu3O59zUlJiTVvkyuycnqrztsHVJwcK9K+Q==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@radix-ui/react-dialog@1.1.6':
-    resolution: {integrity: sha512-/IVhJV5AceX620DUJ4uYVMymzsipdKBzo3edo+omeskCKGm9FRHM0ebIdbPnlQVJqyuHbuBltQUOG2mOTq2IYw==}
-=======
-  '@radix-ui/react-popper@1.2.2':
-    resolution: {integrity: sha512-Rvqc3nOpwseCyj/rgjlJDYAgyfw7OC1tTkKn2ivhaMGcYt8FSBlahHOZak2i3QwkRXUXgGgzeEe2RuqeEHuHgA==}
->>>>>>> Stashed changes
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-<<<<<<< Updated upstream
-  '@radix-ui/react-direction@1.1.0':
-    resolution: {integrity: sha512-BUuBvgThEiAXh2DWu93XsT+a3aWrGqolGlqqw5VU1kG7p/ZH2cuDlM1sRLNnY3QcBS69UIz2mcKhMxDsdewhjg==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@radix-ui/react-dismissable-layer@1.1.5':
-    resolution: {integrity: sha512-E4TywXY6UsXNRhFrECa5HAvE5/4BFcGyfTyK36gP+pAW1ed7UTK4vKwdr53gAJYwqbfCWC6ATvJa3J3R/9+Qrg==}
-=======
-  '@radix-ui/react-portal@1.1.4':
-    resolution: {integrity: sha512-sn2O9k1rPFYVyKd5LAJfo96JlSGVFpa1fS6UuBJfrZadudiw5tAmru+n1x7aMRQ84qDM71Zh1+SzK5QwU0tJfA==}
->>>>>>> Stashed changes
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-<<<<<<< Updated upstream
-  '@radix-ui/react-dropdown-menu@2.1.6':
-    resolution: {integrity: sha512-no3X7V5fD487wab/ZYSHXq3H37u4NVeLDKI/Ks724X/eEFSSEFYZxWgsIlr1UBeEyDaM29HM5x9p1Nv8DuTYPA==}
-=======
-  '@radix-ui/react-presence@1.1.2':
-    resolution: {integrity: sha512-18TFr80t5EVgL9x1SwF/YGtfG+l0BS0PRAlCWBDoBEiDQjeKgnNZRVJp/oVBl24sr3Gbfwc/Qpj4OcWTQMsAEg==}
->>>>>>> Stashed changes
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-<<<<<<< Updated upstream
-  '@radix-ui/react-focus-guards@1.1.1':
-    resolution: {integrity: sha512-pSIwfrT1a6sIoDASCSpFwOasEwKTZWDw/iBdtnqKO7v6FeOzYJ7U53cPzYFVR3geGGXgVHaH+CdngrrAzqUGxg==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@radix-ui/react-focus-scope@1.1.2':
-    resolution: {integrity: sha512-zxwE80FCU7lcXUGWkdt6XpTTCKPitG1XKOwViTxHVKIJhZl9MvIl2dVHeZENCWD9+EdWv05wlaEkRXUykU27RA==}
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-  '@radix-ui/react-id@1.1.0':
-    resolution: {integrity: sha512-EJUrI8yYh7WOjNOqpoJaf1jlFIH2LvtgAl+YcFqNCa+4hj64ZXmPkAKOFs/ukjz3byN6bdb/AVUqHkI8/uWWMA==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
         optional: true
 
   '@radix-ui/react-menu@2.1.6':
@@ -2263,8 +2096,6 @@ packages:
       '@types/react-dom':
         optional: true
 
-=======
->>>>>>> Stashed changes
   '@radix-ui/react-primitive@2.0.2':
     resolution: {integrity: sha512-Ec/0d38EIuvDF+GZjcMU/Ze6MxntVJYO/fRlCPhCaVUyPY9WTalHJw54tp9sXeJo3tlShWpy41vQRgLRGOuz+w==}
     peerDependencies:
@@ -2329,6 +2160,15 @@ packages:
 
   '@radix-ui/react-use-layout-effect@1.1.0':
     resolution: {integrity: sha512-+FPE0rOdziWSrH9athwI1R0HDVbWlEhd+FR+aSDk4uWGmSJ9Z54sdZVDQPZAinJhJXwfT+qnj969mCsT2gfm5w==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
+  '@radix-ui/react-use-previous@1.1.0':
+    resolution: {integrity: sha512-Z/e78qg2YFnnXcW88A4JmTtm4ADckLno6F7OXotmkQfeuCVaKuYzqAATPhVzl3delXE7CxIV8shofPn3jPc5Og==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
@@ -2691,13 +2531,8 @@ packages:
     peerDependencies:
       storybook: ^8.5.6
 
-<<<<<<< Updated upstream
-  '@storybook/core@8.5.6':
-    resolution: {integrity: sha512-ibgTGI3mcSsADABIQuhHWL8rxqF6CvooKIWpkZsB9kwNActS3OJzfCSAZDcgtvRkwaarPVjYX/sAOBzjqQNkXg==}
-=======
   '@storybook/core@8.6.11':
     resolution: {integrity: sha512-fhzLQ9HpljbLpkHykafmcjIERHI5j6SZhylFCDwEWkETuZtRbyCs3mmULutcEOzKhxRgNtiIRoRmZPdQcPtHNg==}
->>>>>>> Stashed changes
     peerDependencies:
       prettier: ^2 || ^3
     peerDependenciesMeta:
@@ -2818,14 +2653,11 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
-<<<<<<< Updated upstream
-=======
   '@storybook/theming@8.6.11':
     resolution: {integrity: sha512-G7IK5P9gzofUjfYhMo9Pdgbqcr22eoKFLD808Q8RxJopDoypdZKg4tes2iD+6YnrtnHS0nEoP/soMmfFYl9FIw==}
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
->>>>>>> Stashed changes
   '@storybook/types@7.6.20':
     resolution: {integrity: sha512-GncdY3x0LpbhmUAAJwXYtJDUQEwfF175gsjH0/fxPkxPoV7Sef9TM41jQLJW/5+6TnZoCZP/+aJZTJtq3ni23Q==}
 
@@ -6264,13 +6096,8 @@ packages:
   stackframe@1.3.4:
     resolution: {integrity: sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==}
 
-<<<<<<< Updated upstream
-  storybook@8.5.6:
-    resolution: {integrity: sha512-mrcYAA5CP6QBrq5O9grz2eqBoEfJNsK3b+Iz+PdGYqpr04oMC7rg1h80murV2pRwsbHxIWBFpLpXAVX8tMK01w==}
-=======
   storybook@8.6.11:
     resolution: {integrity: sha512-B2wxpmq1QYS4JV7RQu1mOHD7akfoGbuoUSkx2D2GZgv/zXAHZmDpSFcTvvBBm8FAtzChI9HhITSJ0YS0ePfnJQ==}
->>>>>>> Stashed changes
     hasBin: true
     peerDependencies:
       prettier: ^2 || ^3
@@ -8855,11 +8682,7 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-<<<<<<< Updated upstream
   '@pmmmwh/react-refresh-webpack-plugin@0.5.15(react-refresh@0.14.2)(type-fest@2.19.0)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.24.2))':
-=======
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(react-refresh@0.14.2)(type-fest@2.19.0)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.18.20))':
->>>>>>> Stashed changes
     dependencies:
       ansi-html: 0.0.9
       core-js-pure: 3.40.0
@@ -8869,11 +8692,7 @@ snapshots:
       react-refresh: 0.14.2
       schema-utils: 4.3.0
       source-map: 0.7.4
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
     optionalDependencies:
       type-fest: 2.19.0
       webpack-hot-middleware: 2.26.1
@@ -8926,6 +8745,22 @@ snapshots:
   '@radix-ui/react-arrow@1.1.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@radix-ui/react-primitive': 2.0.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    optionalDependencies:
+      '@types/react': 18.2.14
+      '@types/react-dom': 18.2.6
+
+  '@radix-ui/react-checkbox@1.1.4(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@radix-ui/primitive': 1.1.1
+      '@radix-ui/react-compose-refs': 1.1.1(@types/react@18.2.14)(react@18.2.0)
+      '@radix-ui/react-context': 1.1.1(@types/react@18.2.14)(react@18.2.0)
+      '@radix-ui/react-presence': 1.1.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@radix-ui/react-primitive': 2.0.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@radix-ui/react-use-controllable-state': 1.1.0(@types/react@18.2.14)(react@18.2.0)
+      '@radix-ui/react-use-previous': 1.1.0(@types/react@18.2.14)(react@18.2.0)
+      '@radix-ui/react-use-size': 1.1.0(@types/react@18.2.14)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     optionalDependencies:
@@ -9036,8 +8871,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.14
 
-<<<<<<< Updated upstream
-=======
   '@radix-ui/react-label@2.1.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@radix-ui/react-primitive': 2.0.2(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -9047,7 +8880,6 @@ snapshots:
       '@types/react': 18.2.14
       '@types/react-dom': 18.2.6
 
->>>>>>> Stashed changes
   '@radix-ui/react-menu@2.1.6(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@radix-ui/primitive': 1.1.1
@@ -9189,6 +9021,12 @@ snapshots:
       '@types/react': 18.2.14
 
   '@radix-ui/react-use-layout-effect@1.1.0(@types/react@18.2.14)(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+    optionalDependencies:
+      '@types/react': 18.2.14
+
+  '@radix-ui/react-use-previous@1.1.0(@types/react@18.2.14)(react@18.2.0)':
     dependencies:
       react: 18.2.0
     optionalDependencies:
@@ -9547,44 +9385,12 @@ snapshots:
 
   '@stablelib/base64@1.0.1': {}
 
-<<<<<<< Updated upstream
-  '@storybook/addon-actions@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-=======
   '@storybook/addon-actions@8.5.6(storybook@8.6.11(prettier@3.5.1))':
->>>>>>> Stashed changes
     dependencies:
       '@storybook/global': 5.0.0
       '@types/uuid': 9.0.8
       dequal: 2.0.3
       polished: 4.3.1
-<<<<<<< Updated upstream
-      storybook: 8.5.6(prettier@3.5.1)
-      uuid: 9.0.1
-
-  '@storybook/addon-backgrounds@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      memoizerific: 1.11.3
-      storybook: 8.5.6(prettier@3.5.1)
-      ts-dedent: 2.2.0
-
-  '@storybook/addon-controls@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      dequal: 2.0.3
-      storybook: 8.5.6(prettier@3.5.1)
-      ts-dedent: 2.2.0
-
-  '@storybook/addon-docs@8.5.6(@types/react@18.2.14)(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@mdx-js/react': 3.1.0(@types/react@18.2.14)(react@18.2.0)
-      '@storybook/blocks': 8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/csf-plugin': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/react-dom-shim': 8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      storybook: 8.5.6(prettier@3.5.1)
-=======
       storybook: 8.6.11(prettier@3.5.1)
       uuid: 9.0.1
 
@@ -9611,25 +9417,10 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       ts-dedent: 2.2.0
     transitivePeerDependencies:
       - '@types/react'
 
-<<<<<<< Updated upstream
-  '@storybook/addon-essentials@8.5.6(@types/react@18.2.14)(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/addon-actions': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-backgrounds': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-controls': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-docs': 8.5.6(@types/react@18.2.14)(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-highlight': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-measure': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-outline': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-toolbars': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/addon-viewport': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      storybook: 8.5.6(prettier@3.5.1)
-=======
   '@storybook/addon-essentials@8.5.6(@types/react@18.2.14)(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/addon-actions': 8.5.6(storybook@8.6.11(prettier@3.5.1))
@@ -9642,32 +9433,10 @@ snapshots:
       '@storybook/addon-toolbars': 8.5.6(storybook@8.6.11(prettier@3.5.1))
       '@storybook/addon-viewport': 8.5.6(storybook@8.6.11(prettier@3.5.1))
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       ts-dedent: 2.2.0
     transitivePeerDependencies:
       - '@types/react'
 
-<<<<<<< Updated upstream
-  '@storybook/addon-highlight@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/addon-interactions@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/test': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      polished: 4.3.1
-      storybook: 8.5.6(prettier@3.5.1)
-      ts-dedent: 2.2.0
-
-  '@storybook/addon-links@8.5.6(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/csf': 0.1.12
-      '@storybook/global': 5.0.0
-      storybook: 8.5.6(prettier@3.5.1)
-=======
   '@storybook/addon-highlight@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/global': 5.0.0
@@ -9687,22 +9456,14 @@ snapshots:
       '@storybook/csf': 0.1.12
       '@storybook/global': 5.0.0
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       ts-dedent: 2.2.0
     optionalDependencies:
       react: 18.2.0
 
-<<<<<<< Updated upstream
-  '@storybook/addon-measure@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      storybook: 8.5.6(prettier@3.5.1)
-=======
   '@storybook/addon-measure@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/global': 5.0.0
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       tiny-invariant: 1.3.3
 
   '@storybook/addon-onboarding@1.0.11(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
@@ -9715,28 +9476,6 @@ snapshots:
       - encoding
       - supports-color
 
-<<<<<<< Updated upstream
-  '@storybook/addon-outline@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      storybook: 8.5.6(prettier@3.5.1)
-      ts-dedent: 2.2.0
-
-  '@storybook/addon-toolbars@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/addon-viewport@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      memoizerific: 1.11.3
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/blocks@8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/csf': 0.1.12
-      '@storybook/icons': 1.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      storybook: 8.5.6(prettier@3.5.1)
-=======
   '@storybook/addon-outline@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/global': 5.0.0
@@ -9757,61 +9496,36 @@ snapshots:
       '@storybook/csf': 0.1.12
       '@storybook/icons': 1.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       ts-dedent: 2.2.0
     optionalDependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-<<<<<<< Updated upstream
-  '@storybook/builder-webpack5@8.5.6(esbuild@0.24.2)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)':
-    dependencies:
-      '@storybook/core-webpack': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-=======
-  '@storybook/builder-webpack5@8.5.6(esbuild@0.18.20)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)':
+  '@storybook/builder-webpack5@8.5.6(esbuild@0.24.2)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)':
     dependencies:
       '@storybook/core-webpack': 8.5.6(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
       '@types/semver': 7.5.8
       browser-assert: 1.2.1
       case-sensitive-paths-webpack-plugin: 2.4.0
       cjs-module-lexer: 1.4.3
       constants-browserify: 1.0.0
-<<<<<<< Updated upstream
       css-loader: 6.11.0(webpack@5.98.0(esbuild@0.24.2))
       es-module-lexer: 1.6.0
       fork-ts-checker-webpack-plugin: 8.0.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2))
       html-webpack-plugin: 5.6.3(webpack@5.98.0(esbuild@0.24.2))
-=======
-      css-loader: 6.11.0(webpack@5.98.0(esbuild@0.18.20))
-      es-module-lexer: 1.6.0
-      fork-ts-checker-webpack-plugin: 8.0.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.18.20))
-      html-webpack-plugin: 5.6.3(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
       magic-string: 0.30.17
       path-browserify: 1.0.1
       process: 0.11.10
       semver: 7.7.1
-<<<<<<< Updated upstream
-      storybook: 8.5.6(prettier@3.5.1)
+      storybook: 8.6.11(prettier@3.5.1)
       style-loader: 3.3.4(webpack@5.98.0(esbuild@0.24.2))
       terser-webpack-plugin: 5.3.11(esbuild@0.24.2)(webpack@5.98.0(esbuild@0.24.2))
-=======
-      storybook: 8.6.11(prettier@3.5.1)
-      style-loader: 3.3.4(webpack@5.98.0(esbuild@0.18.20))
-      terser-webpack-plugin: 5.3.11(esbuild@0.18.20)(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
       ts-dedent: 2.2.0
       url: 0.11.4
       util: 0.12.5
       util-deprecate: 1.0.2
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
       webpack-dev-middleware: 6.1.3(webpack@5.98.0(esbuild@0.24.2))
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
-      webpack-dev-middleware: 6.1.3(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
       webpack-hot-middleware: 2.26.1
       webpack-virtual-modules: 0.6.2
     optionalDependencies:
@@ -9836,15 +9550,9 @@ snapshots:
     dependencies:
       '@storybook/global': 5.0.0
 
-<<<<<<< Updated upstream
-  '@storybook/components@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-=======
   '@storybook/components@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
 
   '@storybook/core-common@7.6.20':
     dependencies:
@@ -9879,16 +9587,6 @@ snapshots:
     dependencies:
       ts-dedent: 2.2.0
 
-<<<<<<< Updated upstream
-  '@storybook/core-webpack@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-      ts-dedent: 2.2.0
-
-  '@storybook/core@8.5.6(prettier@3.5.1)':
-    dependencies:
-      '@storybook/csf': 0.1.12
-=======
   '@storybook/core-webpack@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       storybook: 8.6.11(prettier@3.5.1)
@@ -9897,7 +9595,6 @@ snapshots:
   '@storybook/core@8.6.11(prettier@3.5.1)(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/theming': 8.6.11(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
       better-opn: 3.0.2
       browser-assert: 1.2.1
       esbuild: 0.24.2
@@ -9912,14 +9609,6 @@ snapshots:
       prettier: 3.5.1
     transitivePeerDependencies:
       - bufferutil
-<<<<<<< Updated upstream
-      - supports-color
-      - utf-8-validate
-
-  '@storybook/csf-plugin@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-=======
       - storybook
       - supports-color
       - utf-8-validate
@@ -9927,7 +9616,6 @@ snapshots:
   '@storybook/csf-plugin@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
       unplugin: 1.16.1
 
   '@storybook/csf-tools@7.6.20':
@@ -9963,19 +9651,6 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-<<<<<<< Updated upstream
-  '@storybook/instrumenter@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/global': 5.0.0
-      '@vitest/utils': 2.1.9
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/manager-api@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/nextjs@8.5.6(esbuild@0.24.2)(next@14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)(storybook@8.5.6(prettier@3.5.1))(type-fest@2.19.0)(typescript@5.1.6)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.24.2))':
-=======
   '@storybook/instrumenter@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/global': 5.0.0
@@ -9986,8 +9661,7 @@ snapshots:
     dependencies:
       storybook: 8.6.11(prettier@3.5.1)
 
-  '@storybook/nextjs@8.5.6(esbuild@0.18.20)(next@14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)(storybook@8.6.11(prettier@3.5.1))(type-fest@2.19.0)(typescript@5.1.6)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.18.20))':
->>>>>>> Stashed changes
+  '@storybook/nextjs@8.5.6(esbuild@0.24.2)(next@14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)(storybook@8.6.11(prettier@3.5.1))(type-fest@2.19.0)(typescript@5.1.6)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.24.2))':
     dependencies:
       '@babel/core': 7.26.9
       '@babel/plugin-syntax-bigint': 7.8.3(@babel/core@7.26.9)
@@ -10002,55 +9676,30 @@ snapshots:
       '@babel/preset-react': 7.26.3(@babel/core@7.26.9)
       '@babel/preset-typescript': 7.26.0(@babel/core@7.26.9)
       '@babel/runtime': 7.26.9
-<<<<<<< Updated upstream
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.15(react-refresh@0.14.2)(type-fest@2.19.0)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.24.2))
-      '@storybook/builder-webpack5': 8.5.6(esbuild@0.24.2)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/preset-react-webpack': 8.5.6(@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1)))(esbuild@0.24.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/react': 8.5.6(@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/test': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@types/semver': 7.5.8
-      babel-loader: 9.2.1(@babel/core@7.26.9)(webpack@5.98.0(esbuild@0.24.2))
-      css-loader: 6.11.0(webpack@5.98.0(esbuild@0.24.2))
-=======
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.15(react-refresh@0.14.2)(type-fest@2.19.0)(webpack-hot-middleware@2.26.1)(webpack@5.98.0(esbuild@0.18.20))
-      '@storybook/builder-webpack5': 8.5.6(esbuild@0.18.20)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/preset-react-webpack': 8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(esbuild@0.18.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
+      '@storybook/builder-webpack5': 8.5.6(esbuild@0.24.2)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
+      '@storybook/preset-react-webpack': 8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(esbuild@0.24.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
       '@storybook/react': 8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
       '@storybook/test': 8.5.6(storybook@8.6.11(prettier@3.5.1))
       '@types/semver': 7.5.8
-      babel-loader: 9.2.1(@babel/core@7.26.9)(webpack@5.98.0(esbuild@0.18.20))
-      css-loader: 6.11.0(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
+      babel-loader: 9.2.1(@babel/core@7.26.9)(webpack@5.98.0(esbuild@0.24.2))
+      css-loader: 6.11.0(webpack@5.98.0(esbuild@0.24.2))
       find-up: 5.0.0
       image-size: 1.2.0
       loader-utils: 3.3.1
       next: 14.2.4(@babel/core@7.26.9)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.85.0)
-<<<<<<< Updated upstream
       node-polyfill-webpack-plugin: 2.0.1(webpack@5.98.0(esbuild@0.24.2))
       pnp-webpack-plugin: 1.7.0(typescript@5.1.6)
       postcss: 8.5.2
       postcss-loader: 8.1.1(postcss@8.5.2)(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2))
-=======
-      node-polyfill-webpack-plugin: 2.0.1(webpack@5.98.0(esbuild@0.18.20))
-      pnp-webpack-plugin: 1.7.0(typescript@5.1.6)
-      postcss: 8.5.2
-      postcss-loader: 8.1.1(postcss@8.5.2)(typescript@5.1.6)(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-refresh: 0.14.2
       resolve-url-loader: 5.0.0
-<<<<<<< Updated upstream
       sass-loader: 14.2.1(sass@1.85.0)(webpack@5.98.0(esbuild@0.24.2))
       semver: 7.7.1
-      storybook: 8.5.6(prettier@3.5.1)
-      style-loader: 3.3.4(webpack@5.98.0(esbuild@0.24.2))
-=======
-      sass-loader: 14.2.1(sass@1.85.0)(webpack@5.98.0(esbuild@0.18.20))
-      semver: 7.7.1
       storybook: 8.6.11(prettier@3.5.1)
-      style-loader: 3.3.4(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
+      style-loader: 3.3.4(webpack@5.98.0(esbuild@0.24.2))
       styled-jsx: 5.1.6(@babel/core@7.26.9)(react@18.2.0)
       ts-dedent: 2.2.0
       tsconfig-paths: 4.2.0
@@ -10058,11 +9707,7 @@ snapshots:
     optionalDependencies:
       sharp: 0.33.5
       typescript: 5.1.6
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
     transitivePeerDependencies:
       - '@rspack/core'
       - '@swc/core'
@@ -10083,19 +9728,11 @@ snapshots:
 
   '@storybook/node-logger@7.6.20': {}
 
-<<<<<<< Updated upstream
-  '@storybook/preset-react-webpack@8.5.6(@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1)))(esbuild@0.24.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)':
-    dependencies:
-      '@storybook/core-webpack': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/react': 8.5.6(@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2))
-=======
-  '@storybook/preset-react-webpack@8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(esbuild@0.18.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)':
+  '@storybook/preset-react-webpack@8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(esbuild@0.24.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)':
     dependencies:
       '@storybook/core-webpack': 8.5.6(storybook@8.6.11(prettier@3.5.1))
       '@storybook/react': 8.5.6(@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.6.11(prettier@3.5.1))(typescript@5.1.6)
-      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
+      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2))
       '@types/semver': 7.5.8
       find-up: 5.0.0
       magic-string: 0.30.17
@@ -10104,15 +9741,9 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       resolve: 1.22.10
       semver: 7.7.1
-<<<<<<< Updated upstream
-      storybook: 8.5.6(prettier@3.5.1)
-      tsconfig-paths: 4.2.0
-      webpack: 5.98.0(esbuild@0.24.2)
-=======
       storybook: 8.6.11(prettier@3.5.1)
       tsconfig-paths: 4.2.0
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
+      webpack: 5.98.0(esbuild@0.24.2)
     optionalDependencies:
       typescript: 5.1.6
     transitivePeerDependencies:
@@ -10123,19 +9754,11 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-<<<<<<< Updated upstream
-  '@storybook/preview-api@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2))':
-=======
   '@storybook/preview-api@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       storybook: 8.6.11(prettier@3.5.1)
 
-  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.18.20))':
->>>>>>> Stashed changes
+  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2))':
     dependencies:
       debug: 4.4.0
       endent: 2.1.0
@@ -10145,32 +9768,7 @@ snapshots:
       react-docgen-typescript: 2.2.2(typescript@5.1.6)
       tslib: 2.8.1
       typescript: 5.1.6
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@storybook/react-dom-shim@8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/react@8.5.6(@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1)))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))(typescript@5.1.6)':
-    dependencies:
-      '@storybook/components': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/global': 5.0.0
-      '@storybook/manager-api': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/preview-api': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/react-dom-shim': 8.5.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(storybook@8.5.6(prettier@3.5.1))
-      '@storybook/theming': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      storybook: 8.5.6(prettier@3.5.1)
-    optionalDependencies:
-      '@storybook/test': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
     transitivePeerDependencies:
       - supports-color
 
@@ -10193,7 +9791,6 @@ snapshots:
       storybook: 8.6.11(prettier@3.5.1)
     optionalDependencies:
       '@storybook/test': 8.5.6(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
       typescript: 5.1.6
 
   '@storybook/telemetry@7.6.20':
@@ -10210,31 +9807,16 @@ snapshots:
       - encoding
       - supports-color
 
-<<<<<<< Updated upstream
-  '@storybook/test@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      '@storybook/csf': 0.1.12
-      '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.5.6(storybook@8.5.6(prettier@3.5.1))
-=======
   '@storybook/test@8.5.6(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       '@storybook/csf': 0.1.12
       '@storybook/global': 5.0.0
       '@storybook/instrumenter': 8.5.6(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
       '@testing-library/dom': 10.4.0
       '@testing-library/jest-dom': 6.5.0
       '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
       '@vitest/expect': 2.0.5
       '@vitest/spy': 2.0.5
-<<<<<<< Updated upstream
-      storybook: 8.5.6(prettier@3.5.1)
-
-  '@storybook/theming@8.5.6(storybook@8.5.6(prettier@3.5.1))':
-    dependencies:
-      storybook: 8.5.6(prettier@3.5.1)
-=======
       storybook: 8.6.11(prettier@3.5.1)
 
   '@storybook/theming@8.5.6(storybook@8.6.11(prettier@3.5.1))':
@@ -10244,7 +9826,6 @@ snapshots:
   '@storybook/theming@8.6.11(storybook@8.6.11(prettier@3.5.1))':
     dependencies:
       storybook: 8.6.11(prettier@3.5.1)
->>>>>>> Stashed changes
 
   '@storybook/types@7.6.20':
     dependencies:
@@ -11007,20 +10588,12 @@ snapshots:
 
   axobject-query@4.1.0: {}
 
-<<<<<<< Updated upstream
   babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       '@babel/core': 7.26.9
       find-cache-dir: 4.0.0
       schema-utils: 4.3.0
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   babel-plugin-polyfill-corejs2@0.4.12(@babel/core@7.26.9):
     dependencies:
@@ -11385,11 +10958,7 @@ snapshots:
 
   css-functions-list@3.2.3: {}
 
-<<<<<<< Updated upstream
   css-loader@6.11.0(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  css-loader@6.11.0(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.2)
       postcss: 8.5.2
@@ -11400,11 +10969,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.7.1
     optionalDependencies:
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   css-select@4.3.0:
     dependencies:
@@ -12330,11 +11895,7 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-<<<<<<< Updated upstream
   fork-ts-checker-webpack-plugin@8.0.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  fork-ts-checker-webpack-plugin@8.0.0(typescript@5.1.6)(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       '@babel/code-frame': 7.26.2
       chalk: 4.1.2
@@ -12349,11 +11910,7 @@ snapshots:
       semver: 7.7.1
       tapable: 2.2.1
       typescript: 5.1.6
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   form-data@4.0.2:
     dependencies:
@@ -12585,11 +12142,7 @@ snapshots:
 
   html-tags@3.3.1: {}
 
-<<<<<<< Updated upstream
   html-webpack-plugin@5.6.3(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  html-webpack-plugin@5.6.3(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
@@ -12597,11 +12150,7 @@ snapshots:
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   htmlparser2@6.1.0:
     dependencies:
@@ -13184,11 +12733,7 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
-<<<<<<< Updated upstream
   node-polyfill-webpack-plugin@2.0.1(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  node-polyfill-webpack-plugin@2.0.1(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       assert: 2.1.0
       browserify-zlib: 0.2.0
@@ -13215,11 +12760,7 @@ snapshots:
       url: 0.11.4
       util: 0.12.5
       vm-browserify: 1.1.2
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   node-releases@2.0.19: {}
 
@@ -13483,22 +13024,14 @@ snapshots:
       postcss: 8.4.24
       ts-node: 10.9.2(@types/node@20.3.3)(typescript@5.1.6)
 
-<<<<<<< Updated upstream
   postcss-loader@8.1.1(postcss@8.5.2)(typescript@5.1.6)(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  postcss-loader@8.1.1(postcss@8.5.2)(typescript@5.1.6)(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       cosmiconfig: 9.0.0(typescript@5.1.6)
       jiti: 1.21.7
       postcss: 8.5.2
       semver: 7.7.1
     optionalDependencies:
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
     transitivePeerDependencies:
       - typescript
 
@@ -13962,20 +13495,12 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-<<<<<<< Updated upstream
   sass-loader@14.2.1(sass@1.85.0)(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  sass-loader@14.2.1(sass@1.85.0)(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       neo-async: 2.6.2
     optionalDependencies:
       sass: 1.85.0
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   sass@1.85.0:
     dependencies:
@@ -14152,15 +13677,9 @@ snapshots:
 
   stackframe@1.3.4: {}
 
-<<<<<<< Updated upstream
-  storybook@8.5.6(prettier@3.5.1):
-    dependencies:
-      '@storybook/core': 8.5.6(prettier@3.5.1)
-=======
   storybook@8.6.11(prettier@3.5.1):
     dependencies:
       '@storybook/core': 8.6.11(prettier@3.5.1)(storybook@8.6.11(prettier@3.5.1))
->>>>>>> Stashed changes
     optionalDependencies:
       prettier: 3.5.1
     transitivePeerDependencies:
@@ -14276,15 +13795,9 @@ snapshots:
 
   strnum@1.0.5: {}
 
-<<<<<<< Updated upstream
   style-loader@3.3.4(webpack@5.98.0(esbuild@0.24.2)):
     dependencies:
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-  style-loader@3.3.4(webpack@5.98.0(esbuild@0.18.20)):
-    dependencies:
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   style-search@0.1.0: {}
 
@@ -14472,26 +13985,16 @@ snapshots:
     dependencies:
       memoizerific: 1.11.3
 
-<<<<<<< Updated upstream
   terser-webpack-plugin@5.3.11(esbuild@0.24.2)(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  terser-webpack-plugin@5.3.11(esbuild@0.18.20)(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
       terser: 5.39.0
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
     optionalDependencies:
       esbuild: 0.24.2
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
-    optionalDependencies:
-      esbuild: 0.18.20
->>>>>>> Stashed changes
 
   terser@5.39.0:
     dependencies:
@@ -14763,11 +14266,7 @@ snapshots:
 
   webidl-conversions@7.0.0: {}
 
-<<<<<<< Updated upstream
   webpack-dev-middleware@6.1.3(webpack@5.98.0(esbuild@0.24.2)):
-=======
-  webpack-dev-middleware@6.1.3(webpack@5.98.0(esbuild@0.18.20)):
->>>>>>> Stashed changes
     dependencies:
       colorette: 2.0.20
       memfs: 3.5.3
@@ -14775,11 +14274,7 @@ snapshots:
       range-parser: 1.2.1
       schema-utils: 4.3.0
     optionalDependencies:
-<<<<<<< Updated upstream
       webpack: 5.98.0(esbuild@0.24.2)
-=======
-      webpack: 5.98.0(esbuild@0.18.20)
->>>>>>> Stashed changes
 
   webpack-hot-middleware@2.26.1:
     dependencies:
@@ -14791,11 +14286,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-<<<<<<< Updated upstream
   webpack@5.98.0(esbuild@0.24.2):
-=======
-  webpack@5.98.0(esbuild@0.18.20):
->>>>>>> Stashed changes
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.6
@@ -14817,11 +14308,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.0
       tapable: 2.2.1
-<<<<<<< Updated upstream
       terser-webpack-plugin: 5.3.11(esbuild@0.24.2)(webpack@5.98.0(esbuild@0.24.2))
-=======
-      terser-webpack-plugin: 5.3.11(esbuild@0.18.20)(webpack@5.98.0(esbuild@0.18.20))
->>>>>>> Stashed changes
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:

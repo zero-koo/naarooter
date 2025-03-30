@@ -19,8 +19,14 @@ const labelVariants = cva(
         outline: 'border-primary-content/20 text-foreground',
       },
       size: {
-        sm: 'px-1 text-xxs',
-        md: 'text-md px-1.5 py-0.5 text-xs',
+        xs: 'rounded-sm px-1 py-px text-xxs',
+        sm: 'rounded-sm px-1.5 py-0.5 text-xxs',
+        md: 'rounded-md px-2 py-1 text-xs',
+        lg: 'rounded-lg px-2.5 py-1 text-sm',
+      },
+      rounded: {
+        false: null,
+        true: 'rounded-full',
       },
     },
     defaultVariants: {
@@ -41,13 +47,17 @@ function Label({
   className,
   variant,
   size,
+  rounded,
   closable,
   onClose,
   children,
   ...props
 }: LabelProps) {
   return (
-    <div className={cn(labelVariants({ variant, size }), className)} {...props}>
+    <div
+      className={cn(labelVariants({ variant, size, rounded }), className)}
+      {...props}
+    >
       <div className="truncate">{children}</div>
       {closable && (
         <button

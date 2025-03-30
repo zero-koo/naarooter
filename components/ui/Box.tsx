@@ -7,7 +7,7 @@ const boxVariants = cva('bg-base-100 md:rounded-lg', {
   variants: {
     bordered: {
       false: null,
-      true: ['border border-primary-content/10 bg-transparent'],
+      true: ['border border-primary-content/20 bg-transparent'],
     },
   },
   defaultVariants: {
