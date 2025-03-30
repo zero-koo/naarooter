@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/useToast';
 
 import BaseTitleDescriptionForm from '../BaseTitleDescriptionForm';
 
-export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
+export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -18,7 +18,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
         theme: 'success',
       });
 
-      router.push(`/community/${listGroupId}/post/${data.id}`);
+      router.push(`/community/${communityId}/post/${data.id}`);
     },
     onError() {
       toast.update({
@@ -31,7 +31,7 @@ export const PostCreateForm = ({ listGroupId }: { listGroupId?: string }) => {
   return (
     <BaseTitleDescriptionForm
       title={'글 쓰기'}
-      backLink={listGroupId ? `/community/${listGroupId}` : '/posts'}
+      backLink={communityId ? `/community/${communityId}` : '/posts'}
       onSubmit={(data) => {
         mutate({
           title: data.title,

@@ -5,7 +5,7 @@ const PostCreatePage = ({
 }: {
   searchParams?: { communityId?: string };
 }) => {
-  return <PostCreateForm listGroupId={searchParams?.communityId} />;
+  return <PostCreateForm communityId={searchParams?.communityId} />;
 };
 
 export default PostCreatePage;
