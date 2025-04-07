@@ -28,12 +28,22 @@ const CommunityIconEditDialog = ({
   setOpen,
 }: CommunityIconEditDialogProps) => {
   const [image, setImage] = useState<File>();
+  const [isUploading, setIsUploading] = useState(false);
 
   const { uploadImage } = useImageUpload();
 
-  const { mutateAsync: updateCommunityIcon } =
-    api.community.update.useMutation();
+  const apiUtils = api.useUtils();
 
+  const { mutateAsync: updateCommunityIcon } = api.community.update.useMutation(
+    {
+      onSuccess() {
+        apiUtils.community.byId.invalidate({
+          id: communityId,
+        });
+        apiUtils.community.myList.invalidate();
+      },
+    }
+  );
   const { toast } = useToast();
 
   return (
@@ -58,10 +68,12 @@ const CommunityIconEditDialog = ({
           <Button
             size="sm"
             variant={'primary'}
+            disabled={!image || isUploading}
             onClick={async () => {
               if (image === undefined) return;
 
               try {
+                setIsUploading(true);
                 const { url } = await uploadImage({
                   file: image,
                 });
@@ -76,6 +88,8 @@ const CommunityIconEditDialog = ({
                     '커뮤니티 아이콘 저장에 실패하였습니다. 잠시 후 다시 시도해주세요.',
                   theme: 'error',
                 });
+              } finally {
+                setIsUploading(false);
               }
             }}
           >
