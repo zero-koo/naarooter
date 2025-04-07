@@ -6,6 +6,7 @@ type CommunityDescriptionProps = {
   description: string;
   topics: string[];
   numUsers: number;
+  isOwner: boolean;
 };
 
 const CommnunityDescription = ({
@@ -13,9 +14,10 @@ const CommnunityDescription = ({
   description,
   topics,
   numUsers,
+  isOwner,
 }: CommunityDescriptionProps) => {
   return (
-    <Box className="rounded p-3 text-xs" bordered>
+    <Box className="relative rounded p-3 text-xs" bordered>
       <div className="mb-2 text-sm font-semibold">
         {name || '커뮤니티 이름'}
       </div>
