@@ -102,10 +102,13 @@ enum UserStatus {
 }
 
 model Community {
-  id          String         @id @default(uuid())
-  name        String         @unique
+  id          String           @id @default(uuid())
+  name        String           @unique
   description String?
   topics      CommunityTopic[] @relation("CommunityTopics")
+
+  bannerUrl String?
+  iconUrl   String?
 
   ownerId String
   owner   User            @relation(fields: [ownerId], references: [id])

@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const iconButtonVariants = cva(
-  'not:disabled:hover:text-base-content/80 pointer-events-auto flex items-center justify-center p-0 text-base-content/60',
+  'not:disabled:hover:text-base-content/80 pointer-events-auto flex items-center justify-center p-0 text-primary-content/80',
   {
     variants: {
       variant: {

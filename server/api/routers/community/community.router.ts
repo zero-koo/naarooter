@@ -92,6 +92,8 @@ export const communityRouter = createTRPCRouter({
         name: z.string(),
         description: z.string(),
         topicIds: z.array(z.string()),
+        iconUrl: z.string().optional(),
+        bannerUrl: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -107,6 +109,8 @@ export const communityRouter = createTRPCRouter({
         name: z.string().optional(),
         description: z.string().optional(),
         topicIds: z.array(z.string()).optional(),
+        iconUrl: z.string().optional(),
+        bannerUrl: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {

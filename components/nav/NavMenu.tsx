@@ -5,8 +5,6 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
-import { NavMenuIcon } from './NavMenuIcon';
-
 export function NavMenu({
   link,
   icon,
@@ -29,12 +27,8 @@ export function NavMenu({
           }
         )}
       >
-        {icon && (
-          <div className="mr-3">
-            <NavMenuIcon active={isActive}>{icon}</NavMenuIcon>
-          </div>
-        )}
-        {children}
+        {icon && <div className="mr-2.5 shrink-0">{icon}</div>}
+        <span className="truncate">{children}</span>
       </button>
     </Link>
   );

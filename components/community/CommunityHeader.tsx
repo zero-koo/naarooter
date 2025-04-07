@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import CommunityBannerImage from '@/public/community_banner_1.png';
@@ -9,6 +10,8 @@ import { getQueryKey } from '@trpc/react-query';
 import { PlusIcon } from 'lucide-react';
 
 import { Button } from '../Button';
+import CommunityIcon from './CommunityIcon';
+import CommunityIconEditDialog from './CommunityIconEditDialog';
 
 type CommunityHeaderProps = {
   communityId: string;
@@ -45,15 +48,30 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
       },
     });
 
+  const [isCommunityIconEditDialogOpen, setCommunityIconEditDialogOpen] =
+    useState(false);
+
   return (
     <div>
       <Image
         src={CommunityBannerImage}
         alt="banner"
-        className="mb-2 aspect-[7/1] object-cover md:rounded-lg"
+        className="mb-1 aspect-[7/1] object-cover md:rounded-lg"
       />
-      <div className="flex items-center p-2 md:px-0">
-        <h1 className="px-2 text-2xl font-bold">{community.name}</h1>
+      <div className="flex items-center p-2 md:pr-0">
+        <div className="flex items-center gap-0.5">
+          <div className="group relative size-8 overflow-hidden rounded-full border-base-300 bg-white">
+            <CommunityIcon iconUrl={community.iconUrl} />
+            {community.isOwner && (
+              <CommunityIconEditDialog
+                communityId={communityId}
+                isOpen={isCommunityIconEditDialogOpen}
+                setOpen={setCommunityIconEditDialogOpen}
+              />
+            )}
+          </div>
+          <h1 className="px-2 text-2xl font-bold">{community.name}</h1>
+        </div>
         <div className={'ml-auto flex gap-2'}>
           <Link href={`/community/${communityId}/create`}>
             <Button outline LeftIcon={PlusIcon}>

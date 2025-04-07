@@ -53,6 +53,8 @@ export class CommunityRepository implements ICommunityRepository {
     ownerId,
     _count: { users: numUsers },
     topics,
+    bannerUrl,
+    iconUrl,
   }: CommunityPrismaPayload): CommunityRepositoryPayload {
     return {
       id,
@@ -61,6 +63,8 @@ export class CommunityRepository implements ICommunityRepository {
       description: description ?? '',
       ownerId,
       topics,
+      bannerUrl,
+      iconUrl,
     };
   }
   async list({
@@ -128,6 +132,8 @@ export class CommunityRepository implements ICommunityRepository {
     topicIds,
     name,
     description,
+    bannerUrl,
+    iconUrl,
   }: CommunityRepositoryCreateParams): Promise<CommunityRepositoryPayload> {
     const communityPayload = await this.db.community.create({
       select: getDefaultCommunitySelect(),
@@ -140,6 +146,8 @@ export class CommunityRepository implements ICommunityRepository {
         },
         name,
         description,
+        iconUrl,
+        bannerUrl,
       },
     });
     await this.db.userCommunity.create({
@@ -155,6 +163,8 @@ export class CommunityRepository implements ICommunityRepository {
     topicIds,
     name,
     description,
+    bannerUrl,
+    iconUrl,
   }: CommunityRepositoryUpdateParams): Promise<CommunityRepositoryPayload> {
     const communityPayload = await this.db.community.update({
       select: getDefaultCommunitySelect(),
@@ -169,6 +179,8 @@ export class CommunityRepository implements ICommunityRepository {
         },
         name,
         description,
+        bannerUrl,
+        iconUrl,
       },
     });
     return CommunityRepository.payloadToCommunity(communityPayload);

@@ -1,9 +1,10 @@
 'use client';
 
-import { NutIcon, SearchIcon } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 
 import { useMyCommunityListQuery } from '@/hooks/queries/useMyCommunityListQuery';
 
+import CommunityIcon from '../community/CommunityIcon';
 import { NavMenu } from './NavMenu';
 
 const CommunityList = () => {
@@ -16,7 +17,7 @@ const CommunityList = () => {
           <NavMenu
             link={`/community/${community.id}`}
             key={community.id}
-            icon={<NutIcon size={16} strokeWidth={2.5} />}
+            icon={<CommunityIcon iconUrl={community.iconUrl} size="xs" />}
           >
             {community.name}
           </NavMenu>

@@ -4,6 +4,7 @@ import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
 import CommunityNavigation from './CommunityNavigation';
 import GlobalNavigationContainer from './GlobalNavigationContainer';
 import { NavMenu } from './NavMenu';
+import { NavMenuIcon } from './NavMenuIcon';
 import NavSubtitle from './NavSubtitle';
 
 const GlobalNavigation = async () => {
@@ -11,10 +12,17 @@ const GlobalNavigation = async () => {
 
   return (
     <GlobalNavigationContainer>
-      <NavMenu link={'/'} icon={<HomeIcon size={16} strokeWidth={2.5} />}>
+      <NavMenu
+        link={'/'}
+        icon={
+          <NavMenuIcon>
+            <HomeIcon size={16} strokeWidth={2.5} />
+          </NavMenuIcon>
+        }
+      >
         홈
       </NavMenu>
-      <NavMenu link={'/polls'} icon={'Q'}>
+      <NavMenu link={'/polls'} icon={<NavMenuIcon>Q</NavMenuIcon>}>
         설문조사
       </NavMenu>
 
@@ -25,19 +33,31 @@ const GlobalNavigation = async () => {
           <NavSubtitle>나</NavSubtitle>
           <NavMenu
             link={'/account/posts'}
-            icon={<ListIcon size={16} strokeWidth={2.5} />}
+            icon={
+              <NavMenuIcon>
+                <ListIcon size={16} strokeWidth={2.5} />
+              </NavMenuIcon>
+            }
           >
             나의 포스트
           </NavMenu>
           <NavMenu
             link={'/account/polls'}
-            icon={<CheckIcon size={16} strokeWidth={2.5} />}
+            icon={
+              <NavMenuIcon>
+                <CheckIcon size={16} strokeWidth={2.5} />
+              </NavMenuIcon>
+            }
           >
             내가 참여한 투표
           </NavMenu>
           <NavMenu
             link={'/account'}
-            icon={<InfoIcon size={16} strokeWidth={2.5} />}
+            icon={
+              <NavMenuIcon>
+                <InfoIcon size={16} strokeWidth={2.5} />
+              </NavMenuIcon>
+            }
           >
             회원 정보
           </NavMenu>
