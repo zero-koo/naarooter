@@ -10,6 +10,7 @@ import { getQueryKey } from '@trpc/react-query';
 import { PlusIcon } from 'lucide-react';
 
 import { Button } from '../Button';
+import CommunityBannerEditDialog from './CommunityBannerEditDialog';
 import CommunityIcon from './CommunityIcon';
 import CommunityIconEditDialog from './CommunityIconEditDialog';
 
@@ -51,13 +52,28 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
   const [isCommunityIconEditDialogOpen, setCommunityIconEditDialogOpen] =
     useState(false);
 
+  const [isCommunityBannerEditDialogOpen, setCommunityIconBannerDialogOpen] =
+    useState(false);
+
   return (
     <div>
-      <Image
-        src={CommunityBannerImage}
-        alt="banner"
-        className="mb-1 aspect-[7/1] object-cover md:rounded-lg"
-      />
+      <div className="relative">
+        <Image
+          src={community.bannerUrl ?? CommunityBannerImage}
+          alt="banner"
+          width={1400}
+          height={200}
+          className="mb-1 aspect-[7/1] object-cover md:rounded-lg"
+        />
+        {community.isOwner && (
+          <CommunityBannerEditDialog
+            isOpen={isCommunityBannerEditDialogOpen}
+            setOpen={setCommunityIconBannerDialogOpen}
+            communityId={communityId}
+            className="absolute bottom-2 right-2"
+          />
+        )}
+      </div>
       <div className="flex items-center p-2 md:pr-0">
         <div className="flex items-center gap-0.5">
           <div className="group relative size-8 overflow-hidden rounded-full border-base-300 bg-white">

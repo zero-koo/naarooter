@@ -134,7 +134,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className="relative size-full">
+      <div className="relative size-full rounded-lg bg-base-200">
         {imageUrl ? (
           <ImageUploadPreview
             src={imageUrl}
