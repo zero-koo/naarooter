@@ -8,6 +8,7 @@ import { usePostListSuspenseInfiniteQuery } from '@/hooks/queries/usePostListSus
 import { useURLSearchParams } from '@/hooks/useURLSearchParams';
 import { InfiniteScrollTrigger } from '@/components/utils/InfiniteScrollTrigger';
 
+import GrayBox from '../ui/GrayBox';
 import PostListItem from './PostListItem';
 
 interface PostListProps {
@@ -30,11 +31,11 @@ const PostList = ({ communityId, searchKeyword }: PostListProps) => {
   return (
     <div className="flex flex-col pb-5">
       {!postsInfiniteQueryData.pages[0]?.posts.length ? (
-        <div className="flex-center py-20 text-sm opacity-80">
+        <GrayBox className="flex-center py-24 text-sm opacity-80">
           {search
             ? `'${search}' 에 대한 검색 결과가 없습니다.`
             : '등록된 글이 없습니다.'}
-        </div>
+        </GrayBox>
       ) : (
         <div>
           {postsInfiniteQueryData.pages.map((page) =>
