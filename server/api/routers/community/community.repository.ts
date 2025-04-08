@@ -172,11 +172,13 @@ export class CommunityRepository implements ICommunityRepository {
         id,
       },
       data: {
-        topics: {
-          set: (topicIds ?? []).map((id) => ({
-            id,
-          })),
-        },
+        topics: topicIds
+          ? {
+              set: topicIds.map((id) => ({
+                id,
+              })),
+            }
+          : undefined,
         name,
         description,
         bannerUrl,
