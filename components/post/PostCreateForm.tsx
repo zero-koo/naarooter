@@ -11,6 +11,8 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
   const router = useRouter();
   const { toast } = useToast();
 
+  const apiUtils = api.useUtils();
+
   const { mutate } = api.post.create.useMutation({
     onSuccess(data) {
       toast.update({
@@ -19,6 +21,8 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
       });
 
       router.push(`/community/${communityId}/post/${data.id}`);
+      apiUtils.post.list.invalidate();
+      apiUtils.post.myList.invalidate();
     },
     onError() {
       toast.update({
