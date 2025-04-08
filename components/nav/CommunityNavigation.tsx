@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import CommunityForm from '../community/CommunityForm';
+import CommunityCreateForm from '../community/CommunityForm/CommunityCreateForm';
 import { Button } from '../ui/Button';
 import {
   Dialog,
@@ -45,7 +45,7 @@ const CommunityCreateButton = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogTitle className="hidden">커뮤니티 만들기</DialogTitle>
-        <CommunityForm onSubmit={() => setCreateDialogOpen(false)} />
+        <CommunityCreateForm onSubmit={() => setCreateDialogOpen(false)} />
       </DialogContent>
     </Dialog>
   );

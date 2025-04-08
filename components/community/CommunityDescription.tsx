@@ -6,7 +6,7 @@ type CommunityDescriptionProps = {
   description: string;
   topics: string[];
   numUsers: number;
-  isOwner: boolean;
+  children?: React.ReactNode;
 };
 
 const CommnunityDescription = ({
@@ -14,7 +14,7 @@ const CommnunityDescription = ({
   description,
   topics,
   numUsers,
-  isOwner,
+  children,
 }: CommunityDescriptionProps) => {
   return (
     <Box className="relative rounded p-3 text-xs" bordered>
@@ -28,10 +28,13 @@ const CommnunityDescription = ({
           </Label>
         ))}
       </div>
-      <div className="mb-2">{description || '커뮤니티 설명'}</div>
+      <div className="mb-2 whitespace-pre">
+        {description || '커뮤니티 설명'}
+      </div>
       <div className="flex items-center gap-0.5 text-xxs text-primary-content/60">
         <span>회원: {numUsers}</span>
       </div>
+      {children}
     </Box>
   );
 };

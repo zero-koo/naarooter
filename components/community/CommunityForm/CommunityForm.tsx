@@ -1,6 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import {
+  communityDescriptionSchema,
+  communityNameSchema,
+  communityTopicsSchema,
+  MAX_COMMUNITY_DESCRIPTION_LENGTH,
+  MAX_COMMUNITY_NAME_LENGTH,
+  MIN_COMMUNITY_DESCRIPTION_LENGTH,
+  MIN_COMMUNITY_NAME_LENGTH,
+} from '@/schemas/community';
 import { api } from '@/trpc/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -23,36 +32,13 @@ import TextInput from '@/components/ui/TextInput';
 import CommnunityDescription from '../CommunityDescription';
 import CommunityFormLayout from './CommunityFormLayout';
 
-const MIN_COMMUNITY_NAME_LENGTH = 2;
-const MAX_COMMUNITY_NAME_LENGTH = 20;
-const MIN_COMMUNITY_DESCRIPTION_LENGTH = 2;
-const MAX_COMMUNITY_DESCRIPTION_LENGTH = 200;
-
 const communityBaseFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: `커뮤니티 이름은 최소 ${MIN_COMMUNITY_NAME_LENGTH}글자 이상이어야 합니다.`,
-    })
-    .max(MAX_COMMUNITY_NAME_LENGTH, {
-      message: `커뮤니티 이름은 최대 ${MAX_COMMUNITY_NAME_LENGTH}글자 이내이어야 합니다.`,
-    }),
-  description: z
-    .string()
-    .min(2, {
-      message: `커뮤니티 설명은 최소 ${MIN_COMMUNITY_DESCRIPTION_LENGTH}글자 이상이어야 합니다.`,
-    })
-    .max(
-      300,
-      `커뮤니티 설명은 최대 ${MAX_COMMUNITY_DESCRIPTION_LENGTH}글자 이내이어야 합니다.`
-    ),
+  name: communityNameSchema,
+  description: communityDescriptionSchema,
 });
 
 const communityTopicsFormSchema = z.object({
-  topics: z
-    .array(z.object({ id: z.string(), name: z.string() }))
-    .min(1, { message: '최소 한개 이상의 주제를 선택해주세요.' })
-    .max(3, { message: '주제는 최대 세개까지 선택 가능합니다.' }),
+  topics: communityTopicsSchema,
 });
 
 const communityFormSchema = communityBaseFormSchema.merge(
@@ -63,15 +49,18 @@ export type CommunityFormData = z.infer<typeof communityFormSchema>;
 
 type CommunityBaseFormProps = {
   initialData?: CommunityFormData;
+  nameFieldDisabled?: boolean;
   onSubmit: (values: z.infer<typeof communityBaseFormSchema>) => void;
 };
 
 const CommunityForm = ({
   initialData,
+  nameFieldDisabled,
   isSubmitting,
   onSubmit,
 }: {
   initialData?: CommunityFormData;
+  nameFieldDisabled?: boolean;
   isSubmitting?: boolean;
   onSubmit: (values: CommunityFormData) => void;
 }) => {
@@ -96,6 +85,7 @@ const CommunityForm = ({
       {step === 0 && (
         <CommunityBaseForm
           initialData={formData}
+          nameFieldDisabled={nameFieldDisabled}
           onSubmit={(values) => {
             updateFormData(values);
             setStep(1);
@@ -123,6 +113,7 @@ const CommunityForm = ({
 
 const CommunityBaseForm = ({
   initialData,
+  nameFieldDisabled,
   onSubmit,
 }: CommunityBaseFormProps) => {
   const form = useForm<z.infer<typeof communityBaseFormSchema>>({
@@ -143,6 +134,7 @@ const CommunityBaseForm = ({
   );
 
   useEffect(() => {
+    if (nameFieldDisabled) return;
     if (checkName?.exist) {
       form.setError('name', {
         type: 'duplicate',
@@ -151,7 +143,7 @@ const CommunityBaseForm = ({
     } else {
       form.clearErrors('name');
     }
-  }, [checkName?.exist, form]);
+  }, [nameFieldDisabled, checkName?.exist, form]);
 
   return (
     <Form {...form}>
@@ -171,6 +163,7 @@ const CommunityBaseForm = ({
                         <TextInput
                           {...field}
                           placeholder="커뮤니티 이름"
+                          disabled={nameFieldDisabled}
                           outline
                           minLength={MIN_COMMUNITY_NAME_LENGTH}
                           maxLength={MAX_COMMUNITY_NAME_LENGTH}

@@ -173,7 +173,7 @@ export class CommunityRepository implements ICommunityRepository {
       },
       data: {
         topics: {
-          connect: (topicIds ?? []).map((id) => ({
+          set: (topicIds ?? []).map((id) => ({
             id,
           })),
         },

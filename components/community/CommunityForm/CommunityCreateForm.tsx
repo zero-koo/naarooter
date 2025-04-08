@@ -5,9 +5,9 @@ import { api } from '@/trpc/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 
-import CommunitFormView from './CommunityForm';
+import CommunityForm from './CommunityForm';
 
-const CommunityForm = ({ onSubmit }: { onSubmit?: () => void }) => {
+const CommunityCreateForm = ({ onSubmit }: { onSubmit?: () => void }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -24,7 +24,7 @@ const CommunityForm = ({ onSubmit }: { onSubmit?: () => void }) => {
     });
 
   return (
-    <CommunitFormView
+    <CommunityForm
       isSubmitting={isSubmitting}
       onSubmit={(data) =>
         requestCreateCommunity({
@@ -36,4 +36,4 @@ const CommunityForm = ({ onSubmit }: { onSubmit?: () => void }) => {
   );
 };
 
-export default CommunityForm;
+export default CommunityCreateForm;
