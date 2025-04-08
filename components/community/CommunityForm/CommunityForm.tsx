@@ -212,7 +212,11 @@ const CommunityBaseForm = ({
           }
           footer={
             <>
-              <Button type="submit" disabled={!form.formState.isValid}>
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={!form.formState.isValid}
+              >
                 다음
               </Button>
             </>
@@ -330,9 +334,10 @@ const CommunityTopicsForm = ({
               </Button>
               <Button
                 type="submit"
+                variant="primary"
                 disabled={!form.formState.isValid || isSubmitting}
               >
-                다음
+                확인
               </Button>
             </>
           }
