@@ -76,7 +76,7 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
       </div>
       <div className="flex items-center p-2 md:pr-0">
         <div className="flex items-center gap-0.5">
-          <div className="group relative size-8 overflow-hidden rounded-full border-base-300 bg-white">
+          <div className="group relative flex size-8 overflow-hidden rounded-full border-base-300 bg-white">
             <CommunityIcon iconUrl={community.iconUrl} />
             {community.isOwner && (
               <CommunityIconEditDialog
