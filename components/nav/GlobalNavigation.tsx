@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { api } from '@/trpc/server';
 import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
 
 import CommunityNavigation from './CommunityNavigation';

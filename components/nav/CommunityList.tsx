@@ -8,7 +8,7 @@ import CommunityIcon from '../community/CommunityIcon';
 import { NavMenu } from './NavMenu';
 
 const CommunityList = () => {
-  const { data } = useMyCommunityListQuery();
+  const [data] = useMyCommunityListQuery();
 
   return (
     <>

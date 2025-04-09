@@ -38,16 +38,21 @@ export const communityRouter = createTRPCRouter({
         nextCursor,
       };
     }),
-  myList: privateProcedure
+  myList: publicProcedure
     .input(
       z.object({
         limit: z.number().default(1000),
       })
     )
     .query(async ({ input, ctx }) => {
+      if (!ctx.auth?.user?.id)
+        return {
+          communities: [],
+        };
+
       const communities = await communityService.list({
         ...input,
-        userId: ctx.auth.userId,
+        userId: ctx.auth.user.id,
       });
 
       return {

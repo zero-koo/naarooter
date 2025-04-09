@@ -1,3 +1,5 @@
+import { HydrateClient } from '@/trpc/server';
+
 import GlobalNavigation from '@/components/nav/GlobalNavigation';
 import RootHeader from '@/components/RootHeader';
 
@@ -9,14 +11,16 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.outer}>
-      <aside className="mr-3 hidden w-40 py-3 md:block">
-        <GlobalNavigation />
-      </aside>
-      <div className={styles.inner}>
-        <RootHeader />
-        {children}
+    <HydrateClient>
+      <div className={styles.outer}>
+        <aside className="mr-3 hidden w-40 py-3 md:block">
+          <GlobalNavigation />
+        </aside>
+        <div className={styles.inner}>
+          <RootHeader />
+          {children}
+        </div>
       </div>
-    </div>
+    </HydrateClient>
   );
 }
