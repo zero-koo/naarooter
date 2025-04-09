@@ -1,5 +1,3 @@
-import { auth } from '@/auth';
-import { api } from '@/trpc/server';
 import { CheckIcon, HomeIcon, InfoIcon, ListIcon } from 'lucide-react';
 
 import CommunityNavigation from './CommunityNavigation';
@@ -8,9 +6,7 @@ import { NavMenu } from './NavMenu';
 import { NavMenuIcon } from './NavMenuIcon';
 import NavSubtitle from './NavSubtitle';
 
-const GlobalNavigation = async () => {
-  const session = await auth();
-
+const GlobalNavigation = ({ isLoggedIn }: { isLoggedIn?: boolean }) => {
   return (
     <GlobalNavigationContainer>
       <NavMenu
@@ -27,7 +23,7 @@ const GlobalNavigation = async () => {
         설문조사
       </NavMenu>
 
-      {session?.user ? (
+      {isLoggedIn ? (
         <>
           <NavSubtitle>커뮤니티</NavSubtitle>
           <CommunityNavigation />
