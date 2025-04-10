@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 
-import { Button } from '../../Button';
+import { Button } from '../../ui/Button';
 import Textarea from '../../ui/TextArea';
 import CommentTargetUserTag from '../CommentTargetUserTag';
 
@@ -70,7 +70,7 @@ const CommentInput = ({
             </Button>
           )}
           <Button
-            theme="primary"
+            variant="primary"
             size="xs"
             disabled={!formState.isValid || isSubmitting}
             onClick={handleSubmit(async ({ text }) => {

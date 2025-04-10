@@ -5,9 +5,9 @@ import { PencilIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useToast } from '@/hooks/useToast';
+import { Button } from '@/components/ui/Button';
 
 import { SingleImageUploader } from '../SingleImageUploader';
-import { Button } from '../ui/Button';
 import {
   Dialog,
   DialogContent,

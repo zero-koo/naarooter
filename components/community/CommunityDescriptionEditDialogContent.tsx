@@ -5,7 +5,7 @@ import { useImageUpload } from '@/hooks/useImageUpload';
 import { useToast } from '@/hooks/useToast';
 
 import { SingleImageUploader } from '../SingleImageUploader';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/ui/Button';
 import { DialogContent, DialogFooter, DialogTitle } from '../ui/Dialog';
 
 type CommunityDescriptionEditDialogContentProps = {

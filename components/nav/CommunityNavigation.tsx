@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
+import { Button } from '@/components/ui/Button';
+
 import CommunityCreateForm from '../community/CommunityForm/CommunityCreateForm';
-import { Button } from '../ui/Button';
 import {
   Dialog,
   DialogContent,

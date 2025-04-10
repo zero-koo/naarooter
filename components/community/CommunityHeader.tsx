@@ -9,7 +9,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import { PlusIcon } from 'lucide-react';
 
-import { Button } from '../Button';
+import { Button } from '@/components/ui/Button';
+
 import CommunityBannerEditDialog from './CommunityBannerEditDialog';
 import CommunityIcon from './CommunityIcon';
 import CommunityIconEditDialog from './CommunityIconEditDialog';
@@ -90,7 +91,7 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
         </div>
         <div className={'ml-auto flex gap-2'}>
           <Link href={`/community/${communityId}/create`}>
-            <Button outline LeftIcon={PlusIcon}>
+            <Button variant={'outline'} LeftIcon={PlusIcon}>
               글쓰기
             </Button>
           </Link>
@@ -98,7 +99,7 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
             !community.isOwner &&
             (!community.isJoined ? (
               <Button
-                outline
+                variant={'outline'}
                 loading={isJoiningCommunity}
                 onClick={() =>
                   joinCommunity({
@@ -110,7 +111,7 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
               </Button>
             ) : (
               <Button
-                outline
+                variant={'outline'}
                 loading={isWithdrawingCommunity}
                 onClick={() =>
                   withdrawCommunity({

@@ -24,6 +24,7 @@ import z from 'zod';
 import { cn, uploadImages } from '@/lib/utils';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useToast } from '@/hooks/useToast';
+import { Button } from '@/components/ui/Button';
 import GrayBox from '@/components/ui/GrayBox';
 import { IconButton } from '@/components/ui/IconButton';
 import {
@@ -36,7 +37,6 @@ import {
 } from '@/components/ui/Sheet';
 import TextInput from '@/components/ui/TextInput';
 import ActionMenu from '@/components/ActionMenu';
-import { Button } from '@/components/Button';
 import CommunitySelector from '@/components/CommunitySelector';
 import DefaultItemHeader from '@/components/DefaultItemHeader';
 import ImageCarousel from '@/components/ImageCarousel';
@@ -189,7 +189,7 @@ function PollForm() {
             <SheetTrigger>
               <Button
                 size="sm"
-                ghost
+                variant={'ghost'}
                 disabled={!formState.isValid || formState.isSubmitting}
               >
                 완료
@@ -205,8 +205,8 @@ function PollForm() {
                 <div className="flex items-center gap-2">
                   <SheetTitle>미리보기</SheetTitle>
                   <Button
+                    variant="primary"
                     className="ml-auto"
-                    theme="primary"
                     disabled={isPending}
                     onClick={handleSubmit(onSubmit, onInvalid)}
                   >

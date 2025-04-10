@@ -9,8 +9,8 @@ import {
 } from 'lucide-react';
 
 import { cn, formatTimeAgo } from '@/lib/utils';
+import { Button } from '@/components/ui/Button';
 
-import { Button } from '../Button';
 import ReactionButton from '../ReactionButton';
 import {
   AlertDialog,
@@ -184,7 +184,7 @@ const CommentView = ({
               </button>
             )}
             <Button
-              ghost
+              variant="ghost"
               size="xs"
               className="ml-2 font-semibold"
               onClick={() => setShowReplyInput((value) => !value)}

@@ -12,8 +12,8 @@ import {
 } from '@/hooks/queries/usePostCommentsQuery';
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useUser } from '@/hooks/useUser';
+import { Button } from '@/components/ui/Button';
 
-import { Button } from '../ui/Button';
 import CommentReply from './CommentReply';
 import CommentView from './CommentView';
 

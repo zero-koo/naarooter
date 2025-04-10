@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button } from '@/components/Button';
+import { Button } from '@/components/ui/Button';
 
 const mbtiFormSchema = z.object({
   ei: z.enum(['E', 'I']),
@@ -77,7 +77,7 @@ const MbtiSettingForm = ({
           </div>
         )}
         <Button
-          theme="primary"
+          variant="primary"
           className="ml-auto"
           onClick={handleSubmit(onSave)}
           disabled={!formState.isValid || isSaving}

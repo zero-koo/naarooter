@@ -9,8 +9,8 @@ import { z } from 'zod';
 
 import { cn, formatTimeAgo } from '@/lib/utils';
 import { useToast } from '@/hooks/useToast';
+import { Button } from '@/components/ui/Button';
 
-import { Button } from '../Button';
 import LikeDislike from '../LikeDislike';
 import {
   AlertDialog,
@@ -343,7 +343,7 @@ const PostCommentEdit = ({
             </Button>
           )}
           <Button
-            theme="primary"
+            variant="primary"
             size="xs"
             disabled={!formState.isValid || isSubmitting}
             onClick={handleSubmit(async ({ text }) => {
