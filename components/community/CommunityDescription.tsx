@@ -28,7 +28,7 @@ const CommnunityDescription = ({
           </Label>
         ))}
       </div>
-      <div className="mb-2 whitespace-pre">
+      <div className="mb-2 whitespace-pre-wrap">
         {description || '커뮤니티 설명'}
       </div>
       <div className="flex items-center gap-0.5 text-xxs text-primary-content/60">
