@@ -59,7 +59,7 @@ const PostList = ({ communityId, searchKeyword }: PostListProps) => {
       )}
       <InfiniteScrollTrigger {...postListInfiniteQueryResult} />
       <Link
-        className="fixed bottom-5 right-5 rounded-full bg-primary p-2"
+        className="bg-primary fixed bottom-5 right-5 rounded-full p-2"
         href={
           session.data?.user
             ? `/post/create?communityId=${communityId}`

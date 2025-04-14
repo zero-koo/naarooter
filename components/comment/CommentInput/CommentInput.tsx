@@ -50,7 +50,7 @@ const CommentInput = ({
         {...register('text')}
         rows={Math.min(watch('text').split('\n').length, 4)}
         className={cn(
-          'mb-1.5 w-full border-b border-base-content/60 bg-transparent px-0 py-0 pb-1 focus-visible:border-base-content'
+          'border-foreground/60 focus-visible:border-foreground mb-1.5 w-full border-b bg-transparent px-0 py-0 pb-1'
         )}
         placeholder="댓글 남기기"
         onFocus={() => setShowButtons(true)}

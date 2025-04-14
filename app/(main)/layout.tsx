@@ -19,7 +19,13 @@ export default async function MainLayout({
         <aside className="mr-3 hidden w-40 py-3 md:block">
           <GlobalNavigation isLoggedIn={!!session?.user} />
         </aside>
-        <div className={styles.inner}>{children}</div>
+        <div
+          className={
+            'flex w-screen max-w-[540px] flex-col items-center lg:max-w-[750px]'
+          }
+        >
+          {children}
+        </div>
       </div>
     </HydrateClient>
   );

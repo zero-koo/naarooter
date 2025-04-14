@@ -10,7 +10,7 @@ const CommentTargetUserTag = ({
   return (
     <div
       className={cn(
-        'w-fit max-w-[200px] overflow-hidden text-ellipsis rounded bg-primary/20 px-1 py-0.5 text-xs',
+        'bg-primary/20 w-fit max-w-[200px] overflow-hidden text-ellipsis rounded-md px-1 py-0.5 text-xs',
         className
       )}
     >{`@${username}`}</div>

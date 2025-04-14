@@ -3,9 +3,9 @@ import { api } from '@/trpc/react';
 
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useToast } from '@/hooks/useToast';
+import { Button } from '@/components/ui/Button';
 
 import { SingleImageUploader } from '../SingleImageUploader';
-import { Button } from '@/components/ui/Button';
 import { DialogContent, DialogFooter, DialogTitle } from '../ui/Dialog';
 
 type CommunityDescriptionEditDialogContentProps = {
@@ -36,7 +36,7 @@ const CommunityDescriptionEditDialogContent = ({
   const { toast } = useToast();
 
   return (
-    <DialogContent className="max-w-screen w-[500px] bg-base-100">
+    <DialogContent className="max-w-screen bg-base-100 w-[500px]">
       <DialogTitle>커뮤니티 배너 수정</DialogTitle>
       <div className="aspect-[7/1]">
         <SingleImageUploader value={image} onChange={setImage} />

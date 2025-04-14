@@ -20,8 +20,8 @@ const TextViewer = ({ value }: TextEditorProps) => {
 
   return (
     <div className={'relative mx-auto w-full'}>
-      <div className="relative flex overflow-auto border-base-content/60 text-sm">
-        <div className="-z-1 relative w-full flex-auto overflow-hidden">
+      <div className="border-foreground/60 relative flex overflow-auto text-sm">
+        <div className="relative w-full flex-auto overflow-hidden">
           <div className="w-full overflow-hidden px-3 py-2 pt-3">
             {parsedState ? nodeToJSX(parsedState.root) : ''}
           </div>

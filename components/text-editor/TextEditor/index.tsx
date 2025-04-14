@@ -122,14 +122,14 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
               {!disableDragDrop && <DragDropPastePlugin />}
               <RichTextPlugin
                 contentEditable={
-                  <div className="-z-1 relative w-full flex-1 overflow-auto text-sm">
+                  <div className="relative w-full flex-1 overflow-auto text-sm">
                     <ContentEditable className="min-h-full w-full px-3 py-2 md:h-auto" />
                   </div>
                 }
                 placeholder={() => (
                   <div
                     className={
-                      'Placeholder__root absolute px-3 pt-2 text-sm text-base-content/50'
+                      'Placeholder__root text-foreground/50 absolute px-3 pt-2 text-sm'
                     }
                   >
                     가나다라마바사

@@ -125,13 +125,13 @@ const MBTIToggle = ({
 }) => {
   const { register } = useFormContext<MbtiFormInput>();
   return (
-    <div className="border-1 relative z-0 flex w-full justify-between rounded-xl border-primary bg-primary/20">
+    <div className="border-1 border-primary bg-primary/20 relative z-0 flex w-full justify-between rounded-xl">
       <label
         htmlFor={leftValue}
-        className="z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-start gap-2.5 rounded p-1 text-primary-content/95"
+        className="text-foreground/95 z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-start gap-2.5 rounded-md p-1"
       >
         <div className="justfiy-start flex size-full items-center gap-2.5 rounded-lg bg-white/10 px-2">
-          <div className="flex size-8 items-center justify-center rounded-xl bg-primary-content/90 text-2xl font-bold text-primary">
+          <div className="bg-foreground/90 text-primary flex size-8 items-center justify-center rounded-xl text-2xl font-bold">
             {leftValue}
           </div>
           <div className="text-sm font-bold tracking-wide opacity-70">
@@ -149,13 +149,13 @@ const MBTIToggle = ({
       />
       <label
         htmlFor={rightValue}
-        className="z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-end gap-2.5 rounded p-1 text-primary-content/95"
+        className="text-foreground/95 z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-end gap-2.5 rounded-md p-1"
       >
         <div className="flex size-full items-center justify-end gap-2.5 rounded-lg bg-white/10 px-2">
           <div className="text-sm font-bold tracking-wide opacity-70">
             {rightText}
           </div>
-          <div className="flex size-8 items-center justify-center rounded-xl bg-primary-content/90 text-2xl font-bold text-primary">
+          <div className="bg-foreground/90 text-primary flex size-8 items-center justify-center rounded-xl text-2xl font-bold">
             {rightValue}
           </div>
         </div>

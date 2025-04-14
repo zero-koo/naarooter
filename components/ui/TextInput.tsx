@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const textInputVariants = cva(
-  'flex w-full px-2.5 placeholder:text-base-content/50 focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full px-2.5 placeholder:text-foreground/50 focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       size: {
@@ -15,7 +15,7 @@ const textInputVariants = cva(
       },
       outline: {
         false: null,
-        true: 'rounded border border-base-content/30',
+        true: 'rounded-md border border-foreground/30',
       },
       error: {
         false: null,

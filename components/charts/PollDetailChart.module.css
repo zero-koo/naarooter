@@ -51,11 +51,11 @@
   grid-template-rows: subgrid;
   inset: 0;
 
-  @apply z-20
+  /* @apply z-20 */
 }
 
 .row {
-  @apply rounded bg-base-100
+  /* @apply rounded-md bg-base-100 */
 }
 
 .cols {
@@ -71,9 +71,9 @@
   /* grid-template-rows: subgrid; */
   inset: 0;
 
-  @apply z-20
+  /* @apply z-20 */
 }
 
 .col {
-  @apply rounded bg-base-100
+  /* @apply rounded-md bg-base-100 */
 }

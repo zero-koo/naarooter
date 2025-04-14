@@ -44,18 +44,18 @@ const PostListItem = ({
     <Link href={getLink({ id, communityId })} className="group">
       <div
         className={
-          'flex flex-col gap-1 border-b border-neutral-content/10 bg-base-100 px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'
+          'border-neutral-content/10 bg-base-100 flex flex-col gap-1 border-b px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'
         }
       >
         <div className="flex items-center font-semibold">
           {postType !== 'POST' && (
-            <div className="mr-1.5 rounded bg-primary/50 px-1.5 text-sm">
+            <div className="bg-primary/50 mr-1.5 rounded-md px-1.5 text-sm">
               {postType}
             </div>
           )}
           <div>{title}</div>
         </div>
-        <div className="flex justify-between text-xs opacity-70">
+        <div className="text-foreground-dim flex justify-between text-xs">
           <div className="flex">
             <div>{authorName}</div>
             <div className={'mx-0.5'}>·</div>

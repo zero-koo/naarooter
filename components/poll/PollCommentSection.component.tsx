@@ -67,7 +67,7 @@ const PostCommentSectionComponent = ({
   const [commentCount, setCommentCount] = useState<number>(totalCount);
 
   return (
-    <section className="mt-2 bg-base-200 px-3 py-1">
+    <section className="bg-base-200 mt-2 px-3 py-1">
       <div className="flex flex-col">
         <div className="py-2 font-semibold">{`댓글 ${commentCount}개`}</div>
 
@@ -158,7 +158,7 @@ const PollComment = ({
     api.commentReaction.upsert.useMutation();
 
   return (
-    <div className="flex flex-col gap-1 border-t border-neutral-content/20 py-3 first:border-t-0">
+    <div className="border-neutral-content/20 flex flex-col gap-1 border-t py-3 first:border-t-0">
       {!isEdit ? (
         <PostCommentShow
           text={commentText}
@@ -240,7 +240,7 @@ const PostCommentShow = ({
               <MoreVerticalIcon size={24} />
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-18 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"
+              className="w-18 border-foreground/10 bg-base-100 text-foreground min-w-0 text-xs"
               collisionPadding={8}
               align="end"
             >
@@ -323,7 +323,7 @@ const PostCommentEdit = ({
         {...register('text')}
         rows={Math.min(watch('text').split('\n').length, 4)}
         className={cn(
-          'w-full border-b border-base-content/60 bg-transparent px-0 py-1 focus-visible:border-base-content'
+          'border-foreground/60 focus-visible:border-foreground w-full border-b bg-transparent px-0 py-1'
         )}
         placeholder="댓글 남기기"
         onFocus={() => setShowButtons(true)}

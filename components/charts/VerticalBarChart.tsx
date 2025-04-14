@@ -49,7 +49,7 @@ const VerticalBarChart = ({
           className={cn(style.col, 'flex items-end justify-center')}
         >
           <ChartCellPopover
-            className="w-2/3 rounded bg-primary/60 transition-all"
+            className="bg-primary w-2/3 rounded-md transition-all"
             mbti={text}
             side="top"
             choice={choice}

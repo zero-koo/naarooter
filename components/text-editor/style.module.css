@@ -1,6 +1,6 @@
 .container {
   .input {
-    @apply relative p-2 px-3 text-base-content text-base;
+    @apply relative p-2 px-3 text-foreground text-base;
 
     height: 300px;
     font-size: 12px;
@@ -10,7 +10,7 @@
   }
 
   .placeholder {
-    @apply left-3 right-3 top-2 text-base-content/70 text-base;
+    @apply left-3 right-3 top-2 text-foreground/70 text-base;
 
     position: absolute;
     display: inline-block;

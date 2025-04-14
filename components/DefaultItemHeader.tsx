@@ -16,7 +16,7 @@ const DefaultItemHeader = ({
   right,
 }: DefaultItemHeaderProps) => {
   return (
-    <header className="relative flex items-center justify-between bg-base-300 p-3 px-2">
+    <header className="bg-base-300 relative flex items-center justify-between p-3 px-2">
       {left}
       {!left && backLink && (
         <Link href={backLink} className="p-1">

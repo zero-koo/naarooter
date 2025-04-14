@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const switchVariants = cva(
-  'flex gap-0.5 rounded border border-base-content/30 p-0.5',
+  'flex gap-0.5 rounded-md border border-foreground/30 p-0.5',
   {
     variants: {
       size: {
@@ -20,7 +20,7 @@ const switchVariants = cva(
 );
 
 const switchItemVariants = cva(
-  'flex-center flex cursor-pointer rounded hover:text-primary-content has-[:checked]:bg-primary has-[:checked]:text-primary-content',
+  'flex-center flex cursor-pointer rounded-md hover:text-foreground has-[:checked]:bg-primary has-[:checked]:text-foreground',
   {
     variants: {
       size: {

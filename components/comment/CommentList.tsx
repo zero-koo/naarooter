@@ -99,7 +99,7 @@ const CommentList = () => {
       />
       {hasNextPage && (
         <button
-          className="flex w-full justify-center bg-base-100 py-1.5 text-center text-xs"
+          className="bg-base-100 flex w-full justify-center py-1.5 text-center text-xs"
           onClick={() => fetchNextPage()}
         >
           더보기

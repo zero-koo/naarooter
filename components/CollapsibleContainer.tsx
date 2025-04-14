@@ -36,7 +36,7 @@ export default function CollapsibleContainer({
       {shouldCollapse && collapsed && (
         <div className="absolute inset-x-0 bottom-0 flex h-[50px] items-end justify-center pb-1.5 shadow-[inset_0_-50px_15px_-15px_hsl(var(--b3))]">
           <button
-            className="text-xs font-semibold text-base-content"
+            className="text-foreground text-xs font-semibold"
             onClick={(e) => {
               setCollapsed(false);
               e.stopPropagation();

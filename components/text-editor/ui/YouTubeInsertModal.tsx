@@ -46,7 +46,7 @@ export default function YouTubeInputDialog({
         !open && onClose();
       }}
     >
-      <DialogContent className="w-[400px] bg-base-100">
+      <DialogContent className="bg-base-100 w-[400px]">
         <DialogHeader>
           <DialogTitle>유튜브 링크 삽입</DialogTitle>
         </DialogHeader>
@@ -54,10 +54,10 @@ export default function YouTubeInputDialog({
           <TextInput
             {...register('link')}
             error={formState.isDirty && !formState.isValid}
-            className="w-full flex-1 border-b border-base-content/30"
+            className="border-foreground/30 w-full flex-1 border-b"
           />
           {formState.errors.link?.message ? (
-            <div className="mt-2 text-xs text-error">
+            <div className="text-error mt-2 text-xs">
               {formState.errors.link.message}
             </div>
           ) : null}

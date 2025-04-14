@@ -59,7 +59,7 @@ const Button = ({
     <div className="-ml-2 flex items-center">
       <button
         className={cn(
-          'flex items-center rounded-full p-2 hover:bg-base-content/20',
+          'hover:bg-foreground/20 flex items-center rounded-full p-2',
           {
             'pointer-events-none': readonly,
           }

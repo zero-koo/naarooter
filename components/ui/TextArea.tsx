@@ -4,12 +4,12 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const textAreaVariants = cva(
-  'flex w-full bg-transparent p-2 text-sm placeholder:text-base-content/50 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full bg-transparent p-2 text-sm placeholder:text-foreground/50 disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       outline: {
         false: null,
-        true: 'rounded border border-base-content/30',
+        true: 'rounded-md border border-foreground/30',
       },
       error: {
         false: null,

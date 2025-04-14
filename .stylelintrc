@@ -10,7 +10,9 @@
     "block-opening-brace-space-before": "always",
     "declaration-colon-space-after": "always",
     "declaration-colon-space-before": "never",
-    "indentation": 2
+    "indentation": 2,
+    "import-notation": null,
+    "custom-property-pattern": null
   },
   "ignoreFiles": ".node_modules/*"
 }

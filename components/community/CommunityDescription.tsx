@@ -17,7 +17,7 @@ const CommnunityDescription = ({
   children,
 }: CommunityDescriptionProps) => {
   return (
-    <Box className="relative rounded p-3 text-xs" bordered>
+    <Box className="relative rounded-md p-3 text-xs" bordered>
       <div className="mb-2 text-sm font-semibold">
         {name || '커뮤니티 이름'}
       </div>
@@ -31,7 +31,7 @@ const CommnunityDescription = ({
       <div className="mb-2 whitespace-pre-wrap">
         {description || '커뮤니티 설명'}
       </div>
-      <div className="flex items-center gap-0.5 text-xxs text-primary-content/60">
+      <div className="text-xxs text-foreground-dim flex items-center gap-0.5">
         <span>회원: {numUsers}</span>
       </div>
       {children}

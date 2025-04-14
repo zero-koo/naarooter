@@ -29,7 +29,7 @@ const CommunitySelector = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="flex w-full items-center border-b border-base-content/30 py-1.5 text-left text-sm text-base-content opacity-70"
+        className="border-foreground/30 text-foreground flex w-full items-center border-b py-1.5 text-left text-sm opacity-70"
         disabled={disabled}
       >
         <Search size={16} className="mr-1.5" />
@@ -46,7 +46,7 @@ const CommunitySelector = ({
             ))}
           </DropdownMenuRadioGroup>
         ) : (
-          <div className="p-10 text-center text-xs text-base-content opacity-70">
+          <div className="text-foreground p-10 text-center text-xs opacity-70">
             가입한 커뮤니티가 없습니다
           </div>
         )}

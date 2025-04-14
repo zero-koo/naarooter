@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/actions/logout';
 import { UserRound } from 'lucide-react';
@@ -21,12 +20,12 @@ function UserButton() {
       {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="flex-center size-full bg-base-100">
+            <div className="flex-center bg-base-100 size-full">
               <UserRound strokeWidth={1.5} />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-24 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"
+            className="border-foreground/10 bg-base-100 text-foreground w-24 min-w-0 text-xs"
             collisionPadding={0}
             sideOffset={5}
             alignOffset={-5}
@@ -49,7 +48,7 @@ function UserButton() {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <div className="size-full bg-base-100" />
+        <div className="bg-base-100 size-full" />
       )}
     </div>
   );

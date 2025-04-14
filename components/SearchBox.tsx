@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DeleteIcon, SearchIcon, Undo2Icon, XIcon } from 'lucide-react';
+import { SearchIcon, XIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
@@ -22,7 +22,7 @@ const SearchBox = ({ className, onSubmit }: SearchBoxProps) => {
   return (
     <div
       className={cn(
-        'rounded-full border border-neutral-100/10',
+        'rounded-full border',
         {
           'flex-1': extended,
         },

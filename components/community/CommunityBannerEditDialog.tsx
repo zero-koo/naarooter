@@ -52,14 +52,14 @@ const CommunityBannerEditDialog = ({
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <IconButton
-          className={cn('rounded-full bg-base-300/80 opacity-90', className)}
+          className={cn('bg-base-300/80 rounded-full opacity-90', className)}
           size="xs"
           onClick={() => setOpen(true)}
         >
           <PencilIcon size={14} />
         </IconButton>
       </DialogTrigger>
-      <DialogContent className="max-w-screen w-[500px] bg-base-100">
+      <DialogContent className="max-w-screen bg-base-100 w-[500px]">
         <DialogTitle>커뮤니티 배너 수정</DialogTitle>
         <div className="aspect-[7/1]">
           <SingleImageUploader value={image} onChange={setImage} />

@@ -6,7 +6,7 @@ import { LoaderCircleIcon, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const imageUploadPreviewVariants = cva(
-  'relative shrink-0 overflow-hidden rounded text-sm shadow',
+  'relative shrink-0 overflow-hidden rounded-md text-sm shadow',
   {
     variants: {
       size: {
@@ -65,7 +65,7 @@ export default function ImageUploadPreview({
             alt={alt}
           />
           {uploading && (
-            <div className="flex-center absolute inset-0 bg-neutral/70">
+            <div className="flex-center bg-neutral/70 absolute inset-0">
               <LoaderCircleIcon className="animate-spin" size={32} />
             </div>
           )}
@@ -77,14 +77,14 @@ export default function ImageUploadPreview({
                 onRemove?.();
               }}
             >
-              <div className="flex size-4 items-center justify-center rounded-full bg-neutral shadow transition-all duration-300 hover:scale-110">
+              <div className="bg-neutral flex size-4 items-center justify-center rounded-full shadow transition-all duration-300 hover:scale-110">
                 <X className="text-neutral-content" width={12} height={12} />
               </div>
             </button>
           )}
         </>
       ) : (
-        <div className="flex-center size-full rounded bg-base-content/10">
+        <div className="flex-center bg-foreground/10 size-full rounded-md">
           No Image
         </div>
       )}

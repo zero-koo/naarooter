@@ -35,7 +35,7 @@ const ChartCellPopover = ({
         {children}
       </PopoverTrigger>
       <PopoverContent
-        className="min-w-[40px] max-w-[100px] overflow-hidden rounded-md border-none bg-popover/80 p-1 px-1.5 text-xs leading-normal"
+        className="bg-foreground/90 text-background w-fit min-w-[40px] max-w-[100px] overflow-hidden rounded-md border-none p-1 px-1.5 text-xs leading-normal"
         align={align}
         side={side}
         alignOffset={alignOffset}

@@ -223,7 +223,7 @@ function PollForm() {
                 choices={watch('choices')}
               />
               <div className="mt-1 p-3">
-                <div className="alert alert-warning flex items-start gap-2 rounded-lg bg-warning/80 p-2 text-start text-sm">
+                <div className="alert alert-warning bg-warning/80 flex items-start gap-2 rounded-lg p-2 text-start text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-6 shrink-0 stroke-current"
@@ -330,7 +330,7 @@ function PollForm() {
           />
           <div
             className={cn(
-              'pointer-events-none absolute bottom-0 left-0 right-0 flex w-full gap-1 border-b border-base-content/40 p-1'
+              'border-foreground/40 pointer-events-none absolute bottom-0 left-0 right-0 flex w-full gap-1 border-b p-1'
             )}
           >
             <IconButton
@@ -367,10 +367,10 @@ function PollForm() {
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="relative flex items-center overflow-hidden rounded-lg border border-neutral pr-3 focus-within:border-primary-focus focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary"
+              className="border-neutral focus-within:border-primary-focus focus-within:outline-primary relative flex items-center overflow-hidden rounded-lg border pr-3 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2"
             >
               {useImage && (
-                <div className="flex size-16 items-center justify-center border-r border-neutral">
+                <div className="border-neutral flex size-16 items-center justify-center border-r">
                   <Controller
                     control={control}
                     name={`choices.${index}.image`}
@@ -402,7 +402,7 @@ function PollForm() {
           ))}
           <Button
             size="xs"
-            className="ml-auto border-neutral"
+            className="border-neutral ml-auto"
             disabled={fields.length >= MAX_CHOICE_COUNT}
             RightIcon={PlusIcon}
             onClick={handleAddChoice}

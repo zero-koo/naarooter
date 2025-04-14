@@ -24,9 +24,9 @@ export default function PollChoiceItem({
   return (
     <button
       className={cn(
-        'group relative flex items-center overflow-hidden rounded-lg border border-neutral-content text-start transition-all hover:bg-neutral/40',
+        'border-neutral-content hover:bg-neutral/40 group relative flex items-center overflow-hidden rounded-lg border text-start transition-all',
         {
-          'border-primary outline outline-2 outline-offset-1 outline-primary':
+          'border-primary outline-primary outline outline-2 outline-offset-1':
             isSelected,
           'h-14': imageUrl,
         }
@@ -51,7 +51,7 @@ export default function PollChoiceItem({
         {showResult && (
           <div
             className={twMerge(
-              'absolute inset-y-0 left-0 bg-neutral-content/10 transition-[width]',
+              'bg-neutral-content/10 absolute inset-y-0 left-0 transition-[width]',
               isSelected && 'bg-primary/30'
             )}
             style={{ width: `${voteCountRate}%` }}

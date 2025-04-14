@@ -132,7 +132,7 @@ const MultipleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
             })}
           >
             {/* Main File Input */}
-            <div className="flex flex-col items-center justify-center text-sm text-foreground">
+            <div className="text-foreground flex flex-col items-center justify-center text-sm">
               <input ref={ref} {...getInputProps()} />
               <ImagePlusIcon className="size-6" strokeWidth={2} />
             </div>

@@ -134,7 +134,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
     }, [fileRejections, dropzoneOptions]);
 
     return (
-      <div className="relative size-full rounded-lg bg-base-200">
+      <div className="bg-base-200 relative size-full rounded-lg">
         {imageUrl ? (
           <ImageUploadPreview
             src={imageUrl}
@@ -156,7 +156,7 @@ const SingleImageUploader = React.forwardRef<HTMLInputElement, InputProps>(
             })}
           >
             {/* Main File Input */}
-            <div className="flex flex-col items-center justify-center text-sm text-foreground">
+            <div className="text-foreground flex flex-col items-center justify-center text-sm">
               <input ref={ref} {...getInputProps()} />
               <ImagePlusIcon className="size-6" strokeWidth={2} />
             </div>

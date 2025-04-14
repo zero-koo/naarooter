@@ -12,19 +12,19 @@ const ChartCell = ({
   return (
     <>
       <div
-        className={cn('z-0 w-full rounded-sm pb-[100%] md:rounded', {
+        className={cn('z-0 w-full rounded-sm pb-[100%] md:rounded-md', {
           'bg-base-100': shape === 'grid',
         })}
       ></div>
       <div
         className={cn(
-          'absolute z-10 h-full w-full rounded-sm bg-primary hover:bg-primary-focus md:rounded',
+          'bg-primary hover:bg-primary-focus absolute z-10 h-full w-full rounded-sm md:rounded-md',
           {
             '!rounded-full': shape === 'bubble',
           }
         )}
         style={{
-          opacity: shape === 'bubble' ? countRatio * 0.3 + 0.3 : countRatio,
+          opacity: countRatio,
           scale: shape === 'bubble' ? countRatio * 1.6 : 1,
         }}
       ></div>

@@ -5,18 +5,18 @@ import { XIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const labelVariants = cva(
-  'flex w-fit select-none items-center overflow-hidden rounded border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  'flex w-fit select-none items-center overflow-hidden rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary-content/20',
+        default: 'border-transparent bg-foreground/20',
         primary:
-          'text-primary-foreground border-transparent bg-primary hover:bg-primary/80',
+          'text-foreground border-transparent bg-primary hover:bg-primary/80',
         secondary:
           'text-secondary-foreground border-transparent bg-secondary hover:bg-secondary/80',
         destructive:
           'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
-        outline: 'border-primary-content/20 text-foreground',
+        outline: 'text-foreground',
       },
       size: {
         xs: 'rounded-sm px-1 py-px text-xxs',
@@ -61,7 +61,7 @@ function Label({
       <div className="truncate">{children}</div>
       {closable && (
         <button
-          className="flex-center -mr-0.5 ml-0.5 rounded p-0.5 hover:bg-base-100/20"
+          className="flex-center hover:bg-base-100/20 -mr-0.5 ml-0.5 rounded-md p-0.5"
           onClick={onClose}
         >
           <XIcon size={12} strokeWidth={3} />

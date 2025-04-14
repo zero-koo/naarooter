@@ -3,16 +3,7 @@ import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
 } from '@lexical/react/LexicalDecoratorBlockNode';
-import {
-  EditorConfig,
-  ElementFormatType,
-  LexicalEditor,
-  LexicalNode,
-  NodeKey,
-  Spread,
-} from 'lexical';
-
-import { cn } from '@/lib/utils';
+import { ElementFormatType, LexicalNode, NodeKey, Spread } from 'lexical';
 
 import { ImagesBlock } from '../ui/ImagesBlock';
 

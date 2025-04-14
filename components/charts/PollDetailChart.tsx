@@ -167,9 +167,9 @@ function YAxis({
           key={choice.id}
           className={cn(
             style.y,
-            'rounded-e border-4 border-s-0 border-base-200 bg-base-content/50',
+            'border-base-200 bg-foreground/50 rounded-e border-4 border-s-0',
             {
-              'border-2 border-s-0 bg-secondary/80': choice.isSelected,
+              'bg-secondary/80 border-2 border-s-0': choice.isSelected,
             }
           )}
           onClick={() => onSelect(choice.id)}

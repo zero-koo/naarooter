@@ -6,21 +6,21 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 font-semibold',
   {
     variants: {
       variant: {
-        default: 'btn-neutral',
-        primary: 'btn-primary',
-        accent: 'btn-accent',
-        info: 'btn-info',
-        success: 'btn-success',
-        warning: 'btn-warning',
-        error: 'btn-error',
+        default: 'bg-neutral border-neutral text-neutral-foreground',
+        primary: 'bg-primary border-primary text-primary-foreground',
+        accent: 'bg-accent border-accent text-accent-foreground',
+        info: 'bg-info border-info text-info-foreground',
+        success: 'bg-success border-success text-success-foreground',
+        warning: 'bg-warning border-warning text-warning-foreground',
+        error: 'bg-error border-error text-error-foreground',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
-          'border border-primary-content/20 bg-background hover:bg-accent hover:text-accent-foreground',
+          'border bg-transparent hover:bg-accent hover:text-accent-foreground',
         secondary:
           'text-secondary-foreground bg-secondary hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',

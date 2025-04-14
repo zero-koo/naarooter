@@ -19,7 +19,7 @@ const CommunityLabel = ({ label, href, size = 'sm' }: CommunityLabelProps) => {
     <Wrapper>
       <Tag
         className={cn(
-          'flex w-fit items-center rounded-lg bg-base-content/20 px-2 py-0.5 text-sm font-semibold',
+          'bg-foreground/20 flex w-fit items-center rounded-lg px-2 py-0.5 text-sm font-semibold',
           {
             'text-md rounded-xl px-3 py-1': size === 'md',
           }

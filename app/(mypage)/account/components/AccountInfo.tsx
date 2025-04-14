@@ -56,7 +56,7 @@ function Row({
           </Button>
         )}
       </div>
-      <div className={'text-base-content/80'}>{content}</div>
+      <div className={'text-foreground/80'}>{content}</div>
     </div>
   );
 }
@@ -119,7 +119,7 @@ function UsernameEditModal({
         <div>
           <TextInput
             {...register('name')}
-            className="w-full flex-1 border-b border-base-content/30"
+            className="border-foreground/30 w-full flex-1 border-b"
           />
         </div>
         <DialogFooter>
@@ -153,11 +153,7 @@ function MBTIRow(props: { mbti: MBTI | null }) {
       <Row
         title={'MBTI'}
         content={
-          mbti ? (
-            mbti
-          ) : (
-            <div className="text-base-content/50">설정되지 않음</div>
-          )
+          mbti ? mbti : <div className="text-foreground/50">설정되지 않음</div>
         }
         onClickEdit={() => setIsModalOpen(true)}
       />

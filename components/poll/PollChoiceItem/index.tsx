@@ -6,9 +6,6 @@ interface PollChoiceItemProps extends PollChoiceItemComponentProps {
   id: number;
 }
 
-export default function PollChoiceItem({
-  id,
-  ...restProps
-}: PollChoiceItemProps) {
-  return <PollChoiceItemComponent {...restProps} />;
+export default function PollChoiceItem({ ...props }: PollChoiceItemProps) {
+  return <PollChoiceItemComponent {...props} />;
 }

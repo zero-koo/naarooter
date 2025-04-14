@@ -7,7 +7,7 @@ const OAuthButton = ({ icon, siteName }: OAuthButtonProps) => {
   return (
     <button
       type="submit"
-      className="flex h-12 w-full items-center justify-center gap-10 rounded-lg border border-base-content/50 px-10"
+      className="border-foreground/50 flex h-12 w-full items-center justify-center gap-10 rounded-lg border px-10"
     >
       {icon}
       <div className="flex items-center justify-center">

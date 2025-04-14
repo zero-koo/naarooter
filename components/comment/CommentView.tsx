@@ -72,7 +72,7 @@ const CommentView = ({
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   return (
-    <div className="flex-1 space-y-1 border-b border-base-content/30 py-2">
+    <div className="border-foreground/30 flex-1 space-y-1 border-b py-2">
       {!isEditMode ? (
         <>
           <div className="flex h-6 items-center text-xs opacity-70">
@@ -95,7 +95,7 @@ const CommentView = ({
                   <MoreVerticalIcon size={24} />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-18 min-w-0 border-base-content/10 bg-base-100 text-xs text-primary-content"
+                  className="w-18 border-foreground/10 bg-base-100 text-foreground min-w-0 text-xs"
                   collisionPadding={8}
                   align="end"
                 >
@@ -180,7 +180,7 @@ const CommentView = ({
                 }}
               >
                 <MessageCircleIcon size={12} className="text-primary" />
-                <span className="text-xs font-bold text-primary">{`답글 ${commentsCount}개`}</span>
+                <span className="text-primary text-xs font-bold">{`답글 ${commentsCount}개`}</span>
               </button>
             )}
             <Button

@@ -50,13 +50,13 @@ const CommunityIconEditDialog = ({
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <IconButton
-          className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 rounded-full opacity-90 group-hover:flex"
+          className="bg-base-300/80 absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 rounded-full opacity-90 group-hover:flex"
           size="xs"
         >
           <PencilIcon size={16} />
         </IconButton>
       </DialogTrigger>
-      <DialogContent className="w-[300px] bg-base-100">
+      <DialogContent className="bg-base-100 w-[300px]">
         <DialogTitle>커뮤니티 아이콘</DialogTitle>
         <div className="aspect-square">
           <SingleImageUploader value={image} onChange={setImage} />

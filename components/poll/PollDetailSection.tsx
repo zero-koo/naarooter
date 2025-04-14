@@ -22,7 +22,7 @@ const PollDetailSection = () => {
         maxCount={pollDetail?.maxCount ?? 0}
       />
       {isLoading && (
-        <LoadingBox className="flex-center absolute inset-0 rounded bg-base-content/20" />
+        <LoadingBox className="flex-center bg-foreground/20 absolute inset-0 rounded-md" />
       )}
     </section>
   );

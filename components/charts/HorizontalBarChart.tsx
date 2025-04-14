@@ -50,7 +50,7 @@ const HorizontalBarChart = ({
           className={cn(style.row, 'flex h-full w-full items-center')}
         >
           <ChartCellPopover
-            className="h-2/3 rounded bg-primary/70 transition-all"
+            className="bg-primary h-2/3 rounded-md transition-all"
             mbti={mbti}
             choice={text}
             count={count}

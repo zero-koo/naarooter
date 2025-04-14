@@ -5,7 +5,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const imageSquareViewVariants = cva(
-  'relative max-h-[320px] max-w-[320px] shrink-0 overflow-hidden rounded text-sm',
+  'relative max-h-[320px] max-w-[320px] shrink-0 overflow-hidden rounded-md text-sm',
   {
     variants: {
       size: {
@@ -44,7 +44,7 @@ export default function ImageSquareView({
   return (
     <div
       className={cn(
-        'bg-base-content/10',
+        'bg-foreground/10',
         imageSquareViewVariants({ size, className })
       )}
       style={
@@ -70,7 +70,7 @@ export default function ImageSquareView({
           />
         </>
       ) : (
-        <div className="flex-center size-full rounded bg-base-content/10">
+        <div className="flex-center bg-foreground/10 size-full rounded-md">
           No Image
         </div>
       )}

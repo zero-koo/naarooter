@@ -34,7 +34,7 @@ const CommnunitySidebar = ({ communityId }: { communityId: string }) => {
           <DialogTrigger asChild>
             <IconButton
               className={cn(
-                'absolute bottom-1 right-1 rounded-full bg-base-300/80 opacity-90'
+                'bg-base-300/80 absolute bottom-1 right-1 rounded-full opacity-90'
               )}
               size="xs"
             >

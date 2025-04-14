@@ -78,7 +78,7 @@ const PlainTextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
               placeholder={() => (
                 <div
                   className={
-                    'Placeholder__root pointer-events-none absolute px-2 pt-2 text-sm text-base-content/50'
+                    'Placeholder__root text-foreground/50 pointer-events-none absolute px-2 pt-2 text-sm'
                   }
                 >
                   {placeholder ?? '가나다라마바사'}

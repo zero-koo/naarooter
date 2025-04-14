@@ -14,9 +14,10 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
   const { getSearchParams } = useURLSearchParams();
 
   const search = getSearchParams('search') ?? searchKeyword;
-  const [pollsInfiniteQueryData, pollsInfiniteQueryResult] = usePollListSuspenseInfiniteQuery({
-    search,
-  });
+  const [pollsInfiniteQueryData, pollsInfiniteQueryResult] =
+    usePollListSuspenseInfiniteQuery({
+      search,
+    });
 
   return (
     <div className="flex flex-1 flex-col overflow-auto pb-5">
@@ -34,7 +35,7 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
       </div>
       <InfiniteScrollTrigger {...pollsInfiniteQueryResult} />
       <Link
-        className="fixed bottom-5 right-5 rounded-full bg-primary p-2"
+        className="bg-primary fixed bottom-5 right-5 rounded-full p-2"
         href="/polls/create"
       >
         <PlusIcon />

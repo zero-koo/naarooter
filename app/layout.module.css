@@ -4,8 +4,3 @@
   height: 100%;
   flex: 0 1 768px;
 }
-
-
-.inner {
-  @apply w-screen max-w-[540px] lg:max-w-[750px] flex flex-col items-center;
-}

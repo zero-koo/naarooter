@@ -9,6 +9,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { EdgeStoreProvider } from '@/lib/edgestore';
 import { ToastContainer } from '@/hooks/useToast';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,13 +27,20 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className={twMerge(inter.className, 'flex justify-center')}>
-          <TRPCReactProvider>
-            <EdgeStoreProvider>{children}</EdgeStoreProvider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </TRPCReactProvider>
-          <ToastContainer />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TRPCReactProvider>
+              <EdgeStoreProvider>{children}</EdgeStoreProvider>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </TRPCReactProvider>
+            <ToastContainer />
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>

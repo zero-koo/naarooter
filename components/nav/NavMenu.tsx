@@ -21,7 +21,7 @@ export function NavMenu({
     <Link href={link}>
       <button
         className={cn(
-          'flex h-10 w-full items-center rounded-lg px-2.5 text-left text-sm font-normal hover:bg-primary/10',
+          'hover:bg-primary/10 flex h-10 w-full items-center rounded-lg px-2.5 text-left text-sm font-normal',
           {
             '!bg-primary/20 font-bold': isActive,
           }
