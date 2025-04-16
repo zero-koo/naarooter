@@ -17,7 +17,7 @@ const CommnunityDescription = ({
   children,
 }: CommunityDescriptionProps) => {
   return (
-    <Box className="relative rounded-md p-3 text-xs" bordered>
+    <Box className="bg-base-200 relative rounded-md p-3 text-xs" bordered>
       <div className="mb-2 text-sm font-semibold">
         {name || '커뮤니티 이름'}
       </div>
