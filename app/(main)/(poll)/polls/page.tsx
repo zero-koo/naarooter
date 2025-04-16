@@ -1,10 +1,15 @@
 import { Suspense } from 'react';
+import CommunityBannerImage from '@/public/community_banner_1.png';
+import CommunityIconImage from '@/public/planet_image_1.png';
 import { api, HydrateClient } from '@/trpc/server';
 
 import LoadingBox from '@/components/ui/LoadingBox';
-import CommunityHeaderView from '@/components/community/CommunityHeaderView';
+import CommunityBanner from '@/components/community/CommunityBanner';
+import CommunityHeaderTemplate from '@/components/community/CommunityHeaderTemplate';
+import CommunityIcon from '@/components/community/CommunityIcon';
 import MainLayout from '@/components/layouts/MainLayout';
 import PollList from '@/components/poll/PollList';
+import PollSidebarDescription from '@/components/poll/PollSidebarDescription';
 import RootHeader from '@/components/RootHeader';
 
 export default function PollsPage({
@@ -20,12 +25,19 @@ export default function PollsPage({
     <HydrateClient>
       <RootHeader />
       <MainLayout
-        header={<CommunityHeaderView title={'설문조사'} />}
+        header={
+          <CommunityHeaderTemplate
+            title={'설문조사'}
+            banner={<CommunityBanner bannerSrc={CommunityBannerImage} />}
+            icon={<CommunityIcon iconUrl={CommunityIconImage} />}
+          />
+        }
         body={
           <Suspense fallback={<LoadingBox className="h-full" />}>
             <PollList searchKeyword={searchParams?.search} />
           </Suspense>
         }
+        aside={<PollSidebarDescription />}
       />
     </HydrateClient>
   );

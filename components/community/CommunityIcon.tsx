@@ -1,10 +1,11 @@
+import { ComponentProps } from 'react';
 import Image from 'next/image';
 import CommunityIconImage from '@/public/planet_image_1.png';
 
 import { cn } from '@/lib/utils';
 
 type CommunityIconProps = {
-  iconUrl?: string | null;
+  iconUrl?: ComponentProps<typeof Image>['src'] | null;
   size?: keyof typeof sizeMap;
 };
 

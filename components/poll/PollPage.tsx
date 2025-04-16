@@ -2,9 +2,10 @@ import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
 
 import MainLayout from '../layouts/MainLayout';
+import PostSkeleton from '../skeletons/PostSkeleton';
 import PollPageHeader from './PollPageHeader';
 import PollShow from './PollShow';
-import PostSkeleton from '../skeletons/PostSkeleton';
+import PollSidebarDescription from './PollSidebarDescription';
 
 const PollPage = ({ postId }: { postId: string }) => {
   void api.post.byId.prefetch({
@@ -27,6 +28,7 @@ const PollPage = ({ postId }: { postId: string }) => {
             <PollShow postId={postId} />
           </Suspense>
         }
+        aside={<PollSidebarDescription />}
       />
     </HydrateClient>
   );

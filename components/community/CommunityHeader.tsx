@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import CommunityBannerImage from '@/public/community_banner_1.png';
 import { api, RouterOutputs } from '@/trpc/react';
@@ -11,7 +10,9 @@ import { PlusIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/Button';
 
+import CommunityBanner from './CommunityBanner';
 import CommunityBannerEditDialog from './CommunityBannerEditDialog';
+import CommunityHeaderTemplate from './CommunityHeaderTemplate';
 import CommunityIcon from './CommunityIcon';
 import CommunityIconEditDialog from './CommunityIconEditDialog';
 
@@ -57,39 +58,37 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
     useState(false);
 
   return (
-    <div>
-      <div className="relative">
-        <Image
-          src={community.bannerUrl ?? CommunityBannerImage}
-          alt="banner"
-          width={1400}
-          height={200}
-          className="mb-1 aspect-[7/1] object-cover md:rounded-lg"
-        />
-        {community.isOwner && (
-          <CommunityBannerEditDialog
-            isOpen={isCommunityBannerEditDialogOpen}
-            setOpen={setCommunityIconBannerDialogOpen}
-            communityId={communityId}
-            className="absolute bottom-2 right-2"
+    <CommunityHeaderTemplate
+      title={community.name}
+      banner={
+        <>
+          <CommunityBanner
+            bannerSrc={community.bannerUrl ?? CommunityBannerImage}
           />
-        )}
-      </div>
-      <div className="flex items-center p-2 md:pr-0">
-        <div className="flex items-center gap-0.5">
-          <div className="border-base-300 group relative flex size-8 overflow-hidden rounded-full bg-white">
-            <CommunityIcon iconUrl={community.iconUrl} />
-            {community.isOwner && (
-              <CommunityIconEditDialog
-                communityId={communityId}
-                isOpen={isCommunityIconEditDialogOpen}
-                setOpen={setCommunityIconEditDialogOpen}
-              />
-            )}
-          </div>
-          <h1 className="px-2 text-2xl font-bold">{community.name}</h1>
-        </div>
-        <div className={'ml-auto flex gap-2'}>
+          {community.isOwner && (
+            <CommunityBannerEditDialog
+              isOpen={isCommunityBannerEditDialogOpen}
+              setOpen={setCommunityIconBannerDialogOpen}
+              communityId={communityId}
+              className="absolute bottom-2 right-2"
+            />
+          )}
+        </>
+      }
+      icon={
+        <>
+          <CommunityIcon iconUrl={community.iconUrl} />
+          {community.isOwner && (
+            <CommunityIconEditDialog
+              communityId={communityId}
+              isOpen={isCommunityIconEditDialogOpen}
+              setOpen={setCommunityIconEditDialogOpen}
+            />
+          )}
+        </>
+      }
+      right={
+        <>
           <Link href={`/community/${communityId}/create`}>
             <Button variant={'outline'} LeftIcon={PlusIcon}>
               글쓰기
@@ -122,9 +121,9 @@ const CommunityHeader = ({ communityId }: CommunityHeaderProps) => {
                 탈퇴하기
               </Button>
             ))}
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    />
   );
 };
 
