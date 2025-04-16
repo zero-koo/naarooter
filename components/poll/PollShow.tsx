@@ -1,12 +1,20 @@
-import PostShowHeader from '../post/PostShowHeader';
-import PollSubmitForm from './PollSubmitForm';
+'use client';
 
-const PollShow = () => {
+import { PostContextProvider } from '@/contexts/PostContext';
+
+import CommentList from '../comment/CommentList';
+import PollBaseSection from './PollBaseSection';
+import PollDetailSection from './PollDetailSection';
+
+const PollShow = ({ postId }: { postId: string }) => {
   return (
-    <div>
-      <PostShowHeader />
-      <PollSubmitForm />
-    </div>
+    <PostContextProvider postId={postId}>
+      <PollBaseSection />
+      <PollDetailSection />
+      <div className="mt-2">
+        <CommentList />
+      </div>
+    </PostContextProvider>
   );
 };
 

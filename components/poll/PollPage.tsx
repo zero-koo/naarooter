@@ -1,50 +1,35 @@
-'use client';
+import { Suspense } from 'react';
+import { api, HydrateClient } from '@/trpc/server';
 
-import React from 'react';
-import { usePathname } from 'next/navigation';
-import { PostContextProvider } from '@/contexts/PostContext';
-import { RotateCcw } from 'lucide-react';
-
-import { usePollQuery } from '@/hooks/queries/usePollQuery';
-
-import CommentList from '../comment/CommentList';
-import DefaultItemHeader from '../DefaultItemHeader';
 import MainLayout from '../layouts/MainLayout';
-import PollDetailSection from './PollDetailSection';
+import PollPageHeader from './PollPageHeader';
 import PollShow from './PollShow';
+import PostSkeleton from '../skeletons/PostSkeleton';
 
-interface PollPageProps {
-  id: string;
-}
-
-export default function PollPage({ id }: PollPageProps) {
-  const pathName = usePathname();
-  const [, { refetch }] = usePollQuery(id);
+const PollPage = ({ postId }: { postId: string }) => {
+  void api.post.byId.prefetch({
+    id: postId,
+  });
+  void api.poll.getByPostId.prefetch({
+    postId,
+  });
+  void api.comment.listByPostId.prefetchInfinite({
+    postId,
+    order: 'desc',
+  });
 
   return (
-    <MainLayout
-      header={
-        <DefaultItemHeader
-          backLink={`${pathName.replace(`/poll/${id}`, '') || '/'}`}
-          right={
-            <button
-              className="ml-auto p-1 opacity-50"
-              onClick={() => refetch()}
-            >
-              <RotateCcw size={18} />
-            </button>
-          }
-        />
-      }
-      body={
-        <PostContextProvider postId={id}>
-          <PollShow />
-          <PollDetailSection />
-          <div className="mt-2">
-            <CommentList />
-          </div>
-        </PostContextProvider>
-      }
-    />
+    <HydrateClient>
+      <MainLayout
+        header={<PollPageHeader postId={postId} />}
+        body={
+          <Suspense fallback={<PostSkeleton />}>
+            <PollShow postId={postId} />
+          </Suspense>
+        }
+      />
+    </HydrateClient>
   );
-}
+};
+
+export default PollPage;
