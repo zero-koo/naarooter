@@ -2,7 +2,6 @@ import { auth } from '@/auth';
 import { HydrateClient } from '@/trpc/server';
 
 import GlobalNavigation from '@/components/nav/GlobalNavigation';
-import RootHeader from '@/components/RootHeader';
 
 import styles from '../layout.module.css';
 
@@ -23,7 +22,6 @@ export default async function MainLayout({
             'flex w-screen max-w-[540px] flex-col items-center lg:max-w-[750px]'
           }
         >
-          <RootHeader />
           {children}
         </div>
       </div>

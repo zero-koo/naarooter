@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { PostContextProvider } from '@/contexts/PostContext';
 import { RotateCcw } from 'lucide-react';
 
@@ -17,13 +18,14 @@ interface PollPageProps {
 }
 
 export default function PollPage({ id }: PollPageProps) {
+  const pathName = usePathname();
   const [, { refetch }] = usePollQuery(id);
 
   return (
     <MainLayout
       header={
         <DefaultItemHeader
-          backLink={'/'}
+          backLink={`${pathName.replace(`/poll/${id}`, '') || '/'}`}
           right={
             <button
               className="ml-auto p-1 opacity-50"

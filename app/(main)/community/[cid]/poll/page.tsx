@@ -1,30 +1,32 @@
 import { Suspense } from 'react';
 import { api, HydrateClient } from '@/trpc/server';
-import { NextPage } from '@/types/shared';
 
 import LoadingBox from '@/components/ui/LoadingBox';
-import DefaultListHeader from '@/components/DefaultListHeader';
+import CommunityHeaderView from '@/components/community/CommunityHeaderView';
 import MainLayout from '@/components/layouts/MainLayout';
+import PollList from '@/components/poll/PollList';
 import RootHeader from '@/components/RootHeader';
 
-import MyPostList from './components/MyPostList';
-
-const MyPosts: NextPage = () => {
-  void api.post.myList.prefetchInfinite({});
+export default function PollsPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | undefined };
+}) {
+  void api.poll.list.prefetchInfinite({
+    search: searchParams?.search,
+  });
 
   return (
     <HydrateClient>
       <RootHeader />
       <MainLayout
-        header={<DefaultListHeader title={'나의 포스트'} />}
+        header={<CommunityHeaderView title={'설문조사'} />}
         body={
           <Suspense fallback={<LoadingBox className="h-full" />}>
-            <MyPostList />
+            <PollList searchKeyword={searchParams?.search} />
           </Suspense>
         }
       />
     </HydrateClient>
   );
-};
-
-export default MyPosts;
+}

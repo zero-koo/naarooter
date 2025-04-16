@@ -34,12 +34,6 @@ const PollList = ({ searchKeyword }: { searchKeyword?: string }) => {
         )}
       </div>
       <InfiniteScrollTrigger {...pollsInfiniteQueryResult} />
-      <Link
-        className="bg-primary fixed bottom-5 right-5 rounded-full p-2"
-        href="/polls/create"
-      >
-        <PlusIcon />
-      </Link>
     </div>
   );
 };

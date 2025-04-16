@@ -1,5 +1,5 @@
-import { ComponentProps } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { PostType } from '@prisma/client';
 import { MessageCircleIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 
@@ -18,18 +18,6 @@ interface PostListItemProps {
   communityId?: string;
 }
 
-const getLink = ({
-  id,
-  communityId,
-}: {
-  id: string;
-  communityId?: string;
-}): ComponentProps<typeof Link>['href'] => {
-  return {
-    pathname: `${communityId ? `/community/${communityId}` : ''}/post/${id}`,
-  };
-};
-
 const PostListItem = ({
   id,
   title,
@@ -38,10 +26,13 @@ const PostListItem = ({
   likeCount,
   commentCount,
   createdAt,
-  communityId,
 }: PostListItemProps) => {
+  const pathName = usePathname();
   return (
-    <Link href={getLink({ id, communityId })} className="group">
+    <Link
+      href={`${pathName === '/' ? '' : pathName}/${postType === 'POLL' ? 'poll' : 'post'}/${id}`}
+      className="group"
+    >
       <div
         className={
           'border-neutral-content/10 bg-base-100 flex flex-col gap-1 border-b px-2 pb-3 pt-2.5 group-last:border-none md:px-3 md:group-first:rounded-t-lg md:group-last:rounded-b-lg'

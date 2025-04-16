@@ -1,3 +1,5 @@
+'use client';
+
 import { ComponentProps, ReactNode } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -18,8 +20,8 @@ const DefaultItemHeader = ({
   return (
     <header className="bg-base-300 relative flex items-center justify-between p-3 px-2">
       {left}
-      {!left && backLink && (
-        <Link href={backLink} className="p-1">
+      {!left && (
+        <Link href={backLink ?? '/'} className="p-1">
           <ArrowLeft size={20} />
         </Link>
       )}

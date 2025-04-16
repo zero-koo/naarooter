@@ -3,12 +3,21 @@ import { api, HydrateClient } from '@/trpc/server';
 
 import DefaultItemHeader from '@/components/DefaultItemHeader';
 import MainLayout from '@/components/layouts/MainLayout';
-import PostShowPage from '@/components/post/PostShowPage';
+import PollPage from '@/components/poll/PollPage';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
 
-const PostPage = async ({ params }: { params: { id: string } }) => {
+interface PollPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Poll({ params }: PollPageProps) {
   void api.post.byId.prefetch({
     id: params.id,
+  });
+  void api.poll.getByPostId.prefetch({
+    postId: params.id,
   });
   void api.comment.listByPostId.prefetchInfinite({
     postId: params.id,
@@ -20,15 +29,13 @@ const PostPage = async ({ params }: { params: { id: string } }) => {
       <Suspense
         fallback={
           <MainLayout
-            header={<DefaultItemHeader backLink={'/'} />}
+            header={<DefaultItemHeader backLink={'/poll'} />}
             body={<PostSkeleton />}
           />
         }
       >
-        <PostShowPage id={params.id} />
+        <PollPage id={params.id} />
       </Suspense>
     </HydrateClient>
   );
-};
-
-export default PostPage;
+}

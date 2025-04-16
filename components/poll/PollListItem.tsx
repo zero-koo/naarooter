@@ -1,4 +1,5 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { usePostContext } from '@/contexts/PostContext';
 import { api, RouterOutputs } from '@/trpc/react';
 
@@ -10,8 +11,9 @@ import PollSubmitForm from './PollSubmitForm';
 
 const PollListItem: React.FC<{
   initialData?: RouterOutputs['poll']['getByPostId'];
+  backLink?: string;
 }> = ({ initialData }) => {
-  const router = useRouter();
+  const pathName = usePathname();
   const apiUtils = api.useUtils();
 
   const { id } = usePostContext();
@@ -26,13 +28,12 @@ const PollListItem: React.FC<{
   );
 
   return (
-    <GrayBox
-      className="py-2"
-      onClick={() => router.push(`/polls/${poll.post.id}`)}
-    >
-      <PostShowHeaderContent className="px-3" />
-      <PollSubmitForm />
-    </GrayBox>
+    <Link href={`${pathName === '/' ? '' : pathName}/poll/${poll.post.id}`}>
+      <GrayBox className="py-2">
+        <PostShowHeaderContent className="px-3" />
+        <PollSubmitForm />
+      </GrayBox>
+    </Link>
   );
 };
 

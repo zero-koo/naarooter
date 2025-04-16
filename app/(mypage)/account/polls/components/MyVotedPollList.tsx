@@ -23,7 +23,7 @@ const MyVotedPollList = () => {
         {myVotedPollsInfiniteQueryData.pages.map(({ polls }) =>
           polls.map((poll) => (
             <PostContextProvider key={poll.post.id} postId={poll.post.id}>
-              <PollListItem initialData={poll} />
+              <PollListItem initialData={poll} backLink="/account/poll" />
             </PostContextProvider>
           ))
         )}

@@ -5,6 +5,7 @@ import { NextPage } from '@/types/shared';
 import LoadingBox from '@/components/ui/LoadingBox';
 import DefaultListHeader from '@/components/DefaultListHeader';
 import MainLayout from '@/components/layouts/MainLayout';
+import RootHeader from '@/components/RootHeader';
 
 import MyVotedPollList from './components/MyVotedPollList';
 
@@ -13,6 +14,7 @@ const MyPolls: NextPage = () => {
 
   return (
     <HydrateClient>
+      <RootHeader />
       <MainLayout
         header={<DefaultListHeader title={'내가 참여한 투표'} />}
         body={
