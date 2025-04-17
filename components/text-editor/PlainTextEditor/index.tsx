@@ -63,7 +63,7 @@ const PlainTextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
           >
             <PlainTextPlugin
               contentEditable={
-                <div className="-z-1 relative w-full flex-1 overflow-auto text-sm">
+                <div className="relative w-full flex-1 overflow-auto text-sm">
                   <ContentEditable
                     className="min-h-[150px] w-full px-2 pb-14 pt-2 md:h-auto"
                     onInput={() => {

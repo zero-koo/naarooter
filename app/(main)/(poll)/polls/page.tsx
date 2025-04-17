@@ -1,8 +1,11 @@
 import { Suspense } from 'react';
+import Link from 'next/link';
 import CommunityBannerImage from '@/public/community_banner_1.png';
 import CommunityIconImage from '@/public/planet_image_1.png';
 import { api, HydrateClient } from '@/trpc/server';
+import { PlusIcon } from 'lucide-react';
 
+import { Button } from '@/components/ui/Button';
 import LoadingBox from '@/components/ui/LoadingBox';
 import CommunityBanner from '@/components/community/CommunityBanner';
 import CommunityHeaderTemplate from '@/components/community/CommunityHeaderTemplate';
@@ -30,6 +33,13 @@ export default function PollsPage({
             title={'설문조사'}
             banner={<CommunityBanner bannerSrc={CommunityBannerImage} />}
             icon={<CommunityIcon iconUrl={CommunityIconImage} />}
+            right={
+              <Link href={`/polls/create`}>
+                <Button variant={'outline'} LeftIcon={PlusIcon}>
+                  설문 만들기
+                </Button>
+              </Link>
+            }
           />
         }
         body={
