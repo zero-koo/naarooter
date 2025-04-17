@@ -65,7 +65,7 @@ const PollSubmitFormComponent = ({
             )}
         </div>
       </CollapsibleContainer>
-      <div className="mt-3 flex items-center px-3 text-xs opacity-75">
+      <div className="text-foreground-dimmer mt-3 flex items-center px-3 text-xs">
         <div className="mr-auto">{numberFormat(totalVoteCount)}명 투표</div>
         {footerRight}
       </div>
