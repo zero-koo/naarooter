@@ -7,7 +7,7 @@
     var(--g) 100% 50%;
   background-size: calc(100%/3) 100%;
 
-  --g: no-repeat radial-gradient(circle closest-side, hsl(var(--p)) 90%, #0000);
+  --g: no-repeat radial-gradient(circle closest-side, var(--primary) 90%, #0000);
 }
 @keyframes l7 {
   33% {background-size: calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
