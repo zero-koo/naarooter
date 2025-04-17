@@ -29,7 +29,7 @@ import { SelectableLabel } from '@/components/ui/SelectableLabel';
 import TextArea from '@/components/ui/TextArea';
 import TextInput from '@/components/ui/TextInput';
 
-import CommnunityDescription from '../CommunityDescription';
+import CommunityDescriptionView from '../CommunityDescriptionView';
 import CommunityFormLayout from './CommunityFormLayout';
 
 const communityBaseFormSchema = z.object({
@@ -201,7 +201,7 @@ const CommunityBaseForm = ({
                 />
               </div>
               <div className="hidden w-40 md:block">
-                <CommnunityDescription
+                <CommunityDescriptionView
                   name={name}
                   description={description}
                   numUsers={1}
@@ -315,7 +315,7 @@ const CommunityTopicsForm = ({
                 />
               </div>
               <div className="hidden w-40 md:block">
-                <CommnunityDescription
+                <CommunityDescriptionView
                   name={initialData.name}
                   description={initialData.description}
                   numUsers={1}

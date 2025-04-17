@@ -2,12 +2,15 @@
 
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { postTitleSchema } from '@/schemas/post';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useImageUpload } from '@/hooks/useImageUpload';
 
+import CommunityDescription from './community/CommunityDescription';
+import CommunityDescriptionView from './community/CommunityDescriptionView';
 import CommunitySelector from './CommunitySelector';
 import DefaultItemHeader from './DefaultItemHeader';
 import MainLayout from './layouts/MainLayout';
@@ -23,16 +26,13 @@ type BaseForm = {
   contents?: string;
 };
 
-const baseFromSchema = z.object({
+const basePostFormSchema = z.object({
   communityId: z.string(),
-  title: z
-    .string()
-    .min(1, { message: '제목을 입력하세요.' })
-    .min(3, { message: '제목은 최소 3자 이상이어야 합니다.' }),
+  title: postTitleSchema,
   contents: z.string().optional(),
 });
 
-type BaseTitleDescriptionFormProps = {
+type BasePostFormProps = {
   title: React.ReactNode;
   communityId?: string;
   backLink: string;
@@ -40,29 +40,30 @@ type BaseTitleDescriptionFormProps = {
     title: string;
     contents?: string;
   };
-  communityUpdateDisabled?: boolean;
+  communityFixed?: boolean;
   toolbarItems?: ToolbarItem[];
   maxContentNode?: number;
   disableDragDrop?: boolean;
   submitButtonName?: string;
+  onCommunityChange?: (communityId: string) => void;
   onSubmit: (data: BaseForm) => void;
 };
 
-export default function BaseTitleDescriptionForm({
+export default function BasePostForm({
   title,
   communityId,
   backLink,
   initialValues,
   toolbarItems,
-  communityUpdateDisabled,
+  communityFixed,
   maxContentNode,
   disableDragDrop,
   submitButtonName,
   onSubmit,
-}: BaseTitleDescriptionFormProps) {
-  const router = useRouter();
+  onCommunityChange,
+}: BasePostFormProps) {
   const { register, setValue, handleSubmit, formState } = useForm<BaseForm>({
-    resolver: zodResolver(baseFromSchema),
+    resolver: zodResolver(basePostFormSchema),
     defaultValues: initialValues
       ? {
           ...initialValues,
@@ -108,10 +109,8 @@ export default function BaseTitleDescriptionForm({
               <div className="mb-3">
                 <CommunitySelector
                   value={communityId}
-                  disabled={communityUpdateDisabled}
-                  onChange={(id) => {
-                    router.push(`/community/${id}/create`);
-                  }}
+                  disabled={communityFixed}
+                  onChange={onCommunityChange}
                 />
               </div>
               <TextInput
@@ -139,6 +138,7 @@ export default function BaseTitleDescriptionForm({
             </div>
           </>
         }
+        aside={<CommunityDescription />}
       />
     </form>
   );

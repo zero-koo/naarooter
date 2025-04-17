@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import CommunityDescription from './CommunityDescription';
+import CommunityDescriptionView from './CommunityDescriptionView';
 
 const meta = {
-  title: 'community/CommunityDescription',
-  component: CommunityDescription,
+  title: 'community/CommunityDescriptionView',
+  component: CommunityDescriptionView,
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof CommunityDescription>;
+} satisfies Meta<typeof CommunityDescriptionView>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

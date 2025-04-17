@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { usePostContext } from '@/contexts/PostContext';
 import { api } from '@/trpc/react';
 import { MoreVerticalIcon, PencilIcon, Trash2 } from 'lucide-react';
@@ -28,6 +28,7 @@ import {
 
 const PostShowActionMenu = React.memo(() => {
   const router = useRouter();
+  const pathName = usePathname();
   const { toast } = useToast();
   const { id } = usePostContext();
   const [{ communityId }] = usePostQuery(id);
@@ -58,7 +59,7 @@ const PostShowActionMenu = React.memo(() => {
       >
         <DropdownMenuItem className="flex items-center justify-between gap-2 p-1 py-1.5 opacity-70">
           <PencilIcon size={14} />
-          <Link href={`/post/${id}/edit`}>수정</Link>
+          <Link href={`${pathName}/edit`}>수정</Link>
         </DropdownMenuItem>
         <AlertDialog>
           <AlertDialogTrigger asChild>

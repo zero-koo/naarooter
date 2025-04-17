@@ -12,7 +12,7 @@ import {
 type CommunitySelectorProps = {
   value?: string;
   disabled?: boolean;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 };
 
 const CommunitySelector = ({

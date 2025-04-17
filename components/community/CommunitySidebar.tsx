@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from '../ui/Dialog';
 import { IconButton } from '../ui/IconButton';
-import CommunityDescription from './CommunityDescription';
+import CommunityDescription from './CommunityDescriptionView';
 import CommunityEditForm from './CommunityForm/CommunityEditForm';
 
 const CommnunitySidebar = ({ communityId }: { communityId: string }) => {

@@ -1,42 +1,20 @@
-import Box from '../ui/Box';
-import { Label } from '../ui/Label';
+import { useCommunityContext } from '@/contexts/CommunityContext';
+import { api } from '@/trpc/react';
 
-type CommunityDescriptionProps = {
-  name: string;
-  description: string;
-  topics: string[];
-  numUsers: number;
-  children?: React.ReactNode;
-};
+import CommunityDescriptionView from './CommunityDescriptionView';
 
-const CommnunityDescription = ({
-  name,
-  description,
-  topics,
-  numUsers,
-  children,
-}: CommunityDescriptionProps) => {
+const CommunityDescription = () => {
+  const { id } = useCommunityContext();
+  const [community] = api.community.byId.useSuspenseQuery({ id });
+
   return (
-    <Box className="bg-base-200 relative rounded-md p-3 text-xs" bordered>
-      <div className="mb-2 text-sm font-semibold">
-        {name || '커뮤니티 이름'}
-      </div>
-      <div className="mb-2 flex flex-wrap gap-1">
-        {topics.map((topic, index) => (
-          <Label key={index} size="xs">
-            {topic}
-          </Label>
-        ))}
-      </div>
-      <div className="mb-2 whitespace-pre-wrap">
-        {description || '커뮤니티 설명'}
-      </div>
-      <div className="text-xxs text-foreground-dim flex items-center gap-0.5">
-        <span>회원: {numUsers}</span>
-      </div>
-      {children}
-    </Box>
+    <CommunityDescriptionView
+      name={community.name}
+      description={community.description}
+      topics={community.topics.map((topic) => topic.name)}
+      numUsers={community.numUsers}
+    />
   );
 };
 
-export default CommnunityDescription;
+export default CommunityDescription;

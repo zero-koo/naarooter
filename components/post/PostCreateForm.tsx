@@ -1,14 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { api } from '@/trpc/react';
 
 import { useToast } from '@/hooks/useToast';
 
-import BaseTitleDescriptionForm from '../BaseTitleDescriptionForm';
+import BasePostForm from '../BasePostForm';
 
 export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
   const router = useRouter();
+  const pathName = usePathname();
   const { toast } = useToast();
 
   const apiUtils = api.useUtils();
@@ -20,7 +21,7 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
         theme: 'success',
       });
 
-      router.push(`/community/${communityId}/post/${data.id}`);
+      router.push(pathName.replace('/create', `/post/${data.id}`));
       apiUtils.post.list.invalidate();
       apiUtils.post.myList.invalidate();
     },
@@ -33,13 +34,13 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
   });
 
   return (
-    <BaseTitleDescriptionForm
+    <BasePostForm
       title={'글 쓰기'}
       communityId={communityId}
       initialValues={{
         title: '',
       }}
-      backLink={communityId ? `/community/${communityId}` : '/posts'}
+      backLink={`${pathName.replace(`/create`, '') || '/'}`}
       onSubmit={(data) => {
         if (!communityId) return;
         mutate({
@@ -48,6 +49,9 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
           description: data.contents ?? '',
           images: [], // TODO: Check!
         });
+      }}
+      onCommunityChange={(communityId) => {
+        router.push(`/community/${communityId}/create`);
       }}
     />
   );
