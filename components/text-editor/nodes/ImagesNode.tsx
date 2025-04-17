@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
 import {
   DecoratorBlockNode,
@@ -59,7 +59,7 @@ export class ImagesNode extends DecoratorBlockNode {
   static clone(node: ImagesNode): ImagesNode {
     return new ImagesNode(
       {
-        images: [...node.__images],
+        images: node.__images,
         caption: node.__caption,
         index: node.__index,
       },
@@ -105,19 +105,7 @@ export class ImagesNode extends DecoratorBlockNode {
     key?: NodeKey
   ) {
     super(format, key);
-    this.__images = images.map((image) => {
-      if (!image.blobURL && !image.srcURL) {
-        throw Error('One of bloblURL or srcURL must be provided!');
-      }
-
-      return {
-        blobURL: image.blobURL,
-        srcURL: image.srcURL,
-        uploadPromise: image.blobURL
-          ? imageUploadPromiseCache.get(image.blobURL)
-          : undefined,
-      } as ImageItem;
-    });
+    this.__images = images;
     this.__caption = caption;
     this.__index = index;
   }
@@ -203,7 +191,23 @@ export function $createImagesNode({
   index: number | null;
   caption: string;
 }): ImagesNode {
-  return new ImagesNode({ images, caption, index });
+  return new ImagesNode({
+    images: images.map((image) => {
+      if (!image.blobURL && !image.srcURL) {
+        throw Error('One of bloblURL or srcURL must be provided!');
+      }
+
+      return {
+        blobURL: image.blobURL,
+        srcURL: image.srcURL,
+        uploadPromise: image.blobURL
+          ? imageUploadPromiseCache.get(image.blobURL)
+          : undefined,
+      } as ImageItem;
+    }),
+    caption,
+    index,
+  });
 }
 
 export function $isImagesNode(
@@ -212,83 +216,86 @@ export function $isImagesNode(
   return node instanceof ImagesNode;
 }
 
-export function ImagesNodeBlock({
-  images,
-  index,
-  caption,
-  className,
-  format,
-  nodeKey,
-  onAddImages,
-  onRemoveItem,
-  onChangeCaption,
-}: {
-  images: Array<ImageItem>;
-  index: number | null;
-  caption: string;
-  className: Readonly<{
-    base: string;
-    focus: string;
-  }>;
-  format: ElementFormatType | null;
-  nodeKey: NodeKey;
-  onAddImages: (images: ImageItem[], at: number) => void;
-  onRemoveItem: (subIndex: number) => void;
-  onChangeCaption: (caption: string) => void;
-}) {
-  const { onAddImage } = useRootEditorContext();
+export const ImagesNodeBlock = React.memo(
+  ({
+    images,
+    index,
+    caption,
+    className,
+    format,
+    nodeKey,
+    onAddImages,
+    onRemoveItem,
+    onChangeCaption,
+  }: {
+    images: Array<ImageItem>;
+    index: number | null;
+    caption: string;
+    className: Readonly<{
+      base: string;
+      focus: string;
+    }>;
+    format: ElementFormatType | null;
+    nodeKey: NodeKey;
+    onAddImages: (images: ImageItem[], at: number) => void;
+    onRemoveItem: (subIndex: number) => void;
+    onChangeCaption: (caption: string) => void;
+  }) => {
+    const { onAddImage } = useRootEditorContext();
 
-  const [hasCaption, setHasCaption] = useState(!!caption?.trim());
+    const [hasCaption, setHasCaption] = useState(!!caption?.trim());
 
-  function handleAddImages(images: File[], at = 0) {
-    onAddImages(
-      images.map((image) => {
-        const blobURL = URL.createObjectURL(image);
-        const uploadPromise = onAddImage?.({ image });
+    function handleAddImages(images: File[], at = 0) {
+      onAddImages(
+        images.map((image) => {
+          const blobURL = URL.createObjectURL(image);
+          const uploadPromise = onAddImage?.({ image });
 
-        if (uploadPromise && !imageUploadPromiseCache.has(blobURL)) {
-          imageUploadPromiseCache.set(blobURL, uploadPromise);
-        }
+          if (uploadPromise && !imageUploadPromiseCache.has(blobURL)) {
+            imageUploadPromiseCache.set(blobURL, uploadPromise);
+          }
 
-        return {
-          blobURL,
-          uploadPromise,
-        };
-      }),
-      at
+          return {
+            blobURL,
+            uploadPromise,
+          };
+        }),
+        at
+      );
+    }
+
+    function handleToggleCaption() {
+      if (hasCaption) {
+        setHasCaption(false);
+      } else {
+        setHasCaption(true);
+      }
+    }
+
+    return (
+      <ImageActionMenuContextProvider
+        imageCount={images.length}
+        hasCaption={hasCaption}
+        onAddImages={handleAddImages}
+        onRemoveImage={onRemoveItem}
+        onToggleCaption={handleToggleCaption}
+      >
+        <BlockWithAlignableContents
+          className={className}
+          format={format}
+          nodeKey={nodeKey}
+        >
+          <ImagesBlock
+            images={images}
+            index={index}
+            hasCaption={hasCaption}
+            caption={caption}
+            onChangeCaption={onChangeCaption}
+            onRemoveCaption={() => setHasCaption(false)}
+          />
+        </BlockWithAlignableContents>
+      </ImageActionMenuContextProvider>
     );
   }
-
-  function handleToggleCaption() {
-    if (hasCaption) {
-      setHasCaption(false);
-    } else {
-      setHasCaption(true);
-    }
-  }
-
-  return (
-    <ImageActionMenuContextProvider
-      imageCount={images.length}
-      hasCaption={hasCaption}
-      onAddImages={handleAddImages}
-      onRemoveImage={onRemoveItem}
-      onToggleCaption={handleToggleCaption}
-    >
-      <BlockWithAlignableContents
-        className={className}
-        format={format}
-        nodeKey={nodeKey}
-      >
-        <ImagesBlock
-          images={images}
-          index={index}
-          hasCaption={hasCaption}
-          caption={caption}
-          onChangeCaption={onChangeCaption}
-          onRemoveCaption={() => setHasCaption(false)}
-        />
-      </BlockWithAlignableContents>
-    </ImageActionMenuContextProvider>
-  );
-}
+);
+ImagesNodeBlock.displayName = 'ImagesNodeBlock';
