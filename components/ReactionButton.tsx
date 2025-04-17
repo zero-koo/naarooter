@@ -23,7 +23,10 @@ const ReactionButton = ({
   ...props
 }: ReactionButtonProps) => {
   return (
-    <div className={cn('flex gap-4 text-xs opacity-80', className)} {...props}>
+    <div
+      className={cn('text-foreground-dimmer flex gap-4 text-xs', className)}
+      {...props}
+    >
       <Button count={likeCount} onClick={onClickLike}>
         <ThumbsUpIcon
           className={cn({
