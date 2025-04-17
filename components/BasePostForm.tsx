@@ -138,7 +138,11 @@ export default function BasePostForm({
             </div>
           </>
         }
-        aside={<CommunityDescription />}
+        aside={
+          communityId ? (
+            <CommunityDescription communityId={communityId} />
+          ) : null
+        }
       />
     </form>
   );

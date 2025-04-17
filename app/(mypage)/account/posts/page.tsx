@@ -1,9 +1,13 @@
 import { Suspense } from 'react';
+import CommunityBannerImage from '@/public/community_banner_1.png';
+import CommunityIconImage from '@/public/planet_image_1.png';
 import { api, HydrateClient } from '@/trpc/server';
 import { NextPage } from '@/types/shared';
 
 import LoadingBox from '@/components/ui/LoadingBox';
-import DefaultListHeader from '@/components/DefaultListHeader';
+import CommunityBanner from '@/components/community/CommunityBanner';
+import CommunityHeaderTemplate from '@/components/community/CommunityHeaderTemplate';
+import CommunityIcon from '@/components/community/CommunityIcon';
 import MainLayout from '@/components/layouts/MainLayout';
 import RootHeader from '@/components/RootHeader';
 
@@ -16,7 +20,13 @@ const MyPosts: NextPage = () => {
     <HydrateClient>
       <RootHeader />
       <MainLayout
-        header={<DefaultListHeader title={'나의 포스트'} />}
+        header={
+          <CommunityHeaderTemplate
+            title={'나의 포스트'}
+            banner={<CommunityBanner bannerSrc={CommunityBannerImage} />}
+            icon={<CommunityIcon iconUrl={CommunityIconImage} />}
+          />
+        }
         body={
           <Suspense fallback={<LoadingBox className="h-full" />}>
             <MyPostList />

@@ -1,11 +1,9 @@
-import { useCommunityContext } from '@/contexts/CommunityContext';
 import { api } from '@/trpc/react';
 
 import CommunityDescriptionView from './CommunityDescriptionView';
 
-const CommunityDescription = () => {
-  const { id } = useCommunityContext();
-  const [community] = api.community.byId.useSuspenseQuery({ id });
+const CommunityDescription = ({ communityId }: { communityId: string }) => {
+  const [community] = api.community.byId.useSuspenseQuery({ id: communityId });
 
   return (
     <CommunityDescriptionView

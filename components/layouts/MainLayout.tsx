@@ -1,3 +1,5 @@
+import CommonSidebarDescription from '../CommonSidebarDescription';
+
 const MainLayout = ({
   header,
   body,
@@ -14,7 +16,9 @@ const MainLayout = ({
         <div className="flex w-screen max-w-[540px] flex-1 flex-col">
           {body}
         </div>
-        {aside && <aside className="hidden w-[200px] lg:block">{aside}</aside>}
+        <aside className="hidden w-[200px] lg:block">
+          {aside ?? <CommonSidebarDescription />}
+        </aside>
       </div>
     </div>
   );

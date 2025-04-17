@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from '../ui/Dialog';
 import { IconButton } from '../ui/IconButton';
-import CommunityDescription from './CommunityDescriptionView';
+import CommunityDescriptionView from './CommunityDescriptionView';
 import CommunityEditForm from './CommunityForm/CommunityEditForm';
 
 const CommnunitySidebar = ({ communityId }: { communityId: string }) => {
@@ -22,7 +22,7 @@ const CommnunitySidebar = ({ communityId }: { communityId: string }) => {
   const [isDescriptionEditDialogOpen, setDescriptionEditDialogOpen] =
     useState(false);
   return (
-    <CommunityDescription
+    <CommunityDescriptionView
       {...community}
       topics={community.topics.map((topic) => topic.name)}
     >
@@ -50,7 +50,7 @@ const CommnunitySidebar = ({ communityId }: { communityId: string }) => {
           </DialogContent>
         </Dialog>
       )}
-    </CommunityDescription>
+    </CommunityDescriptionView>
   );
 };
 

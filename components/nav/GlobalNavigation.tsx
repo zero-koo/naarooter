@@ -46,7 +46,7 @@ const GlobalNavigation = ({ isLoggedIn }: { isLoggedIn?: boolean }) => {
               </NavMenuIcon>
             }
           >
-            내가 참여한 투표
+            내가 참여한 설문
           </NavMenu>
           <NavMenu
             link={'/account'}
