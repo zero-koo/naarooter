@@ -2,8 +2,6 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { api } from '@/trpc/react';
-import { useQueryClient } from '@tanstack/react-query';
-import { getQueryKey } from '@trpc/react-query';
 
 import { usePostQuery } from '@/hooks/queries/usePostQuery';
 import { useToast } from '@/hooks/useToast';
@@ -13,10 +11,10 @@ import BasePostForm from '../BasePostForm';
 export const PostEditForm = ({ id }: { id: string }) => {
   const router = useRouter();
   const pathName = usePathname();
-  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const [post] = usePostQuery(id);
+  const apiUtils = api.useUtils();
 
   const { mutate } = api.post.update.useMutation({
     onSuccess() {
@@ -25,12 +23,8 @@ export const PostEditForm = ({ id }: { id: string }) => {
         theme: 'success',
       });
 
-      queryClient.invalidateQueries({
-        queryKey: [
-          getQueryKey(api.post.byId, { id }),
-          getQueryKey(api.post.list),
-        ],
-      });
+      apiUtils.post.byId.invalidate({ id });
+      apiUtils.post.list.invalidate();
 
       router.push(pathName.replace('/edit', '') || '/');
     },
