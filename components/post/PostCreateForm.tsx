@@ -45,7 +45,7 @@ export const PostCreateForm = ({ communityId }: { communityId?: string }) => {
         mutate({
           title: data.title,
           communityId,
-          description: data.contents,
+          description: data.contents ?? '',
           images: [], // TODO: Check!
         });
       }}

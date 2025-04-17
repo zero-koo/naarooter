@@ -55,7 +55,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
         mutate({
           postId: id,
           title: data.title,
-          description: data.contents,
+          description: data.contents ?? '',
           images: [], // TODO:
         })
       }

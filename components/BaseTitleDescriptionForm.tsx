@@ -20,7 +20,7 @@ import TextInput from './ui/TextInput';
 type BaseForm = {
   communityId: string;
   title: string;
-  contents: string;
+  contents?: string;
 };
 
 const baseFromSchema = z.object({
