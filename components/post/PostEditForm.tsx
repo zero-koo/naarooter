@@ -39,7 +39,7 @@ export const PostEditForm = ({ id }: { id: string }) => {
   return (
     <BasePostForm
       title={'글 수정하기'}
-      communityId={post.communityId}
+      communityId={post.communityId ?? undefined}
       backLink={`${pathName.replace(`/edit`, '') || '/'}`}
       initialValues={{
         title: post.title,

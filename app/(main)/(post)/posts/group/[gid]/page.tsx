@@ -29,7 +29,7 @@ const PostListByGroupPage = ({
   return (
     <HydrateClient>
       <RootHeader />
-      <CommunityHeader title={COMMUNITY_GROUP_MAP[gid].title} />
+      <CommunityHeader communityId={gid} />
       <Suspense fallback={<LoadingBox className="h-full" />}>
         <PostList communityId={gid} searchKeyword={searchParams?.search} />
       </Suspense>

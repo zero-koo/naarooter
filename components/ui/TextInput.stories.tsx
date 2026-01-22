@@ -14,7 +14,7 @@ const meta = {
         options: ['default', 'lg', 'sm', 'xs'],
       },
     },
-    border: { control: 'boolean' },
+    outline: { control: 'boolean' },
   },
 } satisfies Meta<typeof TextInput>;
 
