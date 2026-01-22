@@ -399,6 +399,7 @@ function PollForm() {
             ))}
             <Button
               size="xs"
+              type="button"
               className="border-neutral ml-auto"
               disabled={fields.length >= MAX_CHOICE_COUNT}
               RightIcon={PlusIcon}

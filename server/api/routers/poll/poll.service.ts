@@ -94,7 +94,6 @@ class PollService implements IPollService {
     }
 
     const votes = await this.voteRepository.listByPollId(pollId);
-    console.log({ votes });
 
     const pollTable = new PollTable(
       votes

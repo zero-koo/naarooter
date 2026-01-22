@@ -163,11 +163,17 @@ class PollRepository implements IPollRepository {
         post: {
           create: {
             title,
-            communityId: communityId,
             description,
             images,
             type: 'POLL',
-            authorId: userId,
+            ...(communityId
+              ? { community: { connect: { id: communityId } } }
+              : {}),
+            author: {
+              connect: {
+                id: userId,
+              },
+            },
           },
         },
         choices: {
