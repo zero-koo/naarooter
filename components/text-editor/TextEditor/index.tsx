@@ -114,8 +114,8 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
     }, [editor, waitForImagesUpload]);
 
     return (
-      <RootEditorContextProvider onAddImage={onAddImage}>
-        <LexicalComposerContext.Provider value={composerContext}>
+      <LexicalComposerContext.Provider value={composerContext}>
+        <RootEditorContextProvider onAddImage={onAddImage}>
           <SharedHistoryContext>
             <div className={'relative flex h-full flex-col overflow-auto'}>
               <HistoryPlugin externalHistoryState={historyState} />
@@ -142,8 +142,8 @@ const TextEditor = forwardRef<TextEditorHandle, TextEditorProps>(
               <ToolbarPlugin items={toolbarItems} />
             </div>
           </SharedHistoryContext>
-        </LexicalComposerContext.Provider>
-      </RootEditorContextProvider>
+        </RootEditorContextProvider>
+      </LexicalComposerContext.Provider>
     );
   }
 );

@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle } from 'react';
 import { InitialConfigType } from '@lexical/react/LexicalComposer';
 import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 
 import { cn } from '@/lib/utils';
