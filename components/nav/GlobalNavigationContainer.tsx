@@ -18,11 +18,8 @@ const GlobalNavigationContainer = ({
   return (
     <nav className="flex flex-col">
       <div className={cn(['mb-4 px-2.5', blackHanSans.className])}>
-        <Link
-          className="font-italic text-foreground/90 font-semibold"
-          href={'/'}
-        >
-          Coconut Space
+        <Link className="font-italic text-primary/90 font-semibold" href={'/'}>
+          Nuts Planet
         </Link>
       </div>
       {children}
