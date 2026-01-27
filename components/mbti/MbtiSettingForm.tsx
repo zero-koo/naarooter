@@ -131,7 +131,7 @@ const MBTIToggle = ({
         className="text-foreground/95 z-10 flex h-[52px] w-1/2 cursor-pointer items-center justify-start gap-2.5 rounded-md p-1"
       >
         <div className="justfiy-start flex size-full items-center gap-2.5 rounded-lg bg-white/10 px-2">
-          <div className="bg-foreground/90 text-primary flex size-8 items-center justify-center rounded-xl text-2xl font-bold">
+          <div className="bg-background/90 text-primary flex size-8 items-center justify-center rounded-xl text-2xl font-bold">
             {leftValue}
           </div>
           <div className="text-sm font-bold tracking-wide opacity-70">
@@ -155,7 +155,7 @@ const MBTIToggle = ({
           <div className="text-sm font-bold tracking-wide opacity-70">
             {rightText}
           </div>
-          <div className="bg-foreground/90 text-primary flex size-8 items-center justify-center rounded-xl text-2xl font-bold">
+          <div className="bg-background/90 text-primary flex size-8 items-center justify-center rounded-xl text-2xl font-bold">
             {rightValue}
           </div>
         </div>
@@ -169,7 +169,7 @@ const MBTIToggle = ({
         className="peer/right appearance-none"
       />
       <div className="absolute z-0 h-[52px] w-1/2 translate-x-1/2 p-1 opacity-0 transition-transform peer-checked/left:translate-x-0 peer-checked/right:translate-x-full peer-checked/left:opacity-100 peer-checked/right:opacity-100">
-        <div className="size-full rounded-lg bg-white/100"></div>
+        <div className="bg-background/100 size-full rounded-lg"></div>
       </div>
     </div>
   );
