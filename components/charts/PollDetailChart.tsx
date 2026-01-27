@@ -2,13 +2,11 @@ import { CSSProperties, useState } from 'react';
 import { Roboto_Mono } from 'next/font/google';
 import { MBTI } from '@/types/shared';
 import * as d3 from 'd3';
-import { GridIcon, ShellIcon } from 'lucide-react';
 
 import { mbtis } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
-import Switch from '../ui/Switch';
-import ChartCell, { ChartCellShape } from './ChartCell';
+import ChartCell from './ChartCell';
 import ChartCellPopover from './ChartCellPopover';
 import HorizontalBarChart from './HorizontalBarChart';
 import style from './PollDetailChart.module.css';
@@ -53,32 +51,8 @@ const PollDetailChart = ({
     };
   });
 
-  const [cellType, setCellType] = useState<ChartCellShape>('grid');
-
   return (
     <div className="flex flex-col">
-      <div
-        className="mb-2 ml-auto flex items-center gap-1"
-        onClick={() => {
-          setSelectedMbti(null);
-          setSelectedChoiceId(null);
-        }}
-      >
-        <Switch
-          items={[
-            {
-              value: 'grid',
-              render: () => <GridIcon size={16} />,
-            },
-            {
-              value: 'bubble',
-              render: () => <ShellIcon size={16} />,
-            },
-          ]}
-          selected={cellType}
-          onSelect={setCellType}
-        />
-      </div>
       <div
         className={style.grid}
         style={{ '--rows': choices.length } as CSSProperties}
@@ -103,7 +77,7 @@ const PollDetailChart = ({
                   >
                     <ChartCell
                       countRatio={count / (maxCount || 1)}
-                      shape={cellType}
+                      shape={'grid'}
                     />
                   </ChartCellPopover>
                 );
