@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-
 import { useUser } from '@/hooks/useUser';
 
 import SignIn from './auth/SignIn';
@@ -14,13 +12,8 @@ const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
   return (
     <header className={'flex w-full items-center gap-2 p-2'}>
       <SideNavToggle />
-      <Link
-        className="text-l bg-primary text-primary-foreground mr-auto rounded-lg px-1.5 py-0.5 font-extrabold"
-        href={'/'}
-      >
-        Na
-      </Link>
-      <>
+
+      <div className="ml-auto flex items-center gap-2">
         {user ? (
           <>
             {children}
@@ -29,7 +22,7 @@ const RootHeaderContainer = ({ children }: { children?: React.ReactNode }) => {
         ) : (
           <SignIn />
         )}
-      </>
+      </div>
     </header>
   );
 };
