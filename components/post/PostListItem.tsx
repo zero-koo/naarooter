@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { PostType } from '@prisma/client';
 import { MessageCircleIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 
@@ -27,10 +26,9 @@ const PostListItem = ({
   commentCount,
   createdAt,
 }: PostListItemProps) => {
-  const pathName = usePathname();
   return (
     <Link
-      href={`${pathName === '/' ? '' : pathName}/${postType === 'POLL' ? 'poll' : 'post'}/${id}`}
+      href={`/${postType === 'POLL' ? 'poll' : 'post'}/${id}`}
       className="group"
     >
       <div
