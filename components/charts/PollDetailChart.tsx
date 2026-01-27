@@ -77,7 +77,7 @@ const PollDetailChart = ({
                   >
                     <ChartCell
                       countRatio={count / (maxCount || 1)}
-                      shape={'grid'}
+                      shape={'bubble'}
                     />
                   </ChartCellPopover>
                 );
